@@ -1,0 +1,2295 @@
+openapi: 3.1.0
+info:
+  title: Objectified API
+  version: '0.0.1'
+  description: |
+    Objectified is a **time-series object database that supports dynamic schemas**.
+    
+    This API specification defines a RESTful services specification for Objectified.  Requests made
+    to this server can only be made using the `application/json` content type.  No other content
+    types are allowed.
+  contact:
+    name: Objectified Project
+    url: https://www.github.com/KenSuenobu/objectified
+    email: ksuenobu@fastmail.com
+servers:
+  - url: 'http://localhost:8080/v1'
+schemes:
+  - http
+  - https
+tags:
+  - name: Authentication
+    description: Authentication services for login and logout.
+  - name: Users
+    description: Services for User accounts.
+  - name: Namespaces
+    description: |
+      Namespaces are names that are used to organize groups of classes, objects, fields, and
+      so on.  They are used to prevent name collisions that can occur when multiple organizations may 
+      use similar names to describe different object definitions.
+
+      A namespace ensures that all of a given set of objects have unique names so that they may
+      easily be identified and separated under a common group.
+
+      For instance, one namespace's definition of a `User` may differ from another namespace's `User`.
+      Same with a `Car` or a `Bike`.
+      
+      A system namespace is a core namespace that is used by Objectified internally.  These namespaces
+      cannot be altered, but they can be referred to in other namespaces, should you choose to import
+      them directly into your namespace.
+      
+      Services require a JWT authentication token to be active for services to respond to requests.
+      If authentication is missing, a `401 Unauthorized` response will occur.
+  - name: Groups
+    description: |
+      Groups are membership tables that join users and namespaces to common logical groupings.
+      
+      Groups are also referred to as tenancy identifiers.  Users and namespaces can be members of multiple
+      groups, but cannot join the same group twice.
+      
+      __NOTE:__  If a user or namespace is not part of a group, that user and/or namespace will not be
+      visible within Objectified.
+  - name: Classes
+    description: |
+      Classes are templates that define the shape of data that can be contained in a record.  For more
+      information on best practices on creating and updating classes, please 
+      [refer to this documentation](https://www.objectified.wiki/wiki/classes-best-practices)
+      for more detailed information.
+  - name: DataTypes
+    description: |
+      Data types describe the types of data that can be stored in fields in Objectified.
+      
+      Data types can contain arrays of data, enumerations, regular expressions, and much more.
+      
+      Core data types cannot be modified or removed, as they are considered core to the Objectified
+      system.  Data types are specific to ownership in their namespace.  Core data types are available
+      system-wide.
+      
+      The most common usage for Data Types outside of the core data types is in defining custom
+      enumeration values.  Other data types like custom filters and regular expressions can be
+      created, but these occasions are generally rare.
+      
+      Please
+      [refer to this documentation](https://www.objectified.wiki/wiki/data-types-best-practices)
+      for more detailed on best practices regarding field definitions.
+  - name: Fields
+    description: |
+      Fields are storage objects that utilize a data type definition.
+      
+      Fields define the types of data that a class property can contain.  Fields can be reused.
+      Fields are not indexed, whereas properties can be.
+      
+      Please
+      [refer to this documentation](https://www.objectified.wiki/wiki/fields-best-practices)
+      for more detailed on best practices regarding field definitions.
+  - name: Properties
+    description: |
+      Properties are member variables that are used by classes to store data defined by a
+      field.
+      
+      Properties extend fields by adding items such as nullability, default values, required
+      flags, indexing, and so on.  Properties can also be objects that implement other properties.
+  - name: Instances
+    description: |
+      Instances are records created using Class definitions as templates.
+      
+      Instance data contains data associated with an instance, organized by version number and record date.
+  - name: Links
+    description: |
+      Links describe data between Classes that have a commonality or logical relationship.
+      
+      For instance, a `Car` might link a `Dealership` together, or an `Owner`.  `House`s may have
+      `Mortgage`s, and so on.  Links contain a left side and a right side, and link two `Class`es together.
+      Links may contain links to themselves (ie. a parent/child relationship.)
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Performs a login
+      operationId: login
+      description: Logs a user into the system by their username and password.
+      requestBody:
+        description: The user credentials with which to login.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username to use.
+                password:
+                  type: string
+                  description: The base64 encoded password.
+      responses:
+        '200':
+          description: OK, returns the JWT session token that must be stored.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /auth/logout:
+    get:
+      tags:
+        - Authentication
+      summary: Performs a logout
+      operationId: logout
+      description: Logs a user out of the system
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content
+  /auth/refresh:
+    get:
+      tags:
+        - Authentication
+      summary: Refreshes JWT access token
+      operationId: logout
+      description: Refreshes the current session for the JWT access token, refreshing its timeout
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /namespaces/list:
+    get:
+      tags:
+        - Namespaces
+      summary: Returns a list of all namespaces.
+      operationId: listNamespaces
+      description: Returns a list of all namespaces registered in Objectified, regardless of enabled flag status.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: An array of namespaces registered in Objectified.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Namespace'
+        '401':
+          description: Unauthorized
+  /namespaces/by-id/{id}:
+    get:
+      tags:
+        - Namespaces
+      summary: Retrieves a namespace by ID.
+      operationId: getNamespaceById
+      description: Gets a namespace by its serial ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace to retrieve.
+      responses:
+        '200':
+          description: OK, returns the `Namespace` object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /namespaces/by-name/{name}:
+    get:
+      tags:
+        - Namespaces
+      summary: Retrieves a namespace by name.
+      operationId: getNamespaceByName
+      description: Gets a namespace by its name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the namespace to retrieve.
+      responses:
+        '200':
+          description: OK, returns the `Namespace` object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /namespaces/create:
+    post:
+      tags:
+        - Namespaces
+      summary: Creates a new namespace.
+      operationId: createNamespace
+      description: Creates a new namespace.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The namespace object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Namespace'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /namespaces/edit:
+    patch:
+      tags:
+        - Namespaces
+      summary: Edit a namespace.
+      operationId: patchNamespace
+      description: Applies changes to a namespace, only changing the values supplied in the request body.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The namespace changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Namespace'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /namespaces/delete/{id}:
+    delete:
+      tags:
+        - Namespaces
+      summary: Deletes (disables) a namespace.
+      operationId: disableNamespace
+      description: Disables a namespace.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /namespaces/undelete/{id}:
+    put:
+      tags:
+        - Namespaces
+      summary: Undeletes (enables) a namespace.
+      operationId: enableNamespace
+      description: (Re)Enables a namespace.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace to enable.
+      responses:
+        '200':
+          description: OK, returns the `Namespace` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /users/list:
+    get:
+      tags:
+        - Users
+      summary: Returns a list of all users.
+      operationId: listNamespaces
+      description: |
+        Returns a list of all users registered in Objectified, regardless of enabled flag status.  Only users with
+        administrative privileges may list users.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: An array of users registered in Objectified.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Returns a user by ID.
+      operationId: getUserById
+      description: Retrieves a user by its user ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the user.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+  /users/create:
+    post:
+      tags:
+        - Users
+      summary: Creates a new user.
+      operationId: createUser
+      description: Creates a new `User` record in the Objectified platform.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The `User` object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /users/verify/{key}:
+    get:
+      tags:
+        - Users
+      summary: Verifies a user.
+      operationId: verifyUser
+      description: Validates a user's email address through a key they received in an email message.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+          description: The encoded key that was sent in the email.
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Token invalid
+        '500':
+          description: Request to validate timed out
+  /users/delete/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Deletes (disables) a user.
+      operationId: disableUser
+      description: Disables a user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the user to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /users/undelete/{id}:
+    put:
+      tags:
+        - Users
+      summary: Undeletes (enables) a user.
+      operationId: enableUser
+      description: (Re)Enables a user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the user to enable.
+      responses:
+        '200':
+          description: OK, returns the `User` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /users/edit:
+    patch:
+      tags:
+        - Users
+      summary: Edit a user.
+      operationId: editUser
+      description: |
+        Applies changes to a user, only changing the values supplied in the request body.
+        Only administrators may make changes to user records that do not belong to them.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The user changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /groups/list:
+    get:
+      tags:
+        - Groups
+      summary: Returns a list of groups.
+      operationId: listGroups
+      description: Returns a list of all groups registered.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: An array of groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '401':
+          description: Unauthorized
+  /groups/create:
+    post:
+      tags:
+        - Groups
+      summary: Creates a new group.
+      operationId: createGroup
+      description: Creates a new group.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The group object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /groups/by-id/{id}:
+    post:
+      tags:
+        - Groups
+      summary: Returns a group by ID.
+      operationId: getGroupById
+      description: Returns a group object by its group ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the group.
+      responses:
+        '200':
+          description: A group object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /groups/add/namespace:
+    post:
+      tags:
+        - Groups
+      summary: Adds a namespace to a group.
+      operationId: addNamespaceToGroup
+      description: Adds a namespace by ID to a group membership by the group ID.
+      type: object
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The parameters containing the namespace and group IDs.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                namespaceId:
+                  type: integer
+                  description: The namespace ID.
+                groupId:
+                  type: integer
+                  description: The group ID.
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /groups/add/user:
+    post:
+      tags:
+        - Groups
+      summary: Adds a user to a group.
+      operationId: addUserToGroup
+      description: Adds a user by ID to a group membership by the group ID.
+      type: object
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The parameters containing the user and group IDs.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userId:
+                  type: integer
+                  description: The user ID.
+                groupId:
+                  type: integer
+                  description: The group ID.
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /classes/list/{namespaceId}:
+    get:
+      tags:
+        - Classes
+      summary: Returns a list of classes by namespace.
+      operationId: listClasses
+      description: Returns a list of all classes registered in the given namespace ID, regardless of enabled flag status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: namespaceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace.
+      responses:
+        '200':
+          description: An array of classes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+  /classes/by-id/{classId}:
+    get:
+      tags:
+        - Classes
+      summary: Returns a class definition by ID.
+      operationId: getClassById
+      description: Returns a class definition including the class and its properties.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the class.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ClassDefinition'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /classes/by-name/{name}:
+    get:
+      tags:
+        - Classes
+      summary: Returns a class definition by name.
+      operationId: getClassByName
+      description: Returns a class definition including the class and its properties.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the class.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ClassDefinition'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /classes/create:
+    post:
+      tags:
+        - Classes
+      summary: Creates a new class.
+      operationId: createClass
+      description: Creates a new class.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The class object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /classes/delete/{id}:
+    delete:
+      tags:
+        - Classes
+      summary: Deletes (disables) a class.
+      operationId: disableClass
+      description: Disables a class.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the class to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /classes/undelete/{id}:
+    put:
+      tags:
+        - Classes
+      summary: Undeletes (enables) a class.
+      operationId: enableClass
+      description: (Re)Enables a class.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the class to enable.
+      responses:
+        '200':
+          description: OK, returns the `Class` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /classes/edit:
+    patch:
+      tags:
+        - Classes
+      summary: Edit a class.
+      operationId: editClass
+      description: Applies changes to a class, only changing the values supplied in the request body.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The class changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /properties/list/{namespaceId}:
+    get:
+      tags:
+        - Properties
+      summary: Returns a list of properties by namespace.
+      operationId: listProperties
+      description: Returns a list of all properties registered in the given namespace ID, regardless of enabled flag status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: namespaceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace.
+      responses:
+        '200':
+          description: An array of properties.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+  /properties/by-id/{id}:
+    get:
+      tags:
+        - Properties
+      summary: Returns a property by ID.
+      operationId: getPropertyById
+      description: Returns a property by its ID.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the property.
+      responses:
+        '200':
+          description: An array of properties.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+  /properties/by-name/{name}:
+    get:
+      tags:
+        - Properties
+      summary: Returns a property by name.
+      operationId: getPropertyByName
+      description: Returns a property by its name.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the property.
+      responses:
+        '200':
+          description: An array of properties.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+  /properties/create:
+    post:
+      tags:
+        - Properties
+      summary: Creates a new property.
+      operationId: createProperty
+      description: Creates a new property.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The property object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /properties/delete/{id}:
+    delete:
+      tags:
+        - Properties
+      summary: Deletes (disables) a property.
+      operationId: disableProperty
+      description: Disables a property.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the property to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /properties/undelete/{id}:
+    put:
+      tags:
+        - Properties
+      summary: Undeletes (enables) a property.
+      operationId: enableProperty
+      description: (Re)Enables a property.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the property to enable.
+      responses:
+        '200':
+          description: OK, returns the `Property` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /properties/edit:
+    patch:
+      tags:
+        - Properties
+      summary: Edit a property.
+      operationId: editProperty
+      description: Applies changes to a property, only changing the values supplied in the request body.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The property changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /data-types/list/{namespaceId}:
+    get:
+      tags:
+        - DataTypes
+      summary: Returns a list of data types by namespace.
+      operationId: listDataTypes
+      description: Returns a list of all data types registered in the given namespace ID, regardless of enabled flag status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: namespaceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace.
+      responses:
+        '200':
+          description: An array of data types.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+  /data-types/by-id/{id}:
+    get:
+      tags:
+        - DataTypes
+      summary: Returns a data type by ID.
+      operationId: getDataTypeById
+      description: Returns the data type by its ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the data type.
+      responses:
+        '200':
+          description: A data types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+  /data-types/by-name/{name}:
+    get:
+      tags:
+        - DataTypes
+      summary: Returns a data type by name.
+      operationId: getDataTypeByName
+      description: Returns the data type by its name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: name
+          description: The name of the data type.
+      responses:
+        '200':
+          description: A data types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+  /data-types/create:
+    post:
+      tags:
+        - DataTypes
+      summary: Creates a new data type.
+      operationId: createDataType
+      description: Creates a new data type.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The data type object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /data-types/delete/{id}:
+    delete:
+      tags:
+        - DataTypes
+      summary: Deletes (disables) a data type.
+      operationId: disableDataType
+      description: Disables a data type.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the data type to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /data-types/undelete/{id}:
+    put:
+      tags:
+        - DataTypes
+      summary: Undeletes (enables) a data type.
+      operationId: enableDataType
+      description: (Re)Enables a data type.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the data type to enable.
+      responses:
+        '200':
+          description: OK, returns the `DataType` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /data-types/edit:
+    patch:
+      tags:
+        - DataTypes
+      summary: Edits a data type.
+      operationId: editDataType
+      description: Applies changes to a data type, only changing the values supplied in the request body.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The data type changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /fields/list/{namespaceId}:
+    get:
+      tags:
+        - Fields
+      summary: Returns a list of fields by namespace.
+      operationId: listFields
+      description: Returns a list of all fields registered in the given namespace ID, regardless of enabled flag status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: namespaceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the namespace.
+      responses:
+        '200':
+          description: An array of fields.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+  /fields/by-id/{id}:
+    get:
+      tags:
+        - Fields
+      summary: Returns a field by ID.
+      operationId: getFieldById
+      description: Returns a field by its field ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the field.
+      responses:
+        '200':
+          description: A field record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+  /fields/by-name/{name}:
+    get:
+      tags:
+        - Fields
+      summary: Returns a field by name.
+      operationId: getFieldByName
+      description: Returns a field by its field name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the field.
+      responses:
+        '200':
+          description: A field record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+  /fields/create:
+    post:
+      tags:
+        - Fields
+      summary: Creates a new field.
+      operationId: createField
+      description: Creates a new field.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The field object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /fields/delete/{id}:
+    delete:
+      tags:
+        - Fields
+      summary: Deletes (disables) a field.
+      operationId: disableField
+      description: Disables a field.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the field to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /fields/undelete/{id}:
+    put:
+      tags:
+        - Fields
+      summary: Undeletes (enables) a field.
+      operationId: enableField
+      description: (Re)Enables a field.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the field to enable.
+      responses:
+        '200':
+          description: OK, returns the `Field` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /fields/edit:
+    patch:
+      tags:
+        - Fields
+      summary: Edits a field.
+      operationId: editField
+      description: Applies changes to a field, only changing the values supplied in the request body.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The field changes to apply.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '409':
+          description: Conflict
+  /instances/create:
+    post:
+      tags:
+        - Instances
+      summary: Creates a new instance.
+      operationId: createInstance
+      description: Creates a new instance.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The instance object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Instance'
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /instances/by-id/{id}:
+    get:
+      tags:
+        - Instances
+      summary: Returns the instance by ID.
+      operationId: getInstanceById
+      description: Returns the instance record based on its instance ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the instance.
+      responses:
+        '200':
+          description: An instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceData'
+        '401':
+          description: Unauthorized
+  /instances/by-name/{name}:
+    get:
+      tags:
+        - Instances
+      summary: Returns the instance by name.
+      operationId: getInstanceByName
+      description: Returns the instance record based on its instance name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the instance.
+      responses:
+        '200':
+          description: An instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceData'
+        '401':
+          description: Unauthorized
+  /instances/delete/{id}:
+    delete:
+      tags:
+        - Instances
+      summary: Deletes (disables) an instance.
+      operationId: disableInstance
+      description: Disables an instance.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the instance to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /instances/undelete/{id}:
+    put:
+      tags:
+        - Instances
+      summary: Undeletes (enables) an instance.
+      operationId: enableField
+      description: (Re)Enables an instance.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the instance to enable.
+      responses:
+        '200':
+          description: OK, returns the `Instance` object after undeletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instance'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /instances/data/create:
+    post:
+      tags:
+        - Instances
+      summary: Creates a new instance data record.
+      operationId: createInstanceData
+      description: |
+        Creates a new instance data record.  If an instance data record already exists for the Instance,
+        a new instance data record is created, and the version is incremented.
+        
+        __NOTE:__ Adding a new data record to an instance that has been deleted will append the record,
+        but will not affect the deletion flag.
+        
+        Records that are added to an instance are validated using JSON Schema Validation.  Any validations
+        that fail will return an bad request error (400), and the record will not be created.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The instance data object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstanceData'
+      responses:
+        '201':
+          description: Created successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /instances/data/latest/{instanceId}:
+    get:
+      tags:
+        - Instances
+      summary: Returns the latest instance data record for an instance.
+      operationId: getInstanceDataLatest
+      description: Returns the latest data instance record for the instance.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: instanceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the instance.
+      responses:
+        '200':
+          description: An array of fields.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InstanceData'
+        '401':
+          description: Unauthorized
+  /instances/data/record-count/{instanceId}:
+    get:
+      tags:
+        - Instances
+      summary: Returns the number of records for an instance.
+      operationId: getInstanceDataCount
+      description: Returns the total number of records stored in an instance.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: instanceId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the instance.
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+  /link/create/definition:
+    post:
+      tags:
+        - Links
+      summary: Creates a new link definition.
+      operationId: createLinkDefinition
+      description: Creates a link definition object that links two classes between each other.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The link definition object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkDef'
+      responses:
+        '201':
+          description: Created successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /link/definition/by-id/{id}:
+    get:
+      tags:
+        - Links
+      summary: Retrieves a link definition by ID.
+      operationId: getLinkDefinitionById
+      description: Retrieves a link definition by its link definition ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the link definition to retrieve.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkDef'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /link/by-id/{id}:
+    get:
+      tags:
+        - Links
+      summary: Retrieves a link by ID.
+      operationId: getLinkById
+      description: Retrieves a link by its link ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the link to retrieve.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /link/definition/by-name/{name}:
+    get:
+      tags:
+        - Links
+      summary: Retrieves a link definition by name.
+      operationId: getLinkDefinitionByName
+      description: Retrieves a link definition by its link definition name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the link definition to retrieve.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkDef'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /link/by-name/{name}:
+    get:
+      tags:
+        - Links
+      summary: Retrieves a link by name.
+      operationId: getLinkByName
+      description: Retrieves a link by its link name.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the link to retrieve.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /link/create:
+    post:
+      tags:
+        - Links
+      summary: Creates a new link.
+      operationId: createLink
+      description: Creates a link object that links two classes between each other.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The link object to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Link'
+      responses:
+        '201':
+          description: Created successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /link/delete/definition/{id}:
+    delete:
+      tags:
+        - Links
+      summary: Deletes a link definition.
+      operationId: deleteLinkDefinition
+      description: Deletes a link definition and any links associated with it.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the link definition to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+  /link/delete/{id}:
+    delete:
+      tags:
+        - Links
+      summary: Deletes a link.
+      operationId: disableLink
+      description: Deletes a link entry.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the link to disable.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: JWT Authorization header using Bearer scheme.
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Namespace:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the namespace.  (Auto-numbering, ignored on create.)
+        creatorId:
+          type: integer
+          description: The numerical ID of the user ID that created this object.  This is pulled from the session, and cannot be modified by any services.  Values supplied to this field at creation or edit time will be ignored.
+        name:
+          type: string
+          maxLength: 80
+          description: A simple identifying name of the namespace following pattern `A-Za-z0-9`, should be camel-case.
+          pattern: '^[A-Za-z0-9]*$'
+        description:
+          type: string
+          maxLength: 4096
+          description: The description of the namespace.
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the namespace is active, `false` otherwise.  System namespaces cannot be deactivated.
+          default: true
+        systemNamespace:
+          type: boolean
+          description: Indicates whether or not this is a system-level namespace belonging to Objectified.
+          default: false
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Auto-filled, not required.
+    User:
+      type: object
+      required:
+        - username
+        - password
+        - emailAddress
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the user.  (Auto-numbering, ignored on create.)
+        username:
+          type: string
+          maxLength: 80
+          description: Username
+          pattern: '^[A-Za-z0-9]*$'
+        password:
+          type: string
+          maxLength: 255
+          description: Password of any type
+        emailAddress:
+          type: string
+          maxLength: 255
+          format: email
+          description: Valid e-mail address for the user
+        verified:
+          type: boolean
+          description: Indicates whether or not the user record has verified their e-mail address.
+          default: false
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the ujser is active, `false` otherwise.
+          default: true
+        data:
+          type: object
+          description: A JSON payload that describes more information about the user in a freeform manner.
+    Class:
+      type: object
+      required:
+        - namespaceId
+        - ownerId
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the class.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this class belongs.
+        ownerId:
+          type: integer
+          description: The numerical ID of the user that created this class definition.
+        name:
+          type: string
+          description: Alphanumeric common name of the class, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the class.
+          maxLength: 4096
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the class is active, `false` otherwise.
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+        updateDate:
+          type: string
+          format: date-time
+          description: Update date and time.  Ignored if supplied, handled by the service.
+        deleteDate:
+          type: string
+          format: date-time
+          description: Deletion date and time.  Ignored if supplied, handled by the service.
+    Property:
+      type: object
+      required:
+        - namespaceId
+        - name
+        - description
+        - fieldId
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the property.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this property belongs.
+        name:
+          type: string
+          description: Alphanumeric common name of the property, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the property.
+          maxLength: 4096
+        fieldId:
+          type: integer
+          description: The numerical ID of the field to which this property is assigned.
+        required:
+          type: boolean
+          description: Boolean flag indicating whether or not this property requires a value.
+          default: false
+        nullable:
+          type: boolean
+          description: Boolean flag indicating whether or not this poperty is nullable.
+          default: false
+        isArray:
+          type: boolean
+          description: Boolean flag indicating if this value expects an array of field data types.
+          default: false
+        defaultValue:
+          type: string
+          description: The default value of this property if not value is assigned.
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the property is active, `false` otherwise.
+          default: true
+        indexed:
+          type: boolean
+          description: Indicates whether or not the value of this property should be included for indexing in Objectified.
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+        updateDate:
+          type: string
+          format: date-time
+          description: Update date and time.  Ignored if supplied, handled by the service.
+        deleteDate:
+          type: string
+          format: date-time
+          description: Deletion date and time.  Ignored if supplied, handled by the service.
+    DataType:
+      type: object
+      required:
+        - namespaceId
+        - name
+        - description
+        - dataType
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the data type.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this data type belongs.
+        name:
+          type: string
+          description: Alphanumeric common name of the data type, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the data type.
+          maxLength: 4096
+        dataType:
+          type: string
+          enum: [STRING, INT32, INT64, FLOAT, DOUBLE, BOOLEAN, DATE, DATE_TIME, BYTE, BINARY, PASSWORD, OBJECT]
+        isArray:
+          type: boolean
+          description: Boolean flag indicating if this data type stores an array.
+          default: false
+        maxLength:
+          type: integer
+          description: Maximum length of the data that can be stored; does not apply to OBJECT, as they are dynamic.
+        pattern:
+          type: string
+          description: A regular expression pattern to apply to the data stored in this type.
+          nullable: true
+        enumValues:
+          type: array
+          description: A list of enumeration values that are allowed in this data type.  These lengths should be equal to the number of entries in `enumDescriptions`
+          items:
+            type: string
+          nullable: true
+        enumDescriptions:
+          type: array
+          description: A list of the descriptions for each of the values in `enumValues`.  These lengths should be equal to the number of entries in `enumValues`.
+          items:
+            type: string
+          nullable: true
+        examples:
+          type: array
+          description: An array of examples that can be applied to this data type.
+          items:
+            type: string
+          nullable: true
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the data type is active, `false` otherwise.
+          default: true
+        coreType:
+          type: boolean
+          description: Indicates whether or not this data type is a core data type, indicating a type that is available system-wide regardless of namespace.
+          default: false
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+        updateDate:
+          type: string
+          format: date-time
+          description: Update date and time.  Ignored if supplied, handled by the service.
+        deleteDate:
+          type: string
+          format: date-time
+          description: Deletion date and time.  Ignored if supplied, handled by the service.
+    Field:
+      type: object
+      required:
+        - namespaceId
+        - dataTypeId
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the field.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this field belongs.
+        dataTypeId:
+          type: integer
+          description: The numerical ID of the data type to use.  The data type ID must belong to the namespace ID specified, unless it is a core data type.
+        name:
+          type: string
+          description: Alphanumeric common name of the data type, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the data type.
+          maxLength: 4096
+        defaultValue:
+          type: string
+          description: The default value assigned to this field; can be overridden when used in conjuction with a property.
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the field is active, `false` otherwise.
+          default: true
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+        updateDate:
+          type: string
+          format: date-time
+          description: Update date and time.  Ignored if supplied, handled by the service.
+        deleteDate:
+          type: string
+          format: date-time
+          description: Deletion date and time.  Ignored if supplied, handled by the service.
+    Instance:
+      type: object
+      required:
+        - namespaceId
+        - classId
+        - ownerId
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the instance.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this instance belongs.
+        classId:
+          type: integer
+          description: The numerical ID of the class to which this instance belongs.
+        ownerId:
+          type: integer
+          description: The numerical ID of the user to which this instance belongs.
+        name:
+          type: string
+          description: Alphanumeric common name of the intsance, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the instance.
+          maxLength: 4096
+        enabled:
+          type: boolean
+          description: An enabled flag - `true` indicates the instance is active, `false` otherwise.
+          default: true
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+        updateDate:
+          type: string
+          format: date-time
+          description: Update date and time.  Ignored if supplied, handled by the service.
+        deleteDate:
+          type: string
+          format: date-time
+          description: Deletion date and time.  Ignored if supplied, handled by the service.
+    InstanceData:
+      type: object
+      required:
+        - instanceId
+        - instanceData
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the instance data record.  (Auto-numbering, ignored on create.)
+        instanceId:
+          type: integer
+          description: The numerical ID of the instance to which this instance belongs.
+        instanceData:
+          type: object
+          description: The dynamic data stored within this record.
+        instanceVersion:
+          type: integer
+          description: This is the version of the record.
+        date:
+          type: string
+          format: date-time
+          description: Date and time of the data record, which may or may not reflect the creation time.
+    ClassDefinition:
+      type: object
+      properties:
+        class:
+          type: object
+          description: The class object.
+          $ref: '#/components/schemas/Class'
+        properties:
+          type: array
+          description: The properties associated with the class.
+          items:
+            $ref: '#/components/schemas/Property'
+    LinkDef:
+      type: object
+      required:
+        - namespaceId
+        - t1
+        - t2
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the link definition.  (Auto-numbering, ignored on create.)
+        namespaceId:
+          type: integer
+          description: The numerical ID of the namespace to which this link definition belongs.
+        t1:
+          type: integer
+          description: The numerical ID of the class on the left side to link from.
+        t2:
+          type: integer
+          description: The numerical ID of the class on the right side to link to.
+        name:
+          type: string
+          description: Alphanumeric common name of the data type, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the data type.
+          maxLength: 4096
+    Link:
+      type: object
+      required:
+        - linkDefId
+        - name
+        - t1
+        - t2
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the link.  (Auto-numbering, ignored on create.)
+        linkDefId:
+          type: integer
+          description: The numerical ID of the link definition to which this link belongs.
+        name:
+          type: string
+          description: Alphanumeric common name of the linked objects, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        t1:
+          type: integer
+          description: The left side object to link
+        t2:
+          type: integer
+          description: The right side object to link
+        t3:
+          type: object
+          description: The link decoration describing the link metadata
+        createDate:
+          type: string
+          format: date-time
+          description: Creation date and time.  Ignored if supplied, handled by the service.
+    Group:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: The numerical ID of the group.  (Auto-numbering, ignored on create.)
+        name:
+          type: string
+          description: Alphanumeric common name of the group, cannot start with a number.
+          maxLength: 80
+          pattern: '^[A-Za-z][A-Za-z0-9]*$'
+        description:
+          type: string
+          description: A short description describing the group.
+          maxLength: 4096
