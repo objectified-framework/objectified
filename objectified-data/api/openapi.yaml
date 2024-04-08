@@ -2,6 +2,9 @@ openapi: 3.1.0
 info:
   title: Objectified API
   version: '0.0.1'
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   description: |
     Objectified is a **time-series object database that supports dynamic schemas**.
     
@@ -13,10 +16,7 @@ info:
     url: https://www.github.com/KenSuenobu/objectified
     email: ksuenobu@fastmail.com
 servers:
-  - url: 'http://localhost:8080/v1'
-schemes:
-  - http
-  - https
+  - url: 'http://api.objectified.wiki/v1'
 tags:
   - name: Authentication
     description: Authentication services for login and logout.
@@ -107,8 +107,9 @@ paths:
       tags:
         - Authentication
       summary: Performs a login
-      operationId: login
+      operationId: authLogin
       description: Logs a user into the system by their username and password.
+      security: []
       requestBody:
         description: The user credentials with which to login.
         required: true
@@ -139,19 +140,21 @@ paths:
       tags:
         - Authentication
       summary: Performs a logout
-      operationId: logout
+      operationId: authLogout
       description: Logs a user out of the system
       security:
         - bearerAuth: []
       responses:
         '204':
           description: No content
+        '403':
+          description: Forbidden
   /auth/refresh:
     get:
       tags:
         - Authentication
       summary: Refreshes JWT access token
-      operationId: logout
+      operationId: authRefresh
       description: Refreshes the current session for the JWT access token, refreshing its timeout
       security:
         - bearerAuth: []
@@ -351,7 +354,7 @@ paths:
       tags:
         - Users
       summary: Returns a list of all users.
-      operationId: listNamespaces
+      operationId: listUsers
       description: |
         Returns a list of all users registered in Objectified, regardless of enabled flag status.  Only users with
         administrative privileges may list users.
@@ -607,7 +610,6 @@ paths:
       summary: Adds a namespace to a group.
       operationId: addNamespaceToGroup
       description: Adds a namespace by ID to a group membership by the group ID.
-      type: object
       security:
         - bearerAuth: []
       requestBody:
@@ -639,7 +641,6 @@ paths:
       summary: Adds a user to a group.
       operationId: addUserToGroup
       description: Adds a user by ID to a group membership by the group ID.
-      type: object
       security:
         - bearerAuth: []
       requestBody:
@@ -1047,7 +1048,6 @@ paths:
       summary: Adds a property to a class.
       operationId: addPropertyToClass
       description: Adds a property by ID to a class by the group ID.
-      type: object
       security:
         - bearerAuth: []
       requestBody:
@@ -1079,7 +1079,6 @@ paths:
       summary: Adds an object to a property.
       operationId: addObjectToProperty
       description: Adds an object by ID to a property by the property ID.
-      type: object
       security:
         - bearerAuth: []
       requestBody:
@@ -1170,7 +1169,7 @@ paths:
           name: name
           required: true
           schema:
-            type: name
+            type: string
           description: The name of the data type.
       responses:
         '200':
@@ -1575,7 +1574,7 @@ paths:
       tags:
         - Instances
       summary: Undeletes (enables) an instance.
-      operationId: enableField
+      operationId: enableInstance
       description: (Re)Enables an instance.
       security:
         - bearerAuth: []
@@ -2115,25 +2114,21 @@ components:
         pattern:
           type: string
           description: A regular expression pattern to apply to the data stored in this type.
-          nullable: true
         enumValues:
           type: array
           description: A list of enumeration values that are allowed in this data type.  These lengths should be equal to the number of entries in `enumDescriptions`
           items:
             type: string
-          nullable: true
         enumDescriptions:
           type: array
           description: A list of the descriptions for each of the values in `enumValues`.  These lengths should be equal to the number of entries in `enumValues`.
           items:
             type: string
-          nullable: true
         examples:
           type: array
           description: An array of examples that can be applied to this data type.
           items:
             type: string
-          nullable: true
         enabled:
           type: boolean
           description: An enabled flag - `true` indicates the data type is active, `false` otherwise.
