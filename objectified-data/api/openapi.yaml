@@ -1040,6 +1040,70 @@ paths:
           description: Not found
         '409':
           description: Conflict
+  /properties/add/class:
+    post:
+      tags:
+        - Properties
+      summary: Adds a property to a class.
+      operationId: addPropertyToClass
+      description: Adds a property by ID to a class by the group ID.
+      type: object
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The parameters containing the property and class IDs.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                classId:
+                  type: integer
+                  description: The class ID.
+                propertyId:
+                  type: integer
+                  description: The property ID.
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+  /properties/add/object:
+    post:
+      tags:
+        - Properties
+      summary: Adds an object to a property.
+      operationId: addObjectToProperty
+      description: Adds an object by ID to a property by the property ID.
+      type: object
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The parameters containing the object and property IDs.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                objectId:
+                  type: integer
+                  description: The object ID.
+                propertyId:
+                  type: integer
+                  description: The property ID.
+      responses:
+        '201':
+          description: Created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
   /data-types/list/{namespaceId}:
     get:
       tags:
