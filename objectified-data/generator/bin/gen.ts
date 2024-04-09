@@ -95,6 +95,12 @@ export class ${objectName}Dto {
       const propertyType = properties[propertyName]['type'].toLowerCase();
       let tsType = '';
 
+      // TODO:
+      // Support for '$ref'
+      // Support 'array' types
+      // Support 'date-time' format
+      // Research 'pattern'
+
       switch(propertyType) {
         case 'integer':
         case 'number':
@@ -143,4 +149,8 @@ export class ${objectName}Dto {
 
   fs.writeFileSync(`${dirDto}/index.ts`, indexDto);
   console.log('  - Generated Index');
+
+  // Step 2: Write schemas from paths with requestBody
+  // Step 3: Write services in NestJS with paths and required objects from DTO definitions
+  // Step 4: Generate tests
 })();
