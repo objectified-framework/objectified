@@ -49,10 +49,8 @@
     const properties = schemas[objectName]['properties'];
     const required = schemas[objectName]['required'] ?? [];
 
-    console.log(`  - ${objectName}`);
-
     if (schemas[objectName]['type'].toLowerCase() !== 'object') {
-      console.log(`    (Skipping: cannot handle object of type '${schemas[objectName]['type']}`);
+      console.log(`    - ${objectName}: (Skipping: cannot handle object of type '${schemas[objectName]['type']}`);
       continue;
     }
 
@@ -82,7 +80,7 @@ export class ${objectName}Dto {
       }
 
       if (!properties[propertyName]['type']) {
-        console.log(`      Skipping property, no 'type' specified.`);
+        console.log(`  - ${objectName}: Skipping property '${propertyName}': No 'type' specified, or missing.`);
         continue;
       }
 
@@ -132,9 +130,9 @@ export class ${objectName}Dto {
     indexDto += `export * from './${objectName}Dto';\n`;
 
     fs.writeFileSync(`${dirDto}/${objectName}Dto.ts`, outputFile);
+    console.log(`  - ${objectName} -> Created ${objectName}Dto.ts`);
   }
 
-  console.log('  -> Index');
   fs.writeFileSync(`${dirDto}/index.ts`, indexDto);
-
+  console.log('  - Generated Index');
 })();
