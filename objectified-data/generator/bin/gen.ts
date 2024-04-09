@@ -3,6 +3,8 @@
  * OpenAPI 3.1 Code Generator
  */
 
+import {string} from 'yaml/dist/schema/common/string';
+
 (async () => {
   const args = process.argv.splice(2);
 
@@ -34,7 +36,11 @@
     fs.mkdirSync(dirDto, { recursive: true });
   }
 
-  console.log('Generating DTO library to src/generated/dto:');
+  // Step 1: Generate component schema library from the 'components/schema' section in the OpenAPI spec.
+  // Any definitions here will get written to the DTO file verbatim as defined in the component schema
+  // section.
+
+  console.log('Generating Component Schema DTO library to src/generated/dto:');
 
   const schemas = spec['components']['schemas'];
   let indexDto = `/**
@@ -68,7 +74,9 @@ export class ${objectName}Dto {
 
     for(const propertyName of Object.keys(properties)) {
       const requiredProperty = required.includes(propertyName);
+      const stringifiedProperty = JSON.stringify(properties[propertyName], null, 2).replaceAll('\n', '\n   * ');
 
+      outputFile += `  /**\n   * Original definition:\n   *\n   * ${stringifiedProperty}\n   */\n`;
       if (requiredProperty) {
         outputFile += `  @ApiProperty({\n`;
       } else {
