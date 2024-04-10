@@ -1914,6 +1914,9 @@ components:
       required:
         - name
         - description
+      description: |
+        `Namespace` is an object grouping definition.  `Class`es, `Field`s, `Property`s, `Instance`s and
+        many other objects are paired under a single `Namespace`.
       properties:
         id:
           type: integer
@@ -1948,6 +1951,9 @@ components:
         - username
         - password
         - emailAddress
+      description: |
+        `User` is a user account that can access the system.  It contains the user's username, password (encrypted),
+        email address, a verification flag, and any profile data.
       properties:
         id:
           type: integer
@@ -1984,6 +1990,9 @@ components:
         - ownerId
         - name
         - description
+      description: |
+        `Class` is a store object definition.  It contains the name of a class that can be instantiated
+        where data can be stored in Objectified as an `Instance` of data.
       properties:
         id:
           type: integer
@@ -2025,6 +2034,9 @@ components:
         - name
         - description
         - fieldId
+      description: |
+        `Property` assigns a field to a well defined storage key.  In Object Oriented terms, a property
+        contains a `Field` that defines the type of data it can store.
       properties:
         id:
           type: integer
@@ -2085,6 +2097,9 @@ components:
         - name
         - description
         - dataType
+      description: |
+        `DataType` defines the type of data that can be stored in Objectified.  Anything defined as an `OBJECT`
+        identifies that it is a complex store.
       properties:
         id:
           type: integer
@@ -2156,6 +2171,8 @@ components:
         - dataTypeId
         - name
         - description
+      description: |
+        `Field` joins a `DataType` with a default value, assignable to a `Property`.
       properties:
         id:
           type: integer
@@ -2202,6 +2219,9 @@ components:
         - ownerId
         - name
         - description
+      description: |
+        `Instance` stores data that matches the structural definition of a `Class`.  An `Instance` is a record
+        that may contain many instances of `InstanceData` records defining the data as it changes over time.
       properties:
         id:
           type: integer
@@ -2245,6 +2265,8 @@ components:
       required:
         - instanceId
         - instanceData
+      description: |
+        `InstanceData` is a record of data associated with an `Instance`.
       properties:
         id:
           type: integer
@@ -2280,6 +2302,8 @@ components:
         - namespaceId
         - t1
         - t2
+      description: |
+        `LinkDef` defines a `Link` between two `Class` objects.  It contains a left side (t1) and a right side (t2).
       properties:
         id:
           type: integer
@@ -2309,6 +2333,9 @@ components:
         - name
         - t1
         - t2
+      description: |
+        `Link` is a record that links two `Instance`s between each other with an optional decorator (t3) record.
+        The decorator record is a free-formed `JSON` object that contains information about the data in common.
       properties:
         id:
           type: integer
@@ -2339,6 +2366,9 @@ components:
       required:
         - name
         - description
+      description: |
+        `Group` is a tenancy grouping object.  It groups users together and namespaces together, defining the access
+        rules between the two.
       properties:
         id:
           type: integer

@@ -3,8 +3,6 @@
  * OpenAPI 3.1 Code Generator
  */
 
-import {string} from 'yaml/dist/schema/common/string';
-
 (async () => {
   const args = process.argv.splice(2);
 
@@ -36,13 +34,39 @@ import {string} from 'yaml/dist/schema/common/string';
     fs.mkdirSync(dirDto, { recursive: true });
   }
 
-  // Step 1: Generate component schema library from the 'components/schema' section in the OpenAPI spec.
-  // Any definitions here will get written to the DTO file verbatim as defined in the component schema
-  // section.
+  // Step 1: Extract all schemas from components/schemas
+  const schemas = spec['components']['schemas'];
 
+  // Step 2: Extract all user-created schemas from requestBody entries in paths.
+  for(const path of Object.keys(spec['paths'])) {
+    const pathSpec = spec['paths'][path];
+    const pathObject = pathSpec['get'] ?? pathSpec['post'] ?? pathSpec['delete'] ?? pathSpec['put'] ?? pathSpec['patch'] ?? {};
+    const pathTag = pathObject['tags'];
+    const pathRequestBody = pathObject['requestBody'] ?? {};
+    let pathRequestBodyProperties = (pathRequestBody['content'] && pathRequestBody['content']['application/json'] &&
+      pathRequestBody['content']['application/json']['schema'] &&
+      pathRequestBody['content']['application/json']['schema']['properties']) ? pathRequestBody['content']['application/json']['schema']['properties'] : undefined;
+
+    if (pathRequestBodyProperties && !pathRequestBodyProperties['$ref']) {
+      const schemaName = pathObject['operationId'];
+
+      if (schemaName) {
+        const schemaNameInput = schemaName.charAt(0).toUpperCase() + schemaName.substring(1) + 'Input';
+
+        schemas[schemaNameInput] = {};
+        schemas[schemaNameInput]['type'] = 'object';
+        schemas[schemaNameInput]['description'] = `Auto-generated input variables class for path '${path}' in tag '${pathTag}'.\nThese input variables are used with the '${schemaName}' operation method in ${pathTag}Delegate.`;
+        schemas[schemaNameInput]['properties'] = pathRequestBodyProperties;
+      } else {
+        console.log(`Path '${path}' in ${pathTag} does not contain an 'operationId' entry!`);
+        continue;
+      }
+    }
+  }
+
+  // Step 3: Create DTO schemas for all found and prepared schema objects.
   console.log('Generating Component Schema DTO library to src/generated/dto:');
 
-  const schemas = spec['components']['schemas'];
   let indexDto = `/**
  * Data Type Object for OpenAPI 3.1
  * Auto-generated for all objects in this directory.
@@ -60,6 +84,10 @@ import {string} from 'yaml/dist/schema/common/string';
       continue;
     }
 
+    const classDescription = (schemas[objectName]['description'] ?? `Auto-generated DTO class for '${objectName}' in /components/schemas`)
+      .trim()
+      .replaceAll('\n', '\n * ');
+
     let outputFile = `/**
  * Data Type Object for OpenAPI 3.1
  * Auto-generated for object '${objectName}'
@@ -69,6 +97,9 @@ import {string} from 'yaml/dist/schema/common/string';
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * ${classDescription}
+ */
 export class ${objectName}Dto {
 `;
 
