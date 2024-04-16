@@ -3,8 +3,16 @@
  * OpenAPI 3.1 Code Generator
  */
 
+const GENERATED_FILE_HEADER = `/**
+ * DO NOT MAKE ANY CHANGES TO THIS FILE, IT IS AUTOMATICALLY GENERATED.
+ * ANY CHANGES WILL BE OVERWRITTEN!
+ */`;
+
 (async () => {
   const args = process.argv.splice(2);
+  let dtoDirectory = 'src/generated/dto';
+  let nestControllerDir = 'src/controllers';
+  let nestServicesDir = 'src/services';
 
   function showHelp() {
     console.log('Usage: gen.ts [OpenAPI YAML file] <options>');
@@ -28,11 +36,14 @@
   }
 
   const spec = yaml.parse(fs.readFileSync(openApiFile, 'utf8'));
-  const dirDto = 'src/generated/dto';
 
-  if (!fs.existsSync(dirDto)) {
-    fs.mkdirSync(dirDto, { recursive: true });
+  if (!fs.existsSync(dtoDirectory)) {
+    fs.mkdirSync(dtoDirectory, { recursive: true });
   }
+
+  console.log(`Writing DTOs to: ${dtoDirectory}`);
+  console.log(`Writing NestJS Controllers to: ${nestControllerDir}`);
+  console.log(`Writing NestJS Services to: ${nestServicesDir}`);
 
   // Step 1: Extract all schemas from components/schemas
   const schemas = spec['components']['schemas'];
@@ -67,13 +78,7 @@
   // Step 3: Create DTO schemas for all found and prepared schema objects.
   console.log('Generating Component Schema DTO library to src/generated/dto:');
 
-  let indexDto = `/**
- * Data Type Object for OpenAPI 3.1
- * Auto-generated for all objects in this directory.
- *
- * DO NOT MAKE ANY CHANGES TO THIS FILE, IT IS AUTOMATICALLY GENERATED.
- * ANY CHANGES WILL BE OVERWRITTEN!
- */\n`;
+  let indexDto = GENERATED_FILE_HEADER;
 
   for(const objectName of Object.keys(schemas)) {
     const properties = schemas[objectName]['properties'];
@@ -88,13 +93,7 @@
       .trim()
       .replaceAll('\n', '\n * ');
 
-    let outputFile = `/**
- * Data Type Object for OpenAPI 3.1
- * Auto-generated for object '${objectName}'
- *
- * DO NOT MAKE ANY CHANGES TO THIS FILE, IT IS AUTOMATICALLY GENERATED.
- * ANY CHANGES WILL BE OVERWRITTEN!
- */
+    let outputFile = `${GENERATED_FILE_HEADER}
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
@@ -156,6 +155,11 @@ export class ${objectName}Dto {
           tsType = 'any';
           break;
 
+        case 'array':
+          outputFile += `    type: [Array],\n`;
+          tsType = 'any[]';
+          break;
+
         default:
           outputFile += `    type: Unknown(${properties[propertyName]['type']}),\n`;
           tsType = 'any';
@@ -174,14 +178,13 @@ export class ${objectName}Dto {
     outputFile += '}\n';
     indexDto += `export * from './${objectName}Dto';\n`;
 
-    fs.writeFileSync(`${dirDto}/${objectName}Dto.ts`, outputFile);
+    fs.writeFileSync(`${dtoDirectory}/${objectName}Dto.ts`, outputFile);
     console.log(`  - ${objectName} -> Created ${objectName}Dto.ts`);
   }
 
-  fs.writeFileSync(`${dirDto}/index.ts`, indexDto);
+  fs.writeFileSync(`${dtoDirectory}/index.ts`, indexDto);
   console.log('  - Generated Index');
 
-  // Step 2: Write schemas from paths with requestBody
-  // Step 3: Write services in NestJS with paths and required objects from DTO definitions
-  // Step 4: Generate tests
+  // Step 4: Build services and controllers for NestJS
+
 })();
