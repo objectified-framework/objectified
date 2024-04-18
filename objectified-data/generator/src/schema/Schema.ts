@@ -8,7 +8,7 @@ export class Schema {
   private properties: PropertyStore[];
 
   constructor(private readonly segment: any) {
-
+    console.log(`[Schema] Segment: ${JSON.stringify(segment, null, 2)}`);
   }
 
   public setName = (name: string) => this.name = name;
