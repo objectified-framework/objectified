@@ -1,16 +1,24 @@
-# generator
+# objectified-codegen
 
-This is a simple OpenAPI auto-generator.
+This is a simple OpenAPI 3.1 auto-generator.
 
-This was provided because the code for `openapi-generator` is, and has been
-experimental for nestjs generation.
+This was provided because the code for `openapi-generator` is, and has been,
+experimental for NestJS code generation.
 
 This code more fits the design and style of Objectified, so this should
 be considered a custom generator.  It may work for other projects,
 but it has been designed specifically for Objectified.
 
+This code may be useful for other projects; if it is, and other users find it
+useful, it may be spun off into its own project within the objectified group.
+
 ## What it generates
 
+Nothing yet.  It is in process of being parsed and first class objects being
+created as a representation of the data it loads.
+
+## Roadmap
+- 
 - DTOs (Data Type Objects) from components/schemas
   - Supporting DTOs for service-defined schemas that do not implement `$ref`
 - `Delegates` model code for service paths that are:
