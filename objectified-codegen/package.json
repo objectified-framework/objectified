@@ -4,7 +4,7 @@
   "description": "OpenAPI Express REST code generator for TypeScript",
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "node dist/util/gen.js ../api/openapi.yaml",
+    "start": "node dist/util/generator.js ../objectified-data/api/openapi.yaml",
     "build": "tsc"
   },
   "author": "ksuenobu@fastmail.com",

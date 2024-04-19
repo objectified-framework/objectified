@@ -13,7 +13,25 @@ export class PropertyStore {
   constructor(private readonly name: string, private readonly segment: any) {
     console.log(`[PropertyStore]: Name=${this.name} Segment=${JSON.stringify(segment, null, 2)}`);
 
+    if (segment['$ref']) {
+      console.log(`[PropertyStore]: References '${segment['$ref']}'`);
+      this.reference = segment['$ref'];
+    }
+
     this.type = null;
+
+    if (segment['type'] && !this.reference) {
+      const propertyType = segment['type'].toLowerCase().trim();
+
+      if (propertyType === 'array' && !segment['items']) {
+        throw new Error(`Property '${name}' contains type 'array' but references no items`);
+      }
+
+      if (propertyType === 'array') {
+        this.arrayOf = new PropertyStore(this.name, segment['items']);
+      }
+    }
+
     this.description = null;
     this.format = null;
     this.minimum = 0;

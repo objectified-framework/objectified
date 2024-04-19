@@ -16,7 +16,7 @@ const GENERATED_FILE_HEADER = `/**
   let nestServicesDir = 'src/services';
 
   function showHelp() {
-    console.log('Usage: gen.ts [OpenAPI YAML file] <options>');
+    console.log('Usage: generator.ts [OpenAPI YAML file] <options>');
     console.log('Where <options> are:');
     console.log('...');
     process.exit(0);
@@ -32,7 +32,7 @@ const GENERATED_FILE_HEADER = `/**
   const fs = require('fs');
 
   if (!fs.existsSync(openApiFile)) {
-    console.log(`OpenAPI file ${openApiFile} does not exist.`);
+    console.log(`generator: OpenAPI file ${openApiFile} does not exist.`);
     showHelp();
   }
 
@@ -40,13 +40,13 @@ const GENERATED_FILE_HEADER = `/**
   //   fs.mkdirSync(dtoDirectory, { recursive: true });
   // }
 
+  console.log(`Writing DTOs to: ${dtoDirectory}`);
+  console.log(`Writing NestJS Controllers to: ${nestControllerDir}`);
+  console.log(`Writing NestJS Services to: ${nestServicesDir}`);
+
   const specFile = yaml.parse(fs.readFileSync(openApiFile, 'utf8'));
   const spec: ApiSpec = new ApiSpec(specFile);
 
-//   console.log(`Writing DTOs to: ${dtoDirectory}`);
-//   console.log(`Writing NestJS Controllers to: ${nestControllerDir}`);
-//   console.log(`Writing NestJS Services to: ${nestServicesDir}`);
-//
 //   // Step 1: Extract all schemas from components/schemas
 //   const schemas = spec['components']['schemas'];
 //
