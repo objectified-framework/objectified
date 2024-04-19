@@ -26,7 +26,7 @@ export class Components {
         this.schemas = [];
       }
 
-      this.schemas.push(new Schema(schemaEntry));
+      this.schemas.push(new Schema(schemaName, schemaEntry));
     }
   }
 

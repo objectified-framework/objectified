@@ -2,6 +2,7 @@
  * OpenAPI 3.1 Code Generator
  */
 import {ApiSpec} from '../schema/ApiSpec';
+import fs from 'fs';
 
 const GENERATED_FILE_HEADER = `/**
  * DO NOT MAKE ANY CHANGES TO THIS FILE, IT IS AUTOMATICALLY GENERATED.
@@ -35,12 +36,11 @@ const GENERATED_FILE_HEADER = `/**
     showHelp();
   }
 
+  // if (!fs.existsSync(dtoDirectory)) {
+  //   fs.mkdirSync(dtoDirectory, { recursive: true });
+  // }
+
   const specFile = yaml.parse(fs.readFileSync(openApiFile, 'utf8'));
-
-  if (!fs.existsSync(dtoDirectory)) {
-    fs.mkdirSync(dtoDirectory, { recursive: true });
-  }
-
   const spec: ApiSpec = new ApiSpec(specFile);
 
 //   console.log(`Writing DTOs to: ${dtoDirectory}`);

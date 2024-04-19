@@ -1,5 +1,4 @@
 export class PropertyStore {
-  private name: string;
   private type: string;
   private description: string;
   private format: string;
@@ -11,8 +10,9 @@ export class PropertyStore {
   private enumValues: string[];
   private arrayOf: PropertyStore;
 
-  constructor(private readonly segment: any) {
-    this.name = null;
+  constructor(private readonly name: string, private readonly segment: any) {
+    console.log(`[PropertyStore]: Name=${this.name} Segment=${JSON.stringify(segment, null, 2)}`);
+
     this.type = null;
     this.description = null;
     this.format = null;
@@ -25,7 +25,6 @@ export class PropertyStore {
     this.arrayOf = null;
   }
 
-  public setName = (name: string) => this.name = name;
   public setType = (type: string) => this.type = type;
   public setDescription = (description: string) => this.description = description;
   public setFormat = (format: string) => this.format = format;

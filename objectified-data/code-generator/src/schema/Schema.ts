@@ -1,17 +1,44 @@
 import {PropertyStore} from '../stores/PropertyStore';
 
 export class Schema {
-  private name: string;
   private type: string;
   private description: string;
   private required: string[];
   private properties: PropertyStore[];
 
-  constructor(private readonly segment: any) {
-    console.log(`[Schema] Segment: ${JSON.stringify(segment, null, 2)}`);
+  constructor(private readonly name: string, private readonly segment: any) {
+    if (!segment['type']) {
+      throw new Error('Segment failed to process: missing "type"');
+    }
+
+    const schemaType = segment['type'].trim().toLowerCase();
+    const schemaRequired = segment['required'] ?? [];
+    const schemaDescription = segment['description'] ?? '';
+
+    this.type = schemaType;
+    this.required = schemaRequired;
+    this.description = schemaDescription.trim();
+
+    console.log(`[Schema]: name=${name} type=${schemaType} required=${schemaRequired.toString()} description=${schemaDescription.trim()}`);
+
+    if (segment['properties']) {
+      const schemaProperties = segment['properties'];
+      const schemaPropertyNames = Object.keys(schemaProperties);
+
+      console.log(`[Schema]: Contains ${schemaPropertyNames.length} properties`);
+
+      for(const propertyName of schemaPropertyNames) {
+        const propertySchema = schemaProperties[propertyName];
+
+        if (!this.properties) {
+          this.properties = [];
+        }
+
+        this.properties.push(new PropertyStore(propertyName, propertySchema));
+      }
+    }
   }
 
-  public setName = (name: string) => this.name = name;
   public setType = (type: string) => this.type = type;
   public setDescription = (description: string) => this.description = description;
   public setRequired = (required: string[]) => this.required = required;
