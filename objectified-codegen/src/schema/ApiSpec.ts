@@ -14,3 +14,37 @@ export class ApiSpec {
 
   public getComponents = (): Components => this.components;
 }
+
+//  /auth/login:
+//     post:
+//       tags:
+//         - Authentication
+//       summary: Performs a login
+//       operationId: authLogin
+//       description: Logs a user into the system by their username and password.
+//       security: []
+//       requestBody:
+//         description: The user credentials with which to login.
+//         required: true
+//         content:
+//           application/json:
+//             schema:
+//               type: object
+//               properties:
+//                 username:
+//                   type: string
+//                   description: The username to use.
+//                 password:
+//                   type: string
+//                   description: The base64 encoded password.
+//       responses:
+//         '200':
+//           description: OK, returns the JWT session token that must be stored.
+//           content:
+//             text/plain:
+//               schema:
+//                 type: string
+//         '401':
+//           description: Unauthorized
+//         '403':
+//           description: Forbidden
