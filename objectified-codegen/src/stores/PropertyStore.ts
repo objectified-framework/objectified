@@ -11,8 +11,6 @@ export class PropertyStore {
   private arrayOf: PropertyStore;
 
   constructor(private readonly name: string, private readonly segment: any) {
-    console.log(`[PropertyStore]: Name=${this.name} Segment=${JSON.stringify(segment, null, 2)}`);
-
     if (segment['$ref']) {
       console.log(`[PropertyStore]: References '${segment['$ref']}'`);
       this.reference = segment['$ref'];
@@ -32,15 +30,13 @@ export class PropertyStore {
       }
     }
 
-    this.description = null;
-    this.format = null;
-    this.minimum = 0;
-    this.maxLength = null;
-    this.pattern = null;
-    this.reference = null;
-    this.defaultValue = null;
-    this.enumValues = null;
-    this.arrayOf = null;
+    this.description = (segment['description'] ?? '').trim();
+    this.format = (segment['format'] ?? '').trim();
+    this.minimum = parseInt((segment['minimum'] ?? '0').trim());
+    this.maxLength = segment['maxLength'] ? parseInt(segment['maxLength']) : null;
+    this.pattern = segment['pattern'] ?? null;
+    this.defaultValue = segment['defaultValue'] ?? null;
+    this.enumValues = segment['enum'] ?? null;
   }
 
   public setType = (type: string) => this.type = type;
