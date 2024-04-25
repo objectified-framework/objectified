@@ -1,3 +1,7 @@
+import {SecurityStore} from "../stores/SecurityStore";
+import {RequestBodyStore} from "../stores/RequestBodyStore";
+import {ResponseStore} from "../stores/ResponseStore";
+
 export class Path {
   private operation: string;
   private pathUrl: string;
@@ -5,9 +9,9 @@ export class Path {
   private summary: string;
   private operationId: string;
   private description: string;
-  // private security: SecurityStore[];
-  // private requestBody: RequestBodyStore;
-  // private responses: ResponseStore[];
+  private security: SecurityStore[];
+  private requestBody: RequestBodyStore;
+  private responses: ResponseStore[];
 
   constructor(pathUrl: string, operation: string, private readonly segment: any) {
     this.operation = operation;
@@ -31,5 +35,54 @@ export class Path {
     this.summary = segment['summary'] ?? null;
     this.operationId = segment['operationId'];
     this.description = segment['description'] ?? null;
+
+    if (segment['security']) {
+      this.security = [];
+
+      for(const security of segment['security']) {
+        this.security.push(new SecurityStore(security));
+      }
+    }
+
+    if (segment['requestBody']) {
+      this.requestBody = new RequestBodyStore(segment['requestBody']);
+    }
+
+    if (segment['responses']) {
+      this.responses = [];
+
+      for(const response of segment['responses']) {
+        this.responses.push(new ResponseStore(response));
+      }
+    }
   }
 }
+
+//  /auth/login:
+//     post:
+//       security: []
+//       requestBody:
+//         description: The user credentials with which to login.
+//         required: true
+//         content:
+//           application/json:
+//             schema:
+//               type: object
+//               properties:
+//                 username:
+//                   type: string
+//                   description: The username to use.
+//                 password:
+//                   type: string
+//                   description: The base64 encoded password.
+//       responses:
+//         '200':
+//           description: OK, returns the JWT session token that must be stored.
+//           content:
+//             text/plain:
+//               schema:
+//                 type: string
+//         '401':
+//           description: Unauthorized
+//         '403':
+//           description: Forbidden

@@ -6,7 +6,10 @@ export class RequestBodyStore {
   constructor(private readonly segment: any) {
     this.description = segment['description'];
     this.required = segment['required'];
+
+    throw new Error('RequestBodyStore not yet implemented');
   }
+
 //       requestBody:
 //         content:
 //           application/json:

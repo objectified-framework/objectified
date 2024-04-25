@@ -31,32 +31,3 @@ export class ApiSpec {
   public getComponents = (): Components => this.components;
   public getPaths = (): Path[] => this.paths;
 }
-
-//  /auth/login:
-//     post:
-//       security: []
-//       requestBody:
-//         description: The user credentials with which to login.
-//         required: true
-//         content:
-//           application/json:
-//             schema:
-//               type: object
-//               properties:
-//                 username:
-//                   type: string
-//                   description: The username to use.
-//                 password:
-//                   type: string
-//                   description: The base64 encoded password.
-//       responses:
-//         '200':
-//           description: OK, returns the JWT session token that must be stored.
-//           content:
-//             text/plain:
-//               schema:
-//                 type: string
-//         '401':
-//           description: Unauthorized
-//         '403':
-//           description: Forbidden
