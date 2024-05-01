@@ -51,8 +51,10 @@ export class Path {
     if (segment['responses']) {
       this.responses = [];
 
-      for(const response of segment['responses']) {
-        this.responses.push(new ResponseStore(response));
+      const responses = segment['responses'];
+
+      for(const responseCode of Object.keys(responses)) {
+        this.responses.push(new ResponseStore(responseCode, responses[responseCode]));
       }
     }
   }

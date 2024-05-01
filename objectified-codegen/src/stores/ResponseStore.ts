@@ -5,8 +5,10 @@ export class ResponseStore {
   private description: string;
   private content: [string, Schema];
 
-  constructor(private readonly segment: any) {
+  constructor(private readonly responseCode: string, private readonly segment: any) {
+    console.log(`[ResponseStore] responseCode=${responseCode} segment=${JSON.stringify(segment, null, 2)}`);
 
+    throw new Error('ResponseStore not yet handled');
   }
 
   public getDescription = (): string => this.description;
