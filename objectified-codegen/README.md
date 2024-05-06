@@ -18,7 +18,7 @@ Nothing yet.  It is in process of being parsed and first class objects being
 created as a representation of the data it loads.
 
 ## Roadmap
-- 
+
 - DTOs (Data Type Objects) from components/schemas
   - Supporting DTOs for service-defined schemas that do not implement `$ref`
 - `Delegates` model code for service paths that are:
