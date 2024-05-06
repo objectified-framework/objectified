@@ -1,4 +1,17 @@
 apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: objectified-framework
+  description: The Objectified Framework Project
+spec:
+  type: team
+  profile:
+    displayName: Objectified Framework Project Members
+    email: ksuenobu@fastmail.com
+    picture: https://avatars.githubusercontent.com/u/20155?v=4
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   title: Objectified API
@@ -7,7 +20,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: production
-  owner: rd
+  owner: objectified-framework
   system: objectified
   definition:
     $text: https://github.com/objectified-framework/objectified/blob/main/objectified-data/api/openapi.yaml
