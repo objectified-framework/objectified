@@ -10,4 +10,4 @@ spec:
   owner: rd
   system: objectified
   definition:
-    $text: https://raw.githubusercontent.com/objectified-framework/objectified/main/objectified-data/api/openapi.yaml
+    $text: https://github.com/objectified-framework/objectified/blob/main/objectified-data/api/openapi.yaml
