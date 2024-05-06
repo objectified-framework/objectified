@@ -13,7 +13,7 @@ info:
     types are allowed.
   contact:
     name: Objectified Project
-    url: https://www.github.com/KenSuenobu/objectified
+    url: https://github.com/objectified-framework/objectified
     email: ksuenobu@fastmail.com
 servers:
   - url: 'http://api.objectified.wiki/v1'
