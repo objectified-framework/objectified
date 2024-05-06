@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  title: Objectified API
+  name: objectified
+  description: The Objectified API Services
+spec:
+  type: openapi
+  lifecycle: production
+  owner: rd
+  system: objectified
+  definition:
+    $text: https://raw.githubusercontent.com/objectified-framework/objectified/main/objectified-data/api/openapi.yaml
