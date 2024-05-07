@@ -2,7 +2,15 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: objectified-framework
-  description: The Objectified Framework Project
+  description: |
+    The Objectified Framework Project.
+
+    Objectified is a time-series object database that supports dynamic schemas.
+    It is a node-based project written using NextJS, NestJS, and TypeScript.
+
+    The framework project includes the toolsets necessary to generate the Objectified auto-generation
+    code from OpenAPI 3.1 specifications, a PostgreSQL database schema, and other tools to generate
+    the front and back end services.
 spec:
   type: team
   profile:
@@ -21,6 +29,6 @@ spec:
   type: openapi
   lifecycle: production
   owner: objectified-framework
-  system: objectified
+  system: default
   definition:
     $text: https://github.com/objectified-framework/objectified/blob/main/objectified-data/api/openapi.yaml
