@@ -8,9 +8,8 @@ info:
   description: |
     Objectified is a **time-series object database that supports dynamic schemas**.
     
-    This API specification defines a RESTful services specification for Objectified.  Requests made
-    to this server can only be made using the `application/json` content type.  No other content
-    types are allowed.
+    This API specification defines RESTful services for Objectified.  Requests made
+    to this server can only be made using the `application/json` content type.
   contact:
     name: Objectified Project
     url: https://github.com/objectified-framework/objectified
@@ -19,9 +18,11 @@ servers:
   - url: 'http://api.objectified.wiki/v1'
 tags:
   - name: Authentication
-    description: Authentication services for login and logout.
+    description: |
+      Authentication services for login and logout.  It does not require use of `bearerAuth`, as that token will
+      will be provided after login succeeds.  The token returned in the login request is a **JWT token**.
   - name: Users
-    description: Services for User accounts.
+    description: Services for `User` accounts.
   - name: Namespaces
     description: |
       Namespaces are names that are used to organize groups of classes, objects, fields, and
@@ -48,7 +49,7 @@ tags:
       groups, but cannot join the same group twice.
       
       __NOTE:__  If a user or namespace is not part of a group, that user and/or namespace will not be
-      visible within Objectified.
+      visible.
   - name: Classes
     description: |
       Classes are templates that define the shape of data that can be contained in a record.  For more
@@ -57,13 +58,13 @@ tags:
       for more detailed information.
   - name: DataTypes
     description: |
-      Data types describe the types of data that can be stored in fields in Objectified.
+      Data types describe the types of data that can be stored in fields.
       
       Data types can contain arrays of data, enumerations, regular expressions, and much more.
       
       Core data types cannot be modified or removed, as they are considered core to the Objectified
-      system.  Data types are specific to ownership in their namespace.  Core data types are available
-      system-wide.
+      infrastructure.  Normal data types are specific to their namespace.  Core data types are available
+      system-wide, so use with care.
       
       The most common usage for Data Types outside of the core data types is in defining custom
       enumeration values.  Other data types like custom filters and regular expressions can be
@@ -99,7 +100,7 @@ tags:
       Links describe data between Classes that have a commonality or logical relationship.
       
       For instance, a `Car` might link a `Dealership` together, or an `Owner`.  `House`s may have
-      `Mortgage`s, and so on.  Links contain a left side and a right side, and link two `Class`es together.
+      `Mortgage`s, and so on.  Links contain a left side (t1) and a right side, and link two `Class`es together.
       Links may contain links to themselves (ie. a parent/child relationship.)
 paths:
   /auth/login:
@@ -2334,8 +2335,10 @@ components:
         - t1
         - t2
       description: |
-        `Link` is a record that links two `Instance`s between each other with an optional decorator (t3) record.
+        `Link` is a record that relates two `Instance`s between to other with an optional decorator (t3) record.
         The decorator record is a free-formed `JSON` object that contains information about the data in common.
+        It can be used as a search record to determine why a record may be linked, particularly if there is more
+        than one link record linking the same two objects together.
       properties:
         id:
           type: integer
@@ -2350,13 +2353,13 @@ components:
           pattern: '^[A-Za-z][A-Za-z0-9]*$'
         t1:
           type: integer
-          description: The left side object to link
+          description: The left side object to link.
         t2:
           type: integer
-          description: The right side object to link
+          description: The right side object to link.
         t3:
           type: object
-          description: The link decoration describing the link metadata
+          description: The link decoration describing the link metadata as a JSON object.
         createDate:
           type: string
           format: date-time
@@ -2367,7 +2370,7 @@ components:
         - name
         - description
       description: |
-        `Group` is a tenancy grouping object.  It groups users together and namespaces together, defining the access
+        `Group` is a tenancy grouping object.  It groups users and namespaces together, defining the access
         rules between the two.
       properties:
         id:
