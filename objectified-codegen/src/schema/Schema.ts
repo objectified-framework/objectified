@@ -3,19 +3,33 @@ import {PropertyStore} from '../stores/PropertyStore';
 export class Schema {
   private type: string;
   private description: string;
+  private ref: string;
   private required: string[];
   private properties: PropertyStore[];
 
   constructor(private readonly name: string, private readonly segment: any) {
-    if (!segment['type']) {
-      throw new Error('Segment failed to process: missing "type"');
+    if (!segment['type'] && !segment['$ref']) {
+      if (segment['properties']) {
+        throw new Error('Segment failed to process: missing "type" and "$ref": has properties, maybe this type should be "object"?');
+      }
+
+      throw new Error('Segment failed to process: missing "type" and "$ref"');
     }
 
-    const schemaType = segment['type'].trim().toLowerCase();
+    if (segment['$ref']) {
+      this.ref = segment['$ref'];
+    }
+
+    const schemaType = (segment['type'] ?? '').trim().toLowerCase();
     const schemaRequired = segment['required'] ?? [];
     const schemaDescription = segment['description'] ?? '';
 
-    this.type = schemaType;
+    if (!schemaType && this.ref) {
+      this.type = 'object';
+    } else {
+      this.type = schemaType;
+    }
+
     this.required = schemaRequired;
     this.description = schemaDescription.trim();
 

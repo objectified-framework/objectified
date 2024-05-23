@@ -3,12 +3,23 @@ import {Schema} from '../schema/Schema';
 
 export class ResponseStore {
   private description: string;
-  private content: [string, Schema];
+  private readonly content: any;
 
   constructor(private readonly responseCode: string, private readonly segment: any) {
-    console.log(`[ResponseStore] responseCode=${responseCode} segment=${JSON.stringify(segment, null, 2)}`);
+    console.log(`[ResponseStore] responseCode=${responseCode}`);
 
-    throw new Error('ResponseStore not yet handled');
+    this.description = segment.description;
+    this.content = {};
+
+    if (segment.content) {
+      for(const contentType of Object.keys(segment.content)) {
+        const schema = new Schema(contentType, segment.content[contentType].schema);
+
+        console.log(`[ResponseStore] Saving schema for content type '${contentType}'`);
+
+        this.content[contentType] = schema;
+      }
+    }
   }
 
   public getDescription = (): string => this.description;
