@@ -27,7 +27,6 @@ Objectified features:
 
 - [PostgreSQL 16+](https://www.postgresql.org/)
 - [Schema Evolution Manager](https://github.com/mbryzek/schema-evolution-manager) tools
-- [OpenAPI Generator](https://openapi-generator.tech/docs/installation)
 
 ## Roadmap
 
