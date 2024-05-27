@@ -19,6 +19,7 @@ export class ApiSpec {
 
     console.log(`[ApiSpec] Processing ${pathList.length} paths`);
 
+    // Parse the "path" section of the OpenAPI document
     for(const pathUrl of pathList) {
       const path = segment['paths'][pathUrl];
       const pathVerbs = Object.keys(segment['paths'][pathUrl]);
@@ -30,10 +31,12 @@ export class ApiSpec {
       }
     }
 
+    // Parse the "servers" section of the OpenAPI document
     for(const server of segment['servers'] ?? []) {
       this.servers.push(new ServerStore(server));
     }
 
+    // Parse the "tags" section of the OpenAPI document
     for(const tag of segment['tags'] ?? []) {
       this.tags.push(new TagStore(tag));
     }
