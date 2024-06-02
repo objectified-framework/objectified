@@ -11,5 +11,7 @@ export class LicenseStore {
     this.name = segment['name'];
     this.identifier = segment['identifier'] ?? null;
     this.url = segment['url'] ?? null;
+
+    console.log(`[LicenseStore]: name=${this.name}`);
   }
 }

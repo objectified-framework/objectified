@@ -32,5 +32,7 @@ export class Info {
     if (segment['license']) {
       this.license = new LicenseStore(segment['license']);
     }
+
+    console.log(`[Info]: title=${this.title} version=${this.version}`);
   }
 }
