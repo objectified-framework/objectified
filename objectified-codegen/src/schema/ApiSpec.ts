@@ -2,12 +2,14 @@ import {Components} from '../schema/Components';
 import {Path} from './Path';
 import {ServerStore} from '../stores/ServerStore';
 import {TagStore} from '../stores/TagStore';
+import {Info} from './Info';
 
 export class ApiSpec {
   private components: Components;
   private paths: Path[];
   private servers: ServerStore[];
   private tags: TagStore[];
+  private info: Info;
 
   constructor(private readonly segment: any) {
     this.components = new Components(segment);
@@ -41,8 +43,11 @@ export class ApiSpec {
       this.tags.push(new TagStore(tag));
     }
 
+    if (segment['info']) {
+      this.info = new Info(segment['info']);
+    }
+
     throw new Error('Top level security not yet parsed');
-    throw new Error('Top level info not yet parsed');
   }
 
   public setComponents = (components: Components) => this.components = components;
