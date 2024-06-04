@@ -1,4 +1,4 @@
-import {SecurityStore} from "../stores/SecurityStore";
+import {SecuritySchemeStore} from "../stores/SecuritySchemeStore";
 import {RequestBodyStore} from "../stores/RequestBodyStore";
 import {ResponseStore} from "../stores/ResponseStore";
 
@@ -9,7 +9,7 @@ export class Path {
   private summary: string;
   private operationId: string;
   private description: string;
-  private security: SecurityStore[];
+  private security: SecuritySchemeStore[];
   private requestBody: RequestBodyStore;
   private responses: ResponseStore[];
 
@@ -40,7 +40,7 @@ export class Path {
       this.security = [];
 
       for(const security of segment['security']) {
-        this.security.push(new SecurityStore(security));
+        this.security.push(new SecuritySchemeStore(security));
       }
     }
 

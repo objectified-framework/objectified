@@ -43,6 +43,7 @@ export class ApiSpec {
       this.tags.push(new TagStore(tag));
     }
 
+    // Parse the "info" section of the OpenAPI document
     if (segment['info']) {
       this.info = new Info(segment['info']);
     }
