@@ -1,8 +1,9 @@
 import {Schema} from './Schema';
+import {SecuritySchemeStore} from '../stores/SecuritySchemeStore';
 
 export class Components {
   private schemas: Schema[];
-  // private securitySchemes;
+  private securitySchemes: any;
 
   constructor(private readonly segment: any) {
     if (!segment || !segment['components']) {
@@ -27,6 +28,19 @@ export class Components {
       }
 
       this.schemas.push(new Schema(schemaName, schemaEntry));
+    }
+
+    this.securitySchemes = {};
+
+    if (segment['components']['securitySchemes']) {
+      console.log(`[Components]: Parsing security schemes`);
+
+      for(const schemeName of Object.keys(segment['components']['securitySchemes'])) {
+        const securitySchema = segment['components']['securitySchemes'][schemeName];
+
+        this.securitySchemes[schemeName] = new SecuritySchemeStore(securitySchema);
+        console.log(`[Components]: Added security scheme '${schemeName}'`);
+      }
     }
   }
 

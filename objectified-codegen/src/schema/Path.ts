@@ -36,13 +36,13 @@ export class Path {
     this.operationId = segment['operationId'];
     this.description = segment['description'] ?? null;
 
-    if (segment['security']) {
-      this.security = [];
-
-      for(const security of segment['security']) {
-        this.security.push(new SecuritySchemeStore(security));
-      }
-    }
+    // if (segment['security']) {
+    //   this.security = [];
+    //
+    //   for(const security of segment['security']) {
+    //     this.security.push(new SecuritySchemeStore(security));
+    //   }
+    // }
 
     if (segment['requestBody']) {
       this.requestBody = new RequestBodyStore(segment['requestBody']);

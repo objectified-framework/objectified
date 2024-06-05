@@ -31,8 +31,8 @@ export class SecuritySchemeStore {
           throw new Error('SecurityScheme requires an "in" value for type "apiKey".  Expecting query, header, or cookie');
         }
 
-        if (!this.in.toLowerCase() == 'query' || !this.in.toLowerCase() == 'header' ||
-          !this.in.toLowerCase() == 'cookie') {
+        if (this.in.toLowerCase() !== 'query' || this.in.toLowerCase() !== 'header' ||
+          this.in.toLowerCase() !== 'cookie') {
           throw new Error(`SecurityScheme requires a valid "in" value.  Got '${this.in}', expecting query, header, or cookie`);
         }
         break;
@@ -84,6 +84,6 @@ export class SecuritySchemeStore {
 
     this.description = segment['description'] ?? null;
 
-    console.log(`[SecurityStore] segment=${JSON.stringify(segment, null, 2)}`);
+    console.log(`[SecurityStore] Created type=${this.type}`);
   }
 }
