@@ -1,6 +1,7 @@
 import {SecuritySchemeStore} from "../stores/SecuritySchemeStore";
 import {RequestBodyStore} from "../stores/RequestBodyStore";
 import {ResponseStore} from "../stores/ResponseStore";
+import {SecurityStore} from '../stores/SecurityStore';
 
 export class Path {
   private operation: string;
@@ -9,7 +10,7 @@ export class Path {
   private summary: string;
   private operationId: string;
   private description: string;
-  private security: SecuritySchemeStore[];
+  private security: SecurityStore;
   private requestBody: RequestBodyStore;
   private responses: ResponseStore[];
 
@@ -36,13 +37,9 @@ export class Path {
     this.operationId = segment['operationId'];
     this.description = segment['description'] ?? null;
 
-    // if (segment['security']) {
-    //   this.security = [];
-    //
-    //   for(const security of segment['security']) {
-    //     this.security.push(new SecuritySchemeStore(security));
-    //   }
-    // }
+    if (segment['security']) {
+      this.security = new SecurityStore(segment['security']);
+    }
 
     if (segment['requestBody']) {
       this.requestBody = new RequestBodyStore(segment['requestBody']);
@@ -59,32 +56,3 @@ export class Path {
     }
   }
 }
-
-//  /auth/login:
-//     post:
-//       security: []
-//       requestBody:
-//         description: The user credentials with which to login.
-//         required: true
-//         content:
-//           application/json:
-//             schema:
-//               type: object
-//               properties:
-//                 username:
-//                   type: string
-//                   description: The username to use.
-//                 password:
-//                   type: string
-//                   description: The base64 encoded password.
-//       responses:
-//         '200':
-//           description: OK, returns the JWT session token that must be stored.
-//           content:
-//             text/plain:
-//               schema:
-//                 type: string
-//         '401':
-//           description: Unauthorized
-//         '403':
-//           description: Forbidden

@@ -47,8 +47,6 @@ export class ApiSpec {
     if (segment['info']) {
       this.info = new Info(segment['info']);
     }
-
-    throw new Error('Top level security not yet parsed');
   }
 
   public setComponents = (components: Components) => this.components = components;
