@@ -16,6 +16,7 @@ export class ApiSpec {
     this.paths = [];
     this.servers = [];
     this.tags = [];
+    this.info = segment['info'] ? new Info(segment['info']) : null;
 
     const pathList = Object.keys(segment['paths']);
 
@@ -42,18 +43,17 @@ export class ApiSpec {
     for(const tag of segment['tags'] ?? []) {
       this.tags.push(new TagStore(tag));
     }
-
-    // Parse the "info" section of the OpenAPI document
-    if (segment['info']) {
-      this.info = new Info(segment['info']);
-    }
   }
 
   public setComponents = (components: Components) => this.components = components;
   public setPaths = (paths: Path[]) => this.paths = paths;
-  public setServer = (servers: ServerStore[]) => this.servers = servers;
+  public setServers = (servers: ServerStore[]) => this.servers = servers;
+  public setTags = (tags: TagStore[]) => this.tags = tags;
+  public setInfo = (info: Info) => this.info = info;
 
   public getComponents = (): Components => this.components;
   public getPaths = (): Path[] => this.paths;
   public getServers = (): ServerStore[] => this.servers;
+  public getTags = (): TagStore[] => this.tags;
+  public getInfo = (): Info => this.info;
 }
