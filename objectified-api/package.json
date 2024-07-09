@@ -11,10 +11,10 @@
   "author": "ksuenobu@fastmail.com",
   "license": "Apache License 2.0",
   "dependencies": {
+    "@redocly/cli": "^1.12.2",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "prettier": "^3.2.5",
-    "@redocly/cli": "^1.12.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "4.1.0",
@@ -23,5 +23,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.19.31"
-  }
+  },
+  "packageManager": "yarn@4.3.1+sha512.af78262d7d125afbfeed740602ace8c5e4405cd7f4735c08feb327286b2fdb2390fbca01589bfd1f50b1240548b74806767f5a063c94b67e431aabd0d86f7774"
 }
