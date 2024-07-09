@@ -146,18 +146,6 @@ paths:
             text/plain:
               schema:
                 type: string
-        '401':
-          description: Authorization failed or user access disabled
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '403':
-          description: Access forbidden from using this service
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     get:
       tags:
         - Authentication
@@ -169,18 +157,6 @@ paths:
       responses:
         '204':
           description: No content, refresh succeeded
-        '401':
-          description: Authorization failed, JWT token most likely invalid
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '403':
-          description: Access forbidden or login timed out
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Authentication
@@ -192,18 +168,6 @@ paths:
       responses:
         '204':
           description: No content, logout succeeded
-        '401':
-          description: Authorization failed, JWT token most likely invalid
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '403':
-          description: Access forbidden or login timed out
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /users:
     get:
       tags:
@@ -224,14 +188,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-        '401':
-          description: Authorization failed, JWT token most likely invalid
-        '403':
-          description: Access forbidden from using this service
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     post:
       tags:
         - Users
@@ -250,12 +206,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /users/{userId}:
     get:
       tags:
@@ -280,10 +230,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
     put:
       tags:
         - Users
@@ -314,18 +260,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Users
@@ -345,12 +279,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /groups:
     get:
       tags:
@@ -369,8 +297,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Group'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Groups
@@ -389,16 +315,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /groups/{groupId}:
     get:
       tags:
@@ -423,12 +339,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Group'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Groups
@@ -455,18 +365,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Groups
@@ -486,12 +384,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /groups/{groupId}/users:
     post:
       tags:
@@ -526,16 +418,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Groups
@@ -571,16 +453,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces:
     get:
       tags:
@@ -599,8 +471,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Namespace'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Namespaces
@@ -619,12 +489,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /namespaces/{namespaceId}:
     get:
       tags:
@@ -648,12 +512,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Namespace'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Namespaces
@@ -679,18 +537,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -709,12 +555,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /namespaces/{namespaceId}/groups:
     post:
       tags:
@@ -749,16 +589,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -792,16 +622,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces/{namespaceId}/users:
     post:
       tags:
@@ -836,16 +656,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -879,16 +689,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces/{namespaceId}/classes:
     get:
       tags:
@@ -919,10 +719,6 @@ paths:
                   $ref: '#/components/schemas/Class'
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
     post:
       tags:
         - Namespaces
@@ -951,12 +747,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
     delete:
       tags:
         - Namespaces
@@ -990,16 +780,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces/{namespaceId}/data-types:
     get:
       tags:
@@ -1025,8 +805,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DataType'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Namespaces
@@ -1055,16 +833,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -1098,16 +866,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces/{namespaceId}/fields:
     get:
       tags:
@@ -1135,8 +893,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Field'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Namespaces
@@ -1165,16 +921,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -1208,16 +954,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /namespaces/{namespaceId}/properties:
     get:
       tags:
@@ -1243,8 +979,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Property'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Namespaces
@@ -1273,16 +1007,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Namespaces
@@ -1316,16 +1040,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /classes:
     post:
       tags:
@@ -1345,12 +1059,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /classes/{classId}:
     get:
       tags:
@@ -1374,12 +1082,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Class'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     delete:
       tags:
         - Classes
@@ -1398,12 +1100,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Classes
@@ -1426,12 +1122,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Class'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /classes/{classId}/properties:
     get:
       tags:
@@ -1457,8 +1147,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Property'
-        '401':
-          description: Unauthorized
     post:
       tags:
         - Classes
@@ -1487,16 +1175,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Classes
@@ -1530,16 +1208,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /data-types:
     post:
       tags:
@@ -1559,12 +1227,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /data-types/{dataTypeId}:
     get:
       tags:
@@ -1588,8 +1250,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DataType'
-        '401':
-          description: Unauthorized
     delete:
       tags:
         - DataTypes
@@ -1608,12 +1268,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - DataTypes
@@ -1636,12 +1290,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DataType'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /fields:
     post:
       tags:
@@ -1661,12 +1309,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /fields/{fieldId}:
     get:
       tags:
@@ -1690,8 +1332,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Field'
-        '401':
-          description: Unauthorized
     delete:
       tags:
         - Fields
@@ -1710,12 +1350,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Fields
@@ -1738,12 +1372,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Field'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /properties:
     post:
       tags:
@@ -1763,12 +1391,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /properties/{propertyId}:
     get:
       tags:
@@ -1792,8 +1414,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Property'
-        '401':
-          description: Unauthorized
     put:
       tags:
         - Properties
@@ -1819,18 +1439,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Properties
@@ -1849,12 +1457,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /properties/{propertyId}/object:
     get:
       tags:
@@ -1878,10 +1480,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Property'
-        '401':
-          description: Unauthorized
-        '404':
-          description: Object property by ID does not exist, or is not an object type
     post:
       tags:
         - Properties
@@ -1910,18 +1508,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Object property by ID does not exist, or is not an object type
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
         - Properties
@@ -1950,18 +1536,6 @@ paths:
       responses:
         '204':
           description: Removed successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Object property by ID does not exist, or is not an object type
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /instances:
     post:
       tags:
@@ -1981,16 +1555,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /instances/{instanceId}:
     get:
       tags:
@@ -2014,8 +1578,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceData'
-        '401':
-          description: Unauthorized
     delete:
       tags:
         - Instances
@@ -2034,12 +1596,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Instances
@@ -2062,12 +1618,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Instance'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /instances/{instanceId}/data:
     post:
       tags:
@@ -2102,18 +1652,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
     get:
       tags:
         - Instances
@@ -2136,8 +1674,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceData'
-        '401':
-          description: Unauthorized
     delete:
       tags:
         - Instances
@@ -2156,12 +1692,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /links:
     post:
       tags:
@@ -2181,14 +1711,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
   /links/{linkId}:
     get:
       tags:
@@ -2212,12 +1734,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Link'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Links
@@ -2240,12 +1756,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Link'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     delete:
       tags:
         - Links
@@ -2264,12 +1774,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
   /links/definition:
     post:
       tags:
@@ -2289,18 +1793,6 @@ paths:
       responses:
         '201':
           description: Created successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '409':
-          description: Conflict
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
   /links/definition/{linkDefinitionId}:
     get:
       tags:
@@ -2324,12 +1816,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkDef'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     put:
       tags:
         - Links
@@ -2352,12 +1838,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkDef'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
     delete:
       tags:
         - Links
@@ -2376,12 +1856,6 @@ paths:
       responses:
         '204':
           description: No content
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -2935,38 +2409,3 @@ components:
           type: string
           format: date-time
           description: Creation date and time.  Ignored if supplied, handled by the service.
-    ErrorMessage:
-      type: object
-      required:
-        - type
-        - title
-        - detail
-      description: |
-        This follows the IETF devised RFC-7807, which creates a generalized
-        error-handling schema.  It contains information about the HTTP status code
-        returned, and _may_ contain associated data that could be used to recreate the
-        request that caused the failure.  The description of the schema is taken
-        from the RFC-9457 draft.
-      properties:
-        type:
-          type: string
-          format: uri-reference
-          description: A URI reference that identifies the problem type.
-        title:
-          type: string
-          description: A brief, human-readable summary of the problem type.
-        status:
-          type: number
-          format: int32
-          description: The HTTP status code generated by the origin server for this occurrence of the problem.
-          minimum: 100
-          maximum: 599
-        detail:
-          type: string
-          description: A human-readable explanation specific to this occurrence of the problem.
-        instance:
-          type: string
-          format: uri-reference
-          description: |
-            A URI reference that identifies the specific occurrence of the problem.
-            It may or may not yield further information if dereferenced.
