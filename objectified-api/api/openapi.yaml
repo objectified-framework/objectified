@@ -2622,8 +2622,8 @@ components:
         status:
           type: string
           enum:
-            - enabled
-            - disabled
+            - active
+            - deleted
           description: A status of the `Instance`.
           default: enabled
         createDate:
@@ -2642,7 +2642,7 @@ components:
       type: object
       required:
         - instanceId
-        - instanceData
+        - data
       description: |
         `InstanceData` is a record of data associated with an `Instance`.
       properties:
@@ -2654,10 +2654,10 @@ components:
           type: integer
           format: int64
           description: The numerical ID of the instance to which this instance belongs.
-        instanceData:
+        data:
           type: object
           description: The dynamic data stored within this record.
-        instanceVersion:
+        version:
           type: integer
           format: int32
           description: This is the version of the record.
