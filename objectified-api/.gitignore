@@ -3,3 +3,6 @@ package.lock
 yarn.lock
 .yarn
 .yarnrc.yml
+dist/
+src/generated/
+

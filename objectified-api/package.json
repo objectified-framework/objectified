@@ -6,11 +6,15 @@
     "clean": "rm -rf dist",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
-    "build": ""
+    "autogen-dto": "node dist/dto.js",
+    "autogen": "yarn autogen-dto",
+    "clean": "rm -rf dist src/generated",
+    "build": "tsc"
   },
   "author": "ksuenobu@fastmail.com",
   "license": "Apache License 2.0",
   "dependencies": {
+    "@nestjs/swagger": "^7.4.0",
     "@redocly/cli": "^1.12.2",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
