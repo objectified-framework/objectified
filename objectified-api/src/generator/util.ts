@@ -51,6 +51,14 @@ export function typeFormatter(key: string, value: string) {
 export function propertyToType(properties: any): string {
   const type = properties['type'];
   const ref = properties['$ref'];
+  const format = properties['format'];
+
+  if (format) {
+    switch(format.toString()) {
+      case 'date-time':
+        return 'Date';
+    }
+  }
 
   if (ref) {
     return ref.substring(ref.lastIndexOf('/') + 1) + 'Dto';
@@ -80,6 +88,11 @@ export function initCap(str: string): string {
   return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
+/**
+ * Converts a string to camel case.
+ *
+ * @param str String to convert.
+ */
 export function toCamelCase(str: string): string {
   const s =
     str &&

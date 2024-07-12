@@ -20,7 +20,7 @@ info:
 servers:
   - url: http://api.objectified.wiki/v1
 tags:
-  - name: Authentication
+  - name: Auth
     description: |
       Authentication services for login, logout, and refresh.  It does not require use of `JWT`, as that token will
       be provided and generated after login success.  The token returned in the login request is a **JWT token**.
@@ -119,7 +119,7 @@ paths:
   /auth:
     post:
       tags:
-        - Authentication
+        - Auth
       summary: Login service
       operationId: login
       description: |
@@ -152,7 +152,7 @@ paths:
           description: Unauthorized
     get:
       tags:
-        - Authentication
+        - Auth
       summary: Login refresh service
       description: Refreshes a login token internally so it does not time out.
       operationId: refreshLogin
@@ -165,7 +165,7 @@ paths:
           description: Unauthorized
     delete:
       tags:
-        - Authentication
+        - Auth
       summary: Logout service
       description: Removes the login token and logs a user out of the system
       operationId: logout
