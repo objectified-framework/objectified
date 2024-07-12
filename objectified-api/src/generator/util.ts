@@ -65,8 +65,10 @@ export function propertyToType(properties: any): string {
   }
 
   // Enumeration values.
-  if (properties['enum']) {
-    return '[ ' + properties['enum'].map((x) => `'${x}'`).join(' | ') + ' ]';
+  if (properties.enum) {
+    return '[ ' + properties.enum
+      .map((x: string) => `'${x}'`)
+      .join(' | ') + ' ]';
   }
 
   // Fall back to raw types if the type is not an enumeration or ref.
@@ -75,10 +77,10 @@ export function propertyToType(properties: any): string {
       return 'number';
 
     case 'array':
-      return `${propertyToType(properties['items'])}[]`;
+      return `${propertyToType(properties.items)}[]`;
 
     case 'object':
-      if (properties['properties']) {
+      if (properties.properties) {
         throw new Error(`Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`);
       }
 
