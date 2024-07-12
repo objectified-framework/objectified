@@ -49,9 +49,7 @@ export function typeFormatter(key: string, value: string) {
  * @returns string containing the translated value.
  */
 export function propertyToType(properties: any): string {
-  const type = properties['type'];
-  const ref = properties['$ref'];
-  const format = properties['format'];
+  const { type, $ref, format } = properties;
 
   // Formatting is handled here if the type is a date-time
   if (format) {
@@ -62,8 +60,8 @@ export function propertyToType(properties: any): string {
   }
 
   // $ref objects are converted to a DTO, as this document covers only defined objects that this convertor knows about.
-  if (ref) {
-    return ref.substring(ref.lastIndexOf('/') + 1) + 'Dto';
+  if ($ref) {
+    return $ref.substring($ref.lastIndexOf('/') + 1) + 'Dto';
   }
 
   // Enumeration values.
@@ -87,6 +85,7 @@ export function propertyToType(properties: any): string {
       return 'any';
   }
 
+  // Catch-all if no type checking is necessary
   return type;
 }
 
