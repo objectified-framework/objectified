@@ -8,7 +8,7 @@
     "start": "",
     "autogen-dto": "node dist/dto.js",
     "autogen-controller": "node dist/controller.js",
-    "autogen": "yarn autogen-dto && yarn autogen-controller",
+    "autogen": "yarn autogen-dto",
     "build": "tsc"
   },
   "author": "ksuenobu@fastmail.com",

@@ -53,6 +53,7 @@ export function propertyToType(properties: any): string {
   const ref = properties['$ref'];
   const format = properties['format'];
 
+  // Formatting is handled here if the type is a date-time
   if (format) {
     switch(format.toString()) {
       case 'date-time':
@@ -60,20 +61,30 @@ export function propertyToType(properties: any): string {
     }
   }
 
+  // $ref objects are converted to a DTO, as this document covers only defined objects that this convertor knows about.
   if (ref) {
     return ref.substring(ref.lastIndexOf('/') + 1) + 'Dto';
   }
 
+  // Enumeration values.
   if (properties['enum']) {
     return '[ ' + properties['enum'].map((x) => `'${x}'`).join(' | ') + ' ]';
   }
 
+  // Fall back to raw types if the type is not an enumeration or ref.
   switch(type.toLowerCase()) {
     case 'integer':
       return 'number';
 
     case 'array':
       return `${propertyToType(properties['items'])}[]`;
+
+    case 'object':
+      if (properties['properties']) {
+        throw new Error(`Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`);
+      }
+
+      return 'any';
   }
 
   return type;
