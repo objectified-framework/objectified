@@ -3,17 +3,18 @@
   "version": "0.0.1",
   "description": "Objectified Data Definitions",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist src/generated",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
     "autogen-dto": "node dist/dto.js",
-    "autogen": "yarn autogen-dto",
-    "clean": "rm -rf dist src/generated",
+    "autogen-controller": "node dist/controller.js",
+    "autogen": "yarn autogen-dto && yarn autogen-controller",
     "build": "tsc"
   },
   "author": "ksuenobu@fastmail.com",
   "license": "Apache License 2.0",
   "dependencies": {
+    "@nestjs/common": "^10.3.10",
     "@nestjs/swagger": "^7.4.0",
     "@redocly/cli": "^1.12.2",
     "@typescript-eslint/eslint-plugin": "^7.7.0",

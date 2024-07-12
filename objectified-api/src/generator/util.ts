@@ -32,6 +32,10 @@ export function typeFormatter(key: string, value: string) {
     }
   }
 
+  if (key.toLowerCase() === 'description') {
+    return value.replaceAll('\n', ' ');
+  }
+
   return value;
 }
 
@@ -65,4 +69,13 @@ export function propertyToType(properties: any): string {
   }
 
   return type;
+}
+
+/**
+ * Capitalization of word.
+ *
+ * @param str Converts word to capitalized word.
+ */
+export function initCap(str: string): string {
+  return str.charAt(0).toUpperCase() + str.substring(1);
 }
