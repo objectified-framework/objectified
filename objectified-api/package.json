@@ -6,7 +6,7 @@
     "clean": "rm -rf dist src/generated",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
-    "autogen-dto": "node dist/dto.js",
+    "autogen-dto": "node dist/dto.js -g nestjs",
     "autogen-controller": "node dist/controller.js",
     "autogen": "yarn autogen-dto",
     "build": "tsc"
@@ -19,6 +19,7 @@
     "@redocly/cli": "^1.12.2",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
+    "commander": "^12.1.0",
     "prettier": "^3.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",

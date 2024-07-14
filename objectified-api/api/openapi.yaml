@@ -131,14 +131,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  description: The username.
-                password:
-                  type: string
-                  description: The base64 encoded password.
+              $ref: '#/components/schemas/LoginInput'
       responses:
         '200':
           description: OK, returns the JWT session token that must be stored on the client.
@@ -451,14 +444,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `User` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -492,14 +478,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `User` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -652,14 +631,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Group` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -691,14 +663,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Group` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -731,14 +696,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `User` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -770,14 +728,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `User` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -841,10 +792,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-                format: int64
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -876,14 +824,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Class` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -943,10 +884,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-                format: int64
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -978,14 +916,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `DataType` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -1047,10 +978,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-                format: int64
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -1082,14 +1010,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Field` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -1147,10 +1068,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-                format: int64
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -1182,14 +1100,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Property` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -1349,10 +1260,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-              description: The `Property` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -1384,14 +1292,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                  description: The `Property` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: No content
@@ -1752,10 +1653,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-              description: The `Property` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '201':
           description: Created successfully
@@ -1786,10 +1684,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: integer
-              description: The `Property` IDs.
+              $ref: '#/components/schemas/IdArrayInput'
       responses:
         '204':
           description: Removed successfully
@@ -2742,3 +2637,27 @@ components:
           type: string
           format: date-time
           description: Creation date and time.  Ignored if supplied, handled by the service.
+    IdArrayInput:
+      type: object
+      required:
+        - ids
+      description: Input service container object that contains an array of IDs.
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+    LoginInput:
+      type: object
+      required:
+        - username
+        - password
+      description: Login credentials input
+      properties:
+        username:
+          type: string
+          description: The username.
+        password:
+          type: string
+          description: The base64 encoded password.
