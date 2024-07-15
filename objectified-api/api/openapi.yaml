@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.0.1
+  version: 0.1.1
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -131,7 +131,35 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginInput'
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: OK, returns the JWT session token that must be stored on the client.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    put:
+      tags:
+        - Auth
+      summary: Login modification service
+      operationId: login
+      description: |
+        Allows a user to change their login credentials.  Only the password can be changed.
+        If the username does not match, the request will be ignored, and a `400 Bad Request`
+        will be returned.
+      security: []
+      requestBody:
+        description: The user credentials with which to change.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
       responses:
         '200':
           description: OK, returns the JWT session token that must be stored on the client.
@@ -2648,7 +2676,7 @@ components:
           items:
             type: integer
             format: int64
-    LoginInput:
+    Login:
       type: object
       required:
         - username
