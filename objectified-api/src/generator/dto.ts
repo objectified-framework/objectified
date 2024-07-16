@@ -27,6 +27,11 @@ const DTO_DIRECTORY: string = 'src/generated/dto';
         return false;
       }
 
+      // Skip generated sources, and skip the generator - we want generator's builders, not the generator itself.
+      if (x.includes('/generated') || x.endsWith('/generator')) {
+        return false;
+      }
+
       const stat = fs.statSync(x);
 
       return stat.isDirectory();
