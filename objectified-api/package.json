@@ -7,7 +7,7 @@
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
     "autogen-dto": "node dist/generator/dto.js -g nestjs",
-    "autogen-controller": "node dist/controller.js",
+    "autogen-controller": "node dist/generator/controller.js -g nestjs",
     "autogen": "yarn autogen-dto",
     "build": "tsc && yarn autogen && echo Recompiling && tsc"
   },
