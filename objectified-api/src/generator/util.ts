@@ -74,6 +74,10 @@ export function propertyToType(properties: any): string {
   // Fall back to raw types if the type is not an enumeration or ref.
   switch(type.toLowerCase()) {
     case 'integer':
+      if (format.toLowerCase() === 'int64') {
+        return 'bigint';
+      }
+      
       return 'number';
 
     case 'array':
