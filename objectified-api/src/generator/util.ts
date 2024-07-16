@@ -77,7 +77,7 @@ export function propertyToType(properties: any): string {
       if (format.toLowerCase() === 'int64') {
         return 'bigint';
       }
-      
+
       return 'number';
 
     case 'array':

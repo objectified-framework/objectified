@@ -27,9 +27,9 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
         .replaceAll('\n', '\n  ')
         .replace(/"([^"]+)":/g, '$1:');
       let requiredFlag = required.includes(property) ? '' : '?';
-      let optionalFlag = required.includes(property) ? '' : 'Optional';
+      let optionalFlag = required.includes(property) ? 'ApiProperty' : 'ApiPropertyOptional';
 
-      dtoBody += `  @ApiProperty${optionalFlag}(${propertiesDump.substring(0, propertiesDump.length - 1)}})\n`;
+      dtoBody += `  @${optionalFlag}(${propertiesDump.substring(0, propertiesDump.length - 1)}})\n`;
       dtoBody += `  ${property}${requiredFlag}: ${propertyToType(properties[property])};\n\n`;
     }
 
