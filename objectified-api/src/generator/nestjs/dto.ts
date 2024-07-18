@@ -13,12 +13,17 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
     const dtoName = `${dto}Dto`;
     const dtoFilename = `${dtoDirectory}/${dto}.dto.ts`;
     const dtoHeader = HEADER + IMPORT_HEADER;
+    const schemaDump = JSON.stringify(properties, null, 2)
+        .replaceAll('\n', '\n  ')
+        .replace(/"([^"]+)":/g, '$1:');
     let dtoBody = '';
 
     // Add header to the class definition
     dtoBody += dtoHeader;
     dtoBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
     dtoBody += `export class ${dtoName} {\n`;
+    dtoBody += '  /**\n   * This is the schema that is used to generate the DTO class.\n   * It is also used for validation purposes.\n   */\n';
+    dtoBody += `  private schema: any = ${schemaDump};\n\n`;
 
     for(const property of Object.keys(properties)) {
       // This converts the properties section of the @ApiProperty section, each key is converted to use
@@ -33,6 +38,19 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
       dtoBody += `  ${property}${requiredFlag}: ${propertyToType(properties[property])};\n\n`;
     }
 
+    // Add AJV validation
+    dtoBody += '  /**\n   * Tests a payload against the schema for this DTO.\n   *\n   * @throws Error on failed validations.\n   */\n';
+    dtoBody += '  validate(payload: any) {\n';
+    dtoBody += '    const Ajv = require("ajv");\n';
+    dtoBody += '    const addFormats = require("ajv-formats");\n';
+    dtoBody += '    const ajv = new Ajv();\n\n';
+    dtoBody += '    addFormats(ajv);\n\n';
+    dtoBody += '    const validate = ajv.compile(this.schema);\n';
+    dtoBody += '    const valid = validate(payload);\n\n';
+    dtoBody += '    if (!valid) {\n';
+    dtoBody += `      throw new Error(\`Validation for ${dto} payload failed: \${validate.errors}\`);\n`;
+    dtoBody += '    }\n';
+    dtoBody += '  }\n';
     dtoBody += '}\n';
 
     fs.writeFileSync(dtoFilename, dtoBody, 'utf8');

@@ -18,7 +18,7 @@ const DTO_DIRECTORY: string = 'src/generated/dto';
   const fileData = fs.readFileSync('./api/openapi.yaml', 'utf8');
   const openapi = yaml.parse(fileData);
   const generatorDirectories = fs.readdirSync('./', { recursive: true, withFileTypes: false })
-    .filter((x) => {
+    .filter((x: any) => {
       if (x.startsWith('node_modules')) {
         return false;
       }
@@ -36,7 +36,7 @@ const DTO_DIRECTORY: string = 'src/generated/dto';
 
       return stat.isDirectory();
     })
-    .map((x) => x.substring(x.lastIndexOf('/') + 1));
+    .map((x: string) => x.substring(x.lastIndexOf('/') + 1));
 
   program
     .option('-o, --out <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
