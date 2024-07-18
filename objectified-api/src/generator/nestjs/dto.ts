@@ -14,7 +14,7 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
     const dtoFilename = `${dtoDirectory}/${dto}.dto.ts`;
     const dtoHeader = HEADER + IMPORT_HEADER;
     const schemaDump = JSON.stringify(properties, null, 2)
-        .replaceAll('\n', '\n  ')
+        .replaceAll('\n', '\n    ')
         .replace(/"([^"]+)":/g, '$1:');
     let dtoBody = '';
 
@@ -23,7 +23,17 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
     dtoBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
     dtoBody += `export class ${dtoName} {\n`;
     dtoBody += '  /**\n   * This is the schema that is used to generate the DTO class.\n   * It is also used for validation purposes.\n   */\n';
-    dtoBody += `  private schema: any = ${schemaDump};\n\n`;
+    dtoBody += `  private schema: any = {\n`;
+    dtoBody += '    type: "object",\n';
+
+    if (required) {
+      dtoBody += '    required: [ ';
+      dtoBody += required.map((x: string) => `'${x}'`).join(', ');
+      dtoBody += ' ],\n';
+    }
+
+    dtoBody += `    properties: ${schemaDump},\n`;
+    dtoBody += '  };\n\n';
 
     for(const property of Object.keys(properties)) {
       // This converts the properties section of the @ApiProperty section, each key is converted to use
