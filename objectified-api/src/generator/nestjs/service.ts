@@ -55,14 +55,9 @@ function generateService(directory: string, name: string, description: string, p
 
   serviceBody += HEADER;
 
-  // controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param } from \'@nestjs/common\';\n';
-  // controllerBody += 'import { ApiResponse, ApiOperation } from \'@nestjs/swagger\';\n';
-  // controllerBody += `import { ${name}Service } from '../services';\n`;
-
   for (const pathEntry of paths) {
     const { path, method } = pathEntry;
     const { operationId, description, summary, parameters, requestBody, responses } = pathEntry.data;
-  //   const convertedPath = path.replaceAll('{', ':').replaceAll('}', '');
     const requestBodyContent = requestBody?.content['application/json'];
     const inputs = [];
     const inputVariables = [];
@@ -137,9 +132,7 @@ function generateService(directory: string, name: string, description: string, p
       }
     }
 
-  //   serviceClassBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
     serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): ${returnType ?? 'void'};\n\n`;
-  //   serviceClassBody += '  }\n\n';
   }
 
   if (Object.keys(serviceDtoImports).length > 0) {
@@ -149,9 +142,7 @@ function generateService(directory: string, name: string, description: string, p
   serviceBody += serviceImports;
   serviceBody += '\n';
   serviceBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
-  // controllerBody += `@Controller('${toCamelCase(name)}')\n`;
   serviceBody += `export interface ${name}Service {\n`;
-  // controllerBody += `  constructor(private service: ${name}Service) { }\n\n`;
   serviceBody += serviceClassBody;
   serviceBody += '}\n';
 
