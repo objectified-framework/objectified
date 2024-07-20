@@ -9,7 +9,8 @@
     "autogen-dto": "node dist/dto.js -g nestjs",
     "autogen-controller": "node dist/controller.js -g nestjs",
     "autogen-service": "node dist/service.js -g nestjs",
-    "autogen": "yarn autogen-dto && yarn autogen-controller && yarn autogen-service",
+    "autogen-test": "node dist/tests.js -g nestjs",
+    "autogen": "yarn autogen-dto && yarn autogen-controller && yarn autogen-service && yarn autogen-test",
     "build": "yarn clean && tsc && yarn autogen && echo Recompiling && tsc"
   },
   "author": "ksuenobu@fastmail.com",
