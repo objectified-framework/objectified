@@ -53,8 +53,9 @@ function generateController(directory: string, name: string, description: string
     const convertedPath = path.replaceAll('{', ':').replaceAll('}', '');
     const requestBodyContent = requestBody?.content['application/json'];
     const inputs = [];
+    let returnType = 'void';
 
-    controllerClassBody += `  /**\n  * ${description.trim().replaceAll('\n', '\n  * ')}\n   */\n`;
+    controllerClassBody += `  /**\n   * ${description.trim().replaceAll('\n', '\n   * ')}\n   */\n`;
     controllerClassBody += `  @${initCap(method)}('${convertedPath}')\n`;
 
     if (summary && description) {
@@ -67,7 +68,6 @@ function generateController(directory: string, name: string, description: string
 
     for (const [ responseCode, responseData ] of Object.entries(responses)) {
       const responseDescription = responseData['description'] ?? '';
-      const responseContent = responseData['content'] ?? {};
 
       controllerClassBody += `  @ApiResponse({ status: ${responseCode}, description: '${responseDescription.trim().replaceAll('\n', ' ')}' })\n`;
     }
@@ -83,7 +83,7 @@ function generateController(directory: string, name: string, description: string
       }
     }
 
-    controllerClassBody += `  public ${operationId}(${inputs.join(', ')}): any {\n`;
+    controllerClassBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType}> {\n`;
     controllerClassBody += `    return this.service.${operationId}();\n`;
     controllerClassBody += '  }\n\n';
   }
