@@ -147,7 +147,7 @@ paths:
       tags:
         - Auth
       summary: Login modification service
-      operationId: login
+      operationId: editLogin
       description: |
         Allows a user to change their login credentials.  Only the password can be changed.
         If the username does not match, the request will be ignored, and a `400 Bad Request`
