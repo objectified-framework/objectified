@@ -8,7 +8,7 @@
     "start": "",
     "autogen-dto": "node dist/dto.js -g nestjs",
     "autogen-controller": "node dist/controller.js -g nestjs",
-    "autogen": "yarn autogen-dto",
+    "autogen": "yarn autogen-dto && yarn autogen-controller",
     "build": "yarn clean && tsc && yarn autogen && echo Recompiling && tsc"
   },
   "author": "ksuenobu@fastmail.com",
