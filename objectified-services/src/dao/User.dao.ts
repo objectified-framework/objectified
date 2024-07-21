@@ -1,0 +1,13 @@
+export class UserDao {
+
+//CREATE TABLE obj.user (
+//     id SERIAL NOT NULL PRIMARY KEY,
+//     username VARCHAR(80) NOT NULL UNIQUE,
+//     password VARCHAR(255) NOT NULL,
+//     email_address VARCHAR(255) NOT NULL,
+//     verified BOOLEAN NOT NULL DEFAULT false,
+//     status obj.user_status_enum NOT NULL DEFAULT 'enabled',
+//     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+//     data JSONB
+// );
+}

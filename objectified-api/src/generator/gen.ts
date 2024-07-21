@@ -5,10 +5,9 @@
  * compatible for use with NestJS and React applications.  These DTO objects are decorated with
  * annotations from the NestJS Swagger library.
  */
-import {generateDtos} from './nestjs';
 
-const VERSION: string = '0.1.0';
-const SERVICES_DIRECTORY: string = 'src/generated/services';
+const VERSION: string = '0.1.2';
+const DTO_DIRECTORY: string = 'src/generated';
 
 (async () => {
   const fs = require('fs');
@@ -18,7 +17,7 @@ const SERVICES_DIRECTORY: string = 'src/generated/services';
   const fileData = fs.readFileSync('./api/openapi.yaml', 'utf8');
   const openapi = yaml.parse(fileData);
   const generatorDirectories = fs.readdirSync('./', { recursive: true, withFileTypes: false })
-    .filter((x) => {
+    .filter((x: any) => {
       if (x.startsWith('node_modules')) {
         return false;
       }
@@ -36,21 +35,22 @@ const SERVICES_DIRECTORY: string = 'src/generated/services';
 
       return stat.isDirectory();
     })
-    .map((x) => x.substring(x.lastIndexOf('/') + 1));
+    .map((x: string) => x.substring(x.lastIndexOf('/') + 1));
 
   program
-    .option('-o, --out <directory>', 'output directory for generated controllers', SERVICES_DIRECTORY)
+    .option('-o, --out <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
     .addOption(new Option('-g <generator>', 'output generator to use').choices(generatorDirectories))
     .parse();
 
-  console.log(`Service Generator: ${VERSION}`);
+  console.log(`Code Auto-Generator: ${VERSION}`);
 
-  fs.rmSync(SERVICES_DIRECTORY, { recursive: true, force: true });
-  fs.mkdirSync(SERVICES_DIRECTORY, { recursive: true });
+  fs.rmSync(DTO_DIRECTORY, { recursive: true, force: true });
 
-  console.log(`Generating Services`);
+  const generator = require(`./${program.opts().g}`);
 
-  const controllerGenerator = require(`./${program.opts().g}`);
+  generator.generateDtos(program.opts().out, openapi);
+  generator.generateControllers(program.opts().out, openapi);
+  generator.generateServices(program.opts().out, openapi);
+  // generator.generateTests(program.opts().out, openapi);
 
-  controllerGenerator.generateServices(program.opts().out, openapi);
 })();

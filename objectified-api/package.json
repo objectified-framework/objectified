@@ -1,6 +1,6 @@
 {
-  "name": "objectified-data",
-  "version": "0.0.1",
+  "name": "@objectified/objectified-api",
+  "version": "0.1.0",
   "description": "Objectified Data Definitions",
   "scripts": {
     "clean": "rm -rf dist src/generated",
@@ -10,7 +10,7 @@
     "autogen-controller": "node dist/controller.js -g nestjs",
     "autogen-service": "node dist/service.js -g nestjs",
     "autogen-test": "node dist/tests.js -g nestjs",
-    "autogen": "yarn autogen-dto && yarn autogen-controller && yarn autogen-service && yarn autogen-test",
+    "autogen": "node dist/gen.js -g nestjs",
     "build": "yarn clean && tsc && yarn autogen && echo Recompiling && tsc"
   },
   "author": "ksuenobu@fastmail.com",
@@ -22,6 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "commander": "^12.1.0",
+    "pg-promise": "^11.9.1",
     "prettier": "^3.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
