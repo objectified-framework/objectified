@@ -6,10 +6,6 @@
     "clean": "rm -rf dist src/generated",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
-    "autogen-dto": "node dist/dto.js -g nestjs",
-    "autogen-controller": "node dist/controller.js -g nestjs",
-    "autogen-service": "node dist/service.js -g nestjs",
-    "autogen-test": "node dist/tests.js -g nestjs",
     "autogen": "node dist/gen.js -g nestjs",
     "build": "yarn clean && tsc && yarn autogen && echo Recompiling && tsc"
   },
