@@ -1,10 +1,10 @@
-import { ClassDto } from 'objectified-data';
+import { ClassDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class ClassDao {
   constructor(private pg: any) {}
 
-  async getById(id: bigint): ClassDto {
-
+  async getById(id: bigint): Promise<ClassDto> {
+    return null;
   }
 
   //CREATE TABLE obj.class (

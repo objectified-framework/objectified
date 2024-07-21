@@ -1251,6 +1251,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@objectified/objectified-api@portal:/Users/kenji/Development/objectified/objectified-api::locator=objectified-services%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@objectified/objectified-api@portal:/Users/kenji/Development/objectified/objectified-api::locator=objectified-services%40workspace%3A."
+  dependencies:
+    "@nestjs/common": "npm:^10.3.10"
+    "@nestjs/swagger": "npm:^7.4.0"
+    "@redocly/cli": "npm:^1.12.2"
+    "@typescript-eslint/eslint-plugin": "npm:^7.7.0"
+    "@typescript-eslint/parser": "npm:^7.7.0"
+    commander: "npm:^12.1.0"
+    pg-promise: "npm:^11.9.1"
+    prettier: "npm:^3.2.5"
+    ts-loader: "npm:^9.5.1"
+    ts-node: "npm:^10.9.2"
+    tsconfig-paths: "npm:4.1.0"
+    typescript: "npm:^5.4.5"
+    yaml: "npm:^2.4.1"
+  languageName: node
+  linkType: soft
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -6528,27 +6548,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"objectified-data@file:../objectified-api::locator=objectified-services%40workspace%3A.":
-  version: 0.0.1
-  resolution: "objectified-data@file:../objectified-api#../objectified-api::hash=90b3f6&locator=objectified-services%40workspace%3A."
-  dependencies:
-    "@nestjs/common": "npm:^10.3.10"
-    "@nestjs/swagger": "npm:^7.4.0"
-    "@redocly/cli": "npm:^1.12.2"
-    "@typescript-eslint/eslint-plugin": "npm:^7.7.0"
-    "@typescript-eslint/parser": "npm:^7.7.0"
-    commander: "npm:^12.1.0"
-    pg-promise: "npm:^11.9.1"
-    prettier: "npm:^3.2.5"
-    ts-loader: "npm:^9.5.1"
-    ts-node: "npm:^10.9.2"
-    tsconfig-paths: "npm:4.1.0"
-    typescript: "npm:^5.4.5"
-    yaml: "npm:^2.4.1"
-  checksum: 10c0/04be2322c4a0d3fea6c4ab5fbde66c0b3b252bcabc9d820005497f290299c0a483a97bd51d317c56f50b8ad0d6c37cb8bf1d9c0225c644d1abe90b3d32be1136
-  languageName: node
-  linkType: hard
-
 "objectified-services@workspace:.":
   version: 0.0.0-use.local
   resolution: "objectified-services@workspace:."
@@ -6559,6 +6558,7 @@ __metadata:
     "@nestjs/platform-express": "npm:^10.0.0"
     "@nestjs/schematics": "npm:^10.0.0"
     "@nestjs/testing": "npm:^10.0.0"
+    "@objectified/objectified-api": ../objectified-api
     "@types/express": "npm:^4.17.17"
     "@types/jest": "npm:^29.5.2"
     "@types/node": "npm:^20.3.1"
@@ -6569,7 +6569,6 @@ __metadata:
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.0"
     jest: "npm:^29.5.0"
-    objectified-data: ../objectified-api
     pg-promise: "npm:^11.9.1"
     prettier: "npm:^3.0.0"
     reflect-metadata: "npm:^0.2.0"
