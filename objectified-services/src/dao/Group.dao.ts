@@ -1,7 +1,8 @@
 import { GroupDto, UserDto } from '@objectified/objectified-api/dist/generated/dto';
+import * as pgPromise from "pg-promise";
 
 export class GroupDao {
-  constructor(private pg: any) { }
+  constructor(private pg: pgPromise.IDatabase<any>) { }
 
   async getById(id: bigint): Promise<GroupDto> {
     return null;

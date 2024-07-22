@@ -1,7 +1,8 @@
 import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
+import * as pgPromise from "pg-promise";
 
 export class FieldDao {
-  constructor(private pg: any) { }
+  constructor(private pg: pgPromise.IDatabase<any>) { }
 
   async getById(id: bigint): Promise<FieldDto> {
     return null;
