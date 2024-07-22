@@ -1,4 +1,20 @@
+import { InstanceDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class InstanceDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<InstanceDto> {
+    return null;
+  }
+
+  async getByClassId(classId: bigint, namespaceId: bigint): Promise<InstanceDto[]> {
+    return [];
+  }
+
+  async getByName(name: string, namespaceId: bigint): Promise<InstanceDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.instance (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

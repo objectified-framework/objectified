@@ -1,4 +1,24 @@
+import { PropertyDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class PropertyDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<PropertyDto> {
+    return null;
+  }
+
+  async getByName(name: string, namespaceId: bigint): Promise<PropertyDto> {
+    return null;
+  }
+
+  async getByFieldId(fieldId: bigint): Promise<PropertyDto[]> {
+    return [];
+  }
+
+  async getPropertiesForObject(objectId: bigint): Promise<PropertyDto[]> {
+    return [];
+  }
+
   // CREATE TABLE obj.property (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

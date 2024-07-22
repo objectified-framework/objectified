@@ -1,4 +1,16 @@
+import { LinkDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class LinkDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<LinkDto> {
+    return null;
+  }
+
+  async getByName(name: string, namespaceId: bigint): Promise<LinkDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.link_def (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

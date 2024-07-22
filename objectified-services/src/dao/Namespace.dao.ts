@@ -1,4 +1,35 @@
+import { NamespaceDto, UserDto, GroupDto, ClassDto, DataTypeDto, PropertyDto, FieldDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class NamespaceDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<NamespaceDto> {
+    return null;
+  }
+
+  async getUsersForNamespace(namespaceId: bigint): Promise<UserDto[]> {
+    return [];
+  }
+
+  async getGroupsForNamespace(namespaceId: bigint): Promise<GroupDto[]> {
+    return [];
+  }
+
+  async getClassesForNamespace(namespaceId: bigint): Promise<ClassDto[]> {
+    return [];
+  }
+
+  async getDataTypesForNamespace(namespaceId: bigint): Promise<DataTypeDto[]> {
+    return [];
+  }
+
+  async getFieldsForNamespace(namespaceId: bigint): Promise<FieldDto[]> {
+    return [];
+  }
+
+  async getPropertiesForNamespace(namespaceId: bigint): Promise<PropertyDto[]> {
+    return [];
+  }
 
   //CREATE TABLE obj.namespace (
   //     id SERIAL NOT NULL PRIMARY KEY,

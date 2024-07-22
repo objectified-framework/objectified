@@ -1,4 +1,19 @@
+import { UserDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class UserDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<UserDto> {
+    return null;
+  }
+
+  async getByUsername(username: string): Promise<UserDto> {
+    return null;
+  }
+
+  async getByUsernameAndPassword(username: string, password: string): Promise<UserDto> {
+    return null;
+  }
 
 //CREATE TABLE obj.user (
 //     id SERIAL NOT NULL PRIMARY KEY,
