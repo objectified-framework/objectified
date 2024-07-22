@@ -15,6 +15,14 @@ export class UserDao {
     return null;
   }
 
+  async create(obj: UserDto): Promise<UserDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<UserDto> {
+    return null;
+  }
+
 //CREATE TABLE obj.user (
 //     id SERIAL NOT NULL PRIMARY KEY,
 //     username VARCHAR(80) NOT NULL UNIQUE,

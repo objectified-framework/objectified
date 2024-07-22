@@ -19,6 +19,14 @@ export class InstanceDataDao {
     return [];
   }
 
+  async create(obj: InstanceDataDto): Promise<InstanceDataDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<InstanceDataDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.instance_data (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     instance_id INT NOT NULL REFERENCES obj.instance(id),

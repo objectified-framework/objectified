@@ -11,6 +11,18 @@ export class FieldDao {
     return null;
   }
 
+  async getByNamespace(namespaceId: bigint): Promise<FieldDto[]> {
+    return [];
+  }
+
+  async create(obj: FieldDto): Promise<FieldDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<FieldDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.field (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

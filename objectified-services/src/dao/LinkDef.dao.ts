@@ -11,6 +11,18 @@ export class LinkDefDao {
     return null;
   }
 
+  async getByNamespace(namespaceId: bigint): Promise<LinkDefDto[]> {
+    return [];
+  }
+
+  async create(obj: LinkDefDto): Promise<LinkDefDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<LinkDefDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.link_def (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

@@ -15,6 +15,22 @@ export class InstanceDao {
     return null;
   }
 
+  async getInstancesForNamespace(namespaceId: bigint): Promise<InstanceDto[]> {
+    return [];
+  }
+
+  async getInstancesForClass(classId: bigint): Promise<InstanceDto[]> {
+    return [];
+  }
+
+  async create(obj: InstanceDto): Promise<InstanceDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<InstanceDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.instance (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

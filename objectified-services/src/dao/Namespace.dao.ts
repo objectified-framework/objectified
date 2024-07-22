@@ -31,6 +31,14 @@ export class NamespaceDao {
     return [];
   }
 
+  async create(obj: NamespaceDto): Promise<NamespaceDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<NamespaceDto> {
+    return null;
+  }
+
   //CREATE TABLE obj.namespace (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     creatorId INT NOT NULL REFERENCES obj.user(id),

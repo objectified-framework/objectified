@@ -19,6 +19,18 @@ export class PropertyDao {
     return [];
   }
 
+  async getByNamespace(namespaceId: bigint): Promise<PropertyDto[]> {
+    return [];
+  }
+
+  async create(obj: PropertyDto): Promise<PropertyDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<PropertyDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.property (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

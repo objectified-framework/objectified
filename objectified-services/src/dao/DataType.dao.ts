@@ -11,6 +11,18 @@ export class DataTypeDao {
     return null;
   }
 
+  async getByNamespace(namespaceId: bigint): Promise<DataTypeDto[]> {
+    return [];
+  }
+
+  async create(obj: DataTypeDto): Promise<DataTypeDto> {
+    return null;
+  }
+
+  async delete(id: bigint): Promise<DataTypeDto> {
+    return null;
+  }
+
   //CREATE TABLE obj.data_type (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),
