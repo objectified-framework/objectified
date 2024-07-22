@@ -1,4 +1,16 @@
+import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class FieldDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<FieldDto> {
+    return null;
+  }
+
+  async getByName(name: string, dataTypeId: bigint, namespaceId: bigint): Promise<FieldDto> {
+    return null;
+  }
+
   // CREATE TABLE obj.field (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

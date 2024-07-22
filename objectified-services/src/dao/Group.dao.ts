@@ -1,4 +1,23 @@
+import { GroupDto, UserDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class GroupDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<GroupDto> {
+    return null;
+  }
+
+  async getByName(name: string): Promise<GroupDto> {
+    return null;
+  }
+
+  async getGroupsForUser(userId: bigint): Promise<GroupDto[]> {
+    return [];
+  }
+
+  async getUsersForGroup(groupId: bigint): Promise<UserDto[]> {
+    return [];
+  }
 
 //   CREATE TABLE obj.group (
 //     id SERIAL NOT NULL PRIMARY KEY,
