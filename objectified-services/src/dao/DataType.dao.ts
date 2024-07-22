@@ -1,4 +1,16 @@
+import { DataTypeDto } from '@objectified/objectified-api/dist/generated/dto';
+
 export class DataTypeDao {
+  constructor(private pg: any) { }
+
+  async getById(id: bigint): Promise<DataTypeDto> {
+    return null;
+  }
+
+  async getByName(name: string, namespaceId: bigint): Promise<DataTypeDto> {
+    return null;
+  }
+
   //CREATE TABLE obj.data_type (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),

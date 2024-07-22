@@ -7,6 +7,10 @@ export class ClassDao {
     return null;
   }
 
+  async getByName(name: string, namespaceId: bigint): Promise<ClassDto> {
+    return null;
+  }
+
   //CREATE TABLE obj.class (
   //     id SERIAL NOT NULL PRIMARY KEY,
   //     namespace_id INT NOT NULL REFERENCES obj.namespace(id),
