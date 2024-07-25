@@ -26,7 +26,7 @@ export function generateDtos(directory: string, openapi: any) {
     dtoBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
     dtoBody += `export class ${dtoName} {\n`;
     dtoBody += '  /**\n   * This is the schema that is used to generate the DTO class.\n   * It is also used for validation purposes.\n   */\n';
-    dtoBody += `  private schema: any = {\n`;
+    dtoBody += `  public static schema: any = {\n`;
     dtoBody += '    type: "object",\n';
 
     if (required) {
@@ -53,16 +53,13 @@ export function generateDtos(directory: string, openapi: any) {
 
     // Add AJV validation
     dtoBody += '  /**\n   * Tests a payload against the schema for this DTO.\n   *\n   * @throws Error on failed validations.\n   */\n';
-    dtoBody += '  validate(payload: any) {\n';
+    dtoBody += `  public static validate(payload: ${dtoName}): boolean {\n`;
     dtoBody += '    const Ajv = require("ajv");\n';
     dtoBody += '    const addFormats = require("ajv-formats");\n';
-    dtoBody += '    const ajv = new Ajv();\n\n';
+    dtoBody += '    const ajv = new Ajv({ strict: false });\n\n';
     dtoBody += '    addFormats(ajv);\n\n';
     dtoBody += '    const validate = ajv.compile(this.schema);\n';
-    dtoBody += '    const valid = validate(payload);\n\n';
-    dtoBody += '    if (!valid) {\n';
-    dtoBody += `      throw new Error(\`Validation for ${dto} payload failed: \${validate.errors}\`);\n`;
-    dtoBody += '    }\n';
+    dtoBody += '    return validate(payload);\n';
     dtoBody += '  }\n';
     dtoBody += '}\n';
 

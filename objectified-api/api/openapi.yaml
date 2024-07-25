@@ -2141,7 +2141,6 @@ components:
           pattern: '^[A-Za-z0-9]*$'
         password:
           type: string
-          format: password
           maxLength: 255
           description: Password of any type encoded in `base64` format
         emailAddress:

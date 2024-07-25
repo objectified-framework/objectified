@@ -7,152 +7,38 @@ export function generateTests(controllerDirectory: string, openApi: any) {
   const tags: any = {};
   const paths = openApi.paths;
 
-  for (const tag of openApi.tags) {
-    tags[tag.name] = tag;
-    tags[tag.name].paths = [];
-  }
+  fs.rmSync('tests/generated', { recursive: true, force: true });
+  fs.mkdirSync('tests/generated', { recursive: true });
 
-  // Step 1: prepare a list of all paths associated with a tag.
-  for (const path of Object.keys(paths)) {
-    for (const [pathMethod, pathMethodData] of Object.entries(paths[path])) {
-      for (const tag of pathMethodData['tags']) {
-        tags[tag].paths.push({
-          path,
-          method: pathMethod,
-          data: pathMethodData
-        });
-      }
-    }
-  }
+  const schemas = openApi.components.schemas;
 
   // Step 2: walk the list of tags, and write all controllers for each tag
-  for (const tag of Object.keys(tags)) {
-    const controllerName = tags[tag].name;
-    const controllerDescription = tags[tag].description ?? '';
-
-    generateTest(controllerDirectory, controllerName, controllerDescription, tags[tag].paths);
+  for (const schemaName of Object.keys(schemas)) {
+    generateTest('tests/generated', schemaName);
   }
 }
 
-function generateTest(directory: string, name: string, description: string, paths: any[]) {
-  // const fs = require('fs');
-  // const controllerFile = `${directory}/${name}.test.ts`;
-  // const controllerDtoImports = {};
-  // let controllerBody = '';
-  // let controllerClassBody = '';
-  //
-  // controllerBody += HEADER;
-  //
-  // controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param } from \'@nestjs/common\';\n';
-  // controllerBody += 'import { ApiResponse, ApiOperation } from \'@nestjs/swagger\';\n';
-  // controllerBody += `import { ${name}Service } from '../services';\n`;
-  //
-  // for (const pathEntry of paths) {
-  //   const { path, method } = pathEntry;
-  //   const { operationId, description, summary, parameters, requestBody, responses } = pathEntry.data;
-  //   const convertedPath = path.replaceAll('{', ':').replaceAll('}', '');
-  //   const requestBodyContent = requestBody?.content['application/json'];
-  //   const inputs = [];
-  //   const inputVariables = [];
-  //   let returnType = null;
-  //
-  //   controllerClassBody += `  /**\n   * ${description.trim().replaceAll('\n', '\n   * ')}\n   */\n`;
-  //   controllerClassBody += `  @${initCap(method)}('${convertedPath}')\n`;
-  //
-  //   if (summary && description) {
-  //     controllerClassBody += `  @ApiOperation({ summary: '${summary}', description: '${description.trim().replaceAll('\n', ' ')}' })\n`;
-  //   } else if (summary) {
-  //     controllerClassBody += `  @ApiOperation({ summary: '${summary}' })\n`;
-  //   } else if (description) {
-  //     controllerClassBody += `  @ApiOperation({ description: '${description.trim().replaceAll('\n', ' ')}' })\n`;
-  //   }
-  //
-  //   for (const [ responseCode, responseData ] of Object.entries(responses)) {
-  //     const responseDescription = responseData['description'] ?? '';
-  //
-  //     if (responseData['content']) {
-  //       const content = responseData['content'];
-  //       const contentCode = parseInt(responseCode);
-  //       const contentTypes = Object.keys(content);
-  //
-  //       if (contentCode >= 200 && contentCode <= 299) {
-  //         const contentSchema = content[contentTypes[0]].schema;
-  //         const contentSchemaType = propertyToType(contentSchema);
-  //
-  //         if (contentTypes.length > 1) {
-  //           throw new Error(`Path ${path}, method ${method}, return code ${contentCode} has more than one content type for operation ${operationId}`);
-  //         }
-  //
-  //         if (returnType) {
-  //           returnType += ` | ${contentSchemaType}`;
-  //         } else {
-  //           returnType = contentSchemaType;
-  //         }
-  //
-  //         if (contentSchemaType.endsWith('Dto')) {
-  //           controllerDtoImports[contentSchemaType] = 1;
-  //         } else if (contentSchemaType.indexOf('[')) {
-  //           if (contentSchemaType.substring(0, contentSchemaType.indexOf('[')).endsWith('Dto')) {
-  //             controllerDtoImports[contentSchemaType.substring(0, contentSchemaType.indexOf('['))] = 1;
-  //           }
-  //         }
-  //       }
-  //     }
-  //
-  //     controllerClassBody += `  @ApiResponse({ status: ${responseCode}, description: '${responseDescription.trim().replaceAll('\n', ' ')}' })\n`;
-  //   }
-  //
-  //   if (parameters) {
-  //     for (const parameter of parameters) {
-  //       const { name, description, schema } = parameter;
-  //       const inPath = parameter.in;
-  //
-  //       if (inPath.toLowerCase() === 'path') {
-  //         const parameterSchema = propertyToType(schema);
-  //
-  //         if (parameterSchema.endsWith('Dto')) {
-  //           controllerDtoImports[parameterSchema] = 1;
-  //         } else if (parameterSchema.indexOf('[')) {
-  //           if (parameterSchema.substring(0, parameterSchema.indexOf('[')).endsWith('Dto')) {
-  //             controllerDtoImports[parameterSchema.substring(0, parameterSchema.indexOf('['))] = 1;
-  //           }
-  //         }
-  //
-  //         inputs.push(`@Param('${name}') ${name}: ${parameterSchema}`);
-  //         inputVariables.push(name);
-  //       }
-  //     }
-  //   }
-  //
-  //   if (requestBodyContent) {
-  //     const schema = requestBodyContent.schema;
-  //
-  //     if (schema.$ref) {
-  //       const reference = schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1);
-  //
-  //       inputs.push(`@Body() ${toCamelCase(reference)}Dto: ${reference}Dto`);
-  //       inputVariables.push(`${toCamelCase(reference)}Dto`);
-  //       controllerDtoImports[`${reference}Dto`] = 1;
-  //     }
-  //   }
-  //
-  //   controllerClassBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
-  //   controllerClassBody += `    return this.service.${operationId}(${inputVariables.join(', ')});\n`;
-  //   controllerClassBody += '  }\n\n';
-  // }
-  //
-  // if (Object.keys(controllerDtoImports).length > 0) {
-  //   controllerBody += `import { ${Object.keys(controllerDtoImports).join(', ')} } from '../dto';\n`;
-  // }
-  //
-  // controllerBody += '\n';
-  // controllerBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
-  // controllerBody += `@Controller('${toCamelCase(name)}')\n`;
-  // controllerBody += `export class ${name}Controller {\n`;
-  // controllerBody += `  constructor(private service: ${name}Service) { }\n\n`;
-  // controllerBody += controllerClassBody;
-  // controllerBody += '}\n';
-  //
-  // fs.writeFileSync(controllerFile, controllerBody, 'utf8');
-  // console.log(`  - Wrote ${controllerFile}`);
+function generateTest(directory: string, name: string) {
+  const fs = require('fs');
+  const testFile = `${directory}/${name}.test.ts`;
+  const testHeader = HEADER;
+  let testBody = '';
+
+  // Headers
+  testBody += 'import { JSONSchemaFaker } from "json-schema-faker";\n';
+  testBody += 'import * as dtos from \'../../src/generated/dto\';\n\n';
+
+  // Test code body
+  testBody += `describe('${name} object test', () => {\n`;
+  testBody += '  it(\'should instantiate a random object and validate it\', () => {\n';
+  testBody += `    const obj = JSONSchemaFaker.generate(dtos.${name}Dto.schema);\n`;
+  testBody += `    const valid = dtos.${name}Dto.validate(obj);\n\n`;
+  testBody += '    expect(valid).toEqual(true);\n';
+  testBody += '  });\n';
+  testBody += '});\n';
+
+  const testData = testHeader + testBody;
+
+  fs.writeFileSync(testFile, testData);
+  console.log(`  - Writing ${testFile}`);
 }

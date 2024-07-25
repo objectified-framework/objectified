@@ -51,6 +51,6 @@ const DTO_DIRECTORY: string = 'src/generated';
   generator.generateDtos(program.opts().out, openapi);
   generator.generateControllers(program.opts().out, openapi);
   generator.generateServices(program.opts().out, openapi);
-  // generator.generateTests(program.opts().out, openapi);
+  generator.generateTests(program.opts().out, openapi);
 
 })();

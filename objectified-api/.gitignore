@@ -4,5 +4,5 @@ yarn.lock
 .yarn
 .yarnrc.yml
 dist/
-src/generated/
 **/.pnp*
+**/generated
