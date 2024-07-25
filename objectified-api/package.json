@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Objectified Data Definitions",
   "scripts": {
-    "clean": "rm -rf dist src/generated tests/generated",
+    "clean": "rm -rf dist cfx src/generated tests/generated",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
     "autogen": "node dist/gen.js -g nestjs",
