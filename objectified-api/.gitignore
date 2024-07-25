@@ -7,3 +7,5 @@ dist/
 **/.pnp*
 **/generated
 coverage/
+cfx/
+types.d.ts
