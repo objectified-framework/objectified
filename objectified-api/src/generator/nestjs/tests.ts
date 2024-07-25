@@ -14,11 +14,11 @@ export function generateTests(controllerDirectory: string, openApi: any) {
 
   // Step 2: walk the list of tags, and write all controllers for each tag
   for (const schemaName of Object.keys(schemas)) {
-    generateTest('tests/generated', schemaName);
+    generateTest('tests/generated', schemaName, schemas[schemaName].required ?? []);
   }
 }
 
-function generateTest(directory: string, name: string) {
+function generateTest(directory: string, name: string, required: string[]) {
   const fs = require('fs');
   const testFile = `${directory}/${name}.test.ts`;
   const testHeader = HEADER;
@@ -35,10 +35,25 @@ function generateTest(directory: string, name: string) {
   testBody += `    const valid = dtos.${name}Dto.validate(obj);\n\n`;
   testBody += '    expect(valid).toEqual(true);\n';
   testBody += '  });\n';
+
+  if (required) {
+    testBody += '\n';
+    testBody += '  it(\'should instantiate a random object that will fail validation\', () => {\n';
+    testBody += `    const obj = JSONSchemaFaker.generate(dtos.${name}Dto.schema);\n\n`;
+    testBody += `    obj.${required[randomNumber(0, required.length)]} = null;\n\n`;
+    testBody += `    const valid = dtos.${name}Dto.validate(obj);\n\n`;
+    testBody += '    expect(valid).toEqual(false);\n';
+    testBody += '  })\n';
+  }
+
   testBody += '});\n';
 
   const testData = testHeader + testBody;
 
   fs.writeFileSync(testFile, testData);
-  console.log(`  - Writing ${testFile}`);
+  console.log(`  - Wrote ${testFile}`);
+}
+
+function randomNumber(x: number, y: number): number {
+  return Math.floor(Math.random() * (y - x));
 }
