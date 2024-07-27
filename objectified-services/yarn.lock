@@ -1094,6 +1094,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/core@npm:^10.3.10":
+  version: 10.3.10
+  resolution: "@nestjs/core@npm:10.3.10"
+  dependencies:
+    "@nuxtjs/opencollective": "npm:0.3.2"
+    fast-safe-stringify: "npm:2.1.1"
+    iterare: "npm:1.2.1"
+    path-to-regexp: "npm:3.2.0"
+    tslib: "npm:2.6.3"
+    uid: "npm:2.0.2"
+  peerDependencies:
+    "@nestjs/common": ^10.0.0
+    "@nestjs/microservices": ^10.0.0
+    "@nestjs/platform-express": ^10.0.0
+    "@nestjs/websockets": ^10.0.0
+    reflect-metadata: ^0.1.12 || ^0.2.0
+    rxjs: ^7.1.0
+  peerDependenciesMeta:
+    "@nestjs/microservices":
+      optional: true
+    "@nestjs/platform-express":
+      optional: true
+    "@nestjs/websockets":
+      optional: true
+  checksum: 10c0/6648a059165e5e4653c647eeeecf1e1b3bbc014f6a00c343623af4a862ad2efedca04769bf2ed53ac78a9457c92b46b767fb8ea37cf602e658de3d83160794c8
+  languageName: node
+  linkType: hard
+
 "@nestjs/mapped-types@npm:2.0.5":
   version: 2.0.5
   resolution: "@nestjs/mapped-types@npm:2.0.5"
@@ -1256,6 +1284,7 @@ __metadata:
   resolution: "@objectified/objectified-api@portal:/Users/kenji/Development/objectified/objectified-api::locator=objectified-services%40workspace%3A."
   dependencies:
     "@nestjs/common": "npm:^10.3.10"
+    "@nestjs/core": "npm:^10.3.10"
     "@nestjs/swagger": "npm:^7.4.0"
     "@redocly/cli": "npm:^1.12.2"
     "@typescript-eslint/eslint-plugin": "npm:^7.7.0"
@@ -1263,6 +1292,7 @@ __metadata:
     commander: "npm:^12.1.0"
     pg-promise: "npm:^11.9.1"
     prettier: "npm:^3.2.5"
+    rxjs: "npm:^7.8.1"
     ts-loader: "npm:^9.5.1"
     ts-node: "npm:^10.9.2"
     tsconfig-paths: "npm:4.1.0"
