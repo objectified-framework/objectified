@@ -1,5 +1,5 @@
-import { AuthService } from '@objectified/objectified-api/dist/generated/services';
-import { LoginDto } from '@objectified/objectified-api/dist/generated/dto';
+import { AuthService } from '@objectified/objectified-api/dist/src/generated/services';
+import { LoginDto } from '@objectified/objectified-api/dist/src/generated/dto';
 
 export class AuthServiceImpl implements AuthService {
   /**
