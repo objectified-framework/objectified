@@ -1,6 +1,8 @@
 import { AuthService } from '@objectified/objectified-api/dist/generated/services';
 import { LoginDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class AuthServiceImpl implements AuthService {
   /**
    * Logs a user into the system via their username and password combination.

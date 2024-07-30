@@ -1,6 +1,8 @@
 import { ClassesService } from '@objectified/objectified-api/dist/generated/services';
 import { ClassDto, PropertyDto, IdArrayInputDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ClassesServiceImpl implements ClassesService {
   /**
    * Creates a new class.

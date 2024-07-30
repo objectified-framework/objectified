@@ -1,6 +1,8 @@
 import { UsersService } from '@objectified/objectified-api/dist/generated/services';
 import { UserDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UsersServiceImpl implements UsersService {
   /**
    * Returns a list of all users registered in Objectified, regardless of

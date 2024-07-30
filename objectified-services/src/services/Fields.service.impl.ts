@@ -1,6 +1,8 @@
 import { FieldsService } from '@objectified/objectified-api/dist/generated/services';
 import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FieldsServiceImpl implements FieldsService {
   /**
    * Creates a new `Field`.

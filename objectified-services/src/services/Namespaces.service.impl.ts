@@ -7,7 +7,9 @@ import {
   FieldDto,
   PropertyDto,
 } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Returns a list of all namespaces registered in Objectified, regardless of enabled flag status.

@@ -1,6 +1,8 @@
 import { DataTypesService } from '@objectified/objectified-api/dist/generated/services';
 import { DataTypeDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class DataTypesServiceImpl implements DataTypesService {
   /**
    * Creates a new data type.

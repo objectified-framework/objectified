@@ -1,6 +1,8 @@
 import { GroupsService } from '@objectified/objectified-api/dist/generated/services';
 import { GroupDto, IdArrayInputDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GroupsServiceImpl implements GroupsService {
   /**
    * Returns a list of all `Group`s registered.

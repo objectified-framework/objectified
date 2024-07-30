@@ -1,6 +1,8 @@
 import { LinksService } from '@objectified/objectified-api/dist/generated/services';
 import { LinkDto, LinkDefDto } from '@objectified/objectified-api/dist/generated/dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class LinksServiceImpl implements LinksService {
   /**
    * Creates a link object that links two classes between each other.
