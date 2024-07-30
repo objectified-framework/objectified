@@ -2,13 +2,10 @@ import { FieldsService } from '@objectified/objectified-api/dist/generated/servi
 import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class FieldsServiceImpl implements FieldsService {
-
   /**
    * Creates a new `Field`.
    */
-  createField(fieldDto: FieldDto): void {
-
-  }
+  createField(fieldDto: FieldDto): void {}
 
   /**
    * Returns a `Field` by its `Field` ID.
@@ -20,9 +17,7 @@ export class FieldsServiceImpl implements FieldsService {
   /**
    * Disables a `Field`.
    */
-  disableField(fieldId: number): void {
-
-  }
+  disableField(fieldId: number): void {}
 
   /**
    * Edits a `Field`.
@@ -30,5 +25,4 @@ export class FieldsServiceImpl implements FieldsService {
   editField(fieldId: number): FieldDto {
     return null;
   }
-
 }

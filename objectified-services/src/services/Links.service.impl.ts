@@ -2,13 +2,10 @@ import { LinksService } from '@objectified/objectified-api/dist/generated/servic
 import { LinkDto, LinkDefDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class LinksServiceImpl implements LinksService {
-
   /**
    * Creates a link object that links two classes between each other.
    */
-  createLink(linkDto: LinkDto): void {
-
-  }
+  createLink(linkDto: LinkDto): void {}
 
   /**
    * Retrieves a `Link` by ID.
@@ -27,16 +24,12 @@ export class LinksServiceImpl implements LinksService {
   /**
    * Deletes a `Link`.
    */
-  disableLink(linkId: number): void {
-
-  }
+  disableLink(linkId: number): void {}
 
   /**
    * Creates a `LinkDef` object that links two classes between each other.
    */
-  createLinkDefinition(linkDefDto: LinkDefDto): void {
-
-  }
+  createLinkDefinition(linkDefDto: LinkDefDto): void {}
 
   /**
    * Retrieves a `LinkDef` by its `LinkDef` ID.
@@ -55,8 +48,5 @@ export class LinksServiceImpl implements LinksService {
   /**
    * Deletes a `LinkDef` and any `Link`s associated with it.
    */
-  deleteLinkDefinition(linkDefinitionId: number): void {
-
-  }
-
+  deleteLinkDefinition(linkDefinitionId: number): void {}
 }

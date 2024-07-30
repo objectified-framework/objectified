@@ -5,9 +5,7 @@ export class ClassesServiceImpl implements ClassesService {
   /**
    * Creates a new class.
    */
-  createClass(classDto: ClassDto): void {
-
-  }
+  createClass(classDto: ClassDto): void {}
 
   /**
    * Returns a class definition including the class and its properties.
@@ -19,9 +17,7 @@ export class ClassesServiceImpl implements ClassesService {
   /**
    * Disables a class.
    */
-  disableClass(classId: number): void {
-
-  }
+  disableClass(classId: number): void {}
 
   /**
    * Makes edits to a `Class`.
@@ -40,15 +36,10 @@ export class ClassesServiceImpl implements ClassesService {
   /**
    * Adds `Properties` by ID to a `Class` by the `Class` ID.
    */
-  addPropertyToClass(classId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addPropertyToClass(classId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Properties` by ID to a `Class` membership by the `Class` ID.
    */
-  deletePropertiesFromClass(classId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
-
+  deletePropertiesFromClass(classId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 }

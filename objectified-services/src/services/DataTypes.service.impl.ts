@@ -5,9 +5,7 @@ export class DataTypesServiceImpl implements DataTypesService {
   /**
    * Creates a new data type.
    */
-  createDataType(dataTypeDto: DataTypeDto): void {
-
-  }
+  createDataType(dataTypeDto: DataTypeDto): void {}
 
   /**
    * Returns the data type by its ID.
@@ -19,9 +17,7 @@ export class DataTypesServiceImpl implements DataTypesService {
   /**
    * Disables a data type.
    */
-  disableDataType(dataTypeId: number): void {
-
-  }
+  disableDataType(dataTypeId: number): void {}
 
   /**
    * Edits a `DataType`.
@@ -29,5 +25,4 @@ export class DataTypesServiceImpl implements DataTypesService {
   editDataType(dataTypeId: number): DataTypeDto {
     return null;
   }
-
 }

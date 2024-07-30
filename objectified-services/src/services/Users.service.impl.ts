@@ -2,7 +2,6 @@ import { UsersService } from '@objectified/objectified-api/dist/generated/servic
 import { UserDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class UsersServiceImpl implements UsersService {
-
   /**
    * Returns a list of all users registered in Objectified, regardless of
    * enabled status.  Only users with administrative privileges may list users.
@@ -14,9 +13,7 @@ export class UsersServiceImpl implements UsersService {
   /**
    * Creates a new `User` record in the Objectified platform.
    */
-  createUser(userDto: UserDto): void {
-
-  }
+  createUser(userDto: UserDto): void {}
 
   /**
    * Retrieves a user by its user ID.
@@ -31,15 +28,10 @@ export class UsersServiceImpl implements UsersService {
    * that do not belong to them. Use the `PUT` method to reactivate users
    * who have been deleted.
    */
-  editUser(userId: bigint, userDto: UserDto): void {
-
-  }
+  editUser(userId: bigint, userDto: UserDto): void {}
 
   /**
    * Disables a user.
    */
-  disableUser(userId: bigint): void {
-
-  }
-
+  disableUser(userId: bigint): void {}
 }

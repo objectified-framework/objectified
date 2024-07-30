@@ -2,13 +2,10 @@ import { PropertiesService } from '@objectified/objectified-api/dist/generated/s
 import { PropertyDto, IdArrayInputDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class PropertiesServiceImpl implements PropertiesService {
-
   /**
    * Creates a new property.
    */
-  createProperty(propertyDto: PropertyDto): void {
-
-  }
+  createProperty(propertyDto: PropertyDto): void {}
 
   /**
    * Returns a `Property` by its ID.
@@ -20,16 +17,12 @@ export class PropertiesServiceImpl implements PropertiesService {
   /**
    * Applies changes to a `Property`, only changing the values supplied in the request body.
    */
-  editProperty(propertyId: number, propertyDto: PropertyDto): void {
-
-  }
+  editProperty(propertyId: number, propertyDto: PropertyDto): void {}
 
   /**
    * Deletes a `Property` by ID
    */
-  deleteProperty(propertyId: number): void {
-
-  }
+  deleteProperty(propertyId: number): void {}
 
   /**
    * Returns `Properties` by its `Property` Object ID.
@@ -41,15 +34,10 @@ export class PropertiesServiceImpl implements PropertiesService {
   /**
    * Adds `Properties` to an object by its `Property` ID.
    */
-  addObjectToProperty(propertyId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addObjectToProperty(propertyId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Properties` from an object `Property` by the `Property` IDs.
    */
-  deletePropertiesFromObject(propertyId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
-
+  deletePropertiesFromObject(propertyId: number, idArrayInputDto: IdArrayInputDto): void {}
 }

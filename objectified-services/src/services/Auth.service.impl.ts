@@ -21,15 +21,10 @@ export class AuthServiceImpl implements AuthService {
   /**
    * Refreshes a login token internally so it does not time out.
    */
-  refreshLogin(): void {
-
-  }
+  refreshLogin(): void {}
 
   /**
    * Removes the login token and logs a user out of the system
    */
-  logout(): void {
-
-  }
-
+  logout(): void {}
 }

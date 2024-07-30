@@ -1,8 +1,8 @@
 import { DataTypeDto } from '@objectified/objectified-api/dist/generated/dto';
-import * as pgPromise from "pg-promise";
+import * as pgPromise from 'pg-promise';
 
 export class DataTypeDao {
-  constructor(private pg: pgPromise.IDatabase<any>) { }
+  constructor(private pg: pgPromise.IDatabase<any>) {}
 
   async getById(id: bigint): Promise<DataTypeDto> {
     return null;

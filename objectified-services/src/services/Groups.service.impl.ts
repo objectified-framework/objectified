@@ -2,7 +2,6 @@ import { GroupsService } from '@objectified/objectified-api/dist/generated/servi
 import { GroupDto, IdArrayInputDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class GroupsServiceImpl implements GroupsService {
-
   /**
    * Returns a list of all `Group`s registered.
    */
@@ -13,9 +12,7 @@ export class GroupsServiceImpl implements GroupsService {
   /**
    * Creates a new `Group`.
    */
-  createGroup(groupDto: GroupDto): void {
-
-  }
+  createGroup(groupDto: GroupDto): void {}
 
   /**
    * Returns a `Group` object by its `Group` ID.
@@ -27,29 +24,20 @@ export class GroupsServiceImpl implements GroupsService {
   /**
    * Edits a `Group` object by its `Group` ID.
    */
-  editGroupById(groupId: bigint, groupDto: GroupDto): void {
-
-  }
+  editGroupById(groupId: bigint, groupDto: GroupDto): void {}
 
   /**
    * Deletes a `Group` and its members by `Group` ID.
    */
-  deleteGroupById(groupId: bigint): void {
-
-  }
+  deleteGroupById(groupId: bigint): void {}
 
   /**
    * Adds `User`s by ID to a `Group` membership by the `Group` ID.
    */
-  addUsersToGroup(groupId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addUsersToGroup(groupId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `User`s by ID from a `Group` membership by the `Group` ID.
    */
-  deleteUsersFromGroup(groupId: bigint[], idArrayInputDto: IdArrayInputDto): void {
-
-  }
-
+  deleteUsersFromGroup(groupId: bigint[], idArrayInputDto: IdArrayInputDto): void {}
 }

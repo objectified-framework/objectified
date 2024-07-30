@@ -2,13 +2,10 @@ import { InstancesService } from '@objectified/objectified-api/dist/generated/se
 import { InstanceDto, InstanceDataDto } from '@objectified/objectified-api/dist/generated/dto';
 
 export class InstancesServiceImpl implements InstancesService {
-
   /**
    * Creates a new Instance.
    */
-  createInstance(instanceDto: InstanceDto): void {
-
-  }
+  createInstance(instanceDto: InstanceDto): void {}
 
   /**
    * Returns the instance record based on its instance ID.
@@ -20,9 +17,7 @@ export class InstancesServiceImpl implements InstancesService {
   /**
    * Deletes an `Instance`.
    */
-  deleteInstance(instanceId: number): void {
-
-  }
+  deleteInstance(instanceId: number): void {}
 
   /**
    * Edits an `Instance`.
@@ -41,9 +36,7 @@ export class InstancesServiceImpl implements InstancesService {
    * Records that are added to an `Instance` are validated using JSON Schema Validation.  Any validations
    * that fail will return an bad request error (400), and the record will not be created.
    */
-  createInstanceData(instanceId: number, instanceDataDto: InstanceDataDto): void {
-
-  }
+  createInstanceData(instanceId: number, instanceDataDto: InstanceDataDto): void {}
 
   /**
    * Returns the latest `InstanceData` record for the `Instance`.
@@ -55,8 +48,5 @@ export class InstancesServiceImpl implements InstancesService {
   /**
    * Deletes an `InstanceData` record.
    */
-  deleteInstanceData(instanceId: number): void {
-
-  }
-
+  deleteInstanceData(instanceId: number): void {}
 }

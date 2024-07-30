@@ -1,8 +1,14 @@
 import { NamespacesService } from '@objectified/objectified-api/dist/generated/services';
-import { NamespaceDto, IdArrayInputDto, ClassDto, DataTypeDto, FieldDto, PropertyDto } from '@objectified/objectified-api/dist/generated/dto';
+import {
+  NamespaceDto,
+  IdArrayInputDto,
+  ClassDto,
+  DataTypeDto,
+  FieldDto,
+  PropertyDto,
+} from '@objectified/objectified-api/dist/generated/dto';
 
 export class NamespacesServiceImpl implements NamespacesService {
-
   /**
    * Returns a list of all namespaces registered in Objectified, regardless of enabled flag status.
    */
@@ -13,9 +19,7 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Creates a new namespace.
    */
-  createNamespace(namespaceDto: NamespaceDto): void {
-
-  }
+  createNamespace(namespaceDto: NamespaceDto): void {}
 
   /**
    * Gets a namespace by its serial ID.
@@ -27,44 +31,32 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Applies changes to a `Namespace`, only changing the values supplied in the request body.
    */
-  editNamespace(namespaceId: number, namespaceDto: NamespaceDto): void {
-
-  }
+  editNamespace(namespaceId: number, namespaceDto: NamespaceDto): void {}
 
   /**
    * Disables a namespace.
    */
-  disableNamespace(namespaceId: number): void {
-
-  }
+  disableNamespace(namespaceId: number): void {}
 
   /**
    * Adds `Group`s by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  addGroupsToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addGroupsToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Group`s by ID from a `Namespace` membership by the `Namespace` ID.
    */
-  removeGroupsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  removeGroupsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Adds `User`s by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  addUsersToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addUsersToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `User`s by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  deleteUsersFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  deleteUsersFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Returns a list of all `Class`es registered in the given `Namespace` ID,
@@ -77,16 +69,12 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Creates a new class.
    */
-  addClassesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addClassesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Class`es by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  deleteClassesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  deleteClassesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Returns a list of all `DataType`s registered in the given `Namespace` ID, regardless of enabled flag status.
@@ -98,16 +86,12 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Assigns `DataType` definitions to a `Namespace`.
    */
-  addDataTypesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addDataTypesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `DataType`s by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  deleteDataTypesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  deleteDataTypesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Returns a list of all `Field`s registered in the given `Namespace` ID,
@@ -120,16 +104,12 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Assigns `Field` definitions to a `Namespace`.
    */
-  addFieldsToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addFieldsToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Field`s by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  deleteFieldsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  deleteFieldsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Returns a list of all `Properties` registered in the given `Namespace` ID, regardless of status.
@@ -141,15 +121,10 @@ export class NamespacesServiceImpl implements NamespacesService {
   /**
    * Assigns `Property` definitions to a `Namespace`.
    */
-  addPropertiesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {
-
-  }
+  addPropertiesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): void {}
 
   /**
    * Removes `Properties` by ID to a `Namespace` membership by the `Namespace` ID.
    */
-  deletePropertiesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {
-
-  }
-
+  deletePropertiesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): void {}
 }
