@@ -58,7 +58,7 @@ function generateController(directory: string, name: string, description: string
   controllerBody += HEADER;
 
   controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param } from \'@nestjs/common\';\n';
-  controllerBody += 'import { ApiResponse, ApiOperation } from \'@nestjs/swagger\';\n';
+  controllerBody += 'import { ApiResponse, ApiOperation, ApiBody } from \'@nestjs/swagger\';\n';
   controllerBody += `import { ${name}Service } from '../services';\n`;
 
   for (const pathEntry of paths) {
@@ -72,14 +72,17 @@ function generateController(directory: string, name: string, description: string
 
     controllerClassBody += `  /**\n   * ${description.trim().replaceAll('\n', '\n   * ')}\n   */\n`;
     controllerClassBody += `  @${initCap(method)}('${convertedPath}')\n`;
+    controllerClassBody += '  @ApiOperation({\n';
 
-    if (summary && description) {
-      controllerClassBody += `  @ApiOperation({ summary: '${summary}', description: '${description.trim().replaceAll('\n', ' ')}' })\n`;
-    } else if (summary) {
-      controllerClassBody += `  @ApiOperation({ summary: '${summary}' })\n`;
-    } else if (description) {
-      controllerClassBody += `  @ApiOperation({ description: '${description.trim().replaceAll('\n', ' ')}' })\n`;
+    if (summary) {
+      controllerClassBody += `    summary: '${summary}',\n`;
     }
+
+    if (description) {
+      controllerClassBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
+    }
+
+    controllerClassBody += '  })\n';
 
     for (const [ responseCode, responseData ] of Object.entries(responses)) {
       const responseDescription = responseData['description'] ?? '';
@@ -139,7 +142,14 @@ function generateController(directory: string, name: string, description: string
     }
 
     if (requestBodyContent) {
+      const description = requestBody.description;
       const schema = requestBodyContent.schema;
+
+      controllerClassBody += '  @ApiBody({\n';
+
+      if (description) {
+        controllerClassBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
+      }
 
       if (schema.$ref) {
         const reference = schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1);
@@ -147,7 +157,11 @@ function generateController(directory: string, name: string, description: string
         inputs.push(`@Body() ${toCamelCase(reference)}Dto: ${reference}Dto`);
         inputVariables.push(`${toCamelCase(reference)}Dto`);
         controllerDtoImports[`${reference}Dto`] = 1;
+
+        controllerClassBody += `    type: ${reference}Dto,\n`;
       }
+
+      controllerClassBody += '  })\n';
     }
 
     controllerClassBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
@@ -163,7 +177,8 @@ function generateController(directory: string, name: string, description: string
   controllerBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
   controllerBody += `@Controller('${toCamelCase(name)}')\n`;
   controllerBody += `export class ${name}Controller {\n`;
-  controllerBody += `  constructor(private service: ${name}Service) { }\n\n`;
+  controllerBody += `  private `
+  controllerBody += `  constructor(private readonly service: ${name}Service) { }\n\n`;
   controllerBody += controllerClassBody;
   controllerBody += '}\n';
 
