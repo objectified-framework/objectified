@@ -145,7 +145,7 @@ function generateService(directory: string, name: string, description: string, p
   serviceBody += serviceImports;
   serviceBody += '\n';
   serviceBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
-  serviceBody += `export interface ${name}Service {\n`;
+  serviceBody += `export interface ${name}Service {\n\n`;
   serviceBody += serviceClassBody;
   serviceBody += '}\n';
 

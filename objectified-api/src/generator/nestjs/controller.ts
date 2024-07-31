@@ -58,7 +58,7 @@ function generateController(directory: string, name: string, description: string
   controllerBody += HEADER;
 
   controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param } from \'@nestjs/common\';\n';
-  controllerBody += 'import { ApiResponse, ApiOperation, ApiBody } from \'@nestjs/swagger\';\n';
+  controllerBody += 'import { ApiResponse, ApiOperation, ApiBody, ApiTags } from \'@nestjs/swagger\';\n';
   controllerBody += `import { ${name}Service } from '../services';\n`;
 
   for (const pathEntry of paths) {
@@ -175,9 +175,9 @@ function generateController(directory: string, name: string, description: string
 
   controllerBody += '\n';
   controllerBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
+  controllerBody += `@ApiTags('${toCamelCase(name)}')\n`;
   controllerBody += `@Controller('${toCamelCase(name)}')\n`;
-  controllerBody += `export class ${name}Controller {\n`;
-  controllerBody += `  private `
+  controllerBody += `export class ${name}Controller {\n\n`;
   controllerBody += `  constructor(private readonly service: ${name}Service) { }\n\n`;
   controllerBody += controllerClassBody;
   controllerBody += '}\n';
