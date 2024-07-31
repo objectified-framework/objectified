@@ -118,3 +118,16 @@ export function toCamelCase(str: string): string {
 
   return s.slice(0, 1).toLowerCase() + s.slice(1);
 }
+
+/**
+ * Converts a string to kebab-case.
+ *
+ * @param str String to convert
+ * @returns `string` in kebab-case.
+ */
+export function toKebabCase(str: string): string {
+  return str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map(x => x.toLowerCase())
+    .join('-');
+}
