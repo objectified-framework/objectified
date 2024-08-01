@@ -69,6 +69,8 @@ function generateController(directory: string, name: string, description: string
     const inputs = [];
     const inputVariables = [];
     let returnType = null;
+    let functionComment = '';
+    let functionBody = '';
 
     // Trim converted path - first part of the URL is not required, as that is based on the URL of the
     // controller and ApiTags definition
@@ -82,25 +84,28 @@ function generateController(directory: string, name: string, description: string
       convertedPath = '';
     }
 
-    controllerClassBody += `  /**\n   * ${description.trim().replaceAll('\n', '\n   * ')}\n   */\n`;
+    functionComment += '  /**\n';
+    functionComment += `   * ${description.trim().replaceAll('\n', '\n   * ')}\n`;
+    functionComment += '   *\n';
 
     if (convertedPath.length > 0) {
-      controllerClassBody += `  @${initCap(method)}('${convertedPath}')\n`;
+      functionBody += `  @${initCap(method)}('${convertedPath}')\n`;
     } else {
-      controllerClassBody += `  @${initCap(method)}()\n`;
+      functionBody += `  @${initCap(method)}()\n`;
     }
 
-    controllerClassBody += '  @ApiOperation({\n';
+    functionBody += '  @ApiOperation({\n';
 
     if (summary) {
-      controllerClassBody += `    summary: '${summary}',\n`;
+      functionBody += `    summary: '${summary}',\n`;
     }
 
     if (description) {
-      controllerClassBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
+      functionBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
     }
 
-    controllerClassBody += '  })\n';
+    functionBody += '  })\n';
+    functionComment += '   * Response codes:\n';
 
     for (const [ responseCode, responseData ] of Object.entries(responses)) {
       const responseDescription = responseData['description'] ?? '';
@@ -134,7 +139,14 @@ function generateController(directory: string, name: string, description: string
         }
       }
 
-      controllerClassBody += `  @ApiResponse({ status: ${responseCode}, description: '${responseDescription.trim().replaceAll('\n', ' ')}' })\n`;
+      functionBody += `  @ApiResponse({ status: ${responseCode}, description: '${responseDescription.trim().replaceAll('\n', ' ')}' })\n`;
+      functionComment += `   * - Response code '${responseCode}': '${responseDescription.trim().replaceAll('\n', ' ')}'\n`;
+    }
+
+    functionComment += '   *\n';
+
+    if (returnType) {
+      functionComment += `   * @returns \`${returnType}\`\n`;
     }
 
     if (parameters) {
@@ -153,6 +165,8 @@ function generateController(directory: string, name: string, description: string
             }
           }
 
+          functionComment += `   * @param ${name} ${description.trim().replaceAll('\n', ' ')}\n`;
+
           inputs.push(`@Param('${name}') ${name}: ${parameterSchema}`);
           inputVariables.push(name);
         }
@@ -163,10 +177,10 @@ function generateController(directory: string, name: string, description: string
       const description = requestBody.description;
       const schema = requestBodyContent.schema;
 
-      controllerClassBody += '  @ApiBody({\n';
+      functionBody += '  @ApiBody({\n';
 
       if (description) {
-        controllerClassBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
+        functionBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
       }
 
       if (schema.$ref) {
@@ -176,15 +190,20 @@ function generateController(directory: string, name: string, description: string
         inputVariables.push(`${toCamelCase(reference)}Dto`);
         controllerDtoImports[`${reference}Dto`] = 1;
 
-        controllerClassBody += `    type: ${reference}Dto,\n`;
+        functionBody += `    type: ${reference}Dto,\n`;
+        functionComment += `   * @param ${toCamelCase(reference)}Dto ${description.trim().replaceAll('\n', ' ')}\n`;
       }
 
-      controllerClassBody += '  })\n';
+      functionBody += '  })\n';
     }
 
-    controllerClassBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
-    controllerClassBody += `    return this.service.${operationId}(${inputVariables.join(', ')});\n`;
-    controllerClassBody += '  }\n\n';
+    functionBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
+    functionBody += `    return this.service.${operationId}(${inputVariables.join(', ')});\n`;
+    functionBody += '  }\n\n';
+
+    functionComment += '   */\n';
+
+    controllerClassBody += functionComment + functionBody;
   }
 
   if (Object.keys(controllerDtoImports).length > 0) {

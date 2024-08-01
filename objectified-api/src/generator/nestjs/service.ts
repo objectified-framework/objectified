@@ -66,7 +66,9 @@ function generateService(directory: string, name: string, description: string, p
     const inputVariables = [];
     let returnType = null;
 
-    serviceClassBody += `  /**\n   * ${description.trim().replaceAll('\n', '\n   * ')}\n   */\n`;
+    serviceClassBody += '  /**\n';
+    serviceClassBody += `   * ${description.trim().replaceAll('\n', '\n   * ')}\n`;
+    serviceClassBody += '   *\n';
 
     for (const [ responseCode, responseData ] of Object.entries(responses)) {
       const responseDescription = responseData['description'] ?? '';
@@ -117,6 +119,12 @@ function generateService(directory: string, name: string, description: string, p
             }
           }
 
+          if (description) {
+            serviceClassBody += `   * @param ${name} ${description}\n`;
+          } else {
+            serviceClassBody += `   * @param ${name} (undocumented input parameter)\n`;
+          }
+
           inputs.push(`@Param('${name}') ${name}: ${parameterSchema}`);
           inputVariables.push(`${name}: ${parameterSchema}`);
         }
@@ -132,9 +140,18 @@ function generateService(directory: string, name: string, description: string, p
         inputs.push(`@Body() ${toCamelCase(reference)}Dto: ${reference}Dto`);
         inputVariables.push(`${toCamelCase(reference)}Dto: ${reference}Dto`);
         serviceDtoImports[`${reference}Dto`] = 1;
+
+        if (requestBody.description) {
+          serviceClassBody += `   * @param ${toCamelCase(reference)}Dto ${requestBody.description}\n`;
+        }
       }
     }
 
+    if (returnType) {
+      serviceClassBody += `   * @returns ${returnType}\n`;
+    }
+
+    serviceClassBody += '   */\n';
     serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): ${returnType ?? 'void'};\n\n`;
   }
 
