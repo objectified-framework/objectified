@@ -22,10 +22,15 @@ servers:
 tags:
   - name: Auth
     description: |
-      Authentication services for login, logout, and refresh.  It does not require use of `JWT`, as that token will
-      be provided and generated after login success.  The token returned in the login request is a **JWT token**.
+      Authentication services for login, logout, and refresh.  It does not require use of
+      `JWT`, as that token will be provided and generated after login success.  The token
+      returned in the login request is a **JWT token**.
   - name: Users
-    description: Services for `User` accounts.
+    description: |
+      Services for `User` accounts.  Allows for creation of `User` accounts, as well as
+      deactivation, modifications, and retrieval of `User` records.  Only administrators
+      have access to these services, whereas normal users can change their own account
+      records.
   - name: Groups
     description: |
       Manages `Group` membership that groups users into common logical groups.
