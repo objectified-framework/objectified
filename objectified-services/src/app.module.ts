@@ -11,7 +11,7 @@ import {
   NamespacesController,
   PropertiesController,
   UsersController,
-} from '@objectified/objectified-api/dist/generated/controllers';
+} from '../../objectified-api/dist/generated/controllers';
 import { ClassesServiceImpl } from './services/Classes.service.impl';
 import { DataTypesServiceImpl } from './services/DataTypes.service.impl';
 import { AuthServiceImpl } from './services/Auth.service.impl';
