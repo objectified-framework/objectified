@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {PropertiesService} from "../generated/services";
 import {IdArrayInputDto, PropertyDto} from "../generated/dto";
 
 @Injectable()
 export class PropertiesServiceImpl implements PropertiesService {
+  private readonly logger = new Logger('PropertiesServiceImpl');
+
   /**
    * Creates a new property.
    */

@@ -6,7 +6,7 @@
  * annotations from the NestJS Swagger library.
  */
 
-const VERSION: string = '0.1.2';
+const VERSION: string = '0.1.3';
 const DTO_DIRECTORY: string = 'src/generated';
 
 (async () => {

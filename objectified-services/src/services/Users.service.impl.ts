@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {UsersService} from "../generated/services";
 import {UserDto} from "../generated/dto";
 
 @Injectable()
 export class UsersServiceImpl implements UsersService {
+  private readonly logger = new Logger('UsersServiceImpl');
+
   /**
    * Returns a list of all users registered in Objectified, regardless of
    * enabled status.  Only users with administrative privileges may list users.

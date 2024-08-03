@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {NamespacesService} from "../generated/services";
 import {ClassDto, DataTypeDto, FieldDto, IdArrayInputDto, NamespaceDto, PropertyDto} from "../generated/dto";
 
 @Injectable()
 export class NamespacesServiceImpl implements NamespacesService {
+  private readonly logger = new Logger('NamespacesServiceImpl');
+
   /**
    * Returns a list of all namespaces registered in Objectified, regardless of enabled flag status.
    */

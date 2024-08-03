@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {LinksService} from "../generated/services";
 import {LinkDefDto, LinkDto} from "../generated/dto";
 
 @Injectable()
 export class LinksServiceImpl implements LinksService {
+  private readonly logger = new Logger('LinksServiceImpl');
+
   /**
    * Creates a link object that links two classes between each other.
    */

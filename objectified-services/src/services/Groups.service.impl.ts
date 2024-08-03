@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {GroupsService} from "../generated/services";
 import {GroupDto, IdArrayInputDto} from "../generated/dto";
 
 @Injectable()
 export class GroupsServiceImpl implements GroupsService {
+  private readonly logger = new Logger('GroupsServiceImpl');
+
   /**
    * Returns a list of all `Group`s registered.
    */

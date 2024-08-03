@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import {AuthService} from "../generated/services";
+import {Injectable, Logger} from '@nestjs/common';
 import {LoginDto} from "../generated/dto";
+import {AuthService} from "../generated/services";
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {
+  private readonly logger = new Logger('AuthServiceImpl');
+
   /**
    * Logs a user into the system via their username and password combination.
    */

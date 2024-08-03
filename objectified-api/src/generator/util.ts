@@ -13,19 +13,19 @@ export function typeFormatter(key: string, value: string) {
       case 'integer':
       case 'float':
       case 'double':
-        return 'Number';
+        return 'number';
 
       case 'string':
-        return 'String';
+        return 'string';
 
       case 'boolean':
-        return 'Boolean';
+        return 'boolean';
 
       case 'object':
-        return 'Object';
+        return 'object';
 
       case 'array':
-        return 'Array';
+        return 'array';
 
       default:
         return value;

@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {DataTypesService} from "../generated/services";
 import {DataTypeDto} from "../generated/dto";
 
 @Injectable()
 export class DataTypesServiceImpl implements DataTypesService {
+  private readonly logger = new Logger('DataTypesServiceImpl');
+
   /**
    * Creates a new data type.
    */

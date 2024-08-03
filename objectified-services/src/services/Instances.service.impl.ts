@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {InstancesService} from "../generated/services";
 import {InstanceDataDto, InstanceDto} from "../generated/dto";
 
 @Injectable()
 export class InstancesServiceImpl implements InstancesService {
+  private readonly logger = new Logger('InstancesServiceImpl');
+
   /**
    * Creates a new Instance.
    */

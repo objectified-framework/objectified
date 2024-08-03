@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {FieldsService} from "../generated/services";
 import {FieldDto} from "../generated/dto";
 
 @Injectable()
 export class FieldsServiceImpl implements FieldsService {
+  private readonly logger = new Logger('FieldsServiceImpl');
+
   /**
    * Creates a new `Field`.
    */
