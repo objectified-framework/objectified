@@ -1,5 +1,5 @@
-import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
 import * as pgPromise from 'pg-promise';
+import {FieldDto} from "../generated/dto";
 
 export class FieldDao {
   constructor(private pg: pgPromise.IDatabase<any>) {}

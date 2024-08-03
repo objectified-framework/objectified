@@ -1,6 +1,6 @@
-import { FieldsService } from '@objectified/objectified-api/dist/generated/services';
-import { FieldDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {FieldsService} from "../generated/services";
+import {FieldDto} from "../generated/dto";
 
 @Injectable()
 export class FieldsServiceImpl implements FieldsService {

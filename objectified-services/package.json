@@ -23,6 +23,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.4.0",
     "@objectified/objectified-api": "workspace:^",
     "pg-promise": "^11.9.1",
     "reflect-metadata": "^0.2.0",

@@ -6587,6 +6587,7 @@ __metadata:
     "@nestjs/core": "npm:^10.0.0"
     "@nestjs/platform-express": "npm:^10.0.0"
     "@nestjs/schematics": "npm:^10.0.0"
+    "@nestjs/swagger": "npm:^7.4.0"
     "@nestjs/testing": "npm:^10.0.0"
     "@objectified/objectified-api": "workspace:^"
     "@types/express": "npm:^4.17.17"

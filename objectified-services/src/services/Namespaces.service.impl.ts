@@ -1,13 +1,6 @@
-import { NamespacesService } from '@objectified/objectified-api/dist/generated/services';
-import {
-  NamespaceDto,
-  IdArrayInputDto,
-  ClassDto,
-  DataTypeDto,
-  FieldDto,
-  PropertyDto,
-} from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {NamespacesService} from "../generated/services";
+import {ClassDto, DataTypeDto, FieldDto, IdArrayInputDto, NamespaceDto, PropertyDto} from "../generated/dto";
 
 @Injectable()
 export class NamespacesServiceImpl implements NamespacesService {

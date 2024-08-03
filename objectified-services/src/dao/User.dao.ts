@@ -1,5 +1,5 @@
-import { UserDto } from '@objectified/objectified-api/dist/generated/dto';
 import * as pgPromise from 'pg-promise';
+import {UserDto} from "../generated/dto";
 
 export class UserDao {
   constructor(private pg: pgPromise.IDatabase<any>) {}

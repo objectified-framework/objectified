@@ -1,6 +1,6 @@
-import { AuthService } from '@objectified/objectified-api/dist/generated/services';
-import { LoginDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {AuthService} from "../generated/services";
+import {LoginDto} from "../generated/dto";
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {

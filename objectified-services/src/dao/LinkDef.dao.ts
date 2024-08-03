@@ -1,5 +1,5 @@
-import { LinkDefDto } from '@objectified/objectified-api/dist/generated/dto';
 import * as pgPromise from 'pg-promise';
+import {LinkDefDto} from "../generated/dto";
 
 export class LinkDefDao {
   constructor(private pg: pgPromise.IDatabase<any>) {}

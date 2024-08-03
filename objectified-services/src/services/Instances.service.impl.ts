@@ -1,6 +1,6 @@
-import { InstancesService } from '@objectified/objectified-api/dist/generated/services';
-import { InstanceDto, InstanceDataDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {InstancesService} from "../generated/services";
+import {InstanceDataDto, InstanceDto} from "../generated/dto";
 
 @Injectable()
 export class InstancesServiceImpl implements InstancesService {

@@ -1,13 +1,5 @@
-import {
-  NamespaceDto,
-  UserDto,
-  GroupDto,
-  ClassDto,
-  DataTypeDto,
-  PropertyDto,
-  FieldDto,
-} from '@objectified/objectified-api/dist/generated/dto';
 import * as pgPromise from 'pg-promise';
+import {ClassDto, DataTypeDto, FieldDto, GroupDto, NamespaceDto, PropertyDto, UserDto} from "../generated/dto";
 
 export class NamespaceDao {
   constructor(private pg: pgPromise.IDatabase<any>) {}

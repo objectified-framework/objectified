@@ -1,6 +1,6 @@
-import { LinksService } from '@objectified/objectified-api/dist/generated/services';
-import { LinkDto, LinkDefDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {LinksService} from "../generated/services";
+import {LinkDefDto, LinkDto} from "../generated/dto";
 
 @Injectable()
 export class LinksServiceImpl implements LinksService {

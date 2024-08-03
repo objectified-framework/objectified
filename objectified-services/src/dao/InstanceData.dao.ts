@@ -1,5 +1,5 @@
-import { InstanceDataDto } from '@objectified/objectified-api/dist/generated/dto';
 import * as pgPromise from 'pg-promise';
+import {InstanceDataDto} from "../generated/dto";
 
 export class InstanceDataDao {
   constructor(private pg: pgPromise.IDatabase<any>) {}

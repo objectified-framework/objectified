@@ -1,6 +1,6 @@
-import { GroupsService } from '@objectified/objectified-api/dist/generated/services';
-import { GroupDto, IdArrayInputDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {GroupsService} from "../generated/services";
+import {GroupDto, IdArrayInputDto} from "../generated/dto";
 
 @Injectable()
 export class GroupsServiceImpl implements GroupsService {

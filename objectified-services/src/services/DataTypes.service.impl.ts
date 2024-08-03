@@ -1,6 +1,6 @@
-import { DataTypesService } from '@objectified/objectified-api/dist/generated/services';
-import { DataTypeDto } from '@objectified/objectified-api/dist/generated/dto';
 import { Injectable } from '@nestjs/common';
+import {DataTypesService} from "../generated/services";
+import {DataTypeDto} from "../generated/dto";
 
 @Injectable()
 export class DataTypesServiceImpl implements DataTypesService {
