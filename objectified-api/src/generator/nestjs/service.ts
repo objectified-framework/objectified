@@ -40,6 +40,14 @@ export function generateServices(directory: string, openApi: any) {
   let indexBody = HEADER;
   const indexFilename = `${serviceDirectory}/index.ts`;
 
+  indexBody += '\n';
+  indexBody += 'export type ServiceResponse<T> = {\n';
+  indexBody += '  returnValue: T,\n';
+  indexBody += '  returnContentType: string,\n';
+  indexBody += '  statusCode: number,\n';
+  indexBody += '  statusMessage?: any\n';
+  indexBody += '}\n\n';
+
   for(const tag of Object.keys(tags)) {
     indexBody += `export * from './${tag}.service';\n`;
   }
@@ -158,17 +166,14 @@ function generateService(directory: string, name: string, description: string, p
     }
 
     serviceClassBody += '   */\n';
-    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): {\n`;
-    serviceClassBody += `    returnValue: ${returnType ?? 'null'},\n`;
-    serviceClassBody += '    returnContentType: string,\n';
-    serviceClassBody += '    statusCode: number,\n';
-    serviceClassBody += '    statusMessage?: any\n';
-    serviceClassBody += '  };\n\n';
+    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): ServiceResponse<${returnType ?? 'null'}>;\n\n`;
   }
 
   if (Object.keys(serviceDtoImports).length > 0) {
     serviceImports += `import { ${Object.keys(serviceDtoImports).join(', ')} } from '../dto';\n`;
   }
+
+  serviceImports += 'import { ServiceResponse } from \'./index\';\n';
 
   serviceBody += serviceImports;
   serviceBody += '\n';
