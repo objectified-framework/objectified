@@ -152,7 +152,12 @@ function generateService(directory: string, name: string, description: string, p
     }
 
     serviceClassBody += '   */\n';
-    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): ${returnType ?? 'void'};\n\n`;
+    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): {\n`;
+    serviceClassBody += `    returnValue: ${returnType ?? 'null'},\n`;
+    serviceClassBody += '    returnContentType: string,\n';
+    serviceClassBody += '    statusCode: number,\n';
+    serviceClassBody += '    statusMessage?: any\n';
+    serviceClassBody += '  };\n\n';
   }
 
   if (Object.keys(serviceDtoImports).length > 0) {

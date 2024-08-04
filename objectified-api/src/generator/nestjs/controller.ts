@@ -57,9 +57,10 @@ function generateController(directory: string, name: string, description: string
 
   controllerBody += HEADER;
 
-  controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param } from \'@nestjs/common\';\n';
+  controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param, Res } from \'@nestjs/common\';\n';
   controllerBody += 'import { ApiResponse, ApiOperation, ApiBody, ApiTags } from \'@nestjs/swagger\';\n';
   controllerBody += `import { ${name}ServiceImpl } from '../../services';\n`;
+  controllerBody += 'import { Response } from \'express\';\n';
 
   for (const pathEntry of paths) {
     const { path, method } = pathEntry;
@@ -145,10 +146,6 @@ function generateController(directory: string, name: string, description: string
 
     functionComment += '   *\n';
 
-    if (returnType) {
-      functionComment += `   * @returns \`${returnType}\`\n`;
-    }
-
     if (parameters) {
       for (const parameter of parameters) {
         const { name, description, schema } = parameter;
@@ -197,8 +194,20 @@ function generateController(directory: string, name: string, description: string
       functionBody += '  })\n';
     }
 
-    functionBody += `  public async ${operationId}(${inputs.join(', ')}): Promise<${returnType ?? 'void'}> {\n`;
-    functionBody += `    return this.service.${operationId}(${inputVariables.join(', ')});\n`;
+    functionComment += '   * @param response The response object\n';
+
+    functionBody += `  public async ${operationId}(@Res() response: Response, ${inputs.join(', ')}): Promise<void> {\n`;
+    functionBody += `    const result = await this.service.${operationId}(${inputVariables.join(', ')});\n\n`;
+    functionBody += '    response.status(result.statusCode).contentType(result.returnContentType);\n\n';
+    functionBody += '    if (result.statusMessage) {\n';
+    functionBody += '      response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.statusMessage) : result.statusMessage));\n';
+    functionBody += '    } else {\n';
+    functionBody += '      if (result.returnValue) {\n';
+    functionBody += '        response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.returnValue) : result.returnValue));\n';
+    functionBody += '      } else {\n';
+    functionBody += '        response.send();\n';
+    functionBody += '      }\n';
+    functionBody += '    }\n';
     functionBody += '  }\n\n';
 
     functionComment += '   */\n';

@@ -1,34 +1,64 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {LoginDto} from "../generated/dto";
 import {AuthService} from "../generated/services";
+import {LoginDto} from "../generated/dto";
 
-@Injectable()
 export class AuthServiceImpl implements AuthService {
-  private readonly logger = new Logger('AuthServiceImpl');
 
   /**
    * Logs a user into the system via their username and password combination.
+   *
+   * @param loginDto The user credentials with which to login.
+   * @returns string
    */
-  login(loginDto: LoginDto): string {
-    return '';
+  login(loginDto: LoginDto): {
+    returnValue: string,
+    returnContentType: string,
+    statusCode: number,
+    statusMessage: any | null
+  } {
+    return {};
   }
 
   /**
    * Allows a user to change their login credentials.  Only the password can be changed.
    * If the username does not match, the request will be ignored, and a `400 Bad Request`
    * will be returned.
+   *
+   * @param loginDto The user credentials with which to change.
+   * @returns string
    */
-  editLogin(loginDto: LoginDto): string {
-    return '';
+  editLogin(loginDto: LoginDto): {
+    returnValue: string,
+    returnContentType: string,
+    statusCode: number,
+    statusMessage: any | null
+  } {
+    return {};
   }
 
   /**
    * Refreshes a login token internally so it does not time out.
+   *
    */
-  refreshLogin(): void {}
+  refreshLogin(): {
+    returnValue: null,
+    returnContentType: string,
+    statusCode: number,
+    statusMessage: any | null
+  } {
+    return {};
+  }
 
   /**
    * Removes the login token and logs a user out of the system
+   *
    */
-  logout(): void {}
+  logout(): {
+    returnValue: null,
+    returnContentType: string,
+    statusCode: number,
+    statusMessage: any | null
+  } {
+    return {};
+  }
+
 }
