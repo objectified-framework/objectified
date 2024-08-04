@@ -103,6 +103,16 @@ function generateService(directory: string, name: string, description: string, p
       }
     }
 
+    for (const [ responseCode, responseData ] of Object.entries(responses)) {
+      const responseDescription = responseData['description'] ?? '';
+
+      serviceClassBody += `   * - Response code '${responseCode}': '${responseDescription.trim().replaceAll('\n', ' ')}'\n`;
+    }
+
+    if (parameters || requestBodyContent) {
+      serviceClassBody += '   *\n';
+    }
+
     if (parameters) {
       for (const parameter of parameters) {
         const { name, description, schema } = parameter;
@@ -145,10 +155,6 @@ function generateService(directory: string, name: string, description: string, p
           serviceClassBody += `   * @param ${toCamelCase(reference)}Dto ${requestBody.description}\n`;
         }
       }
-    }
-
-    if (returnType) {
-      serviceClassBody += `   * @returns ${returnType}\n`;
     }
 
     serviceClassBody += '   */\n';
