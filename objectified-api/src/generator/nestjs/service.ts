@@ -177,7 +177,7 @@ function generateService(directory: string, name: string, description: string, p
     }
 
     serviceClassBody += '   */\n';
-    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): ServiceResponse<${returnType ?? 'null'}>;\n\n`;
+    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): Promise<ServiceResponse<${returnType ?? 'null'}>>;\n\n`;
   }
 
   if (Object.keys(serviceDtoImports).length > 0) {

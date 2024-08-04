@@ -15,7 +15,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkDto The link object to create.
    */
-  createLink(linkDto: LinkDto): ServiceResponse<null> {
+  async createLink(linkDto: LinkDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -32,7 +32,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkId The ID of the `Link` to retrieve.
    */
-  getLinkById(linkId: number): ServiceResponse<LinkDto> {
+  async getLinkById(linkId: number): Promise<ServiceResponse<LinkDto>> {
     return {
       returnValue: <LinkDto>JSONSchemaFaker.generate(LinkDto.schema),
       returnContentType: 'application/json',
@@ -50,7 +50,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkId The ID of the `Link` to retrieve.
    */
-  editLink(linkId: number): ServiceResponse<LinkDto> {
+  async editLink(linkId: number): Promise<ServiceResponse<LinkDto>> {
     return {
       returnValue: <LinkDto>JSONSchemaFaker.generate(LinkDto.schema),
       returnContentType: 'application/json',
@@ -67,7 +67,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkId The ID of the `Link` to disable.
    */
-  disableLink(linkId: number): ServiceResponse<null> {
+  async disableLink(linkId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -84,7 +84,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkDefDto The `LinkDef` object to create.
    */
-  createLinkDefinition(linkDefDto: LinkDefDto): ServiceResponse<null> {
+  async createLinkDefinition(linkDefDto: LinkDefDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -101,7 +101,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkDefinitionId The ID of the `LinkDef` to retrieve.
    */
-  getLinkDefinitionById(linkDefinitionId: number): ServiceResponse<LinkDefDto> {
+  async getLinkDefinitionById(linkDefinitionId: number): Promise<ServiceResponse<LinkDefDto>> {
     return {
       returnValue: <LinkDefDto>JSONSchemaFaker.generate(LinkDefDto.schema),
       returnContentType: 'application/json',
@@ -119,7 +119,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkDefinitionId The ID of the `LinkDef` to retrieve.
    */
-  editLinkDefinition(linkDefinitionId: number): ServiceResponse<LinkDefDto> {
+  async editLinkDefinition(linkDefinitionId: number): Promise<ServiceResponse<LinkDefDto>> {
     return {
       returnValue: <LinkDefDto>JSONSchemaFaker.generate(LinkDefDto.schema),
       returnContentType: 'application/json',
@@ -137,7 +137,7 @@ export class LinksServiceImpl implements LinksService {
    *
    * @param linkDefinitionId The ID of the `LinkDef` to delete.
    */
-  deleteLinkDefinition(linkDefinitionId: number): ServiceResponse<null> {
+  async deleteLinkDefinition(linkDefinitionId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

@@ -14,7 +14,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceDto The `Instance` to create.
    */
-  createInstance(instanceDto: InstanceDto): ServiceResponse<null> {
+  async createInstance(instanceDto: InstanceDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -31,7 +31,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the instance.
    */
-  getInstanceById(instanceId: number): ServiceResponse<InstanceDataDto> {
+  async getInstanceById(instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
     return {
       returnValue: <InstanceDataDto>JSONSchemaFaker.generate(InstanceDataDto.schema),
       returnContentType: 'application/json',
@@ -48,7 +48,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  deleteInstance(instanceId: number): ServiceResponse<null> {
+  async deleteInstance(instanceId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -66,7 +66,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  editInstance(instanceId: number): ServiceResponse<InstanceDto> {
+  async editInstance(instanceId: number): Promise<ServiceResponse<InstanceDto>> {
     return {
       returnValue: <InstanceDto>JSONSchemaFaker.generate(InstanceDto.schema),
       returnContentType: 'application/json',
@@ -92,7 +92,7 @@ export class InstancesServiceImpl implements InstancesService {
    * @param instanceId The ID of the `Instance`.
    * @param instanceDataDto The instance data object to create.
    */
-  createInstanceData(instanceId: number, instanceDataDto: InstanceDataDto): ServiceResponse<null> {
+  async createInstanceData(instanceId: number, instanceDataDto: InstanceDataDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -109,7 +109,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  getInstanceData(instanceId: number): ServiceResponse<InstanceDataDto> {
+  async getInstanceData(instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
     return {
       returnValue: <InstanceDataDto>JSONSchemaFaker.generate(InstanceDataDto.schema),
       returnContentType: 'application/json',
@@ -126,7 +126,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  deleteInstanceData(instanceId: number): ServiceResponse<null> {
+  async deleteInstanceData(instanceId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

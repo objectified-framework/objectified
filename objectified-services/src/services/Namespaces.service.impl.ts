@@ -11,7 +11,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * - Response code '200': 'An array of namespaces registered in Objectified.'
    * - Response code '401': 'Unauthorized'
    */
-  listNamespaces(): ServiceResponse<NamespaceDto[]> {
+  async listNamespaces(): Promise<ServiceResponse<NamespaceDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -28,7 +28,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceDto The namespace object to create.
    */
-  createNamespace(namespaceDto: NamespaceDto): ServiceResponse<null> {
+  async createNamespace(namespaceDto: NamespaceDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -45,7 +45,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the namespace to retrieve.
    */
-  getNamespaceById(namespaceId: number): ServiceResponse<NamespaceDto> {
+  async getNamespaceById(namespaceId: number): Promise<ServiceResponse<NamespaceDto>> {
     return {
       returnValue: <NamespaceDto>JSONSchemaFaker.generate(NamespaceDto.schema),
       returnContentType: 'application/json',
@@ -64,7 +64,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the namespace to retrieve.
    * @param namespaceDto The namespace changes to apply.
    */
-  editNamespace(namespaceId: number, namespaceDto: NamespaceDto): ServiceResponse<null> {
+  async editNamespace(namespaceId: number, namespaceDto: NamespaceDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -81,7 +81,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the namespace to disable.
    */
-  disableNamespace(namespaceId: number): ServiceResponse<null> {
+  async disableNamespace(namespaceId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -100,7 +100,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `Group` IDs.
    */
-  addGroupsToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addGroupsToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -119,7 +119,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `Group` IDs.
    */
-  removeGroupsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async removeGroupsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -138,7 +138,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `User` IDs.
    */
-  addUsersToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addUsersToNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -157,7 +157,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `User` IDs.
    */
-  deleteUsersFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deleteUsersFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -176,7 +176,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the `Namespace`.
    */
-  listClassesByNamespace(namespaceId: number): ServiceResponse<ClassDto[]> {
+  async listClassesByNamespace(namespaceId: number): Promise<ServiceResponse<ClassDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -195,7 +195,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The `Class`es by ID to add to the `Namespace`.
    */
-  addClassesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addClassesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -214,7 +214,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `Class` IDs.
    */
-  deleteClassesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deleteClassesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -231,7 +231,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the `Namespace`.
    */
-  listDataTypesForNamespace(namespaceId: number): ServiceResponse<DataTypeDto[]> {
+  async listDataTypesForNamespace(namespaceId: number): Promise<ServiceResponse<DataTypeDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -250,7 +250,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The `DataType`s by ID to add to the `Namespace`.
    */
-  addDataTypesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addDataTypesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -269,7 +269,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `DataType` IDs.
    */
-  deleteDataTypesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deleteDataTypesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -287,7 +287,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the namespace.
    */
-  listFields(namespaceId: number): ServiceResponse<FieldDto[]> {
+  async listFields(namespaceId: number): Promise<ServiceResponse<FieldDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -306,7 +306,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The `Field`s by ID to add to the `Namespace`.
    */
-  addFieldsToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addFieldsToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -324,7 +324,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `Field` IDs.
    */
-  deleteFieldsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deleteFieldsFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -341,7 +341,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    *
    * @param namespaceId The ID of the `Namespace`.
    */
-  listPropertiesByNamespace(namespaceId: number): ServiceResponse<PropertyDto[]> {
+  async listPropertiesByNamespace(namespaceId: number): Promise<ServiceResponse<PropertyDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -360,7 +360,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The `Properties` by ID to add to the `Namespace`.
    */
-  addPropertiesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addPropertiesToNamespace(namespaceId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -379,7 +379,7 @@ export class NamespacesServiceImpl implements NamespacesService {
    * @param namespaceId The ID of the `Namespace`.
    * @param idArrayInputDto The parameters containing the `Property` IDs.
    */
-  deletePropertiesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deletePropertiesFromNamespace(namespaceId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

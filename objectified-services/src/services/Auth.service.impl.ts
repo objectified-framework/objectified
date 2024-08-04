@@ -13,7 +13,7 @@ export class AuthServiceImpl implements AuthService {
    *
    * @param loginDto The user credentials with which to login.
    */
-  login(loginDto: LoginDto): ServiceResponse<string> {
+  async login(loginDto: LoginDto): Promise<ServiceResponse<string>> {
     return {
       returnValue: 'token',
       returnContentType: 'application/json',
@@ -32,7 +32,7 @@ export class AuthServiceImpl implements AuthService {
    *
    * @param loginDto The user credentials with which to change.
    */
-  editLogin(loginDto: LoginDto): ServiceResponse<string> {
+  async editLogin(loginDto: LoginDto): Promise<ServiceResponse<string>> {
     return {
       returnValue: 'OK',
       returnContentType: 'application/json',
@@ -46,7 +46,7 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '204': 'No content, refresh succeeded'
    * - Response code '401': 'Unauthorized'
    */
-  refreshLogin(): ServiceResponse<null> {
+  async refreshLogin(): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -60,7 +60,7 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '204': 'No content, logout succeeded'
    * - Response code '400': 'Bad request'
    */
-  logout(): ServiceResponse<null> {
+  async logout(): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

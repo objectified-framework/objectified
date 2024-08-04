@@ -14,7 +14,7 @@ export class DataTypesServiceImpl implements DataTypesService {
    *
    * @param dataTypeDto The data type object to create.
    */
-  createDataType(dataTypeDto: DataTypeDto): ServiceResponse<null> {
+  async createDataType(dataTypeDto: DataTypeDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -31,7 +31,7 @@ export class DataTypesServiceImpl implements DataTypesService {
    *
    * @param dataTypeId The ID of the `DataType`.
    */
-  getDataTypeById(dataTypeId: number): ServiceResponse<DataTypeDto> {
+  async getDataTypeById(dataTypeId: number): Promise<ServiceResponse<DataTypeDto>> {
     return {
       returnValue: <DataTypeDto>JSONSchemaFaker.generate(DataTypeDto.schema),
       returnContentType: 'application/json',
@@ -48,7 +48,7 @@ export class DataTypesServiceImpl implements DataTypesService {
    *
    * @param dataTypeId The ID of the data type to disable.
    */
-  disableDataType(dataTypeId: number): ServiceResponse<null> {
+  async disableDataType(dataTypeId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -66,7 +66,7 @@ export class DataTypesServiceImpl implements DataTypesService {
    *
    * @param dataTypeId The ID of the `DataType` to edit.
    */
-  editDataType(dataTypeId: number): ServiceResponse<DataTypeDto> {
+  async editDataType(dataTypeId: number): Promise<ServiceResponse<DataTypeDto>> {
     return {
       returnValue: <DataTypeDto>JSONSchemaFaker.generate(DataTypeDto.schema),
       returnContentType: 'application/json',

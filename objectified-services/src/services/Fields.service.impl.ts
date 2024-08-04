@@ -14,7 +14,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldDto The `Field` object to create.
    */
-  createField(fieldDto: FieldDto): ServiceResponse<null> {
+  async createField(fieldDto: FieldDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -32,7 +32,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field`.
    */
-  getFieldById(fieldId: number): ServiceResponse<FieldDto> {
+  async getFieldById(fieldId: number): Promise<ServiceResponse<FieldDto>> {
     return {
       returnValue: <FieldDto>JSONSchemaFaker.generate(FieldDto.schema),
       returnContentType: 'application/json',
@@ -49,7 +49,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field` to disable.
    */
-  disableField(fieldId: number): ServiceResponse<null> {
+  async disableField(fieldId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -67,7 +67,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field`.
    */
-  editField(fieldId: number): ServiceResponse<FieldDto> {
+  async editField(fieldId: number): Promise<ServiceResponse<FieldDto>> {
     return {
       returnValue: <FieldDto>JSONSchemaFaker.generate(FieldDto.schema),
       returnContentType: 'application/json',

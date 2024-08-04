@@ -12,7 +12,7 @@ export class UsersServiceImpl implements UsersService {
    * - Response code '200': 'An array of users registered in Objectified.'
    * - Response code '401': 'Unauthorized'
    */
-  listUsers(): ServiceResponse<UserDto[]> {
+  async listUsers(): Promise<ServiceResponse<UserDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -29,7 +29,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userDto The `User` object to create.
    */
-  createUser(userDto: UserDto): ServiceResponse<null> {
+  async createUser(userDto: UserDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -46,7 +46,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userId The ID of the user.
    */
-  getUserById(userId: bigint): ServiceResponse<UserDto> {
+  async getUserById(userId: bigint): Promise<ServiceResponse<UserDto>> {
     return {
       returnValue: <UserDto>JSONSchemaFaker.generate(UserDto.schema),
       returnContentType: 'application/json',
@@ -67,7 +67,7 @@ export class UsersServiceImpl implements UsersService {
    * @param userId The ID of the user.
    * @param userDto The user changes to apply.
    */
-  editUser(userId: bigint, userDto: UserDto): ServiceResponse<null> {
+  async editUser(userId: bigint, userDto: UserDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -84,7 +84,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userId The ID of the user.
    */
-  disableUser(userId: bigint): ServiceResponse<null> {
+  async disableUser(userId: bigint): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

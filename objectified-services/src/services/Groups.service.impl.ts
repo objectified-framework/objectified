@@ -11,7 +11,7 @@ export class GroupsServiceImpl implements GroupsService {
    * - Response code '200': 'An array of `Group`s.'
    * - Response code '401': 'Unauthorized'
    */
-  listGroups(): ServiceResponse<GroupDto[]> {
+  async listGroups(): Promise<ServiceResponse<GroupDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -28,7 +28,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupDto The `Group` object to create.
    */
-  createGroup(groupDto: GroupDto): ServiceResponse<null> {
+  async createGroup(groupDto: GroupDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -45,7 +45,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupId The ID of the `Group`.
    */
-  getGroupById(groupId: bigint): ServiceResponse<GroupDto> {
+  async getGroupById(groupId: bigint): Promise<ServiceResponse<GroupDto>> {
     return {
       returnValue: <GroupDto>JSONSchemaFaker.generate(GroupDto.schema),
       returnContentType: 'application/json',
@@ -63,7 +63,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The ID of the `Group`.
    * @param groupDto The `Group` object to create.
    */
-  editGroupById(groupId: bigint, groupDto: GroupDto): ServiceResponse<null> {
+  async editGroupById(groupId: bigint, groupDto: GroupDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -80,7 +80,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupId The ID of the `Group`.
    */
-  deleteGroupById(groupId: bigint): ServiceResponse<null> {
+  async deleteGroupById(groupId: bigint): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -99,7 +99,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The ID of the `Group`s.
    * @param idArrayInputDto The parameters containing the `User` and `Group` IDs.
    */
-  addUsersToGroup(groupId: bigint, idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async addUsersToGroup(groupId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -117,7 +117,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The IDs of the `Group`s.
    * @param idArrayInputDto The parameters containing the `User` and `Group` IDs.
    */
-  deleteUsersFromGroup(groupId: bigint[], idArrayInputDto: IdArrayInputDto): ServiceResponse<null> {
+  async deleteUsersFromGroup(groupId: bigint[], idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
