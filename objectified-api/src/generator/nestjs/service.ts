@@ -40,7 +40,18 @@ export function generateServices(directory: string, openApi: any) {
   let indexBody = HEADER;
   const indexFilename = `${serviceDirectory}/index.ts`;
 
-  indexBody += '\n';
+  indexBody += '/**\n';
+  indexBody += ' * This type is used to describe the response of a service call.\n';
+  indexBody += ' *\n';
+  indexBody += ' * The return steps are as follows:\n';
+  indexBody += ' * - If a status message is present, it will be returned, regardless of the status code.\n';
+  indexBody += ' * - If a return value is present, it will be returned, regardless of the status code, or no content will be returned if not set.\n';
+  indexBody += ' *\n';
+  indexBody += ' * @param T This is the type of object that is returned when the service call is successful.\n';
+  indexBody += ' * @param returnContentType This is the contentType of the return value, or status message - if present.\n';
+  indexBody += ' * @param statusCode The status code of the response to return.\n';
+  indexBody += ' * @param statusMessage If set, this will be returned in JSON.stringify format, and it will be treated as a return value on a failure.\n';
+  indexBody += ' */\n';
   indexBody += 'export type ServiceResponse<T> = {\n';
   indexBody += '  returnValue: T,\n';
   indexBody += '  returnContentType: string,\n';
