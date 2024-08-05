@@ -9,7 +9,7 @@ export class DaoUtils {
 
   private static readonly pgp = pgPromise({});
   private static readonly db = this.pgp(
-    process.env.DATABASE_URL ?? 'postgres://localhost:5432/objectified'
+    process.env.DATABASE_URL ?? 'postgres://localhost:5432/postgres'
   );
 
   constructor() { }
@@ -25,7 +25,7 @@ export class DaoUtils {
       return data;
     }
 
-    for (const [ key, obj ] of Object.entries(data)) {
+    for (const [key, obj] of <[string, any]>Object.entries(data)) {
       const newKey = toCamelCase(key);
 
       returnObject[newKey] = obj;

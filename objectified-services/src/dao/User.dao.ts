@@ -1,10 +1,18 @@
 import * as pgPromise from 'pg-promise';
-import {UserDto} from "../generated/dto";
+import {ClassDto, UserDto} from "../generated/dto";
+import {DaoUtils} from "./dao-utils";
 
 export class UserDao {
-  constructor(private pg: pgPromise.IDatabase<any>) {}
+
+  private readonly section = 'obj.user';
+
+  constructor(private db: pgPromise.IDatabase<any>) {}
 
   async getById(id: bigint): Promise<UserDto> {
+    return null;
+  }
+
+  async getByEmail(email: string): Promise<UserDto> {
     return null;
   }
 
@@ -17,7 +25,10 @@ export class UserDao {
   }
 
   async create(obj: UserDto): Promise<UserDto> {
-    return null;
+    const createStatement = `INSERT INTO ${this.section} (username, password, email_address, verified, status) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+
+    return this.db.oneOrNone<UserDto>(createStatement, [obj.username, obj.password, obj.emailAddress, false, 'enabled'])
+      .then((x) => DaoUtils.normalize<UserDto>(x));
   }
 
   async delete(id: bigint): Promise<UserDto> {

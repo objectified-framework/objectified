@@ -1,9 +1,13 @@
 import {ServiceResponse, UsersService} from "../generated/services";
 import {UserDto} from "../generated/dto";
-import {HttpStatus} from "@nestjs/common";
+import {HttpStatus, Logger} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
+import {UserDao} from "../dao";
+import {DaoUtils} from "../dao/dao-utils";
 
 export class UsersServiceImpl implements UsersService {
+
+  private readonly logger = new Logger('UserServiceImpl');
 
   /**
    * Returns a list of all users registered in Objectified, regardless of
@@ -30,6 +34,11 @@ export class UsersServiceImpl implements UsersService {
    * @param userDto The `User` object to create.
    */
   async createUser(userDto: UserDto): Promise<ServiceResponse<null>> {
+    const dao = new UserDao(DaoUtils.getDatabase());
+    const user = await dao.create(userDto);
+
+   this.logger.log(`User created=${JSON.stringify(user, null, 2)}`);
+
     return {
       returnValue: null,
       returnContentType: 'application/json',

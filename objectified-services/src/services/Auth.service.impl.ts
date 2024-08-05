@@ -1,6 +1,8 @@
 import {AuthService, ServiceResponse} from "../generated/services";
 import {LoginDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
+import {ClassDao, UserDao} from "../dao";
+import {DaoUtils} from "../dao/dao-utils";
 
 export class AuthServiceImpl implements AuthService {
 
@@ -14,8 +16,20 @@ export class AuthServiceImpl implements AuthService {
    * @param loginDto The user credentials with which to login.
    */
   async login(loginDto: LoginDto): Promise<ServiceResponse<string>> {
+    const dao = new UserDao(DaoUtils.getDatabase());
+    const user = (loginDto.username.includes('@')) ? await dao.getByEmail(loginDto.username) : await dao.getByUsername(loginDto.username);
+
+    if (!user || user.password !== loginDto.password) {
+      return {
+        returnValue: null,
+        returnContentType: 'application/json',
+        statusCode: HttpStatus.UNAUTHORIZED,
+        statusMessage: 'Invalid username or password',
+      };
+    }
+
     return {
-      returnValue: 'token',
+      returnValue: JSON.stringify(user, null, 2),
       returnContentType: 'application/json',
       statusCode: HttpStatus.OK,
     };
