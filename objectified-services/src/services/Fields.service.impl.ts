@@ -2,6 +2,7 @@ import {FieldsService, ServiceResponse} from "../generated/services";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
 import {FieldDto} from "../generated/dto";
+import { Request } from 'express';
 
 export class FieldsServiceImpl implements FieldsService {
 
@@ -14,7 +15,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldDto The `Field` object to create.
    */
-  async createField(fieldDto: FieldDto): Promise<ServiceResponse<null>> {
+  async createField(request: Request, fieldDto: FieldDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -32,7 +33,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field`.
    */
-  async getFieldById(fieldId: number): Promise<ServiceResponse<FieldDto>> {
+  async getFieldById(request: Request, fieldId: number): Promise<ServiceResponse<FieldDto>> {
     return {
       returnValue: <FieldDto>JSONSchemaFaker.generate(FieldDto.schema),
       returnContentType: 'application/json',
@@ -49,7 +50,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field` to disable.
    */
-  async disableField(fieldId: number): Promise<ServiceResponse<null>> {
+  async disableField(request: Request, fieldId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -67,7 +68,7 @@ export class FieldsServiceImpl implements FieldsService {
    *
    * @param fieldId The ID of the `Field`.
    */
-  async editField(fieldId: number): Promise<ServiceResponse<FieldDto>> {
+  async editField(request: Request, fieldId: number): Promise<ServiceResponse<FieldDto>> {
     return {
       returnValue: <FieldDto>JSONSchemaFaker.generate(FieldDto.schema),
       returnContentType: 'application/json',

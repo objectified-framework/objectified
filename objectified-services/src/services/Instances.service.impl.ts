@@ -2,6 +2,7 @@ import {InstancesService, ServiceResponse} from "../generated/services";
 import {FieldDto, GroupDto, InstanceDataDto, InstanceDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
+import { Request } from 'express';
 
 export class InstancesServiceImpl implements InstancesService {
 
@@ -14,7 +15,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceDto The `Instance` to create.
    */
-  async createInstance(instanceDto: InstanceDto): Promise<ServiceResponse<null>> {
+  async createInstance(request: Request, instanceDto: InstanceDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -31,7 +32,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the instance.
    */
-  async getInstanceById(instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
+  async getInstanceById(request: Request, instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
     return {
       returnValue: <InstanceDataDto>JSONSchemaFaker.generate(InstanceDataDto.schema),
       returnContentType: 'application/json',
@@ -48,7 +49,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  async deleteInstance(instanceId: number): Promise<ServiceResponse<null>> {
+  async deleteInstance(request: Request, instanceId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -66,7 +67,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  async editInstance(instanceId: number): Promise<ServiceResponse<InstanceDto>> {
+  async editInstance(request: Request, instanceId: number): Promise<ServiceResponse<InstanceDto>> {
     return {
       returnValue: <InstanceDto>JSONSchemaFaker.generate(InstanceDto.schema),
       returnContentType: 'application/json',
@@ -92,7 +93,7 @@ export class InstancesServiceImpl implements InstancesService {
    * @param instanceId The ID of the `Instance`.
    * @param instanceDataDto The instance data object to create.
    */
-  async createInstanceData(instanceId: number, instanceDataDto: InstanceDataDto): Promise<ServiceResponse<null>> {
+  async createInstanceData(request: Request, instanceId: number, instanceDataDto: InstanceDataDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -109,7 +110,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  async getInstanceData(instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
+  async getInstanceData(request: Request, instanceId: number): Promise<ServiceResponse<InstanceDataDto>> {
     return {
       returnValue: <InstanceDataDto>JSONSchemaFaker.generate(InstanceDataDto.schema),
       returnContentType: 'application/json',
@@ -126,7 +127,7 @@ export class InstancesServiceImpl implements InstancesService {
    *
    * @param instanceId The ID of the `Instance`.
    */
-  async deleteInstanceData(instanceId: number): Promise<ServiceResponse<null>> {
+  async deleteInstanceData(request: Request, instanceId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

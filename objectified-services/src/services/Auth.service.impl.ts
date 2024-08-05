@@ -3,6 +3,7 @@ import {LoginDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {ClassDao, UserDao} from "../dao";
 import {DaoUtils} from "../dao/dao-utils";
+import { Request } from 'express';
 
 export class AuthServiceImpl implements AuthService {
 
@@ -15,7 +16,7 @@ export class AuthServiceImpl implements AuthService {
    *
    * @param loginDto The user credentials with which to login.
    */
-  async login(loginDto: LoginDto): Promise<ServiceResponse<string>> {
+  async login(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
     const dao = new UserDao(DaoUtils.getDatabase());
     const user = (loginDto.username.includes('@')) ? await dao.getByEmail(loginDto.username) : await dao.getByUsername(loginDto.username);
 
@@ -46,7 +47,7 @@ export class AuthServiceImpl implements AuthService {
    *
    * @param loginDto The user credentials with which to change.
    */
-  async editLogin(loginDto: LoginDto): Promise<ServiceResponse<string>> {
+  async editLogin(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
     return {
       returnValue: 'OK',
       returnContentType: 'application/json',
@@ -60,7 +61,7 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '204': 'No content, refresh succeeded'
    * - Response code '401': 'Unauthorized'
    */
-  async refreshLogin(): Promise<ServiceResponse<null>> {
+  async refreshLogin(request: Request, ): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -74,7 +75,7 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '204': 'No content, logout succeeded'
    * - Response code '400': 'Bad request'
    */
-  async logout(): Promise<ServiceResponse<null>> {
+  async logout(request: Request, ): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

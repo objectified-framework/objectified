@@ -2,6 +2,7 @@ import {GroupsService, ServiceResponse} from "../generated/services";
 import {GroupDto, IdArrayInputDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
+import { Request } from 'express';
 
 export class GroupsServiceImpl implements GroupsService {
 
@@ -11,7 +12,7 @@ export class GroupsServiceImpl implements GroupsService {
    * - Response code '200': 'An array of `Group`s.'
    * - Response code '401': 'Unauthorized'
    */
-  async listGroups(): Promise<ServiceResponse<GroupDto[]>> {
+  async listGroups(request: Request, ): Promise<ServiceResponse<GroupDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -28,7 +29,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupDto The `Group` object to create.
    */
-  async createGroup(groupDto: GroupDto): Promise<ServiceResponse<null>> {
+  async createGroup(request: Request, groupDto: GroupDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -45,7 +46,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupId The ID of the `Group`.
    */
-  async getGroupById(groupId: bigint): Promise<ServiceResponse<GroupDto>> {
+  async getGroupById(request: Request, groupId: bigint): Promise<ServiceResponse<GroupDto>> {
     return {
       returnValue: <GroupDto>JSONSchemaFaker.generate(GroupDto.schema),
       returnContentType: 'application/json',
@@ -63,7 +64,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The ID of the `Group`.
    * @param groupDto The `Group` object to create.
    */
-  async editGroupById(groupId: bigint, groupDto: GroupDto): Promise<ServiceResponse<null>> {
+  async editGroupById(request: Request, groupId: bigint, groupDto: GroupDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -80,7 +81,7 @@ export class GroupsServiceImpl implements GroupsService {
    *
    * @param groupId The ID of the `Group`.
    */
-  async deleteGroupById(groupId: bigint): Promise<ServiceResponse<null>> {
+  async deleteGroupById(request: Request, groupId: bigint): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -99,7 +100,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The ID of the `Group`s.
    * @param idArrayInputDto The parameters containing the `User` and `Group` IDs.
    */
-  async addUsersToGroup(groupId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async addUsersToGroup(request: Request, groupId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -117,7 +118,7 @@ export class GroupsServiceImpl implements GroupsService {
    * @param groupId The IDs of the `Group`s.
    * @param idArrayInputDto The parameters containing the `User` and `Group` IDs.
    */
-  async deleteUsersFromGroup(groupId: bigint[], idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async deleteUsersFromGroup(request: Request, groupId: bigint[], idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

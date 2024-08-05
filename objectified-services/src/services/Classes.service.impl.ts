@@ -4,6 +4,7 @@ import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
 import {DaoUtils} from "../dao/dao-utils";
 import {ClassDao} from "../dao";
+import { Request } from 'express';
 
 export class ClassesServiceImpl implements ClassesService {
 
@@ -16,7 +17,7 @@ export class ClassesServiceImpl implements ClassesService {
    *
    * @param classDto The class object to create.
    */
-  async createClass(classDto: ClassDto): Promise<ServiceResponse<null>> {
+  async createClass(request: Request, classDto: ClassDto): Promise<ServiceResponse<null>> {
     const dao = new ClassDao(DaoUtils.getDatabase());
     const result = await dao.create(classDto);
 
@@ -36,7 +37,7 @@ export class ClassesServiceImpl implements ClassesService {
    *
    * @param classId The ID of the class.
    */
-  async getClassById(classId: number): Promise<ServiceResponse<ClassDto>> {
+  async getClassById(request: Request, classId: number): Promise<ServiceResponse<ClassDto>> {
     return {
       returnValue: <ClassDto>JSONSchemaFaker.generate(ClassDto.schema),
       returnContentType: 'application/json',
@@ -53,7 +54,7 @@ export class ClassesServiceImpl implements ClassesService {
    *
    * @param classId The ID of the class to disable.
    */
-  async disableClass(classId: number): Promise<ServiceResponse<null>> {
+  async disableClass(request: Request, classId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -71,7 +72,7 @@ export class ClassesServiceImpl implements ClassesService {
    *
    * @param classId The ID of the class to enable.
    */
-  async editClass(classId: number): Promise<ServiceResponse<ClassDto>> {
+  async editClass(request: Request, classId: number): Promise<ServiceResponse<ClassDto>> {
     return {
       returnValue: <ClassDto>JSONSchemaFaker.generate(ClassDto.schema),
       returnContentType: 'application/json',
@@ -88,7 +89,7 @@ export class ClassesServiceImpl implements ClassesService {
    *
    * @param classId The ID of the `Class`.
    */
-  async listPropertiesByClass(classId: number): Promise<ServiceResponse<PropertyDto[]>> {
+  async listPropertiesByClass(request: Request, classId: number): Promise<ServiceResponse<PropertyDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -107,7 +108,7 @@ export class ClassesServiceImpl implements ClassesService {
    * @param classId The ID of the `Class`.
    * @param idArrayInputDto The parameters containing the property and class IDs.
    */
-  async addPropertyToClass(classId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async addPropertyToClass(request: Request, classId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -125,7 +126,7 @@ export class ClassesServiceImpl implements ClassesService {
    * @param classId The ID of the `Class`.
    * @param idArrayInputDto The parameters containing the `Property` IDs.
    */
-  async deletePropertiesFromClass(classId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async deletePropertiesFromClass(request: Request, classId: bigint, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

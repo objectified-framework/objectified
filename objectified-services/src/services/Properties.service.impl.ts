@@ -2,6 +2,7 @@ import {PropertiesService, ServiceResponse} from "../generated/services";
 import {IdArrayInputDto, PropertyDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
+import { Request } from 'express';
 
 export class PropertiesServiceImpl implements PropertiesService {
 
@@ -14,7 +15,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    *
    * @param propertyDto The property object to create.
    */
-  async createProperty(propertyDto: PropertyDto): Promise<ServiceResponse<null>> {
+  async createProperty(request: Request, propertyDto: PropertyDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -31,7 +32,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    *
    * @param propertyId The ID of the property.
    */
-  async getPropertyById(propertyId: number): Promise<ServiceResponse<PropertyDto>> {
+  async getPropertyById(request: Request, propertyId: number): Promise<ServiceResponse<PropertyDto>> {
     return {
       returnValue: <PropertyDto>JSONSchemaFaker.generate(PropertyDto.schema),
       returnContentType: 'application/json',
@@ -50,7 +51,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    * @param propertyId The ID of the property.
    * @param propertyDto The `Property` changes to apply.
    */
-  async editProperty(propertyId: number, propertyDto: PropertyDto): Promise<ServiceResponse<null>> {
+  async editProperty(request: Request, propertyId: number, propertyDto: PropertyDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -67,7 +68,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    *
    * @param propertyId The ID of the `Property` to remove.
    */
-  async deleteProperty(propertyId: number): Promise<ServiceResponse<null>> {
+  async deleteProperty(request: Request, propertyId: number): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -84,7 +85,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    *
    * @param propertyId The ID of the object `Property`.
    */
-  async getPropertyByObjectId(propertyId: number): Promise<ServiceResponse<PropertyDto>> {
+  async getPropertyByObjectId(request: Request, propertyId: number): Promise<ServiceResponse<PropertyDto>> {
     return {
       returnValue: <PropertyDto>JSONSchemaFaker.generate(PropertyDto.schema),
       returnContentType: 'application/json',
@@ -103,7 +104,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    * @param propertyId The ID of the object `Property`.
    * @param idArrayInputDto The `Property` IDs.
    */
-  async addObjectToProperty(propertyId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async addObjectToProperty(request: Request, propertyId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -122,7 +123,7 @@ export class PropertiesServiceImpl implements PropertiesService {
    * @param propertyId The ID of the object `Property`.
    * @param idArrayInputDto The `Property` IDs.
    */
-  async deletePropertiesFromObject(propertyId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
+  async deletePropertiesFromObject(request: Request, propertyId: number, idArrayInputDto: IdArrayInputDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',

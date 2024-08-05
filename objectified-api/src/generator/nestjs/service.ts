@@ -56,7 +56,8 @@ export function generateServices(directory: string, openApi: any) {
   indexBody += '  returnValue: T,\n';
   indexBody += '  returnContentType: string,\n';
   indexBody += '  statusCode: number,\n';
-  indexBody += '  statusMessage?: any\n';
+  indexBody += '  statusMessage?: any,\n';
+  indexBody += '  additionalCookies?: { [key: string]: string },\n';
   indexBody += '}\n\n';
 
   for(const tag of Object.keys(tags)) {
@@ -176,8 +177,9 @@ function generateService(directory: string, name: string, description: string, p
       }
     }
 
+    serviceClassBody += '   * @param request The express request object\n';
     serviceClassBody += '   */\n';
-    serviceClassBody += `  ${operationId}(${inputVariables.join(', ')}): Promise<ServiceResponse<${returnType ?? 'null'}>>;\n\n`;
+    serviceClassBody += `  ${operationId}(request: Request, ${inputVariables.join(', ')}): Promise<ServiceResponse<${returnType ?? 'null'}>>;\n\n`;
   }
 
   if (Object.keys(serviceDtoImports).length > 0) {
@@ -185,6 +187,7 @@ function generateService(directory: string, name: string, description: string, p
   }
 
   serviceImports += 'import { ServiceResponse } from \'./index\';\n';
+  serviceImports += 'import { Request } from \'express\';\n';
 
   serviceBody += serviceImports;
   serviceBody += '\n';

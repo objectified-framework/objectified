@@ -57,10 +57,10 @@ function generateController(directory: string, name: string, description: string
 
   controllerBody += HEADER;
 
-  controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param, Res } from \'@nestjs/common\';\n';
+  controllerBody += 'import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param, Res, Req } from \'@nestjs/common\';\n';
   controllerBody += 'import { ApiResponse, ApiOperation, ApiBody, ApiTags } from \'@nestjs/swagger\';\n';
   controllerBody += `import { ${name}ServiceImpl } from '../../services';\n`;
-  controllerBody += 'import { Response } from \'express\';\n';
+  controllerBody += 'import { Request, Response } from \'express\';\n';
 
   for (const pathEntry of paths) {
     const { path, method } = pathEntry;
@@ -194,10 +194,11 @@ function generateController(directory: string, name: string, description: string
       functionBody += '  })\n';
     }
 
+    functionComment += '   * @param request The request object\n';
     functionComment += '   * @param response The response object\n';
 
-    functionBody += `  public async ${operationId}(@Res() response: Response, ${inputs.join(', ')}): Promise<void> {\n`;
-    functionBody += `    const result = await this.service.${operationId}(${inputVariables.join(', ')});\n\n`;
+    functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(', ')}): Promise<void> {\n`;
+    functionBody += `    const result = await this.service.${operationId}(request, ${inputVariables.join(', ')});\n\n`;
     functionBody += '    response.status(result.statusCode).contentType(result.returnContentType);\n\n';
     functionBody += '    if (result.statusMessage) {\n';
     functionBody += '      response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.statusMessage) : result.statusMessage));\n';

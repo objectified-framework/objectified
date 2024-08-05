@@ -4,6 +4,7 @@ import {HttpStatus, Logger} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
 import {UserDao} from "../dao";
 import {DaoUtils} from "../dao/dao-utils";
+import { Request } from 'express';
 
 export class UsersServiceImpl implements UsersService {
 
@@ -16,7 +17,7 @@ export class UsersServiceImpl implements UsersService {
    * - Response code '200': 'An array of users registered in Objectified.'
    * - Response code '401': 'Unauthorized'
    */
-  async listUsers(): Promise<ServiceResponse<UserDto[]>> {
+  async listUsers(request: Request, ): Promise<ServiceResponse<UserDto[]>> {
     return {
       returnValue: [],
       returnContentType: 'application/json',
@@ -33,7 +34,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userDto The `User` object to create.
    */
-  async createUser(userDto: UserDto): Promise<ServiceResponse<null>> {
+  async createUser(request: Request, userDto: UserDto): Promise<ServiceResponse<null>> {
     const dao = new UserDao(DaoUtils.getDatabase());
     const user = await dao.create(userDto);
 
@@ -55,7 +56,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userId The ID of the user.
    */
-  async getUserById(userId: bigint): Promise<ServiceResponse<UserDto>> {
+  async getUserById(request: Request, userId: bigint): Promise<ServiceResponse<UserDto>> {
     return {
       returnValue: <UserDto>JSONSchemaFaker.generate(UserDto.schema),
       returnContentType: 'application/json',
@@ -76,7 +77,7 @@ export class UsersServiceImpl implements UsersService {
    * @param userId The ID of the user.
    * @param userDto The user changes to apply.
    */
-  async editUser(userId: bigint, userDto: UserDto): Promise<ServiceResponse<null>> {
+  async editUser(request: Request, userId: bigint, userDto: UserDto): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -93,7 +94,7 @@ export class UsersServiceImpl implements UsersService {
    *
    * @param userId The ID of the user.
    */
-  async disableUser(userId: bigint): Promise<ServiceResponse<null>> {
+  async disableUser(request: Request, userId: bigint): Promise<ServiceResponse<null>> {
     return {
       returnValue: null,
       returnContentType: 'application/json',
