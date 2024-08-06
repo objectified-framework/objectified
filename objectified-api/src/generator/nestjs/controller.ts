@@ -64,7 +64,7 @@ function generateController(directory: string, name: string, description: string
 
   for (const pathEntry of paths) {
     const { path, method } = pathEntry;
-    const { operationId, description, summary, parameters, requestBody, responses } = pathEntry.data;
+    const { operationId, description, summary, parameters, requestBody, responses, security } = pathEntry.data;
     let convertedPath = path.replaceAll('{', ':').replaceAll('}', '');
     const requestBodyContent = requestBody?.content['application/json'];
     const inputs = [];
@@ -200,6 +200,7 @@ function generateController(directory: string, name: string, description: string
     functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(', ')}): Promise<void> {\n`;
     functionBody += `    const result = await this.service.${operationId}(request, ${inputVariables.join(', ')});\n\n`;
     functionBody += '    response.status(result.statusCode).contentType(result.returnContentType);\n\n';
+    functionBody += `    // Security: ${JSON.stringify(security)}\n\n`;
     functionBody += '    if (result.statusMessage) {\n';
     functionBody += '      response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.statusMessage) : result.statusMessage));\n';
     functionBody += '    } else {\n';

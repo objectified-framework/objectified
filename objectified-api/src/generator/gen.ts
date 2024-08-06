@@ -5,8 +5,9 @@
  * compatible for use with NestJS and React applications.  These DTO objects are decorated with
  * annotations from the NestJS Swagger library.
  */
+import {generateSecuritySchemes} from "./nestjs/security";
 
-const VERSION: string = '0.1.3';
+const VERSION: string = '0.1.4';
 const DTO_DIRECTORY: string = 'src/generated';
 
 (async () => {
@@ -52,5 +53,6 @@ const DTO_DIRECTORY: string = 'src/generated';
   generator.generateControllers(program.opts().out, openapi);
   generator.generateServices(program.opts().out, openapi);
   generator.generateTests(program.opts().out, openapi);
+  generator.generateSecuritySchemes(program.opts().out, openapi);
 
 })();
