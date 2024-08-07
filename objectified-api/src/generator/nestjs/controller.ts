@@ -54,6 +54,7 @@ function generateController(directory: string, name: string, description: string
   const controllerDtoImports = {};
   let controllerBody = '';
   let controllerClassBody = '';
+  let controllerSecurityImports: string[] = [];
 
   controllerBody += HEADER;
 
@@ -72,6 +73,13 @@ function generateController(directory: string, name: string, description: string
     let returnType = null;
     let functionComment = '';
     let functionBody = '';
+
+    // Import security utilities
+    for(const sec of security) {
+      if (!controllerSecurityImports.includes(Object.keys(sec)[0])) {
+        controllerSecurityImports.push(Object.keys(sec)[0]);
+      }
+    }
 
     // Trim converted path - first part of the URL is not required, as that is based on the URL of the
     // controller and ApiTags definition
@@ -200,7 +208,11 @@ function generateController(directory: string, name: string, description: string
     functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(', ')}): Promise<void> {\n`;
     functionBody += `    const result = await this.service.${operationId}(request, ${inputVariables.join(', ')});\n\n`;
     functionBody += '    response.status(result.statusCode).contentType(result.returnContentType);\n\n';
-    functionBody += `    // Security: ${JSON.stringify(security)}\n\n`;
+
+    for(const sec of security) {
+      functionBody += `    // Security required: ${Object.keys(sec)[0]}\n`;
+    }
+
     functionBody += '    if (result.statusMessage) {\n';
     functionBody += '      response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.statusMessage) : result.statusMessage));\n';
     functionBody += '    } else {\n';
@@ -220,6 +232,10 @@ function generateController(directory: string, name: string, description: string
   if (Object.keys(controllerDtoImports).length > 0) {
     controllerBody += `import { ${Object.keys(controllerDtoImports).join(', ')} } from '../dto';\n`;
   }
+
+  controllerSecurityImports.forEach((x) => {
+    controllerBody += `import * as ${x} from '../util/${x}';\n`;
+  });
 
   controllerBody += '\n';
   controllerBody += `/**\n * ${description.trim().replaceAll('\n', '\n * ')}\n */\n`;
