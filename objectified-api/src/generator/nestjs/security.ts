@@ -76,5 +76,20 @@ function jwtUtilBody(schemeName: string): string {
   body += '  return jwt.verify(token, SECRET_KEY);\n';
   body += '}\n';
 
+  // Validator
+  body += '/**\n';
+  body += ' * Validates a JWT token payload from the given request object\'s Bearer authorization string.\n';
+  body += ' *\n';
+  body += ' * @param req The request object containing the bearer authorization token\n';
+  body += ' * @returns {boolean} `true` if valid, `false` otherwise, or if bearer authorization token is missing\n';
+  body += ' */\n';
+  body += `export function validate(req: Request): any {\n`;
+  body += '  const token: string = req.headers.authorization?.split(\' \')[1];\n\n';
+  body += '  if (!token) {\n';
+  body += '    return false;\n';
+  body += '  }\n\n';
+  body += '  return jwt.verify(token, SECRET_KEY);\n';
+  body += '}\n';
+
   return body;
 }
