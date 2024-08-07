@@ -214,7 +214,7 @@ function generateController(directory: string, name: string, description: string
 
       functionBody += `    // Security required: ${secType}\n`;
       functionBody += `    if (!${secType}.validate(request)) {\n`;
-      functionBody += '      response.status(401).send(\'Unauthorized\');\n';
+      functionBody += '      response.contentType(\'text/plain\').status(401).send(\'Unauthorized\');\n';
       functionBody += '      return;\n';
       functionBody += '    }\n\n';
     }
