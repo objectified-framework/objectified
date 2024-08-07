@@ -46,14 +46,13 @@ function jwtUtilBody(schemeName: string): string {
 
   // Encoder
   body += '/**\n';
-  body += ' * Encodes a JWT token with the given payload and possible timeout given as a string or numeric value.\n';
+  body += ' * Encrypts a JWT token with the given payload and possible timeout given as a string or numeric value.\n';
   body += ' *\n';
-  body += ' * @param req The request object containing the bearer authorization token\n';
   body += ' * @param payload The data to encode into the JWT token\n';
   body += ' * @param timeout The optional timeout for the JWT token as a string expression or numeric value in milliseconds\n';
   body += ' * @returns The JWT token string\n';
   body += ' */\n';
-  body += `export function ${toPascalCase(schemeName)}Encode(req: Request, payload: any, timeout?: string | number): string {\n`;
+  body += 'export function encrypt(payload: any, timeout?: string | number): string {\n';
   body += '  if (timeout) {\n';
   body += '    return jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });\n';
   body += '  }\n\n';
@@ -62,13 +61,13 @@ function jwtUtilBody(schemeName: string): string {
 
   // Decoder
   body += '/**\n';
-  body += ' * Decodes a JWT token payload from the given request object\'s Bearer authorization string.\n';
+  body += ' * Decrypts a JWT token payload from the given request object\'s Bearer authorization string.\n';
   body += ' *\n';
   body += ' * @param req The request object containing the bearer authorization token\n';
   body += ' * @returns The decoded JWT token payload\n';
   body += ' * @throws Error if the token is missing\n';
   body += ' */\n';
-  body += `export function ${toPascalCase(schemeName)}Decode(req: Request): any {\n`;
+  body += 'export function decrypt(req: Request): any {\n';
   body += '  const token: string = req.headers.authorization?.split(\' \')[1];\n\n';
   body += '  if (!token) {\n';
   body += '    throw new Error(\'Missing JWT token\');\n';

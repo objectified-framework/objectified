@@ -212,13 +212,17 @@ function generateController(directory: string, name: string, description: string
     for(const sec of security) {
       const secType = Object.keys(sec)[0];
 
-      functionBody += `    // Security required: ${secType}\n`;
-      functionBody += `    if (!${secType}.validate(request)) {\n`;
+      functionBody += `    if (!request.headers.authorization || !${secType}.validate(request)) {\n`;
       functionBody += '      response.contentType(\'text/plain\').status(401).send(\'Unauthorized\');\n';
       functionBody += '      return;\n';
       functionBody += '    }\n\n';
     }
 
+    functionBody += '    if (result.additionalCookies) {\n';
+    functionBody += '      for (const [cookie, value] of Object.entries(result.additionalCookies)) {\n';
+    functionBody += '        response.cookie(cookie, value);\n';
+    functionBody += '      }\n';
+    functionBody += '    }\n\n';
     functionBody += '    if (result.statusMessage) {\n';
     functionBody += '      response.send((result.returnContentType.includes(\'json\') ? JSON.stringify(result.statusMessage) : result.statusMessage));\n';
     functionBody += '    } else {\n';

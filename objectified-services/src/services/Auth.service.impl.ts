@@ -4,6 +4,7 @@ import {HttpStatus} from "@nestjs/common";
 import {ClassDao, UserDao} from "../dao";
 import {DaoUtils} from "../dao/dao-utils";
 import { Request } from 'express';
+import * as JWT from '../generated/util/JWT';
 
 export class AuthServiceImpl implements AuthService {
 
@@ -29,8 +30,13 @@ export class AuthServiceImpl implements AuthService {
       };
     }
 
+    const payload = {
+      ip: request.socket.remoteAddress,
+      payload: JSON.stringify(user),
+    }
+
     return {
-      returnValue: JSON.stringify(user, null, 2),
+      returnValue: JWT.encrypt(payload),
       returnContentType: 'application/json',
       statusCode: HttpStatus.OK,
     };
