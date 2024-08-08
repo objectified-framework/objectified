@@ -35,6 +35,8 @@ export class AuthServiceImpl implements AuthService {
       payload: JSON.stringify(user),
     }
 
+    // TODO: Add database to store active sessions with timeouts
+
     return {
       returnValue: JWT.encrypt(payload),
       returnContentType: 'application/json',
@@ -68,6 +70,8 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '401': 'Unauthorized'
    */
   async refreshLogin(request: Request, ): Promise<ServiceResponse<null>> {
+    // TODO: Refresh session timeout in database
+
     return {
       returnValue: null,
       returnContentType: 'application/json',
@@ -82,6 +86,8 @@ export class AuthServiceImpl implements AuthService {
    * - Response code '400': 'Bad request'
    */
   async logout(request: Request, ): Promise<ServiceResponse<null>> {
+    // TODO: Remove session from database
+
     return {
       returnValue: null,
       returnContentType: 'application/json',
