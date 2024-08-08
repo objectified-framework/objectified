@@ -16,7 +16,7 @@ export class SessionUtil {
     // TODO: Delete session
   }
 
-  async createSession(userId: int, data?: any): Promise<string> {
+  async createSession(userId: number, data?: any): Promise<string> {
     // Create a new session for the given user ID
     // Return the session ID
 
