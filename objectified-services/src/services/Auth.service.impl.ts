@@ -1,12 +1,15 @@
 import {AuthService, ServiceResponse} from "../generated/services";
 import {LoginDto} from "../generated/dto";
-import {HttpStatus} from "@nestjs/common";
+import {HttpStatus, Logger} from "@nestjs/common";
 import {ClassDao, UserDao} from "../dao";
 import {DaoUtils} from "../dao/dao-utils";
 import { Request } from 'express';
 import * as JWT from '../generated/util/JWT';
+import bcrypt = require('bcrypt');
 
 export class AuthServiceImpl implements AuthService {
+
+  private readonly logger = new Logger(AuthServiceImpl.name);
 
   /**
    * Logs a user into the system via their username and password combination.
@@ -20,8 +23,11 @@ export class AuthServiceImpl implements AuthService {
   async login(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
     const dao = new UserDao(DaoUtils.getDatabase());
     const user = (loginDto.username.includes('@')) ? await dao.getByEmail(loginDto.username) : await dao.getByUsername(loginDto.username);
+    const decodedPassword = Buffer.from(loginDto.password, 'base64').toString('utf-8');
 
-    if (!user || user.password !== loginDto.password) {
+    if (!user || !bcrypt.compareSync(decodedPassword, user.password)) {
+      this.logger.log(`Login failure attempt for user ${loginDto.username} (${request.socket.remoteAddress})`);
+
       return {
         returnValue: null,
         returnContentType: 'application/json',
@@ -30,12 +36,12 @@ export class AuthServiceImpl implements AuthService {
       };
     }
 
+    this.logger.debug(`User and Pass match for user ${loginDto.username}`);
+
     const payload = {
       ip: request.socket.remoteAddress,
       payload: JSON.stringify(user),
-    }
-
-    // TODO: Add database to store active sessions with timeouts
+    };
 
     return {
       returnValue: JWT.encrypt(payload),

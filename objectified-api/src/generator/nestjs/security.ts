@@ -1,4 +1,3 @@
-import {toPascalCase} from "../util";
 import { faker } from '@faker-js/faker';
 
 const HEADER: string = `/**\n * This utility security scheme file is automatically generated.\n * Do not modify this file, any changes will be overwritten.\n *\n * Generated ${new Date()}\n */\n\n`;
@@ -40,9 +39,8 @@ function jwtUtilBody(schemeName: string): string {
   let body = '';
 
   // JWT Encode/Decode import
-  body += 'import jwt, { Secret } from \'jsonwebtoken\';\n\n';
   body += '// JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.\n';
-  body += `export const SECRET_KEY: Secret = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}';\n\n`;
+  body += `export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}';\n\n`;
 
   // Encoder
   body += '/**\n';
@@ -53,6 +51,7 @@ function jwtUtilBody(schemeName: string): string {
   body += ' * @returns The JWT token string\n';
   body += ' */\n';
   body += 'export function encrypt(payload: any, timeout?: string | number): string {\n';
+  body += '  const jwt = require(\'jsonwebtoken\');\n\n';
   body += '  if (timeout) {\n';
   body += '    return jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });\n';
   body += '  }\n\n';
@@ -68,6 +67,7 @@ function jwtUtilBody(schemeName: string): string {
   body += ' * @throws Error if the token is missing\n';
   body += ' */\n';
   body += 'export function decrypt(req: Request): any {\n';
+  body += '  const jwt = require(\'jsonwebtoken\');\n';
   body += '  const token: string = req.headers.authorization?.split(\' \')[1];\n\n';
   body += '  if (!token) {\n';
   body += '    throw new Error(\'Missing JWT token\');\n';
@@ -83,6 +83,7 @@ function jwtUtilBody(schemeName: string): string {
   body += ' * @returns {boolean} `true` if valid, `false` otherwise, or if bearer authorization token is missing\n';
   body += ' */\n';
   body += `export function validate(req: Request): any {\n`;
+  body += '  const jwt = require(\'jsonwebtoken\');\n';
   body += '  const token: string = req.headers.authorization?.split(\' \')[1];\n\n';
   body += '  if (!token) {\n';
   body += '    return false;\n';

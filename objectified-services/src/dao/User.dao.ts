@@ -13,11 +13,17 @@ export class UserDao {
   }
 
   async getByEmail(email: string): Promise<UserDto> {
-    return null;
+    const sql = 'SELECT * FROM obj.user WHERE email_address = $1';
+
+    return this.db.oneOrNone<UserDto>(sql, [email])
+      .then((x) => DaoUtils.normalize<UserDto>(x));
   }
 
   async getByUsername(username: string): Promise<UserDto> {
-    return null;
+    const sql = 'SELECT * FROM obj.user WHERE username = $1';
+
+    return this.db.oneOrNone<UserDto>(sql, [username])
+      .then((x) => DaoUtils.normalize<UserDto>(x));
   }
 
   async getByUsernameAndPassword(username: string, password: string): Promise<UserDto> {
