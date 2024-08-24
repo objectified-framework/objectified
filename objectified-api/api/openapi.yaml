@@ -2165,6 +2165,19 @@ components:
             - disabled
           description: A status indicator for the user.
           default: enabled
+        source:
+          type: string
+          enum:
+            - local
+            - google
+            - github
+            - gitlab
+          description: |
+            The source for the login - anything other than local requires no password,
+            however, it requires a JWT token to be present.  If a user attempts to login
+            with a valid entry, but not a "local" source, the account will not allow them
+            to log in outside of their trusted source.
+          default: local
         createDate:
           type: string
           format: date-time
