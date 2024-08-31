@@ -11,7 +11,7 @@ const PasswordTextField = (props: TextFieldProps) => {
                InputProps={{
                  endAdornment: (
                    <IconButton onClick={() => setShowing(!showing)}>
-                     {showing ? <Visibility/> : <VisibilityOff/>}
+                     {showing ? <Visibility sx={{ color: '#fff' }}/> : <VisibilityOff sx={{ color: '#fff' }}/>}
                    </IconButton>
                  ),
                }}/>

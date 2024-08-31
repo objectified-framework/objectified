@@ -6,7 +6,7 @@ import {
   Dialog, DialogActions,
   DialogContent,
   DialogContentText, DialogTitle, FormControl, InputLabel,
-  LinearProgress, MenuItem, Select,
+  LinearProgress, Link, MenuItem, Select,
   Stack,
   TextField,
   Typography
@@ -19,6 +19,7 @@ import {signIn, signOut, useSession} from "next-auth/react";
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Divider from "@mui/material/Divider";
+import {FacebookOutlined, Microsoft, X} from "@mui/icons-material";
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -97,69 +98,128 @@ const LoginForm = () => {
         </DialogContent>
       </Dialog>
 
-      <div style={{
-        backgroundColor: '#fff', color: '#000', width: '100%'
-      }}>
-        <div style={{
-          paddingTop: '1em', width: '100%'
-        }}>
-          <form onSubmit={handleSubmit}>
-            <TextField type={'text'} fullWidth value={email} sx={{paddingBottom: '1em'}} onChange={handleEmailChange}
-                       placeholder={'Enter your email address'}/>
-            <PasswordTextField fullWidth value={password} onChange={handlePasswordChange}
-                               placeholder={'Enter your password'}/>
+      <form onSubmit={handleSubmit}>
+        <Stack direction={'column'}>
+          <Typography sx={{color: '#fff', fontWeight: 'bold'}} variant={'h4'}>Sign In</Typography>
 
-            <Stack direction={'row'} sx={{paddingTop: '40px'}}>
-              <Item sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px'}}>
-                <Button variant={'contained'}
-                        sx={{backgroundColor: '#66f', fontWeight: 'bold'}}
-                        fullWidth
-                        type={'submit'}>Log in</Button>
-              </Item>
-            </Stack>
+          <Typography sx={{color: '#999'}}>New user? <Link href={'#'}>Create an Account</Link></Typography>
 
-            <div style={{width: '100%', textAlign: 'center', fontWeight: 'bold', paddingTop: '1em'}}>
-              <Divider>
-                or log in with
-              </Divider>
-            </div>
+          <div sx={{height: '10px'}}>&nbsp;</div>
+          <div sx={{height: '10px'}}>&nbsp;</div>
 
-            <Stack direction={'row'} sx={{paddingTop: '20px'}}>
-              <Item sx={{width: '50%'}}>
-                <Button variant={'contained'}
-                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '10px', border: '1px solid #dfdfdf',
-                        '&:hover': {
-                          backgroundColor: '#fff',
-                          color: '#000',
-                          border: '1px solid #000',
-                        }
-                        }}
-                        fullWidth onClick={() => {
-                          setLoginShowing(true);
-                          signIn("google");
-                        }}
-                        startIcon={<img src={'/g-logo.png'} width={24} height={24}/>}></Button>
-              </Item>
+          <TextField type={'text'} fullWidth value={email} onChange={handleEmailChange}
+                     inputProps={{style: {color: '#fff'}}}
+                     sx={{border: '1px solid #fff'}}
+                     placeholder={'Enter your email address'}/>
 
-              <Item sx={{width: '50%', paddingLeft: '20px'}}>
-                <Button variant={'contained'}
-                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '10px', border: '1px solid #dfdfdf',
-                          '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                            border: '1px solid #000',
-                          }
-                        }}
-                        fullWidth onClick={() => {
-                          setLoginShowing(true);
-                          signIn("github");
-                        }}
-                        startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}></Button>
-              </Item>
-            </Stack>
-          </form>
+          <div sx={{height: '10px'}}>&nbsp;</div>
+
+          <PasswordTextField fullWidth value={password} onChange={handlePasswordChange}
+                             inputProps={{style: {color: '#fff'}}}
+                             sx={{border: '1px solid #fff', color: '#fff'}}
+                             placeholder={'Enter your password'}/>
+        </Stack>
+
+        <Stack direction={'row'} sx={{paddingTop: '40px'}}>
+          <Item sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px', backgroundColor: 'inherit'}}>
+            <Button variant={'contained'}
+                    sx={{backgroundColor: '#66f', fontWeight: 'bold', borderRadius: '10px'}}
+                    fullWidth
+                    type={'submit'}>Log in</Button>
+          </Item>
+        </Stack>
+
+        <div sx={{height: '10px'}}>&nbsp;</div>
+
+        <Divider sx={{ color: '#ccc', '&.MuiDivider-root': {
+            '&::before': {
+              borderTop: `thin solid #aaf`
+            },
+            '&::after': {
+              borderTop: `thin solid #aaf`
+            },
+          } }} variant={'middle'}>
+          OR
+        </Divider>
+
+        <div sx={{height: '10px'}}>&nbsp;</div>
+
+        <div style={{ width: '100%', textAlign: 'center' }}>
+          <Button variant={'contained'}
+                  sx={{
+                    backgroundColor: 'inherit', fontWeight: 'bold', color: '#fff', padding: '20px',
+                    border: '1px solid #dfdfdf', borderRadius: '10px', width: '36px', height: '60px',
+                    '&:hover': {
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #000',
+                    }
+                  }}
+                  fullWidth onClick={() => {
+            setLoginShowing(true);
+            signIn("google");
+          }}><GoogleIcon/></Button>
+
+          &nbsp;&nbsp;
+
+          <Button variant={'contained'}
+                  sx={{
+                    backgroundColor: 'inherit', fontWeight: 'bold', color: '#fff', padding: '10px',
+                    border: '1px solid #dfdfdf', borderRadius: '10px', width: '36px', height: '60px',
+                    '&:hover': {
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #000',
+                    }
+                  }}
+                  fullWidth onClick={() => {
+            setLoginShowing(true);
+            signIn("github");
+          }}><GitHubIcon/></Button>
+
+          &nbsp;&nbsp;
+
+          <Button variant={'contained'}
+                  sx={{
+                    backgroundColor: 'inherit', fontWeight: 'bold', color: '#fff', padding: '10px',
+                    border: '1px solid #dfdfdf', borderRadius: '10px', width: '36px', height: '60px',
+                    '&:hover': {
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #000',
+                    }
+                  }}
+                  fullWidth onClick={() => {}}><FacebookOutlined/></Button>
+
+          &nbsp;&nbsp;
+
+          <Button variant={'contained'}
+                  sx={{
+                    backgroundColor: 'inherit', fontWeight: 'bold', color: '#fff', padding: '10px',
+                    border: '1px solid #dfdfdf', borderRadius: '10px', width: '36px', height: '60px',
+                    '&:hover': {
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #000',
+                    }
+                  }}
+                  fullWidth onClick={() => {}}><Microsoft/></Button>
+
+          &nbsp;&nbsp;
+
+          <Button variant={'contained'}
+                  sx={{
+                    backgroundColor: 'inherit', fontWeight: 'bold', color: '#fff', padding: '10px',
+                    border: '1px solid #dfdfdf', borderRadius: '10px', width: '36px', height: '60px',
+                    '&:hover': {
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #000',
+                    }
+                  }}
+                  fullWidth onClick={() => {}}><X/></Button>
         </div>
-      </div>
+      </form>
     </>
   );
 }
