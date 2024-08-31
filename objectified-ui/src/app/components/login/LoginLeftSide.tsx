@@ -4,7 +4,7 @@ const LoginLeftSide = () => {
   return (
     <>
       <Typography variant={'h4'} sx={{ color: '#e8e8e8', fontWeight: 'bold' }}>
-        Objectified
+        Welcome to Objectified
       </Typography>
 
       <p/>
