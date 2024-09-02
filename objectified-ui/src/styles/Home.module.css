@@ -1,0 +1,27 @@
+.container {
+  height: 100%;
+  width: calc(100% - 260px);
+  left: 260px;
+  position: fixed;
+  flex-direction: column;
+}
+
+.header {
+  left: 0px;
+  height: 40px;
+  width: 260px;
+  position: fixed;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  backgroundColor: #aac;
+  color: #fff;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0px;
+  width: 260px;
+  height: 100%;
+  background: #113;
+}

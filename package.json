@@ -1,8 +1,6 @@
 {
   "workspaces": [
     "objectified-api",
-    "objectified-services",
-    "objectified-ui"
-  ],
-  "packageManager": "yarn@4.4.0"
+    "objectified-services"
+  ]
 }
