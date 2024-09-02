@@ -15,7 +15,7 @@ export default function Sidebar() {
         <div height={'20px'}>&nbsp;</div>
 
         <Box sx={{
-          width: '100%', height: '48px', backgroundColor: '#fff', border: '2px solid #000',
+          width: '100%', height: '48px', backgroundColor: '#0ff', border: '2px solid #000',
           borderRadius: '6px', padding: '12px'
         }}>
           Path
@@ -24,7 +24,7 @@ export default function Sidebar() {
         <div height={'20px'}>&nbsp;</div>
 
         <Box sx={{
-          width: '100%', height: '48px', backgroundColor: '#fff', border: '2px solid #000',
+          width: '100%', height: '48px', backgroundColor: '#f0f', border: '2px solid #000',
           borderRadius: '6px', padding: '12px'
         }}>
           Schema
