@@ -19,9 +19,18 @@ import "@xyflow/react/dist/style.css";
 import { initialNodes } from "./nodes";
 import { initialEdges } from "./edges";
 import {useDnD} from "./drag-and-drop/DnDContext";
+import TagNode from "./nodes/TagNode";
+import PathNode from "./nodes/PathNode";
+import SchemaNode from "./nodes/SchemaNode";
+
+const nodeTypes = {
+  'tag': TagNode,
+  'path': PathNode,
+  'schema': SchemaNode,
+};
 
 let id = 0;
-const getId = () => `dndnode_${id}`;
+const getId = () => `dndnode_${id++}`;
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNodeType>(initialNodes);
@@ -51,11 +60,48 @@ export default function App() {
       y: event.clientY,
     });
 
-    const newNode = {
-      id: getId(),
-      type,
-      position,
-      data: { label: `${type} node` },
+    let newNode = {};
+    const nodeId = getId();
+
+    switch(type) {
+      case 'tag':
+        newNode = {
+          id: nodeId,
+          type,
+          position,
+          data: {
+            tagName: `Tag ${nodeId.substring(nodeId.lastIndexOf('_') + 1)}`,
+            tagDescription: 'No description'
+          },
+        };
+        break;
+
+      case 'path':
+        newNode = {
+          id: nodeId,
+          type,
+          position,
+          data: {
+            schema: {
+              path: '/',
+              pathAction: 'GET',
+            },
+          },
+        };
+        break;
+
+      case 'schema':
+        newNode = {
+          id: nodeId,
+          type,
+          position,
+          data: {
+            schema: {
+              name: `Schema${nodeId.substring(nodeId.lastIndexOf('_') + 1)}`
+            },
+          },
+        };
+        break;
     }
 
     setNodes((nds) => nds.concat(newNode));
@@ -65,9 +111,9 @@ export default function App() {
 
   return (
     <>
-      <ReactFlow<CustomNodeType, CustomEdgeType>
+      <ReactFlow
         nodes={nodes}
-        // nodeTypes={nodeTypes}
+        nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         edges={edges}
         // edgeTypes={edgeTypes}
