@@ -52,11 +52,12 @@ export const SchemaNode = ({
   return (
     <div style={{border: '1px solid #000', borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#fff', minWidth: '200px' }}>
       <div style={{
-        borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#0ff', borderBottom: '1px solid #ccc',
+        borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#f0f', borderBottom: '1px solid #ccc',
         paddingLeft: '10px'
       }}>
         {schema.name}
       </div>
+      <Typography color={'#aaa'}>Undefined</Typography>
     </div>
   );
 };

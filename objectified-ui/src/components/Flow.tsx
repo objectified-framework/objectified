@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from "react";
+import {useCallback, useState} from "react";
 import {
   Background,
   Controls,
@@ -22,6 +22,9 @@ import {useDnD} from "./drag-and-drop/DnDContext";
 import TagNode from "./nodes/TagNode";
 import PathNode from "./nodes/PathNode";
 import SchemaNode from "./nodes/SchemaNode";
+import TagNodeEditor from "./editors/TagNodeEditor";
+import PathNodeEditor from "./editors/PathNodeEditor";
+import SchemaNodeEditor from "./editors/SchemaNodeEditor";
 
 const nodeTypes = {
   'tag': TagNode,
@@ -33,14 +36,16 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNodeType>(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdgeType>(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [editorOpen, setEditorOpen] = useState(false);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((edges) => addEdge(connection, edges)),
     [setEdges]
   );
+  const [editorChildren, setEditorChildren] = useState(<></>);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -109,25 +114,84 @@ export default function App() {
     console.log('Position', position);
   }, [screenToFlowPosition, type]);
 
+  const persistPayload = (targetNode, payload) => {
+    if (targetNode.type === 'tag') {
+      console.log(`Save tag node`, payload);
+
+      setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id === targetNode.id) {
+            return {
+              ...node,
+              data: {
+                ...payload,
+              },
+            };
+          }
+
+          return node;
+        }));
+    }
+  }
+
+  const onNodeClick = (event, node) => {
+    console.log('click node', node);
+    let childrenNodes = <></>;
+
+    switch(node.type) {
+      case 'tag':
+        childrenNodes = <TagNodeEditor tagName={node.data.tagName} tagDescription={node.data.tagDescription}
+                                       onSave={(e) => persistPayload(node, e)}
+                                       onCancel={onPaneClick}/>;
+        break;
+
+      case 'path':
+        childrenNodes = PathNodeEditor(node.data.schema);
+        break;
+
+      case 'schema':
+        childrenNodes = SchemaNodeEditor(node.data.schema);
+        break;
+    }
+
+    setEditorChildren(<>{childrenNodes}</>);
+    setEditorOpen(true);
+  }
+  const onPaneClick = () => setEditorOpen(false);
+
   return (
     <>
       <ReactFlow
         nodes={nodes}
+        edges={edges}
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
-        edges={edges}
-        // edgeTypes={edgeTypes}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onNodeClick={onNodeClick}
+        onPaneClick={onPaneClick}
         fitView
-        sx={{ width: '300'}}
+        sx={{width: '300'}}
       >
-        <Background />
-        <MiniMap />
-        <Controls />
+        <Background/>
+        <MiniMap/>
+        <Controls/>
       </ReactFlow>
+
+      {editorOpen && (
+        <div style={{
+          position: 'fixed',
+          top: '44px',
+          width: '300px',
+          border: '2px solid #000',
+          backgroundColor: '#fff',
+          left: 'calc(100% - 310px)'
+        }}>
+          {editorChildren}
+        </div>
+      )}
     </>
   );
 }
