@@ -142,7 +142,8 @@ export default function App() {
 
     switch(node.type) {
       case 'tag':
-        childrenNodes = <TagNodeEditor tagName={node.data.tagName} tagDescription={node.data.tagDescription}
+        childrenNodes = <TagNodeEditor tagName={node.data.tagName}
+                                       tagDescription={node.data.tagDescription}
                                        onSave={(e) => persistPayload(node, e)}
                                        onCancel={onPaneClick}/>;
         break;
