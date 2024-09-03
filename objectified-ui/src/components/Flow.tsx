@@ -116,7 +116,7 @@ export default function App() {
 
   const persistPayload = (targetNode, payload) => {
     if (targetNode.type === 'tag') {
-      console.log(`Save tag node`, payload);
+      console.log('Save tag node', payload);
 
       setNodes((nds) =>
         nds.map((node) => {
@@ -131,6 +131,8 @@ export default function App() {
 
           return node;
         }));
+    } else if (targetNode.type === 'path') {
+      console.log('Save path node', payload);
     }
 
     onPaneClick();
@@ -149,7 +151,9 @@ export default function App() {
         break;
 
       case 'path':
-        childrenNodes = PathNodeEditor(node.data.schema);
+        childrenNodes = <PathNodeEditor payload={node.data.schema}
+                                        onSave={(e) => persistPayload(node, e)}
+                                        onCancel={onPaneClick}/>;
         break;
 
       case 'schema':
