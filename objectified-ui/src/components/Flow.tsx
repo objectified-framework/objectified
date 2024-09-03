@@ -132,6 +132,8 @@ export default function App() {
           return node;
         }));
     }
+
+    onPaneClick();
   }
 
   const onNodeClick = (event, node) => {
