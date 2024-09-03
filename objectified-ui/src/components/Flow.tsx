@@ -13,6 +13,7 @@ import {
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
+import styles from './Flow.module.css';
 
 // import { initialNodes, nodeTypes, type CustomNodeType } from "./nodes";
 // import { initialEdges, edgeTypes, type CustomEdgeType } from "./edges";
@@ -50,7 +51,6 @@ export default function App() {
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
-    console.log('[Flow] On Drag Over');
   }, []);
 
   const onDrop = useCallback((event) => {
