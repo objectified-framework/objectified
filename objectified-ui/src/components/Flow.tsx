@@ -133,6 +133,8 @@ export default function App() {
         }));
     } else if (targetNode.type === 'path') {
       console.log('Save path node', payload);
+    } else if (targetNode.type === 'schema') {
+      console.log('Save schema node', payload);
     }
 
     onPaneClick();
@@ -157,7 +159,9 @@ export default function App() {
         break;
 
       case 'schema':
-        childrenNodes = SchemaNodeEditor(node.data.schema);
+        childrenNodes = <SchemaNodeEditor payload={node.data.schema}
+                                          onSave={(e) => persistPayload(node, e)}
+                                          onCancel={onPaneClick}/>;
         break;
     }
 
@@ -180,6 +184,7 @@ export default function App() {
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
         fitView
+        snapToGrid={true}
         sx={{width: '300'}}
       >
         <Background/>

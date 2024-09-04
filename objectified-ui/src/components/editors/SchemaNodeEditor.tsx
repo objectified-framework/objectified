@@ -1,14 +1,21 @@
 import {PropsSchemaNode} from "../nodes/SchemaNode";
 
-const SchemaNodeEditor = ( schema: PropsSchemaNode ) => {
+export interface SchemaNodeEditorProps {
+  payload: PropsSchemaNode,
+  onSave: (e: SchemaNodeEditorProps) => void,
+  onCancel: () => void,
+}
+
+
+const SchemaNodeEditor = ( props: SchemaNodeEditorProps ) => {
   return (
     <>
       <div style={{width: '100%', backgroundColor: '#f0f', borderBottom: '1px solid #aaa'}}>
         Schema
       </div>
 
-      {schema.name}<br/>
-      {schema.description}
+      {props.payload.name}<br/>
+      {props.payload.description}
     </>
   );
 }
