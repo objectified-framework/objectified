@@ -21,7 +21,7 @@
 
 .flow {
   position: fixed;
-  top: 40px;
+  top: 48px;
   width: calc(100% - 260px);
-  height: calc(100% - 40px);
+  height: calc(100% - 48px);
 }

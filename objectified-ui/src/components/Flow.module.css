@@ -1,0 +1,7 @@
+.header {
+  position: fixed;
+  top: 0px;
+  width: calc(100% - 260px);
+  border-bottom: 1px solid #000;
+  height: 48px;
+}

@@ -50,9 +50,9 @@ export const SchemaNode = ({
                            data: { schema },
                          }: NodeProps<{ schema: PropsSchemaNode }>) => {
   return (
-    <div style={{border: '1px solid #000', borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#fff', minWidth: '200px' }}>
+    <div style={{border: '1px solid #000', borderTopLeftRadius: 3, borderTopRightRadius: 3, backgroundColor: '#fff', minWidth: '200px' }}>
       <div style={{
-        borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#f0f', borderBottom: '1px solid #ccc',
+        borderTopLeftRadius: 3, borderTopRightRadius: 3, backgroundColor: '#f0f', borderBottom: '1px solid #ccc',
         paddingLeft: '10px'
       }}>
         {schema.name}

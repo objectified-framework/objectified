@@ -1,6 +1,6 @@
 'use client'
 
-import {useCallback, useState} from "react";
+import {Profiler, useCallback, useState} from "react";
 import {
   Background,
   Controls,
@@ -26,6 +26,8 @@ import SchemaNode from "./nodes/SchemaNode";
 import TagNodeEditor from "./editors/TagNodeEditor";
 import PathNodeEditor from "./editors/PathNodeEditor";
 import SchemaNodeEditor from "./editors/SchemaNodeEditor";
+import {Avatar, Button, IconButton, MenuItem, Select, Stack, Typography} from "@mui/material";
+import {Person} from "@mui/icons-material";
 
 const nodeTypes = {
   'tag': TagNode,
@@ -172,6 +174,24 @@ export default function App() {
 
   return (
     <>
+      <div className={styles.header}>
+        <Stack direction={'row'}>
+          <div style={{ width: '50%' }}>
+              <Typography>Schema:</Typography>
+
+            {/*<Select sx={{ height: '48px', padding: '2px' }}>*/}
+            {/*  <MenuItem key={1}>Default</MenuItem>*/}
+            {/*</Select> <Button variant={'contained'} sx={{ height: '48px' }}>Add</Button>*/}
+          </div>
+
+          <div style={{ width: '50%', textAlign: 'right', paddingRight: '4px', paddingTop: '2px' }}>
+            <IconButton sx={{ width: '42px', height: '42px' }}>
+              <Avatar>G</Avatar>
+            </IconButton>
+          </div>
+        </Stack>
+      </div>
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -195,7 +215,7 @@ export default function App() {
       {editorOpen && (
         <div style={{
           position: 'fixed',
-          top: '44px',
+          top: '54px',
           width: '300px',
           border: '2px solid #000',
           backgroundColor: '#fff',

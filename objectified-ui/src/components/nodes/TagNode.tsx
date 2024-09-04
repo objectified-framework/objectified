@@ -5,8 +5,8 @@ export const TagNode = ({
   data: { tagName, tagDescription },
 }: NodeProps<{ tagName: string, tagDescription: string }>) => {
   return (
-    <div style={{ border: '1px solid #000', borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#fff' }}>
-      <div style={{ borderTopLeftRadius: 6, borderTopRightRadius: 6, backgroundColor: '#ff0', borderBottom: '1px solid #ccc',
+    <div style={{ border: '1px solid #000', borderTopLeftRadius: 3, borderTopRightRadius: 3, backgroundColor: '#fff' }}>
+      <div style={{ borderTopLeftRadius: 3, borderTopRightRadius: 3, backgroundColor: '#ff0', borderBottom: '1px solid #ccc',
       paddingLeft: '10px' }}>
         {tagName}
       </div>
