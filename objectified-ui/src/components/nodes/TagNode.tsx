@@ -1,4 +1,4 @@
-import {NodeProps} from "@xyflow/react";
+import {Handle, NodeProps} from "@xyflow/react";
 import {Typography} from "@mui/material";
 
 export const TagNode = ({
@@ -14,6 +14,7 @@ export const TagNode = ({
         <Typography style={{ maxWidth: '400px' }}>
           {tagDescription}
         </Typography>
+        <Handle type={'source'} position={'right'}/>
       </div>
     </div>
   );

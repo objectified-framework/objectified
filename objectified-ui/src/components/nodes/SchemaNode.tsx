@@ -35,7 +35,7 @@
 //           maxLength: 4096
 
 
-import {NodeProps} from "@xyflow/react";
+import {Handle, NodeProps} from "@xyflow/react";
 import {Stack, Typography} from "@mui/material";
 
 export type PropsSchemaNode = {
@@ -57,6 +57,8 @@ export const SchemaNode = ({
       }}>
         {schema.name}
       </div>
+      <Handle type={'target'} position={'left'}/>
+      <Handle type={'source'} position={'right'}/>
       <Typography color={'#aaa'}>Undefined</Typography>
     </div>
   );

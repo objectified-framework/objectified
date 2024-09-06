@@ -177,7 +177,11 @@ export default function App() {
       <div className={styles.header}>
         <Stack direction={'row'}>
           <div style={{ width: '50%' }}>
-              <Typography>Schema:</Typography>
+            <Stack direction={'row'}>
+              <div style={{ padding: '10px' }}>
+                <Typography>Schema:</Typography>
+              </div>
+            </Stack>
 
             {/*<Select sx={{ height: '48px', padding: '2px' }}>*/}
             {/*  <MenuItem key={1}>Default</MenuItem>*/}

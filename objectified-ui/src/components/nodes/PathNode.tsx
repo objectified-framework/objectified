@@ -26,7 +26,7 @@
 //         '401':
 //           description: Unauthorized
 
-import {NodeProps} from "@xyflow/react";
+import {Handle, NodeProps} from "@xyflow/react";
 import {Stack, Typography} from "@mui/material";
 
 export type PropsPathNode = {
@@ -52,6 +52,9 @@ export const PathNode = ({
       }}>
         {schema.pathAction.toUpperCase()} {schema.path}
       </div>
+
+      <Handle type={'target'} position={'left'}/>
+
       <Stack direction={'column'}>
         <Stack direction={'row'}>
           <div style={{ width: '70%' }}>
@@ -78,6 +81,8 @@ export const PathNode = ({
           </div>
         </Stack>
       </Stack>
+
+      <Handle type={'source'} position={'right'}/>
     </div>
   );
 };
