@@ -116,10 +116,6 @@ tags:
       and a right side (t2), and link two `Class`es together.
 
       `Link`s may contain links to themselves (ie. a parent/child relationship.)
-  - name: Generator
-    description: |
-      `Generator` is used to generate JSON schema definitions and code snippets for
-      different schemas that have been created and well-defined in Objectified.
 paths:
   /auth:
     post:

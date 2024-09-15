@@ -117,7 +117,7 @@ CREATE TABLE obj.data_type (
     data_type obj.data_type_data_type NOT NULL,
     is_array BOOLEAN NOT NULL DEFAULT false,
     max_length INT NOT NULL DEFAULT 0,
-    pattern VARCHAR(255),
+    pattern VARCHAR(4096),
     enum_values VARCHAR(40)[],
     enum_descriptions VARCHAR(255)[],
     examples VARCHAR(4096)[],
