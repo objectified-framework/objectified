@@ -59,6 +59,27 @@ export function generateServices(directory: string, openApi: any) {
   indexBody += '  statusMessage?: any,\n';
   indexBody += '  additionalCookies?: { [key: string]: string },\n';
   indexBody += '}\n\n';
+  indexBody += 'export const ResponseOk = (val: any) => {\n';
+  indexBody += '  return {'
+  indexBody += '    returnValue: val,\n';
+  indexBody += '    returnContentType: \'application/json\',\n';
+  indexBody += '    statusCode: 200,\n';
+  indexBody += '  };\n';
+  indexBody += '}\n\n';
+  indexBody += 'export const ResponseNoContent = () => {\n';
+  indexBody += '  return {\n';
+  indexBody += '    returnValue: null,\n';
+  indexBody += '    returnContentType: \'application/json\',\n';
+  indexBody += '    statusCode: 201,\n';
+  indexBody += '  };\n';
+  indexBody += '}\n\n';
+  indexBody += 'export const ResponseCreated = (val: any | null = null) => {\n';
+  indexBody += '  return {\n';
+  indexBody += '    returnValue: val,\n';
+  indexBody += '    returnContentType: \'application/json\',\n';
+  indexBody += '    statusCode: 204,\n';
+  indexBody += '  };\n';
+  indexBody += '}\n\n';
 
   for(const tag of Object.keys(tags)) {
     indexBody += `export * from './${tag}.service';\n`;

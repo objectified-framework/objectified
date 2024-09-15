@@ -2,7 +2,6 @@ export * from './Auth.service.impl';
 export * from './Classes.service.impl';
 export * from './DataTypes.service.impl';
 export * from './Fields.service.impl';
-export * from './Generator.service.impl';
 export * from './Groups.service.impl';
 export * from './Instances.service.impl';
 export * from './Links.service.impl';

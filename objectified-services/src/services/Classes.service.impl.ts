@@ -1,4 +1,4 @@
-import {ClassesService, ServiceResponse} from "../generated/services";
+import {ClassesService, ResponseCreated, ServiceResponse} from "../generated/services";
 import {ClassDto, IdArrayInputDto, PropertyDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
@@ -21,11 +21,7 @@ export class ClassesServiceImpl implements ClassesService {
     const dao = new ClassDao(DaoUtils.getDatabase());
     const result = await dao.create(classDto);
 
-    return {
-      returnValue: null,
-      returnContentType: 'application/json',
-      statusCode: HttpStatus.CREATED,
-    };
+    return ResponseCreated();
   }
 
   /**

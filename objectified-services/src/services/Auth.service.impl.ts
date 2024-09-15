@@ -1,7 +1,7 @@
-import {AuthService, ServiceResponse} from "../generated/services";
+import {AuthService, ResponseNoContent, ResponseOk, ServiceResponse} from "../generated/services";
 import {LoginDto} from "../generated/dto";
 import {HttpStatus, Logger} from "@nestjs/common";
-import {ClassDao, UserDao} from "../dao";
+import {UserDao} from "../dao";
 import {DaoUtils} from "../dao/dao-utils";
 import { Request } from 'express';
 import * as JWT from '../generated/util/JWT';
@@ -43,11 +43,7 @@ export class AuthServiceImpl implements AuthService {
       payload: JSON.stringify(user),
     };
 
-    return {
-      returnValue: JWT.encrypt(payload),
-      returnContentType: 'application/json',
-      statusCode: HttpStatus.OK,
-    };
+    return ResponseOk(JWT.encrypt(payload));
   }
 
   /**
@@ -62,11 +58,7 @@ export class AuthServiceImpl implements AuthService {
    * @param loginDto The user credentials with which to change.
    */
   async editLogin(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
-    return {
-      returnValue: 'OK',
-      returnContentType: 'application/json',
-      statusCode: HttpStatus.OK,
-    };
+    return ResponseOk('OK');
   }
 
   /**
@@ -78,11 +70,7 @@ export class AuthServiceImpl implements AuthService {
   async refreshLogin(request: Request, ): Promise<ServiceResponse<null>> {
     // TODO: Refresh session timeout in database
 
-    return {
-      returnValue: null,
-      returnContentType: 'application/json',
-      statusCode: HttpStatus.NO_CONTENT,
-    };
+    return ResponseNoContent();
   }
 
   /**
@@ -94,11 +82,7 @@ export class AuthServiceImpl implements AuthService {
   async logout(request: Request, ): Promise<ServiceResponse<null>> {
     // TODO: Remove session from database
 
-    return {
-      returnValue: null,
-      returnContentType: 'application/json',
-      statusCode: HttpStatus.NO_CONTENT,
-    };
+    return ResponseNoContent();
   }
 
 }
