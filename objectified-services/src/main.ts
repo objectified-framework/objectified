@@ -43,8 +43,6 @@ const SWAGGER_PATH: string = '/v1/api';
       'Please\n' +
       '[refer to this documentation](https://soon-to-be-created.com)\n' +
       'for more detailed on best practices regarding `DataType` and `Field` definitions.')
-    .addTag('generator', '`Generator` is used to generate JSON schema definitions and code snippets for\n' +
-      'different schemas that have been created and well-defined in Objectified.')
     .addTag('groups', 'Manages `Group` membership that groups users into common logical groups.\n\n' +
       '`Group`s are also referred to as tenancy identifiers.  Users can be members of multiple\n' +
       '`Group`s, but cannot join the same `Group` twice.')

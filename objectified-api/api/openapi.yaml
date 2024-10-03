@@ -1140,6 +1140,25 @@ paths:
         '404':
           description: Namespace not found
   /classes:
+    get:
+      tags:
+        - Classes
+      summary: Returns a list of classes.
+      operationId: getClasses
+      description: Returns a list of classes based on the JWT user's namespace membership.
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Class not found
     post:
       tags:
         - Classes

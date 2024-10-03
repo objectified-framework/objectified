@@ -110,7 +110,7 @@ function generateController(directory: string, name: string, description: string
     }
 
     if (description) {
-      functionBody += `    description: '${description.trim().replaceAll('\n', ' ')}',\n`;
+      functionBody += `    description: '${description.trim().replaceAll('\n', ' ').replaceAll("'", "\\'")}',\n`;
     }
 
     functionBody += '  })\n';

@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
 DROP SCHEMA IF EXISTS obj CASCADE;
 CREATE SCHEMA obj;
 
@@ -231,6 +233,13 @@ CREATE TABLE obj.instance_data (
     data JSONB,
     version INT NOT NULL DEFAULT 1,
     date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now()
+);
+
+DROP TABLE IF EXISTS obj.instance_vector CASCADE;
+CREATE TABLE obj.instance_vector (
+    id SERIAL NOT NULL PRIMARY KEY,
+    instance_id INT NOT NULL REFERENCES obj.instance(id),
+    vector vector
 );
 
 --- Link tables

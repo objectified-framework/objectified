@@ -4,9 +4,13 @@ import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
 import {DaoUtils} from "../dao/dao-utils";
 import {ClassDao} from "../dao";
-import { Request } from 'express';
+import {Request} from 'express';
 
 export class ClassesServiceImpl implements ClassesService {
+
+  getClasses(request: Request): Promise<ServiceResponse<ClassDto>> {
+    return Promise.resolve(undefined);
+  }
 
   /**
    * Creates a new class.
