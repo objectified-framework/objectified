@@ -1,6 +1,4 @@
-CREATE EXTENSION pgcrypto;
-
-ALTER TYPE obj.user_source_enum ADD VALUE 'system' AFTER 'local';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 INSERT INTO obj.user (username, password, email_address, verified, status, source)
     VALUES ('system',  crypt('password', gen_salt('md5')), 'none@none@com', true, 'enabled', 'system');

@@ -8,6 +8,9 @@ CREATE SCHEMA obj;
 DROP TYPE IF EXISTS obj.user_status_enum CASCADE;
 CREATE TYPE obj.user_status_enum AS ENUM ('enabled', 'disabled');
 
+DROP TYPE IF EXISTS obj.user_source_enum CASCADE;
+CREATE TYPE obj.user_source_enum AS ENUM ('local', 'google', 'github', 'gitlab', 'system');
+
 DROP TABLE IF EXISTS obj.user CASCADE;
 CREATE TABLE obj.user (
     id SERIAL NOT NULL PRIMARY KEY,
@@ -17,6 +20,7 @@ CREATE TABLE obj.user (
     verified BOOLEAN NOT NULL DEFAULT false,
     status obj.user_status_enum NOT NULL DEFAULT 'enabled',
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+    source obj.user_source_enum NOT NULL DEFAULT 'local',
     data JSONB
 );
 
