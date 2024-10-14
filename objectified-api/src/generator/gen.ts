@@ -7,7 +7,7 @@
  */
 import {generateSecuritySchemes} from "./nestjs/security";
 
-const VERSION: string = '0.1.6';
+const VERSION: string = '0.1.7';
 const DTO_DIRECTORY: string = 'src/generated';
 
 (async () => {

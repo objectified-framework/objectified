@@ -46,52 +46,57 @@ export function typeFormatter(key: string, value: string) {
  * `number`, string types to `string`, and arrays to `type[]` with recursion.
  *
  * @param properties The JSON schema snippet.
+ * @param language {string} containing the language to convert to.  Default is `node`.
  * @returns string containing the translated value.
  */
-export function propertyToType(properties: any): string {
+export function propertyToType(properties: any, language: string = 'node'): string {
   const { type, $ref, format } = properties;
 
-  // Formatting is handled here if the type is a date-time
-  if (format) {
-    switch(format.toString()) {
-      case 'date-time':
-        return 'Date';
+  if (language.toLowerCase() == 'node') {
+    // Formatting is handled here if the type is a date-time
+    if (format) {
+      switch (format.toString()) {
+        case 'date-time':
+          return 'Date';
+      }
     }
+
+    // $ref objects are converted to a DTO, as this document covers only defined objects that this convertor knows about.
+    if ($ref) {
+      return $ref.substring($ref.lastIndexOf('/') + 1) + 'Dto';
+    }
+
+    // Enumeration values.
+    if (properties.enum) {
+      return '[ ' + properties.enum
+        .map((x: string) => `'${x}'`)
+        .join(' | ') + ' ]';
+    }
+
+    // Fall back to raw types if the type is not an enumeration or ref.
+    switch (type.toLowerCase()) {
+      case 'integer':
+        if (format?.toLowerCase() === 'int64') {
+          return 'bigint';
+        }
+
+        return 'number';
+
+      case 'array':
+        return `${propertyToType(properties.items)}[]`;
+
+      case 'object':
+        if (properties.properties) {
+          throw new Error(`Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`);
+        }
+
+        return 'any';
+    }
+
+    // Catch-all if no type checking is necessary
+    return type;
   }
 
-  // $ref objects are converted to a DTO, as this document covers only defined objects that this convertor knows about.
-  if ($ref) {
-    return $ref.substring($ref.lastIndexOf('/') + 1) + 'Dto';
-  }
-
-  // Enumeration values.
-  if (properties.enum) {
-    return '[ ' + properties.enum
-      .map((x: string) => `'${x}'`)
-      .join(' | ') + ' ]';
-  }
-
-  // Fall back to raw types if the type is not an enumeration or ref.
-  switch(type.toLowerCase()) {
-    case 'integer':
-      if (format?.toLowerCase() === 'int64') {
-        return 'bigint';
-      }
-
-      return 'number';
-
-    case 'array':
-      return `${propertyToType(properties.items)}[]`;
-
-    case 'object':
-      if (properties.properties) {
-        throw new Error(`Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`);
-      }
-
-      return 'any';
-  }
-
-  // Catch-all if no type checking is necessary
   return type;
 }
 

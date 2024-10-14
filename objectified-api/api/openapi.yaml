@@ -2353,6 +2353,7 @@ components:
         dataType:
           type: string
           enum: [STRING, INT32, INT64, FLOAT, DOUBLE, BOOLEAN, DATE, DATE_TIME, URI, BYTE, BINARY, PASSWORD, OBJECT]
+          description: 
         isArray:
           type: boolean
           description: Boolean flag indicating if this data type stores an array.

@@ -1,12 +1,12 @@
 {
   "name": "@objectified/objectified-api",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Objectified Data Definitions",
   "scripts": {
-    "clean": "rm -rf dist cfx src/generated tests/generated",
+    "clean": "rm -rf dist cfx src/generated tests/generated ../objectified-services/src/generated",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
-    "autogen": "node dist/gen.js -g nestjs -o ../objectified-services/src/generated",
+    "autogen": "node dist/gen.js -g python -o ../objectified-services/src/generated",
     "build": "yarn clean && tsc && yarn autogen && rm -rf dist/src dist/tests",
     "counterfact": "rm -rf cfx && counterfact api/openapi.yaml cfx -g && counterfact api/openapi.yaml cfx -p 8080 api/openapi.yaml --swagger -s",
     "test": "jest"
