@@ -20,4 +20,19 @@ export class DaoClass<T> {
     return db.oneOrNone(sql)
       .then((data) => DaoUtils.normalize(data));
   }
+
+  public async create(data: T): Promise<void | T> {
+    const db = DaoUtils.getDatabase();
+    const sql = DaoUtils.generateInsertSql(this.tableName, data);
+
+    return db.one(sql, data)
+      .then((data) => DaoUtils.normalize(data));
+  }
+
+  public async deleteById(id: number): Promise<void> {
+    const db = DaoUtils.getDatabase();
+    const sql = "DELETE FROM " + this.tableName + " WHERE id=$1";
+
+    return db.none(sql, id);
+  }
 }

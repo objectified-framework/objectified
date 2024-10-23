@@ -31,4 +31,14 @@ export class DaoUtils {
 
     return <T>returnObject;
   }
+
+  public static generateInsertSql(tableName: string, data: any): string {
+    const keys = Object.keys(data);
+    let sql = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (`;
+
+    sql += keys.map((x) => '$[' + x + ']').join(', ');
+    sql += ') RETURNING *';
+
+    return sql;
+  }
 }

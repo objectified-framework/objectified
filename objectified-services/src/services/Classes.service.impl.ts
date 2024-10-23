@@ -22,7 +22,7 @@ export class ClassesServiceImpl implements ClassesService {
    * @param classDto The class object to create.
    */
   async createClass(request: Request, classDto: ClassDto): Promise<ServiceResponse<null>> {
-    const dao = new ClassDao(DaoUtils.getDatabase());
+    const dao = new ClassDao();
     const result = await dao.create(classDto);
 
     return ResponseCreated();

@@ -35,7 +35,7 @@ export class UsersServiceImpl implements UsersService {
    * @param userDto The `User` object to create.
    */
   async createUser(request: Request, userDto: UserDto): Promise<ServiceResponse<null>> {
-    const dao = new UserDao(DaoUtils.getDatabase());
+    const dao = new UserDao();
     const user = await dao.create(userDto);
 
    this.logger.log(`User created=${JSON.stringify(user, null, 2)}`);
