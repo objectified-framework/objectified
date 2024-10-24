@@ -41,4 +41,14 @@ export class DaoUtils {
 
     return sql;
   }
+
+  public static generateUpdateSql(tableName: string, data: any): string {
+    const keys = Object.keys(data);
+    let sql = `UPDATE ${tableName} SET `;
+
+    sql += keys.map((x) => x + '=$[' + x + ']').join(', ');
+    sql += ' WHERE id=$[id] RETURNING *';
+
+    return sql;
+  }
 }

@@ -15,9 +15,9 @@ export class DaoClass<T> {
 
   public async getById(id: number): Promise<void | T> {
     const db = DaoUtils.getDatabase();
-    const sql = "SELECT * FROM " + this.tableName + " WHERE id=$1";
+    const sql = "SELECT * FROM " + this.tableName + " WHERE id=$[id]";
 
-    return db.oneOrNone(sql)
+    return db.oneOrNone(sql, { id })
       .then((data) => DaoUtils.normalize(data));
   }
 
@@ -31,8 +31,19 @@ export class DaoClass<T> {
 
   public async deleteById(id: number): Promise<void> {
     const db = DaoUtils.getDatabase();
-    const sql = "DELETE FROM " + this.tableName + " WHERE id=$1";
+    const sql = "DELETE FROM " + this.tableName + " WHERE id=$[id]";
 
-    return db.none(sql, id);
+    return db.none(sql, { id });
+  }
+
+  public async updateById(id: number, data: T): Promise<void | T> {
+    const db = DaoUtils.getDatabase();
+    const sql = DaoUtils.generateUpdateSql(this.tableName, data);
+
+    return db.one(sql, {
+      ...data,
+      id,
+    })
+      .then((data) => DaoUtils.normalize(data));
   }
 }
