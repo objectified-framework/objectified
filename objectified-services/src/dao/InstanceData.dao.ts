@@ -1,7 +1,7 @@
-import {DaoClass} from "./DaoClass";
+import {BaseDao} from "./BaseDao";
 import {InstanceDataDto} from "../generated/dto";
 
-export class InstanceDataDao extends DaoClass<InstanceDataDto> {
+export class InstanceDataDao extends BaseDao<InstanceDataDto> {
   constructor() {
     super('obj.instance_data');
   }

@@ -1,7 +1,7 @@
-import {DaoClass} from "./DaoClass";
+import {BaseDao} from "./BaseDao";
 import {NamespaceDto} from "../generated/dto";
 
-export class NamespaceDao extends DaoClass<NamespaceDto> {
+export class NamespaceDao extends BaseDao<NamespaceDto> {
   constructor() {
     super('obj.namespace');
   }

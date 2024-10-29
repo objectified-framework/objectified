@@ -3,7 +3,7 @@
  */
 
 export * from './dao-utils';
-export * from './DaoClass';
+export * from './BaseDao';
 export * from './Class.dao';
 export * from './DataType.dao';
 export * from './Field.dao';

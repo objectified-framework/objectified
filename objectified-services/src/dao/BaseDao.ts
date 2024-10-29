@@ -1,16 +1,14 @@
 import { DaoUtils } from "./dao-utils";
 
-export class DaoClass<T> {
+export class BaseDao<T> {
   constructor(private readonly tableName: string) { }
 
   public async getAll(): Promise<void | T[]> {
     const db = DaoUtils.getDatabase();
     const sql = "SELECT * FROM " + this.tableName;
 
-    return db.any(sql)
-      .then((data) => {
-        return data.forEach((x) => DaoUtils.normalize(x));
-      });
+    return (await db.any(sql))
+      .map(x => DaoUtils.normalize<T>(x));
   }
 
   public async getById(id: number): Promise<void | T> {

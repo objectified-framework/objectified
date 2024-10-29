@@ -21,7 +21,7 @@ export class AuthServiceImpl implements AuthService {
    * @param loginDto The user credentials with which to login.
    */
   async login(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
-    const dao = new UserDao(DaoUtils.getDatabase());
+    const dao = new UserDao();
     const user = (loginDto.username.includes('@')) ? await dao.getByEmail(loginDto.username) : await dao.getByUsername(loginDto.username);
     const decodedPassword = Buffer.from(loginDto.password, 'base64').toString('utf-8');
 

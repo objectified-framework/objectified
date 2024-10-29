@@ -1,7 +1,7 @@
 import {LinkDefDto} from "../generated/dto";
-import { DaoClass } from "./DaoClass";
+import { BaseDao } from "./BaseDao";
 
-export class LinkDefDao extends DaoClass<LinkDefDto> {
+export class LinkDefDao extends BaseDao<LinkDefDto> {
   constructor() {
     super('obj.link_def');
   }

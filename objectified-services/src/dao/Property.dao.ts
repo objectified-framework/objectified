@@ -1,7 +1,7 @@
-import {DaoClass} from "./DaoClass";
+import {BaseDao} from "./BaseDao";
 import {PropertyDto} from "../generated/dto";
 
-export class PropertyDao extends DaoClass<PropertyDto> {
+export class PropertyDao extends BaseDao<PropertyDto> {
   constructor() {
     super('obj.property');
   }

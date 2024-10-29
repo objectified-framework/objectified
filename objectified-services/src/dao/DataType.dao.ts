@@ -1,7 +1,7 @@
 import {DataTypeDto} from "../generated/dto";
-import {DaoClass} from "./DaoClass";
+import {BaseDao} from "./BaseDao";
 
-export class DataTypeDao extends DaoClass<DataTypeDto> {
+export class DataTypeDao extends BaseDao<DataTypeDto> {
   constructor() {
     super('obj.data_type');
   }

@@ -1,7 +1,7 @@
 import {GroupDto} from "../generated/dto";
-import { DaoClass } from "./DaoClass";
+import { BaseDao } from "./BaseDao";
 
-export class GroupDao extends DaoClass<GroupDto> {
+export class GroupDao extends BaseDao<GroupDto> {
   constructor() {
     super('obj.group');
   }
