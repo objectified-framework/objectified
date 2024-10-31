@@ -48,7 +48,11 @@ export function generateDaos(directory: string, openapi: any) {
   const indexFilename = `${daoDirectory}/index.ts`;
 
   for(const dao of Object.keys(schemas)) {
-    indexBody += `export * from './${dao}.dao';\n`;
+    const isNoDao = schemas[dao]['x-no-dao'] ?? false;
+
+    if (!isNoDao) {
+      indexBody += `export * from './${dao}.dao';\n`;
+    }
   }
 
   indexBody += "export * from './BaseDao';\n";
