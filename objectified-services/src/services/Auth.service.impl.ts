@@ -1,8 +1,7 @@
-import {AuthService, ResponseNoContent, ResponseOk, ServiceResponse} from "../generated/services";
-import {LoginDto} from "../generated/dto";
-import {HttpStatus, Logger} from "@nestjs/common";
-import {UserDao} from "../dao";
-import {DaoUtils} from "../dao/dao-utils";
+import { AuthService, ResponseNoContent, ResponseOk, ServiceResponse } from "../generated/services";
+import { LoginDto } from "../generated/dto";
+import { HttpStatus, Logger } from "@nestjs/common";
+import { UserDao } from '../generated/dao';
 import { Request } from 'express';
 import * as JWT from '../generated/util/JWT';
 import bcrypt = require('bcrypt');

@@ -2,8 +2,7 @@ import {ServiceResponse, UsersService} from "../generated/services";
 import {UserDto} from "../generated/dto";
 import {HttpStatus, Logger} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
-import {UserDao} from "../dao";
-import {DaoUtils} from "../dao/dao-utils";
+import {UserDao} from "../generated/dao";
 import { Request } from 'express';
 
 export class UsersServiceImpl implements UsersService {

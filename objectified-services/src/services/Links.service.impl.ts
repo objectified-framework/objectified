@@ -1,6 +1,6 @@
 import {LinksService, ServiceResponse} from "../generated/services";
 import {InstanceDto, LinkDefDto, LinkDto} from "../generated/dto";
-import {LinkDao} from "../dao/Link.dao";
+import {LinkDao} from "../generated/dao";
 import {JSONSchemaFaker} from "json-schema-faker";
 import {HttpStatus} from "@nestjs/common";
 import { Request } from 'express';

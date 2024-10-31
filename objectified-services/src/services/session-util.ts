@@ -1,4 +1,4 @@
-import {DaoUtils} from "../dao/dao-utils";
+import {DaoUtils} from "../generated/dao/DaoUtils";
 import pgPromise from "pg-promise";
 
 export class SessionUtil {

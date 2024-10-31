@@ -10,6 +10,14 @@ export function generateDaos(directory: string, openapi: any) {
   fs.mkdirSync(daoDirectory, { recursive: true });
 
   for(const dao of Object.keys(schemas)) {
+    const isNoDao = schemas[dao]['x-no-dao'] ?? false;
+    const daoSchema = schemas[dao]['x-schema'] ?? '';
+
+    if (isNoDao) {
+      console.log(`  - Skipping ${dao}.dao.ts (x-no-dao set)`);
+      continue;
+    }
+
     const daoName = `${dao}Dao`;
     const daoFilename = `${daoDirectory}/${dao}.dao.ts`;
     const daoHeader = HEADER;
@@ -21,7 +29,7 @@ export function generateDaos(directory: string, openapi: any) {
     daoBody += 'import { BaseDao } from "./BaseDao";\n\n';
     daoBody += `export class ${daoName} extends BaseDao<${dao}Dto> {\n`;
     daoBody += '  constructor() {\n';
-    daoBody += `    super('${pascalToSnake(initLower(dao))}');\n`;
+    daoBody += `    super('${(daoSchema ? daoSchema + '.' : '')}${pascalToSnake(initLower(dao))}');\n`;
     daoBody += '  }\n';
     daoBody += '}\n';
 
@@ -42,6 +50,9 @@ export function generateDaos(directory: string, openapi: any) {
   for(const dao of Object.keys(schemas)) {
     indexBody += `export * from './${dao}.dao';\n`;
   }
+
+  indexBody += "export * from './BaseDao';\n";
+  indexBody += "export * from './DaoUtils';\n";
 
   fs.writeFileSync(indexFilename, indexBody, 'utf8');
   console.log(`  + Wrote ${indexFilename}`);

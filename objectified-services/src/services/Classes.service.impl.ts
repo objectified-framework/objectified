@@ -2,8 +2,7 @@ import {ClassesService, ResponseCreated, ServiceResponse} from "../generated/ser
 import {ClassDto, IdArrayInputDto, PropertyDto} from "../generated/dto";
 import {HttpStatus} from "@nestjs/common";
 import {JSONSchemaFaker} from "json-schema-faker";
-import {DaoUtils} from "../dao/dao-utils";
-import {ClassDao} from "../dao";
+import {ClassDao} from "../generated/dao";
 import {Request} from 'express';
 
 export class ClassesServiceImpl implements ClassesService {

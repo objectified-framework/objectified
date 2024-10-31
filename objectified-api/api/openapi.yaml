@@ -2142,6 +2142,7 @@ components:
   schemas:
     User:
       type: object
+      x-schema: obj
       required:
         - username
         - password
@@ -2202,6 +2203,7 @@ components:
           description: A JSON payload that describes more information about the user in a freeform manner.
     Group:
       type: object
+      x-schema: obj
       required:
         - name
         - description
@@ -2230,6 +2232,7 @@ components:
           description: Creation date and time of the user.
     Namespace:
       type: object
+      x-schema: obj
       required:
         - name
         - description
@@ -2270,6 +2273,7 @@ components:
           description: Creation date and time.  Auto-filled, not required.
     Class:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - ownerId
@@ -2323,6 +2327,7 @@ components:
           description: Disabled date and time.  Ignored if supplied, handled by the service.
     DataType:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - name
@@ -2413,6 +2418,7 @@ components:
           description: Disabled date and time.  Ignored if supplied, handled by the service.
     Field:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - dataTypeId
@@ -2469,6 +2475,7 @@ components:
           description: Deletion date and time.  Ignored if supplied, handled by the service.
     Property:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - name
@@ -2539,6 +2546,7 @@ components:
           description: Deletion date and time.  Ignored if supplied, handled by the service.
     Instance:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - classId
@@ -2596,6 +2604,7 @@ components:
           description: Deletion date and time.  Ignored if supplied, handled by the service.
     InstanceData:
       type: object
+      x-schema: obj
       required:
         - instanceId
         - data
@@ -2623,6 +2632,7 @@ components:
           description: Date and time of the data record, which may or may not reflect the creation time.
     LinkDef:
       type: object
+      x-schema: obj
       required:
         - namespaceId
         - t1
@@ -2658,6 +2668,7 @@ components:
           maxLength: 4096
     Link:
       type: object
+      x-schema: obj
       required:
         - linkDefId
         - name
@@ -2703,6 +2714,7 @@ components:
       required:
         - ids
       description: Input service container object that contains an array of IDs.
+      x-no-dao: true
       properties:
         ids:
           type: array
@@ -2711,6 +2723,7 @@ components:
             format: int64
     Login:
       type: object
+      x-schema: obj
       required:
         - username
         - password
