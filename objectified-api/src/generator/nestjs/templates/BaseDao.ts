@@ -1,4 +1,4 @@
-import { DaoUtils } from './dao-utils';
+import { DaoUtils } from './DaoUtils';
 
 export class BaseDao<T> {
   constructor(private readonly tableName: string) { }

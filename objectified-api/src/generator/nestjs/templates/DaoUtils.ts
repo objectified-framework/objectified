@@ -3,7 +3,6 @@
  */
 
 import * as pgPromise from 'pg-promise';
-import {toCamelCase} from '@objectified/objectified-api/dist/util';
 
 export class DaoUtils {
   private static readonly pgp = pgPromise({});
@@ -51,4 +50,19 @@ export class DaoUtils {
 
     return sql;
   }
+}
+
+/**
+ * Converts a string to camel case.
+ *
+ * @param str String to convert.
+ */
+export function toCamelCase(str: string): string {
+  const s =
+    str &&
+    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+      .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+      .join('');
+
+  return s.slice(0, 1).toLowerCase() + s.slice(1);
 }
