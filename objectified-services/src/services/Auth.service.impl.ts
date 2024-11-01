@@ -5,6 +5,7 @@ import { UserDao } from '../generated/dao';
 import { Request } from 'express';
 import * as JWT from '../generated/util/JWT';
 import bcrypt = require('bcrypt');
+import {CustomUserDao} from "../dao/CustomUserDao";
 
 export class AuthServiceImpl implements AuthService {
 
@@ -20,8 +21,8 @@ export class AuthServiceImpl implements AuthService {
    * @param loginDto The user credentials with which to login.
    */
   async login(request: Request, loginDto: LoginDto): Promise<ServiceResponse<string>> {
-    const dao = new UserDao();
-    const user = (loginDto.username.includes('@')) ? await dao.getByEmail(loginDto.username) : await dao.getByUsername(loginDto.username);
+    const dao = new CustomUserDao();
+    const user = (loginDto.username.includes('@')) ? await dao.getUserByEmail(loginDto.username) : await dao.getUserById(loginDto.username);
     const decodedPassword = Buffer.from(loginDto.password, 'base64').toString('utf-8');
 
     if (!user || !bcrypt.compareSync(decodedPassword, user.password)) {

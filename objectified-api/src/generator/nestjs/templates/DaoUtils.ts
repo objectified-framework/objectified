@@ -50,6 +50,15 @@ export class DaoUtils {
 
     return sql;
   }
+
+  public static generateSelectSql(tableName: string, where: any): string {
+    const keys = Object.keys(where);
+    let sql = `SELECT * FROM ${tableName} WHERE `;
+
+    sql += keys.map((x) => x + '=$[' + x + ']').join(' AND ');
+
+    return sql;
+  }
 }
 
 /**

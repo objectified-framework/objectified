@@ -44,4 +44,12 @@ export class BaseDao<T> {
     })
       .then((data) => DaoUtils.normalize(data));
   }
+
+  public async findOne(where: any): Promise<void | T> {
+    const db = DaoUtils.getDatabase();
+    const sql = DaoUtils.generateSelectSql(this.tableName, where);
+
+    return db.oneOrNone(sql, where)
+      .then((data) => DaoUtils.normalize(data));
+  }
 }
