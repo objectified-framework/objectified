@@ -47,7 +47,7 @@ export class BaseDao<T> {
 
   public async findOne(where: any): Promise<void | T> {
     const db = DaoUtils.getDatabase();
-    const sql = DaoUtils.generateSelectSql(this.tableName, where);
+    const sql = DaoUtils.generateSelectSql(this.tableName, where) + " LIMIT 1";
 
     return db.oneOrNone(sql, where)
       .then((data) => DaoUtils.normalize(data));
