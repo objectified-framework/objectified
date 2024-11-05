@@ -12,6 +12,7 @@ export function generateDaos(directory: string, openapi: any) {
   for(const dao of Object.keys(schemas)) {
     const isNoDao = schemas[dao]['x-no-dao'] ?? false;
     const daoSchema = schemas[dao]['x-schema'] ?? '';
+    const description = schemas[dao].description.trim().replaceAll('\n', '\n * ') ?? '';
 
     if (isNoDao) {
       console.log(`  - Skipping ${dao}.dao.ts (x-no-dao set)`);
@@ -27,6 +28,7 @@ export function generateDaos(directory: string, openapi: any) {
     daoBody += daoHeader;
     daoBody += `import { ${dao}Dto } from "../dto";\n`;
     daoBody += 'import { BaseDao } from "./BaseDao";\n\n';
+    daoBody += `/**\n * ${dao} Data Access Object\n *\n * ${description}\n */\n`;
     daoBody += `export class ${daoName} extends BaseDao<${dao}Dto> {\n`;
     daoBody += '  constructor() {\n';
     daoBody += `    super('${(daoSchema ? daoSchema + '.' : '')}${pascalToSnake(initLower(dao))}');\n`;

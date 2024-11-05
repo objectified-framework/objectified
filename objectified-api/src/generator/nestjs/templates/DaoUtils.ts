@@ -4,6 +4,9 @@
 
 import * as pgPromise from 'pg-promise';
 
+/**
+ * This is a utilities class that contains methods for interacting with the database.
+ */
 export class DaoUtils {
   private static readonly pgp = pgPromise({});
   private static readonly db = this.pgp(
@@ -12,10 +15,21 @@ export class DaoUtils {
 
   constructor() { }
 
+  /**
+   * Retrieves the database connection.
+   *
+   * @returns {pgPromise.IDatabase<any>} The database connection.
+   */
   public static getDatabase() {
     return this.db;
   }
 
+  /**
+   * Normalizes the data from the database, converting it to the `T` type specified.
+   *
+   * @param data The data to normalize.
+   * @returns {T} The normalized data in the shape of T.
+   */
   public static normalize<T>(data: any | undefined | null): T {
     const returnObject: any = {};
 
@@ -31,6 +45,12 @@ export class DaoUtils {
     return <T>returnObject;
   }
 
+  /**
+   * Generates an insert SQL statement for the specified table and data.
+   *
+   * @param tableName {string} The name of the table to insert into.
+   * @param data {any} The data to insert.
+   */
   public static generateInsertSql(tableName: string, data: any): string {
     const keys = Object.keys(data);
     let sql = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (`;
@@ -41,6 +61,12 @@ export class DaoUtils {
     return sql;
   }
 
+  /**
+   * Generates an update SQL statement for the specified table and data.
+   *
+   * @param tableName {string} The name of the table to update.
+   * @param data {any} The data to update.
+   */
   public static generateUpdateSql(tableName: string, data: any): string {
     const keys = Object.keys(data);
     let sql = `UPDATE ${tableName} SET `;
@@ -51,6 +77,12 @@ export class DaoUtils {
     return sql;
   }
 
+  /**
+   * Generates a select statement for the specified table and where clause.
+   *
+   * @param tableName {string} The name of the table to select from.
+   * @param where {any} The where clause data to search for.
+   */
   public static generateSelectSql(tableName: string, where: any): string {
     const keys = Object.keys(where);
     let sql = `SELECT * FROM ${tableName} WHERE `;

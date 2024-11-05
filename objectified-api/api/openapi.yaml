@@ -116,6 +116,13 @@ tags:
       and a right side (t2), and link two `Class`es together.
 
       `Link`s may contain links to themselves (ie. a parent/child relationship.)
+  - name: Sessions
+    description: |
+      `Session` services are used to manage the user's session.  `Session`s are
+      connected with a `User` account, which means only one `Session` is available
+      for a user at a time.  `Session`s can be shared amongst connections, as any
+      changes on one `Session` will be reflected on the other `Session` when it
+      is refreshed.
 paths:
   /auth:
     post:
@@ -2132,6 +2139,50 @@ paths:
           description: Unauthorized
         '404':
           description: Link Definition not found
+  /sessions:
+    get:
+      tags:
+        - Sessions
+      summary: Retrieves the currently active session
+      operationId: getSession
+      description: Retrieves the currently active `Session` object along with its data, creating a new one if it doesn't already exist.
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: Session object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          description: Unauthorized
+    put:
+      tags:
+        - Sessions
+      summary: Updates a session
+      operationId: updateSession
+      description: Updates the `Session` data.
+      security:
+        - JWT: []
+      requestBody:
+        description: The data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Session'
+      responses:
+        '200':
+          description: Session object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Session not found
 components:
   securitySchemes:
     JWT:
@@ -2735,3 +2786,14 @@ components:
         password:
           type: string
           description: The base64 encoded password.
+    Session:
+      type: object
+      x-no-dao: true
+      description: Session object
+      properties:
+        sessionId:
+          type: string
+          description: The session ID.
+        data:
+          type: object
+          description: The session data.
