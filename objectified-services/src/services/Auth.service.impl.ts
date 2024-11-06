@@ -38,6 +38,8 @@ export class AuthServiceImpl implements AuthService {
 
     this.logger.debug(`User and Pass match for user ${loginDto.username}`);
 
+    // Generate or get existing session token from user ID
+
     const payload = {
       ip: request.socket.remoteAddress,
       payload: JSON.stringify(user),

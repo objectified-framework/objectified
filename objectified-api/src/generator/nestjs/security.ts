@@ -73,7 +73,7 @@ function jwtUtilBody(schemeName: string): string {
   body += '    throw new Error(\'Missing JWT token\');\n';
   body += '  }\n\n';
   body += '  return jwt.verify(token, SECRET_KEY);\n';
-  body += '}\n';
+  body += '}\n\n';
 
   // Validator
   body += '/**\n';
