@@ -8,3 +8,4 @@ export * from './Links.service.impl';
 export * from './Namespaces.service.impl';
 export * from './Properties.service.impl';
 export * from './Users.service.impl';
+export * from './Sessions.service.impl';

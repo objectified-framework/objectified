@@ -5,7 +5,7 @@ import {
   DataTypesController,
   FieldsController,
   GroupsController,
-  InstancesController, LinksController, NamespacesController, PropertiesController, UsersController,
+  InstancesController, LinksController, NamespacesController, PropertiesController, SessionsController, UsersController,
 } from "./generated/controllers";
 import {AuthServiceImpl} from "./services/Auth.service.impl";
 import {
@@ -17,7 +17,8 @@ import {
   LinksServiceImpl,
   NamespacesServiceImpl,
   PropertiesServiceImpl,
-  UsersServiceImpl
+  UsersServiceImpl,
+  SessionsServiceImpl,
 } from "./services";
 
 @Module({
@@ -33,6 +34,7 @@ import {
     NamespacesController,
     PropertiesController,
     UsersController,
+    SessionsController,
   ],
   providers: [
     AuthServiceImpl,
@@ -45,6 +47,7 @@ import {
     NamespacesServiceImpl,
     PropertiesServiceImpl,
     UsersServiceImpl,
+    SessionsServiceImpl,
   ],
 })
 export class AppModule {}
