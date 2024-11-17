@@ -1,6 +1,6 @@
 {
   "name": "@objectified/objectified-api",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Objectified Data Definitions",
   "scripts": {
     "clean": "rm -rf dist cfx src/generated tests/generated ../objectified-services/src/generated",
