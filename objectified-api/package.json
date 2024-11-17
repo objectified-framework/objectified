@@ -7,7 +7,7 @@
     "lint": "npx @redocly/cli lint api/openapi.yaml",
     "start": "",
     "autogen": "node dist/gen.js -g nestjs -o ../objectified-services/src/generated",
-    "build": "yarn clean && tsc && yarn autogen && rm -rf dist/src dist/tests",
+    "build": "npm run clean && tsc && npm run autogen && rm -rf dist/src dist/tests",
     "counterfact": "rm -rf cfx && counterfact api/openapi.yaml cfx -g && counterfact api/openapi.yaml cfx -p 8080 api/openapi.yaml --swagger -s",
     "test": "jest"
   },
