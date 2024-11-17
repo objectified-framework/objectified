@@ -2,7 +2,7 @@
  * Database Utilities class
  */
 
-import * as pgPromise from 'pg-promise';
+import pgPromise from 'pg-promise';
 
 /**
  * This is a utilities class that contains methods for interacting with the database.
