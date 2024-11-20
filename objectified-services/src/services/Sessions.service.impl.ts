@@ -11,7 +11,7 @@ export class SessionsServiceImpl implements SessionsService {
     const jwt = getJwt(request);
 
     if (jwt) {
-      const payload = JWT.decrypt(jwt);
+      const payload = JWT.decrypt(request);
     }
 
     return Promise.resolve(undefined);
