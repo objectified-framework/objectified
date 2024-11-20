@@ -2,15 +2,13 @@
  * Database Utilities class
  */
 
-import pgPromise from 'pg-promise';
-
 /**
  * This is a utilities class that contains methods for interacting with the database.
  */
 export class DaoUtils {
-  private static readonly pgp = pgPromise({});
+  private static readonly pgp = require('pg-promise')();
   private static readonly db = this.pgp(
-    process.env.DATABASE_URL ?? 'postgres://localhost:5432/postgres'
+      process.env.DATABASE_URL ?? 'postgres://localhost:5432/postgres'
   );
 
   constructor() { }
