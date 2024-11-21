@@ -26,7 +26,7 @@ export class AuthServiceImpl implements AuthService {
     const decodedPassword = Buffer.from(loginDto.password, 'base64').toString('utf-8');
 
     if (!user || !bcrypt.compareSync(decodedPassword, user.password)) {
-      this.logger.log(`Login failure attempt for user ${loginDto.username} (${request.socket.remoteAddress})`);
+      this.logger.log(`Login mismatch attempt for user ${loginDto.username} (${request.socket.remoteAddress})`);
 
       return {
         returnValue: null,
@@ -36,7 +36,7 @@ export class AuthServiceImpl implements AuthService {
       };
     }
 
-    this.logger.debug(`User and Pass match for user ${loginDto.username}`);
+    this.logger.debug(`User and Pass match for user ${loginDto.username} (${request.socket.remoteAddress})`);
 
     // Generate or get existing session token from user ID
 
