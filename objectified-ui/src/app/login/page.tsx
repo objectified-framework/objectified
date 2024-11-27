@@ -14,12 +14,9 @@ const Login = () => {
 
   if (!session) {
     return (
-        <>
-          {/*<div style={{paddingLeft: '120px', paddingRight: '120px', width: '100%'}}>*/}
-          <div style={{ margin: '0', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-            <LoginForm/>
-          </div>
-        </>
+      <div style={{ margin: '0', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <LoginForm/>
+      </div>
     );
   } else {
     router.push('/');
