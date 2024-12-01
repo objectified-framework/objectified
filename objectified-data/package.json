@@ -1,14 +1,11 @@
 {
-  "name": "@objectified/objectified-api",
-  "version": "0.1.8",
+  "name": "@objectified/objectified-data",
+  "version": "0.1.0",
   "description": "Objectified Data Definitions",
   "scripts": {
-    "clean": "rm -rf dist cfx src/generated tests/generated ../objectified-services/src/generated ../objectified-data/src/generated",
-    "lint": "npx @redocly/cli lint api/openapi.yaml",
+    "clean": "rm -rf dist cfx src/generated tests/generated",
     "start": "",
-    "autogen": "node dist/gen.js -g nestjs --dto ../objectified-data/src/generated/dto --dao ../objectified-data/src/generated/dao",
-    "build": "npm run clean && tsc && npm run autogen && rm -rf dist/src dist/tests",
-    "counterfact": "rm -rf cfx && counterfact api/openapi.yaml cfx -g && counterfact api/openapi.yaml cfx -p 8080 api/openapi.yaml --swagger -s",
+    "build": "npm run clean && tsc && rm -rf dist/src dist/tests",
     "test": "jest"
   },
   "author": "ksuenobu@fastmail.com",

@@ -7,7 +7,8 @@
  */
 
 const VERSION: string = '0.1.8';
-const DTO_DIRECTORY: string = 'src/generated';
+const DTO_DIRECTORY: string = 'src/generated/dto';
+const DAO_DIRECTORY: string = 'src/generated/dao';
 
 (async () => {
   const fs = require('fs');
@@ -38,7 +39,8 @@ const DTO_DIRECTORY: string = 'src/generated';
     .map((x: string) => x.substring(x.lastIndexOf('/') + 1));
 
   program
-    .option('-o, --out <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
+    .option('--dto <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
+    .option('--dao <directory>', 'output directory for generated DAOs', DAO_DIRECTORY)
     .addOption(new Option('-g <generator>', 'output generator to use').choices(generatorDirectories))
     .parse();
 
@@ -48,11 +50,11 @@ const DTO_DIRECTORY: string = 'src/generated';
 
   const generator = require(`./${program.opts().g}`);
 
-  generator.generateDaos(program.opts().out, openapi);
-  generator.generateDtos(program.opts().out, openapi);
-  generator.generateControllers(program.opts().out, openapi);
-  generator.generateServices(program.opts().out, openapi);
-  generator.generateTests(program.opts().out, openapi);
-  generator.generateSecuritySchemes(program.opts().out, openapi);
+  generator.generateDaos(program.opts().dao, openapi);
+  generator.generateDtos(program.opts().dto, openapi);
+  // generator.generateControllers(program.opts().out, openapi);
+  // generator.generateServices(program.opts().out, openapi);
+  // generator.generateTests(program.opts().out, openapi);
+  // generator.generateSecuritySchemes(program.opts().out, openapi);
 
 })();
