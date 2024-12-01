@@ -6,45 +6,35 @@
  * annotations from the NestJS Swagger library.
  */
 
+const GENERATORS = ['nestjs', 'python'];
 const VERSION: string = '0.1.8';
 const DTO_DIRECTORY: string = 'src/generated/dto';
 const DAO_DIRECTORY: string = 'src/generated/dao';
 
+import * as fs from 'fs';
+import * as yaml from 'yaml';
+
 (async () => {
-  const fs = require('fs');
-  const yaml = require('yaml');
   const { Command, Option } = require('commander');
   const program = new Command();
-  const fileData = fs.readFileSync('./api/openapi.yaml', 'utf8');
-  const openapi = yaml.parse(fileData);
-  const generatorDirectories = fs.readdirSync('./', { recursive: true, withFileTypes: false })
-    .filter((x: any) => {
-      if (x.startsWith('node_modules')) {
-        return false;
-      }
-
-      if (!x.startsWith('dist/')) {
-        return false;
-      }
-
-      // Skip generated sources, and skip the generator - we want generator's builders, not the generator itself.
-      if (x.includes('/generated') || x.endsWith('/generator')) {
-        return false;
-      }
-
-      const stat = fs.statSync(x);
-
-      return stat.isDirectory();
-    })
-    .map((x: string) => x.substring(x.lastIndexOf('/') + 1));
 
   program
+    .argument('<filename>', 'OpenAPI Input Specification')
     .option('--dto <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
     .option('--dao <directory>', 'output directory for generated DAOs', DAO_DIRECTORY)
-    .addOption(new Option('-g <generator>', 'output generator to use').choices(generatorDirectories))
+    .addOption(new Option('-g <generator>', 'output generator to use').choices(GENERATORS))
     .parse();
 
-  console.log(`Code Auto-Generator: ${VERSION}`);
+  if (!fs.existsSync(program.args[0])) {
+    console.error(`File ${program.args[0]} not found.`);
+    console.log(program.help());
+    return;
+  }
+
+  const fileData = fs.readFileSync(program.args[0], 'utf8');
+  const openapi = yaml.parse(fileData);
+
+  console.log(`Code Auto-Generator: ${VERSION} Args: ${program.args}`);
 
   fs.rmSync(DTO_DIRECTORY, { recursive: true, force: true });
 

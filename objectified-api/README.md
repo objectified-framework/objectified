@@ -10,8 +10,7 @@ definition for the DAO/DTO layer.
 To build the `api` library, run:
 
 ```shell
-npm install
-npm run build
+sh build.sh
 ```
 
-This will build the API layer, along with the autogen code.
+This will build the autogenerator.
