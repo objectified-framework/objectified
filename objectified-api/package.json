@@ -3,11 +3,9 @@
   "version": "0.1.8",
   "description": "Objectified Data Definitions",
   "scripts": {
-    "clean": "rm -rf dist cfx src/generated tests/generated ../objectified-services/src/generated ../objectified-data/src/generated",
+    "clean": "rm -rf dist cfx",
     "lint": "npx @redocly/cli lint api/openapi.yaml",
-    "start": "",
-    "autogen": "node dist/gen.js -g nestjs --dto ../objectified-data/src/generated/dto --dao ../objectified-data/src/generated/dao",
-    "build": "npm run clean && tsc && npm run autogen && rm -rf dist/src dist/tests",
+    "build": "npm run clean && tsc",
     "counterfact": "rm -rf cfx && counterfact api/openapi.yaml cfx -g && counterfact api/openapi.yaml cfx -p 8080 api/openapi.yaml --swagger -s",
     "test": "jest"
   },
