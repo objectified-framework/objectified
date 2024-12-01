@@ -9,6 +9,8 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
 
   fs.mkdirSync(dtoDirectory, { recursive: true });
 
+  console.log(`Generating NestJS DTO objects to ${dtoDirectory}:`);
+
   for(const dto of Object.keys(schemas)) {
     const { properties, description } = schemas[dto];
     const required: string[] = schemas[dto].required ?? [];
@@ -42,7 +44,8 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
       // no quotes, as it matches the name of the property interface.
       const propertiesDump = JSON.stringify(properties[property], typeFormatter, 2)
         .replaceAll('\n', '\n  ')
-        .replace(/"([^"]+)":/g, '$1:');
+        .replace(/"([^"]+)":/g, '$1:')
+        .replaceAll('  type: "object",\n  ', '');
       let requiredFlag = required.includes(property) ? '' : '?';
       let optionalFlag = required.includes(property) ? 'ApiProperty' : 'ApiPropertyOptional';
 
@@ -75,5 +78,5 @@ export function generateDtos(dtoDirectory: string, openapi: any) {
   }
 
   fs.writeFileSync(indexFilename, indexBody, 'utf8');
-  console.log(`  + Wrote ${indexFilename}`);
+  console.log(`  - Wrote ${indexFilename}`);
 }

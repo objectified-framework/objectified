@@ -8,13 +8,14 @@ export function generateDaos(daoDirectory: string, openapi: any) {
 
   fs.mkdirSync(daoDirectory, { recursive: true });
 
+  console.log(`Generating NestJS DAO objects to ${daoDirectory}:`);
+
   for(const dao of Object.keys(schemas)) {
     const isNoDao = schemas[dao]['x-no-dao'] ?? false;
     const daoSchema = schemas[dao]['x-schema'] ?? '';
     const description = schemas[dao].description.trim().replaceAll('\n', '\n * ') ?? '';
 
     if (isNoDao) {
-      console.log(`  - Skipping ${dao}.dao.ts (x-no-dao set)`);
       continue;
     }
 
@@ -39,10 +40,10 @@ export function generateDaos(daoDirectory: string, openapi: any) {
   }
 
   fs.copyFileSync('src/generator/nestjs/templates/BaseDao.ts', `${daoDirectory}/BaseDao.ts`);
-  console.log(`  + Copied BaseDao.ts to ${daoDirectory}/BaseDao.ts`);
+  console.log(`  > Copied BaseDao.ts to ${daoDirectory}/BaseDao.ts`);
 
   fs.copyFileSync('src/generator/nestjs/templates/DaoUtils.ts', `${daoDirectory}/DaoUtils.ts`);
-  console.log(`  + Copied DaoUtils.ts to ${daoDirectory}/DaoUtils.ts`);
+  console.log(`  > Copied DaoUtils.ts to ${daoDirectory}/DaoUtils.ts`);
 
   // Write index
   let indexBody = HEADER;
@@ -60,7 +61,7 @@ export function generateDaos(daoDirectory: string, openapi: any) {
   indexBody += "export * from './DaoUtils';\n";
 
   fs.writeFileSync(indexFilename, indexBody, 'utf8');
-  console.log(`  + Wrote ${indexFilename}`);
+  console.log(`  - Wrote ${indexFilename}`);
 }
 
 export function pascalToSnake(str: string): string {

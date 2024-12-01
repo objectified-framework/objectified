@@ -5,9 +5,9 @@
  * compatible for use with NestJS and React applications.  These DTO objects are decorated with
  * annotations from the NestJS Swagger library.
  */
+import {Option} from "commander";
 
 const GENERATORS = ['nestjs', 'python'];
-const VERSION: string = '0.1.8';
 const DTO_DIRECTORY: string = 'src/generated/dto';
 const DAO_DIRECTORY: string = 'src/generated/dao';
 
@@ -15,14 +15,15 @@ import * as fs from 'fs';
 import * as yaml from 'yaml';
 
 (async () => {
+  const version = yaml.parse(fs.readFileSync('gen.yaml', 'utf8'))['version'];
   const { Command, Option } = require('commander');
   const program = new Command();
 
   program
     .argument('<filename>', 'OpenAPI Input Specification')
+    .addOption(new Option('-g <generator>', 'output generator to use').choices(GENERATORS))
     .option('--dto <directory>', 'output directory for generated DTOs', DTO_DIRECTORY)
     .option('--dao <directory>', 'output directory for generated DAOs', DAO_DIRECTORY)
-    .addOption(new Option('-g <generator>', 'output generator to use').choices(GENERATORS))
     .parse();
 
   if (!fs.existsSync(program.args[0])) {
@@ -34,7 +35,7 @@ import * as yaml from 'yaml';
   const fileData = fs.readFileSync(program.args[0], 'utf8');
   const openapi = yaml.parse(fileData);
 
-  console.log(`Code Auto-Generator: ${VERSION} Args: ${program.args}`);
+  console.log(`Code Auto-Generator: ${version}`);
 
   fs.rmSync(DTO_DIRECTORY, { recursive: true, force: true });
 
