@@ -19,13 +19,13 @@ jobs:
           node-version: "22"
 
       - name: Set up and install nvm
-        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
       - name: Configure NVM
-        run: nvm install --lts && npm use --lts
+        run: export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && npm use --lts
 
       - name: Enable Yarn 4
-        run: corepack enable && corepack use yarn
+        run: export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && corepack enable && corepack use yarn
 
       - name: Run API
         run: cd objectified-api && sh build.sh
