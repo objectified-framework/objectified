@@ -10,3 +10,6 @@ This is a list of the subprojects included in this repository:
 
 [This is the data project that accompanies Objectified.](objectified-api/README.md)
 
+### objectified-db
+
+[This project contains the database for Objectified.](objectified-db/README.md)
