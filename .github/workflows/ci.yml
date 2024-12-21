@@ -17,3 +17,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "22"
+
+      - name: Set up latest Yarn with corepack
+        run: corepack enable && corepack use yarn
