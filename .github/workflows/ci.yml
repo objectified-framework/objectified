@@ -51,3 +51,6 @@ jobs:
 
       - name: Build API
         run: cd objectified-api && sh ./build.sh
+
+      - name: Build Services
+        run: cd objectified-services && sh ./build.sh

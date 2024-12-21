@@ -2,7 +2,7 @@
 #
 # Build script
 
-npm install
-npm run autogen
-npm run build
+yarn install
+yarn autogen
+yarn build
 

@@ -8,7 +8,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "autogen": "npx @objectified-framework/objectified-api -g nestjs ../openapi/openapi.yaml",
+    "autogen": "node ../objectified-api/dist/index.js -g nestjs ../openapi/openapi.yaml",
     "build": "tsc",
     "release": "npm run build && npm publish",
     "test": "jest"
