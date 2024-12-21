@@ -18,5 +18,8 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Set up nvm
+        run: nvm install --lts && nvm use --lts
+
       - name: Run API
         run: cd objectified-api && sh build.sh
