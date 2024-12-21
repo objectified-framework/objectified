@@ -25,3 +25,6 @@ jobs:
 
       - name: Set up latest Yarn with corepack
         run: corepack enable && corepack use yarn
+
+      - name: Build API
+        run: cd workspace-api && sh ./build.sh
