@@ -6,6 +6,15 @@ on:
       - main
 
 jobs:
+  setup-build:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: "22"
+
   postgres-job:
     runs-on: ubuntu-latest
     container: node:latest
@@ -26,6 +35,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    needs: setup-build
     steps:
       - name: Install PostgreSQL Client
         run: apt-get update && apt-get install --yes postgresql-client
@@ -34,6 +44,20 @@ jobs:
         run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
         env:
           PGPASSWORD: postgres_password
+
+  install-database:
+    runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_USER: postgres_user
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_PASSWORD: postgres_password
+
+    needs: postgres-job
+    steps:
+      - name: Build Database Schema
+        run: cd objectified-db && sh ./build.sh
 
   build:
     runs-on: ubuntu-latest
@@ -47,21 +71,10 @@ jobs:
       POSTGRES_PORT: 5432
       POSTGRES_PASSWORD: postgres_password
 
-    needs: postgres-job
+    needs: setup-build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "22"
-
       - name: Set up latest Yarn with corepack
         run: corepack enable && corepack use yarn
 
       - name: Build API
         run: cd objectified-api && sh ./build.sh
-
-      - name: Build Database Schema
-        run: cd objectified-db && sh ./build.sh
