@@ -27,4 +27,4 @@ jobs:
         run: corepack enable && corepack use yarn
 
       - name: Build API
-        run: cd workspace-api && sh ./build.sh
+        run: cd objectified-api && sh ./build.sh
