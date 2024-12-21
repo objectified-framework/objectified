@@ -17,12 +17,3 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "22"
-
-      - name: Set up and install nvm
-        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-
-      - name: Configure NVM
-        run: export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install --lts && nvm use --lts
-
-      - name: Enable Yarn 4
-        run: export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && corepack enable && corepack use yarn
