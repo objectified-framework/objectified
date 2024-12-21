@@ -24,7 +24,7 @@ will use.
 To run the script, simply run:
 
 ```shell
-sh build.sh
+sh ./build.sh
 ```
 
 This will build and execute the SQL commands to generate the schema.

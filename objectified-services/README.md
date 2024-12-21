@@ -20,5 +20,5 @@ code from the OpenAPI Specification, and build the application layer.
 To run the application, simply run:
 
 ```shell
-npm run start
+sh ./run.sh
 ```
