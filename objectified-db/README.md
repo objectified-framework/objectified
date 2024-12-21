@@ -14,7 +14,7 @@ In order to run the loading script, you must have the following environment vari
 set:
 
 - POSTGRES_USER
-- POSTGRES_PASS
+- POSTGRES_PASSWORD
 - POSTGRES_HOST
 - POSTGRES_PORT
 
