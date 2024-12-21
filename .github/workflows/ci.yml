@@ -6,6 +6,26 @@ on:
       - main
 
 jobs:
+  postgres-job:
+    runs-on: ubuntu-latest
+    container: node:latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: postgres_db
+          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres_user
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
   build:
     runs-on: ubuntu-latest
 
@@ -13,10 +33,22 @@ jobs:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       NEXTAUTH_URL: http://localhost:3000/api/auth
       SERVICE_URL: http://localhost:3001/
+      POSTGRES_USER: postgres_user
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_PASSWORD: postgres_password
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Install PostgreSQL Client
+        run: apt-get update && apt-get install --yes postgresql-client
+
+      - name: Confirm PostgreSQL Services
+        run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+        env:
+          PGPASSWORD: postgres_password
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
