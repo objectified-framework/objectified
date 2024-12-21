@@ -11,6 +11,8 @@ jobs:
 
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
+      NEXTAUTH_URL: http://localhost:3000/api/auth
+      SERVICE_URL: http://localhost:3001/
 
     steps:
       - name: Checkout code
