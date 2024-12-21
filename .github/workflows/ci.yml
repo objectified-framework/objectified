@@ -26,6 +26,15 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    steps:
+      - name: Install PostgreSQL Client
+        run: apt-get update && apt-get install --yes postgresql-client
+
+      - name: Confirm PostgreSQL Services
+        run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+        env:
+          PGPASSWORD: postgres_password
+
   build:
     runs-on: ubuntu-latest
 
@@ -41,14 +50,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Install PostgreSQL Client
-        run: apt-get update && apt-get install --yes postgresql-client
-
-      - name: Confirm PostgreSQL Services
-        run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
-        env:
-          PGPASSWORD: postgres_password
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
