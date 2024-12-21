@@ -46,8 +46,8 @@ jobs:
       - name: Set up latest Yarn with corepack
         run: corepack enable && corepack use yarn
 
-      - name: Build API
-        run: cd objectified-api && sh ./build.sh
-
       - name: Build Database Schema
         run: cd objectified-db && sh ./build.sh
+
+      - name: Build API
+        run: cd objectified-api && sh ./build.sh
