@@ -47,6 +47,7 @@ jobs:
       POSTGRES_PORT: 5432
       POSTGRES_PASSWORD: postgres_password
 
+    needs: postgres-job
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
