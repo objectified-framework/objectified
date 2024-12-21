@@ -6,12 +6,12 @@
  * This is a utilities class that contains methods for interacting with the database.
  */
 export class DaoUtils {
-  private static readonly pgp = require('pg-promise')();
+  private static readonly pgp = require("pg-promise")();
   private static readonly db = this.pgp(
-      process.env.DATABASE_URL ?? 'postgres://localhost:5432/postgres'
+    process.env.DATABASE_URL ?? "postgres://localhost:5432/postgres",
   );
 
-  constructor() { }
+  constructor() {}
 
   /**
    * Retrieves the database connection.
@@ -51,10 +51,10 @@ export class DaoUtils {
    */
   public static generateInsertSql(tableName: string, data: any): string {
     const keys = Object.keys(data);
-    let sql = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (`;
+    let sql = `INSERT INTO ${tableName} (${keys.join(", ")}) VALUES (`;
 
-    sql += keys.map((x) => '$[' + x + ']').join(', ');
-    sql += ') RETURNING *';
+    sql += keys.map((x) => "$[" + x + "]").join(", ");
+    sql += ") RETURNING *";
 
     return sql;
   }
@@ -69,8 +69,8 @@ export class DaoUtils {
     const keys = Object.keys(data);
     let sql = `UPDATE ${tableName} SET `;
 
-    sql += keys.map((x) => x + '=$[' + x + ']').join(', ');
-    sql += ' WHERE id=$[id] RETURNING *';
+    sql += keys.map((x) => x + "=$[" + x + "]").join(", ");
+    sql += " WHERE id=$[id] RETURNING *";
 
     return sql;
   }
@@ -85,7 +85,7 @@ export class DaoUtils {
     const keys = Object.keys(where);
     let sql = `SELECT * FROM ${tableName} WHERE `;
 
-    sql += keys.map((x) => x + '=$[' + x + ']').join(' AND ');
+    sql += keys.map((x) => x + "=$[" + x + "]").join(" AND ");
 
     return sql;
   }
@@ -108,9 +108,12 @@ export function initCap(str: string): string {
 export function toCamelCase(str: string): string {
   const s =
     str &&
-    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-      .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-      .join('');
+    str
+      .match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+      )
+      .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+      .join("");
 
   return s.slice(0, 1).toLowerCase() + s.slice(1);
 }
@@ -124,8 +127,8 @@ export function toCamelCase(str: string): string {
 export function toKebabCase(str: string): string {
   return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(x => x.toLowerCase())
-    .join('-');
+    .map((x) => x.toLowerCase())
+    .join("-");
 }
 
 /**
@@ -137,6 +140,6 @@ export function toKebabCase(str: string): string {
 export function toPascalCase(str: string): string {
   return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(x => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-    .join('');
+    .map((x) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+    .join("");
 }

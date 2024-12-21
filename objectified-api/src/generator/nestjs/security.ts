@@ -1,9 +1,9 @@
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
 const HEADER: string = `/**\n * This utility security scheme file is automatically generated.\n * Do not modify this file, any changes will be overwritten.\n *\n * Generated ${new Date()}\n */\n\n`;
 
 export function generateSecuritySchemes(utilDirectory: string, schema: any) {
-  const fs = require('fs');
+  const fs = require("fs");
   const schemes = schema.components.securitySchemes;
 
   fs.mkdirSync(utilDirectory, { recursive: true });
@@ -15,21 +15,27 @@ export function generateSecuritySchemes(utilDirectory: string, schema: any) {
   }
 }
 
-function generateSecurity(directory: string, schemeName: string, schemeData: any) {
-  const fs = require('fs');
+function generateSecurity(
+  directory: string,
+  schemeName: string,
+  schemeData: any,
+) {
+  const fs = require("fs");
   const file = `${directory}/${schemeName}.ts`;
-  let utilBody: string = '';
+  let utilBody: string = "";
 
   utilBody += HEADER;
-  utilBody += 'import { Request } from \'express\';\n';
+  utilBody += "import { Request } from 'express';\n";
 
-  switch(schemeData.bearerFormat.toLowerCase()) {
-    case 'jwt':
+  switch (schemeData.bearerFormat.toLowerCase()) {
+    case "jwt":
       utilBody += jwtUtilBody(schemeName);
       break;
 
     default:
-      throw new Error('Cannot write utility for security scheme: ' + schemeName);
+      throw new Error(
+        "Cannot write utility for security scheme: " + schemeName,
+      );
   }
 
   fs.writeFileSync(file, utilBody);
@@ -37,11 +43,11 @@ function generateSecurity(directory: string, schemeName: string, schemeData: any
 }
 
 function jwtUtilBody(schemeName: string): string {
-  let body = '';
+  let body = "";
 
   // JWT Encode/Decode import, encoder, decoder, and validator
   body += `// JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.
-export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}';
+export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll("\\", "\\\\").replaceAll("'", "\\'")}';
 
 /**
  * Encrypts a JWT token with the given payload and possible timeout given as a string or numeric value.

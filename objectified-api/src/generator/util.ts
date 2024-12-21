@@ -7,33 +7,33 @@
  * @returns Altered value if applicable, otherwise, returns the original value that was sent.
  */
 export function typeFormatter(key: string, value: string) {
-  if (key.toLowerCase() === 'type') {
-    switch(value.toLowerCase()) {
-      case 'number':
-      case 'integer':
-      case 'float':
-      case 'double':
-        return 'number';
+  if (key.toLowerCase() === "type") {
+    switch (value.toLowerCase()) {
+      case "number":
+      case "integer":
+      case "float":
+      case "double":
+        return "number";
 
-      case 'string':
-        return 'string';
+      case "string":
+        return "string";
 
-      case 'boolean':
-        return 'boolean';
+      case "boolean":
+        return "boolean";
 
-      case 'object':
-        return 'object';
+      case "object":
+        return "object";
 
-      case 'array':
-        return 'array';
+      case "array":
+        return "array";
 
       default:
         return value;
     }
   }
 
-  if (key.toLowerCase() === 'description') {
-    return value.replaceAll('\n', ' ');
+  if (key.toLowerCase() === "description") {
+    return value.replaceAll("\n", " ");
   }
 
   return value;
@@ -49,48 +49,53 @@ export function typeFormatter(key: string, value: string) {
  * @param language {string} containing the language to convert to.  Default is `node`.
  * @returns string containing the translated value.
  */
-export function propertyToType(properties: any, language: string = 'node'): string {
+export function propertyToType(
+  properties: any,
+  language: string = "node",
+): string {
   const { type, $ref, format } = properties;
 
-  if (language.toLowerCase() == 'node') {
+  if (language.toLowerCase() == "node") {
     // Formatting is handled here if the type is a date-time
     if (format) {
       switch (format.toString()) {
-        case 'date-time':
-          return 'Date';
+        case "date-time":
+          return "Date";
       }
     }
 
     // $ref objects are converted to a DTO, as this document covers only defined objects that this convertor knows about.
     if ($ref) {
-      return $ref.substring($ref.lastIndexOf('/') + 1) + 'Dto';
+      return $ref.substring($ref.lastIndexOf("/") + 1) + "Dto";
     }
 
     // Enumeration values.
     if (properties.enum) {
-      return '[ ' + properties.enum
-        .map((x: string) => `'${x}'`)
-        .join(' | ') + ' ]';
+      return (
+        "[ " + properties.enum.map((x: string) => `'${x}'`).join(" | ") + " ]"
+      );
     }
 
     // Fall back to raw types if the type is not an enumeration or ref.
     switch (type.toLowerCase()) {
-      case 'integer':
-        if (format?.toLowerCase() === 'int64') {
-          return 'bigint';
+      case "integer":
+        if (format?.toLowerCase() === "int64") {
+          return "bigint";
         }
 
-        return 'number';
+        return "number";
 
-      case 'array':
+      case "array":
         return `${propertyToType(properties.items)}[]`;
 
-      case 'object':
+      case "object":
         if (properties.properties) {
-          throw new Error(`Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`);
+          throw new Error(
+            `Unable to handle an object with properties: ${JSON.stringify(properties, null, 2)}`,
+          );
         }
 
-        return 'any';
+        return "any";
     }
 
     // Catch-all if no type checking is necessary
@@ -117,9 +122,12 @@ export function initCap(str: string): string {
 export function toCamelCase(str: string): string {
   const s =
     str &&
-    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-      .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-      .join('');
+    str
+      .match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+      )
+      .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+      .join("");
 
   return s.slice(0, 1).toLowerCase() + s.slice(1);
 }
@@ -133,8 +141,8 @@ export function toCamelCase(str: string): string {
 export function toKebabCase(str: string): string {
   return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(x => x.toLowerCase())
-    .join('-');
+    .map((x) => x.toLowerCase())
+    .join("-");
 }
 
 /**
@@ -146,6 +154,6 @@ export function toKebabCase(str: string): string {
 export function toPascalCase(str: string): string {
   return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(x => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-    .join('');
+    .map((x) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+    .join("");
 }
