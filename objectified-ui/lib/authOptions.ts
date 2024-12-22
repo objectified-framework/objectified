@@ -27,13 +27,20 @@ export const authOptions: NextAuthOptions = {
           source: ['github'],
         };
 
-        const result = await AuthLogin(loginDto)
-          .then((x) => console.log('Auth login', x))
-          .catch((x) => console.log('Auth login fail', x));
-
-        console.log('Login path.', loginDto);
-
-        return false;
+        return await AuthLogin(loginDto)
+          .then((x) => {
+            if (!x.data) {
+              console.log('Authentication worked, but account information is incomplete');
+              return '/signup';
+            }
+            
+            console.log('Auth login', x);
+            return true;
+          })
+          .catch((x) => {
+            console.log('Auth login fail', x);
+            return false;
+          });
       }
 
       return false;

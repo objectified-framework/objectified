@@ -122,6 +122,7 @@ const LoginForm = () => {
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#66f', fontWeight: 'bold'}}
                         fullWidth
+                        disabled={true}
                         type={'submit'}>Log in</Button>
               </Item>
             </Stack>

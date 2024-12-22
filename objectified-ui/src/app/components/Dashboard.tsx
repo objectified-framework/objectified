@@ -94,7 +94,8 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                   handleClose();
                   setLogoutShowing(true);
                   signOut({
-                    callbackUrl: '/login'
+                    callbackUrl: '/login',
+                    redirect: true,
                   });
                 }}>Logout</MenuItem>
               </Menu>
