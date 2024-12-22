@@ -90,6 +90,22 @@ export const ResponseCreated = (val: any | null = null) => {
   };
 }
 
+export const ResponseUnauthorized = (val: any | null = null) => {
+  return {
+    returnValue: val,
+    returnContentType: 'application/json',
+    statusCode: 401,
+  };
+}
+
+export const ResponseNotFound = (val: any | null = null) => {
+  return {
+    returnValue: val,
+    returnContentType: 'application/json',
+    statusCode: 404,
+  };
+}
+
 `;
 
   for (const tag of Object.keys(tags)) {

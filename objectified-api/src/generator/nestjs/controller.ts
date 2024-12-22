@@ -90,6 +90,7 @@ import { Request, Response } from 'express';
     const requestBodyContent = requestBody?.content["application/json"];
     const inputs = [];
     const inputVariables = [];
+    const inputCasts = [];
     let returnType = null;
     let functionComment = "";
     let functionBody = "";
@@ -212,7 +213,10 @@ import { Request, Response } from 'express';
       }
     }
 
+    let hasBody = false;
+
     if (requestBodyContent) {
+      hasBody = true;
       const description = requestBody.description;
       const schema = requestBodyContent.schema;
 
@@ -227,22 +231,36 @@ import { Request, Response } from 'express';
           schema.$ref.lastIndexOf("/") + 1,
         );
 
-        inputs.push(`@Body() ${toCamelCase(reference)}Dto: ${reference}Dto`);
+        // inputs.push(`@Body() ${toCamelCase(reference)}Dto: ${reference}Dto`);
+        inputCasts.push(`const ${toCamelCase(reference)}Dto: ${reference}Dto = <${reference}Dto>bodyData['${toCamelCase(reference)}Dto'];`);
         inputVariables.push(`${toCamelCase(reference)}Dto`);
         controllerDtoImports[`${reference}Dto`] = 1;
 
         functionBody += `    type: ${reference}Dto,\n`;
-        functionComment += `   * @param ${toCamelCase(reference)}Dto ${description.trim().replaceAll("\n", " ")}\n`;
       }
 
       functionBody += "  })\n";
     }
 
+    if (hasBody) {
+      functionComment += '   * @param bodyData The request body data against which the input variables will be retrieved\n';
+    }
+
     functionComment += "   * @param request The request object\n";
     functionComment += "   * @param response The response object\n";
 
-    functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(", ")}): Promise<void> {
-    const result = await this.service.${operationId}(request, ${inputVariables.join(", ")});
+    if (!hasBody) {
+      functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(", ")}): Promise<void> {\n`;
+    } else {
+      functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, @Body() bodyData: any, ${inputs.join(", ")}): Promise<void> {\n`;
+    }
+
+    if (inputCasts) {
+      functionBody += inputCasts.map((x) => `    ${x}`).join('\n');
+      functionBody += '\n';
+    }
+
+    functionBody += `    const result = await this.service.${operationId}(request, ${inputVariables.join(", ")});
     
     response.status(result.statusCode).contentType(result.returnContentType);
     

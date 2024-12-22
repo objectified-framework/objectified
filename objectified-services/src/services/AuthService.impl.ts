@@ -9,7 +9,12 @@ export class AuthServiceImpl implements AuthService {
     console.log(`Login DTO: ${JSON.stringify(loginDto, null, 2)}`);
 
     const dao = new LoginDao();
-    const findStatement = `email_address=${loginDto.emailAddress} AND source IN ("${loginDto.source}")`;
+
+    // This is the "where" clause
+    const findStatement: any = {
+      email_address: loginDto.emailAddress,
+      source: loginDto.source,
+    };
 
     return await dao.findOne(findStatement)
       .then((x) => {
