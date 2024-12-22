@@ -17,4 +17,4 @@ CREATE TABLE obj.user (
     data JSON
 );
 
-INSERT INTO obj.user (id, email_address, source) VALUES (uuid_generate_v4(), 'kenji.suenobu@fastmail.com', '{github}');
+INSERT INTO obj.user (id, email_address, source) VALUES (uuid_generate_v4(), 'ksuenobu@fastmail.com', '{github}');

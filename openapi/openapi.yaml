@@ -43,7 +43,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: '#/components/schemas/User'
       responses:
         '200':
           description: OK, returns the JWT session token that must be stored on the client.
@@ -51,8 +51,6 @@ paths:
             text/plain:
               schema:
                 type: string
-        '400':
-          description: Bad request
         '401':
           description: Unauthorized
         '403':
@@ -65,7 +63,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    Login:
+    User:
       type: object
       x-schema: obj
       required:
