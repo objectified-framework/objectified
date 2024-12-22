@@ -7,6 +7,13 @@ import {UserDto} from "../generated/dto";
 export class AuthServiceImpl implements AuthService {
   private readonly logger = new Logger(AuthServiceImpl.name);
 
+  /**
+   * This is the implementation of the login service.  It checks the email address along with the source.  If the
+   * source specified doesn't match the list of allowed sources, the account login fails.
+   *
+   * @param request The active request object.
+   * @param userDto The User DTO.
+   */
   async login(request: Request, userDto: UserDto): Promise<ServiceResponse<string>> {
     const dao = new UserDao();
 
