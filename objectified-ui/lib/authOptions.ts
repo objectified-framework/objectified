@@ -1,7 +1,8 @@
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
-import {LoginDto} from "@objectified-framework/objectified-services/dist/generated/dto";
+import {LoginDto} from '@objectified-framework/objectified-services/dist/generated/dto';
+import {AuthLogin} from '@objectified-framework/objectified-services/dist/generated/clients';
 import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
@@ -16,7 +17,9 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account: any, profile, email, credentials }) {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log(`signIn: user=${JSON.stringify(user, null, 2)} account=${JSON.stringify(account, null, 2)} profile=${JSON.stringify(profile, null, 2)} email=${JSON.stringify(email)} credentials=${JSON.stringify(credentials, null, 2)}`);
+
       if (account.provider === 'github') {
         // Github login path
         const loginDto: LoginDto = {
@@ -24,14 +27,15 @@ export const authOptions: NextAuthOptions = {
           source: ['github'],
         };
 
-        await axios.post('/auth');
+        const result = await AuthLogin(loginDto)
+          .then((x) => console.log('Auth login', x))
+          .catch((x) => console.log('Auth login fail', x));
 
         console.log('Login path.', loginDto);
 
         return false;
       }
 
-      console.log(`signIn: user=${JSON.stringify(user, null, 2)} account=${JSON.stringify(account, null, 2)} profile=${JSON.stringify(profile, null, 2)} email=${JSON.stringify(email)} credentials=${JSON.stringify(credentials, null, 2)}`);
       return false;
     },
     async redirect({ url, baseUrl }) {

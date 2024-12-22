@@ -164,6 +164,7 @@ function generateClient(
 export const ${initCap(name)}${initCap(operationId)} = async (${inputVariables.join(", ")},) => {
   console.log(\`Requesting ${path}\`);
   
+  const requestUrl = process.env.SERVICE_URL ?? '';
   const config = {
     headers: {
       ...headers,
@@ -176,9 +177,9 @@ export const ${initCap(name)}${initCap(operationId)} = async (${inputVariables.j
       serviceClassBody += inputVariableNames.map((x) => `    ${x}`).join(",\n");
       serviceClassBody += `,\n  };\n\n`;
 
-      serviceClassBody += `  return axios.${method}(\`${alteredPath}\`, postData, config)\n`;
+      serviceClassBody += `  return axios.${method}(\`$\{requestUrl\}${alteredPath}\`, postData, config)\n`;
     } else {
-      serviceClassBody += `\n  return axios.${method}(\`${alteredPath}\`, config)\n`;
+      serviceClassBody += `\n  return axios.${method}(\`$\{requestUrl\}${alteredPath}\`, config)\n`;
     }
 
     serviceClassBody += `    .then((x) => x.data)
