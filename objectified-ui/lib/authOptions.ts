@@ -30,10 +30,10 @@ export const authOptions: NextAuthOptions = {
         return await AuthLogin(loginDto)
           .then((x) => {
             if (!x.data) {
-              console.log('Authentication worked, but account information is incomplete');
+              console.log('Authentication worked, but account information is incomplete, redirecting to /signup');
               return '/signup';
             }
-            
+
             console.log('Auth login', x);
             return true;
           })
