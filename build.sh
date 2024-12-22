@@ -8,6 +8,8 @@ echo "Building Objectified Master Project"
 cd objectified-db && sh ./build.sh && cd .. && echo "DB Loaded." && echo
 
 # Load the OpenAPI toolset next
-cd objectified-api && sh ./build.sh && cd .. && echo "API project built properly."
+cd objectified-api && sh ./build.sh && cd .. && echo "API project built properly." && echo
 
+# Compile the services layer
+cd objectified-services && sh ./build.sh && cd .. && echo "Services layer built properly." && echo
 
