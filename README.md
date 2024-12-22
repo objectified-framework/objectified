@@ -2,6 +2,14 @@
 
 The Objectified Monorepo
 
+## Building Objectified
+
+For clean installations, run the following from the top-level directory in the monorepo:
+
+```shell
+sh ./build.sh
+```
+
 ## Subprojects
 
 This is a list of the subprojects included in this repository:
