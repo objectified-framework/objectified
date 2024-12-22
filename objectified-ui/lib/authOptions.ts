@@ -55,6 +55,11 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       console.log(`jwt: token=${JSON.stringify(token)} user=${JSON.stringify(user)} account=${JSON.stringify(account)} profile=${JSON.stringify(profile)} isNewUser=${JSON.stringify(isNewUser)}`);
+
+      if (account) {
+        console.log('Inject UserID and user data from database here.');
+      }
+
       return token;
     }
   }
