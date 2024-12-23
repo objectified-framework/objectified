@@ -67,12 +67,26 @@ export const authOptions: NextAuthOptions = {
         const result = await UserGetUser({
           'Authorization': `Bearer ${encodedJwt}`,
         }).then((x) => {
-          console.log('User get user', x);
-          return null;
+          const resultData = JSON.parse(x);
+          return {
+            id: resultData.id,
+            data: resultData.data,
+          };
         }).catch((x) => {
           console.log('User get user fail', x);
           return null;
         });
+
+        if (!result) {
+          console.log('User failed to authenticate via JWT');
+        } else {
+          token.objectified = {
+            ...token.objectified,
+            ...result,
+          };
+
+          console.log('Token', token);
+        }
       }
 
       return token;
