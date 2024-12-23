@@ -25,7 +25,7 @@ function generateSecurity(
   let utilBody: string = "";
 
   utilBody += HEADER;
-  utilBody += "import { Request } from 'express';\n";
+  utilBody += "\n";
 
   switch (schemeData.bearerFormat.toLowerCase()) {
     case "jwt":
@@ -46,7 +46,10 @@ function jwtUtilBody(schemeName: string): string {
   let body = "";
 
   // JWT Encode/Decode import, encoder, decoder, and validator
-  body += `// JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.
+  body += `import { Request } from 'express';
+import jwt from 'jsonwebtoken';
+
+// JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.
 export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll("\\", "\\\\").replaceAll("'", "\\'")}';
 
 /**
@@ -57,8 +60,6 @@ export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(6
  * @returns The JWT token string
  */
 export function encrypt(payload: any, timeout?: string | number): string {
-  const jwt = require('jsonwebtoken');
-  
   if (timeout) {
     return jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });
   }
@@ -74,7 +75,6 @@ export function encrypt(payload: any, timeout?: string | number): string {
  * @throws Error if the token is missing
  */
 export function decrypt(req: Request): any {
-  const jwt = require('jsonwebtoken');
   const token: string = req.headers.authorization?.split(' ')[1];
   
   if (!token) {
@@ -91,7 +91,6 @@ export function decrypt(req: Request): any {
  * @returns {boolean} \`true\` if valid, \`false\` otherwise, or if bearer authorization token is missing
  */
 export function validate(req: Request): any {
-  const jwt = require('jsonwebtoken');
   const token: string = req.headers.authorization?.split(' ')[1];
   
   if (!token) {

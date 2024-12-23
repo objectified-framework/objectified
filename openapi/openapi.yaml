@@ -27,6 +27,10 @@ tags:
       information provided by the third party authenticators are stored in the users' associated
       accounts, or in session variables as necessary.  Remaining information such as a user's
       name, or account settings are stored in Objectified through other services.
+  - name: User
+    description: |
+      User services are applied after a user login is complete.  Once a user has been successfully
+      authenticated using auth, the user data store can be modified or retrieved.
 paths:
   /auth:
     post:
@@ -35,7 +39,7 @@ paths:
       summary: Login service
       operationId: login
       description: |
-        Logs a user into the system via their username and password combination.
+        Logs a user into the system via their username and source combination.
       security: []
       requestBody:
         description: The user credentials with which to login.
@@ -46,11 +50,31 @@ paths:
               $ref: '#/components/schemas/User'
       responses:
         '200':
-          description: OK, returns the JWT session token that must be stored on the client.
+          description: OK
           content:
             text/plain:
               schema:
                 type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Access forbidden
+  /user:
+    get:
+      tags:
+        - User
+      summary: User retrieval service
+      operationId: getUser
+      description: Retrieves a user's data payload from the JWT.
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
         '403':

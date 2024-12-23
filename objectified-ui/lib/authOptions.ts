@@ -2,7 +2,8 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
 import {LoginDto} from '@objectified-framework/objectified-services/dist/generated/dto';
-import {AuthLogin} from '@objectified-framework/objectified-services/dist/generated/clients';
+import {AuthLogin, UserGetUserById} from '@objectified-framework/objectified-services/dist/generated/clients';
+import {JWT} from '@objectified-framework/objectified-services/dist/generated/util/JWT';
 import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
@@ -29,11 +30,6 @@ export const authOptions: NextAuthOptions = {
 
         return await AuthLogin(loginDto)
           .then((x) => {
-            if (!x.data) {
-              console.log('Authentication worked, but account information is incomplete, redirecting to /signup');
-              return '/signup';
-            }
-
             console.log('Auth login', x);
             return true;
           })
@@ -57,7 +53,14 @@ export const authOptions: NextAuthOptions = {
       console.log(`jwt: token=${JSON.stringify(token)} user=${JSON.stringify(user)} account=${JSON.stringify(account)} profile=${JSON.stringify(profile)} isNewUser=${JSON.stringify(isNewUser)}`);
 
       if (account) {
-        console.log('Inject UserID and user data from database here.');
+        token.objectified = {
+          emailAddress: profile.email,
+          source: account.provider,
+        };
+
+        const encodedJwt = JWT.encode(token);
+
+        console.log('Encoded JWT', encodedJwt);
       }
 
       return token;
