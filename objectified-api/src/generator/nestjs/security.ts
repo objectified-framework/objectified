@@ -52,52 +52,54 @@ import jwt from 'jsonwebtoken';
 // JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.
 export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '${faker.string.sample(64).replaceAll("\\", "\\\\").replaceAll("'", "\\'")}';
 
-/**
- * Encrypts a JWT token with the given payload and possible timeout given as a string or numeric value.
- *
- * @param payload The data to encode into the JWT token
- * @param timeout The optional timeout for the JWT token as a string expression or numeric value in milliseconds
- * @returns The JWT token string
- */
-export function encrypt(payload: any, timeout?: string | number): string {
-  if (timeout) {
-    return jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });
+export class JWT {
+  /**
+   * Encrypts a JWT token with the given payload and possible timeout given as a string or numeric value.
+   *
+   * @param payload The data to encode into the JWT token
+   * @param timeout The optional timeout for the JWT token as a string expression or numeric value in milliseconds
+   * @returns The JWT token string
+   */
+  public static encrypt(payload: any, timeout?: string | number): string {
+    if (timeout) {
+      return jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });
+    }
+    
+    return jwt.sign({ data: payload }, SECRET_KEY);
   }
   
-  return jwt.sign({ data: payload }, SECRET_KEY);
-}
-
-/**
- * Decrypts a JWT token payload from the given request object's Bearer authorization string.
- *
- * @param req The request object containing the bearer authorization token
- * @returns The decoded JWT token payload
- * @throws Error if the token is missing
- */
-export function decrypt(req: Request): any {
-  const token: string = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    throw new Error('Missing JWT token');
+  /**
+   * Decrypts a JWT token payload from the given request object's Bearer authorization string.
+   *
+   * @param req The request object containing the bearer authorization token
+   * @returns The decoded JWT token payload
+   * @throws Error if the token is missing
+   */
+  public static decrypt(req: Request): any {
+    const token: string = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      throw new Error('Missing JWT token');
+    }
+    
+    return jwt.verify(token, SECRET_KEY);
   }
   
-  return jwt.verify(token, SECRET_KEY);
-}
-
-/**
- * Validates a JWT token payload from the given request object's Bearer authorization string.
- *
- * @param req The request object containing the bearer authorization token
- * @returns {boolean} \`true\` if valid, \`false\` otherwise, or if bearer authorization token is missing
- */
-export function validate(req: Request): any {
-  const token: string = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    return false;
+  /**
+   * Validates a JWT token payload from the given request object's Bearer authorization string.
+   *
+   * @param req The request object containing the bearer authorization token
+   * @returns {boolean} \`true\` if valid, \`false\` otherwise, or if bearer authorization token is missing
+   */
+  public static validate(req: Request): any {
+    const token: string = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return false;
+    }
+    
+    return jwt.verify(token, SECRET_KEY);
   }
-  
-  return jwt.verify(token, SECRET_KEY);
 }
 `;
 

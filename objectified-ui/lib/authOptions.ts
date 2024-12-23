@@ -2,8 +2,8 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
 import {LoginDto} from '@objectified-framework/objectified-services/dist/generated/dto';
-import {AuthLogin, UserGetUserById} from '@objectified-framework/objectified-services/dist/generated/clients';
-import {JWT} from '@objectified-framework/objectified-services/dist/generated/util/JWT';
+import { AuthLogin, UserGetUser } from '@objectified-framework/objectified-services/dist/generated/clients';
+import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
@@ -50,7 +50,12 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
-      console.log(`jwt: token=${JSON.stringify(token)} user=${JSON.stringify(user)} account=${JSON.stringify(account)} profile=${JSON.stringify(profile)} isNewUser=${JSON.stringify(isNewUser)}`);
+      const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '';
+
+      if (!SECRET_KEY) {
+        console.log('Objectified UI is misconfigured: edit your .env file to add a JWT_SECRET_KEY to encode JWT payloads.');
+        return null;
+      }
 
       if (account) {
         token.objectified = {
@@ -58,9 +63,16 @@ export const authOptions: NextAuthOptions = {
           source: account.provider,
         };
 
-        const encodedJwt = JWT.encode(token);
-
-        console.log('Encoded JWT', encodedJwt);
+        const encodedJwt = jwt.sign({ data: token }, SECRET_KEY);
+        const result = await UserGetUser({
+          'Authorization': `Bearer ${encodedJwt}`,
+        }).then((x) => {
+          console.log('User get user', x);
+          return null;
+        }).catch((x) => {
+          console.log('User get user fail', x);
+          return null;
+        });
       }
 
       return token;

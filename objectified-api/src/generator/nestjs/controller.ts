@@ -305,7 +305,7 @@ import { Request, Response } from 'express';
   }
 
   controllerSecurityImports.forEach((x) => {
-    controllerBody += `import * as ${x} from '../util/${x}';\n`;
+    controllerBody += `import { ${x} } from '../util/${x}';\n`;
   });
 
   controllerBody += `
