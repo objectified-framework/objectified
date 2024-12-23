@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
+  Divider,
   Menu,
   MenuItem,
   Stack,
@@ -20,6 +21,7 @@ import {SideBarMenuGroupProps} from "@/app/components/sidebar/SideBarMenuGroup";
 import {PersonOutline, PersonOutlined} from "@mui/icons-material";
 import {useState} from "react";
 import Item from "@/app/components/common/Item";
+import ProfileForm from "@/app/components/profile/ProfileForm";
 const inter = Inter({ subsets: ["latin"] });
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
@@ -29,6 +31,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [calcWidth, setCalcWidth] = useState('calc(100% - 260px)');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [logoutShowing, setLogoutShowing] = useState(false);
+  const [profileShowing, setProfileShowing] = useState(false);
   const open = Boolean(anchorEl);
 
   if (status === 'unauthenticated') {
@@ -70,6 +73,14 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={profileShowing} fullWidth maxWidth={'sm'}>
+        <DialogContent>
+          <ProfileForm onClose={() => {
+            setProfileShowing(false);
+          }}/>
+        </DialogContent>
+      </Dialog>
+
       <div style={{ display: 'flex', width: '100%' }}>
         <div style={{ position: 'fixed', width: '260px', backgroundColor: '#ccf', height: 'calc(100%)' }}>
           <SideBar width={260} onHomeClicked={handleHomeClicked}
@@ -89,7 +100,11 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
               </Button>
               <Menu id={'simple-menu'} anchorEl={anchorEl} open={open} onClose={handleClose}
                     MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
-                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={() => {
+                  handleClose();
+                  setProfileShowing(true);
+                }}>Profile</MenuItem>
+                <Divider/>
                 <MenuItem onClick={() => {
                   handleClose();
                   setLogoutShowing(true);

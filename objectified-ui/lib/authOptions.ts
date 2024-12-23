@@ -47,6 +47,9 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token, user }) {
       console.log(`session: session=${JSON.stringify(session, null, 2)} user=${JSON.stringify(user, null, 2)} token=${JSON.stringify(token, null, 2)}`);
+
+      session.objectified = token.objectified;
+
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
