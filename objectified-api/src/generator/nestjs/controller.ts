@@ -127,7 +127,7 @@ import { Request, Response } from 'express';
     functionBody += "  @ApiOperation({\n";
 
     if (summary) {
-      functionBody += `    summary: '${summary}',\n`;
+      functionBody += `    summary: '${summary.trim().replaceAll("\n", " ").replaceAll("'", "\\'")}',\n`;
     }
 
     if (description) {

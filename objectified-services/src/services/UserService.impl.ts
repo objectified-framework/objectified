@@ -65,4 +65,9 @@ export class UserServiceImpl implements UserService {
 
     return ResponseUnauthorized('Invalid JWT');
   }
+
+  async putUser(request, userDto: UserDto): Promise<ServiceResponse<null>> {
+    return Promise.resolve(undefined);
+  }
+
 }
