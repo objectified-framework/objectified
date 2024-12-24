@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common';
-import {ResponseOk, ResponseUnauthorized, ServiceResponse, UserService} from "../generated/services";
+import {ResponseNoContent, ResponseOk, ResponseUnauthorized, ServiceResponse, UserService} from "../generated/services";
 import {UserDto} from "../generated/dto";
-import { Request } from 'express';
 import {JWT} from "../generated/util/JWT";
 import {UserDao} from "../generated/dao";
 
@@ -67,7 +66,26 @@ export class UserServiceImpl implements UserService {
   }
 
   async putUser(request, userDto: UserDto): Promise<ServiceResponse<null>> {
-    return Promise.resolve(undefined);
+    if (!userDto.id) {
+      this.logger.error('[putUser] No ID was sent in the payload.');
+      return ResponseUnauthorized('You are not authorized to use this service.');
+    }
+
+    if (!userDto.data) {
+      this.logger.error('[putUser] Payload empty');
+      return ResponseUnauthorized('You are not authorized to use this service.');
+    }
+
+    const dao = new UserDao();
+
+    return await dao.updateById(userDto.id, userDto)
+      .then((x) => {
+        this.logger.log(`[putUser] Data persisted for ID ${userDto.id}`);
+        return ResponseNoContent();
+      }).catch((x) => {
+        this.logger.error('[putUser] Failed to persist data.', x);
+        return ResponseUnauthorized('You are not authorized to use this service.');
+      });
   }
 
 }

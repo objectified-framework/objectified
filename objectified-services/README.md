@@ -22,3 +22,15 @@ To run the application, simply run:
 ```shell
 sh ./run.sh
 ```
+
+## Note regarding services
+
+Many of the services running in this server are unprotected, meaning, the JWT tokens
+are not read or used.  This is because this server is intended to be run behind a
+firewall and not exposed to the outside.
+
+NextJS services used by the `objectified-ui` application will connect to the internal
+services using the clients layer, provided by the `objectified-api` autogenerator
+code.
+
+Services via NextJS run at the server level, so they are not at risk of exposure.

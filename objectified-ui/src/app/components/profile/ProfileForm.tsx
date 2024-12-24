@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import {useState, useEffect} from "react";
 import Item from "@/app/components/common/Item";
-import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
-import {useSession, getCsrfToken} from "next-auth/react";
+import {useSession} from "next-auth/react";
+import { UserPutUser } from '@objectified-framework/objectified-services/dist/generated/clients';
+import {putUser} from "@/app/services/user";
 
 export interface IProfileForm {
   onClose: () => any;
@@ -20,6 +20,7 @@ export interface IProfileForm {
 
 export const ProfileForm = (props: IProfileForm) => {
   const [payload, setPayload] = useState<any>({});
+  const [savingShowing, setSavingShowing] = useState<boolean>(false);
   const { data: session } = useSession();
 
   const handleChange = (e: any) => {
@@ -33,8 +34,21 @@ export const ProfileForm = (props: IProfileForm) => {
     setPayload({});
   }
 
-  const saveClicked = () => {
-    props.onClose();
+  const saveClicked = async () => {
+    setSavingShowing(true);
+
+    console.log('Service URL', process.env.SERVICE_URL);
+
+    await putUser(session.objectified.id, payload)
+      .then((x) => {
+        console.log('Put User', x);
+        setSavingShowing(false);
+      }).catch((x) => {
+        console.log('Put User Failed', x);
+        setSavingShowing(false);
+      }).finally(() => {
+        props.onClose();
+      });
   }
 
   useEffect(() => {
@@ -53,6 +67,18 @@ export const ProfileForm = (props: IProfileForm) => {
 
   return (
     <>
+      <Dialog open={savingShowing}>
+        <DialogContent>
+          <DialogContentText>
+            <Typography>
+              Saving your profile ...
+            </Typography>
+            <p style={{ paddingBottom: '10px' }}/>
+            <LinearProgress sx={{ paddingTop: '10px' }}/>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+
       <div style={{backgroundColor: 'blue', color: '#fff', padding: '10px', textAlign: 'center', fontWeight: 'bold'}}>
         Your Objectified Profile
       </div>

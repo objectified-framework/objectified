@@ -34,9 +34,9 @@ export class BaseDao<T> {
   /**
    * Retrieves an object by its ID.
    *
-   * @param id {number} containing the ID of the object to retrieve.
+   * @param id {number | string} containing the ID (numeric or UUID) of the object to retrieve.
    */
-  public async getById(id: number): Promise<void | T> {
+  public async getById(id: number | string): Promise<void | T> {
     const db = DaoUtils.getDatabase();
     const sql = `SELECT * FROM ${this.tableName} WHERE id=$[id]`;
 
@@ -61,9 +61,9 @@ export class BaseDao<T> {
   /**
    * Deletes a record by its ID.
    *
-   * @param id {number} containing the ID of the record to delete.
+   * @param id {number | string} containing the ID (numeric or UUID) of the record to delete.
    */
-  public async deleteById(id: number): Promise<void> {
+  public async deleteById(id: number | string): Promise<void> {
     const db = DaoUtils.getDatabase();
     const sql = `DELETE FROM ${this.tableName} WHERE id=$[id]`;
 
@@ -73,11 +73,11 @@ export class BaseDao<T> {
   /**
    * Updates a record by its ID.
    *
-   * @param id {number} the ID of the record to update.
+   * @param id {number | string} the ID (numeric or UUID) of the record to update.
    * @param data {T} the data to update the record with.
    * @returns {Promise<void | T>} containing the record after update, void if empty.
    */
-  public async updateById(id: number, data: T): Promise<void | T> {
+  public async updateById(id: number | string, data: T): Promise<void | T> {
     const db = DaoUtils.getDatabase();
     const sql = DaoUtils.generateUpdateSql(this.tableName, data);
 

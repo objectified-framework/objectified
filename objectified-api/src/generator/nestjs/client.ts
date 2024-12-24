@@ -164,7 +164,7 @@ function generateClient(
 export const ${initCap(name)}${initCap(operationId)} = async (${inputVariables.join(", ")},) => {
   console.log(\`Requesting ${path}\`);
   
-  const requestUrl = process.env.SERVICE_URL ?? '';
+  const requestUrl = process.env.SERVICE_URL ?? 'http://localhost:3001';
   const config = {
     headers: {
       ...headers,
