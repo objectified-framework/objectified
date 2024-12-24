@@ -255,6 +255,17 @@ import { Request, Response } from 'express';
       functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, @Body() bodyData: any, ${inputs.join(", ")}): Promise<void> {\n`;
     }
 
+    // Authenticate first, then apply the code service call.
+    for (const sec of security) {
+      const secType = Object.keys(sec)[0];
+
+      functionBody += `    if (!request.headers.authorization || !${secType}.validate(request)) {
+      response.contentType('text/plain').status(401).send('Unauthorized');
+      return;
+    }
+`;
+    }
+
     if (inputCasts) {
       functionBody += inputCasts.map((x) => `    ${x}`).join('\n');
       functionBody += '\n';
@@ -265,17 +276,6 @@ import { Request, Response } from 'express';
     response.status(result.statusCode).contentType(result.returnContentType);
     
 `;
-
-    for (const sec of security) {
-      const secType = Object.keys(sec)[0];
-
-      functionBody += `    if (!request.headers.authorization || !${secType}.validate(request)) {
-      response.contentType('text/plain').status(401).send('Unauthorized');
-      return;
-    }
-    
-`;
-    }
 
     functionBody += `    if (result.additionalCookies) {
       for (const [cookie, value] of Object.entries(result.additionalCookies)) {

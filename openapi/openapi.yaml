@@ -31,6 +31,9 @@ tags:
     description: |
       User services are applied after a user login is complete.  Once a user has been successfully
       authenticated using auth, the user data store can be modified or retrieved.
+  - name: DataType
+    description: |
+      Data Type service is used for CRUD operations associated with data types.
 paths:
   /auth:
     post:
@@ -85,8 +88,7 @@ paths:
       summary: Updates a user's data section
       operationId: putUser
       description: Replaces a user's data payload from the JWT.
-      security:
-        - JWT: []
+      security: []
       requestBody:
         description: The user payload, only the data field is used.
         required: true
@@ -101,6 +103,113 @@ paths:
           description: Unauthorized
         '403':
           description: Access forbidden
+  /data-type:
+    get:
+      tags:
+        - DataType
+      summary: Get data types
+      operationId: listDataTypes
+      description: |
+        Retrieves a list of data types.  This list is a high level list, and
+        does not include things like a user's ID.
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - DataType
+      summary: Create data type
+      operationId: createDataType
+      description: Creates a new data type
+      security:
+        - JWT: []
+      requestBody:
+        description: The user payload, only the data field is used.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+  /data-type/{id}:
+    get:
+      tags:
+        - DataType
+      summary: Retrieves a data type by ID
+      operationId: getDataTypeById
+      description: Retrieves a data type by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the data type.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    put:
+      tags:
+        - DataType
+      summary: Edits data type
+      operationId: updateDataType
+      description: Saves changes to a data type
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the data type.
+      requestBody:
+        description: The user payload, only the data field is used.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -137,3 +246,93 @@ components:
         data:
           type: object
           description: Extra data associated with the user.
+    DataType:
+      type: object
+      x-schema: obj
+      required:
+        - name
+        - description
+        - dataType
+      description: |
+        Data Type defines a storage type that can be associated with a field.
+        It defines the type of information that is stored, along with any defaults
+        or enumerated values.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Data Type ID
+        ownerId:
+          type: string
+          format: uuid
+          description: User ID that owns or created this type
+        name:
+          type: string
+          description: Name of the data type
+          maxLength: 80
+        description:
+          type: string
+          description: Description of the data type
+          maxLength: 4096
+        dataType:
+          type: string
+          enum:
+            - STRING
+            - INT32
+            - INT64
+            - FLOAT
+            - DOUBLE
+            - BOOLEAN
+            - DATE
+            - DATE_TIME
+            - BYTE
+            - BINARY
+            - PASSWORD
+            - OBJECT
+        dataFormat:
+          type: string
+          description: The format of the data
+        isArray:
+          type: boolean
+          description: Indicates if the data type stores an array of data
+        maxLength:
+          type: integer
+          description: The maximum length stored in the data type
+        pattern:
+          type: string
+          description: Data pattern (regex) that the data must validate against
+        enumValues:
+          type: array
+          items:
+            type: string
+          description: Array of values that the enumeration can store
+        enumDescriptions:
+          type: array
+          items:
+            type: string
+          description: The descriptions for each of the enumeration values
+        examples:
+          type: array
+          items:
+            type: string
+          description: Free-formed examples that the data type can hold
+        enabled:
+          type: boolean
+          default: true
+          description: Indicates if the data type is enabled and usable
+        coreType:
+          type: boolean
+          default: false
+          description: Indicates if the data type is a core data type, and cannot be modified or deleted.
+        createDate:
+          type: string
+          format: date-time
+          description: Date the data type was created
+        updateDate:
+          type: string
+          format: date-time
+          description: Date of the last update to the data type
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date the data type was disabled
