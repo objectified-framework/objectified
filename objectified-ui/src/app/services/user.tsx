@@ -12,8 +12,7 @@ export const putUser = (id: string, data: any) => {
         'Content-Type': 'application/json',
       }
     }).then((res) => {
-      console.log(res.data);
-      return resolve(res.data);
+      return resolve(data);
     }).catch(e => reject(e));
   });
 }

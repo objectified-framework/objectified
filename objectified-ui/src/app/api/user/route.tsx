@@ -5,8 +5,6 @@ import { UserDto } from '@objectified-framework/objectified-services/dist/genera
 export async function PUT(request: any) {
   const helper = new RouteHelper(request);
 
-  console.log('[user] PUT');
-
   try {
     const { id, data } = await helper.getPostPayload();
 

@@ -13,6 +13,7 @@ import Item from "@/app/components/common/Item";
 import {useSession} from "next-auth/react";
 import { UserPutUser } from '@objectified-framework/objectified-services/dist/generated/clients';
 import {putUser} from "@/app/services/user";
+import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
 export interface IProfileForm {
   onClose: () => any;
@@ -41,11 +42,10 @@ export const ProfileForm = (props: IProfileForm) => {
 
     await putUser(session.objectified.id, payload)
       .then((x) => {
-        console.log('Put User', x);
+        session.objectified.data = payload;
         setSavingShowing(false);
       }).catch((x) => {
-        console.log('Put User Failed', x);
-        setSavingShowing(false);
+        errorDialog(`Failed to save your profile: ${x}`);
       }).finally(() => {
         props.onClose();
       });
@@ -80,7 +80,7 @@ export const ProfileForm = (props: IProfileForm) => {
       </Dialog>
 
       <div style={{backgroundColor: 'blue', color: '#fff', padding: '10px', textAlign: 'center', fontWeight: 'bold'}}>
-        Your Objectified Profile
+        Your Objectified Profile (Remember, it's a beta)
       </div>
 
       <Stack direction={'column'}>
