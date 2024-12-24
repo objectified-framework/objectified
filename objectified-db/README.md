@@ -36,3 +36,7 @@ This will build and execute the SQL commands to generate the schema.
 ## Current database visualized
 
 ![image](images/current-db.png "Current Database Relationship")
+
+## Schema: defined
+
+[Refer to this document for an explanation of the schema](docs/schema.md).
