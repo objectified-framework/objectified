@@ -1,5 +1,5 @@
 import RouteHelper from "../../../../lib/RouteHelper";
-import { UserPutUser } from '@objectified-framework/objectified-services/dist/generated/clients';
+import { ClientUserPutUser } from '@objectified-framework/objectified-services/dist/generated/clients';
 import { UserDto } from '@objectified-framework/objectified-services/dist/generated/dto';
 
 export async function PUT(request: any) {
@@ -17,7 +17,7 @@ export async function PUT(request: any) {
       data,
     };
 
-    const response = await UserPutUser(userDto)
+    const response = await ClientUserPutUser(userDto)
       .then((x) => x.data)
       .catch((x) => {
         console.log('Error', x);

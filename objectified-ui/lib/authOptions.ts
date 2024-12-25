@@ -2,7 +2,7 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
 import {LoginDto} from '@objectified-framework/objectified-services/dist/generated/dto';
-import { AuthLogin, UserGetUser } from '@objectified-framework/objectified-services/dist/generated/clients';
+import { ClientAuthLogin, ClientUserGetUser } from '@objectified-framework/objectified-services/dist/generated/clients';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
           source: ['github'],
         };
 
-        return await AuthLogin(loginDto)
+        return await ClientAuthLogin(loginDto)
           .then((x) => {
             console.log('Auth login', x);
             return true;
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
         };
 
         const encodedJwt = jwt.sign({ data: token }, SECRET_KEY);
-        const result = await UserGetUser({
+        const result = await ClientUserGetUser({
           'Authorization': `Bearer ${encodedJwt}`,
         }).then((x) => {
           const resultData = JSON.parse(x);

@@ -126,7 +126,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             height: 'calc(100% - 46px)',
             backgroundColor: '#fff',
             color: '#000',
-            overflowY: 'inherit',
+            overflowY: 'auto',
           }}>
           {children}
         </div>

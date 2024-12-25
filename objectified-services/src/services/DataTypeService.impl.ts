@@ -33,8 +33,6 @@ export class DataTypeServiceImpl implements DataTypeService {
   }
 
   async listDataTypes(request): Promise<ServiceResponse<DataTypeDto[]>> {
-    this.logger.log('[listDataTypes]');
-
     const dataTypeDao = new DataTypeDao();
     const results = (await dataTypeDao.getAll()) ?? [];
 
@@ -44,7 +42,7 @@ export class DataTypeServiceImpl implements DataTypeService {
       }
     }
 
-    this.logger.log(`[listDataTypes] Return list`, results);
+    this.logger.log(`[listDataTypes] List retrieved (size=${results ? results.length : 0})`);
 
     return ResponseOk(JSON.stringify(results));
   }

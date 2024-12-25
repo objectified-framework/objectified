@@ -1,15 +1,14 @@
 DROP TYPE IF EXISTS obj.data_type_enum CASCADE;
 CREATE TYPE obj.data_type_enum AS ENUM (
-    'STRING', 'INT32', 'INT64', 'FLOAT', 'DOUBLE', 'BOOLEAN', 'DATE', 'DATE_TIME',
-    'BYTE', 'BINARY', 'PASSWORD', 'OBJECT'
+    'STRING', 'BOOLEAN', 'NUMBER', 'INTEGER', 'NULL', 'ARRAY', 'OBJECT'
 );
 
 DROP TABLE IF EXISTS obj.data_type CASCADE;
 DROP INDEX IF EXISTS idx_data_type_unique_name;
 
 CREATE TABLE obj.data_type (
-    id UUID NOT NULL PRIMARY KEY,
-    owner_id UUID NOT NULL REFERENCES obj.user(id),
+    id UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    owner_id UUID REFERENCES obj.user(id),
     name VARCHAR(80) NOT NULL,
     description VARCHAR(4096) NOT NULL,
     data_type obj.data_type_enum NOT NULL,
@@ -28,3 +27,34 @@ CREATE TABLE obj.data_type (
 );
 
 CREATE UNIQUE INDEX idx_data_type_unique_name ON obj.data_type(UPPER(name));
+
+--- Insert initial types matching JSON Schema types
+
+INSERT INTO obj.data_type (name, description, data_type, core_type) VALUES
+    ('string', 'String type', 'STRING', true),
+    ('number', 'Generic numeric type', 'NUMBER', true),
+    ('integer', 'Generic integer type', 'INTEGER', true),
+    ('boolean', 'Boolean type', 'BOOLEAN', true),
+    ('null', 'Null storage value', 'NULL', true),
+    ('object', 'A free formed object', 'OBJECT', true);
+
+INSERT INTO obj.data_type (name, description, data_type, is_array, core_type) VALUES
+    ('array', 'An array value', 'ARRAY', true, true);
+
+INSERT INTO obj.data_type (name, description, data_type, data_format, core_type) VALUES
+    ('float', 'A floating point number', 'NUMBER', 'float', true),
+    ('double', 'A floating point number with double precision', 'NUMBER', 'double', true),
+    ('int32', 'Signed 32-bit integer', 'INTEGER', 'int32', true),
+    ('int64', 'Signed 64-bit integer', 'INTEGER', 'int64', true),
+    ('date', 'Full-Date notation per RFC-3339 section 5.6', 'STRING', 'date', true),
+    ('date-time', 'Date-time notation per RFC-3339 section 5.6', 'STRING', 'date-time', true),
+    ('password', 'A password UI hint', 'STRING', 'password', true),
+    ('byte', 'Base64-encoded character string', 'STRING', 'byte', true),
+    ('binary', 'Binary data', 'STRING', 'binary', true),
+    ('email', 'Email Address', 'STRING', 'email', true),
+    ('uuid', 'UUID', 'STRING', 'uuid', true),
+    ('uri', 'URI', 'STRING', 'uri', true),
+    ('uri-reference', 'URI Reference', 'STRING', 'uri-reference', true),
+    ('hostname', 'A hostname', 'STRING', 'hostname', true),
+    ('ipv4', 'IPv4 Address', 'STRING', 'ipv4', true),
+    ('ipv6', 'IPv6 Address', 'STRING', 'ipv6', true);

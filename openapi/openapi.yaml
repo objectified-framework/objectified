@@ -278,16 +278,11 @@ components:
           type: string
           enum:
             - STRING
-            - INT32
-            - INT64
-            - FLOAT
-            - DOUBLE
             - BOOLEAN
-            - DATE
-            - DATE_TIME
-            - BYTE
-            - BINARY
-            - PASSWORD
+            - NUMBER
+            - INTEGER
+            - NULL
+            - ARRAY
             - OBJECT
         dataFormat:
           type: string
