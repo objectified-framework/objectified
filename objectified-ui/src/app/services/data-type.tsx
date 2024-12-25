@@ -10,7 +10,7 @@ export const listDataTypes = () => {
       }
     }).then((res) => {
       if (res.data && res.data.response) {
-        return resolve(JSON.parse(res.data.response));
+        return resolve(res.data.response);
       }
 
       return resolve({});

@@ -1,5 +1,11 @@
 import { Logger } from '@nestjs/common';
-import {DataTypeService, ResponseNotFound, ResponseOk, ServiceResponse} from "../generated/services";
+import {
+  DataTypeService,
+  ResponseNotFound,
+  ResponseOk,
+  ResponseUnauthorized,
+  ServiceResponse
+} from "../generated/services";
 import {DataTypeDto} from "../generated/dto";
 import {DataTypeDao} from "../generated/dao";
 
@@ -8,7 +14,26 @@ export class DataTypeServiceImpl implements DataTypeService {
 
   async createDataType(request, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {
     this.logger.log(`[createDataType] dataTypeDto=${JSON.stringify(dataTypeDto, null, 2)}`);
-    return Promise.resolve(undefined);
+
+    const insertObject = dataTypeDto;
+
+    insertObject.id = null;
+    insertObject.updateDate = null;
+    insertObject.deleteDate = null;
+
+    const dao = new DataTypeDao();
+    const result = await dao.create(insertObject)
+      .then((x) => x)
+      .catch((x) => {
+        this.logger.error('[createDataType] Error creating type', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseUnauthorized('Unable to create data type record.');
+    }
+
+    return ResponseOk(result);
   }
 
   async getDataTypeById(request, id: string): Promise<ServiceResponse<DataTypeDto>> {
@@ -29,7 +54,7 @@ export class DataTypeServiceImpl implements DataTypeService {
       return ResponseNotFound(id);
     }
 
-    return ResponseOk(JSON.stringify(result));
+    return ResponseOk(result);
   }
 
   async listDataTypes(request): Promise<ServiceResponse<DataTypeDto[]>> {
@@ -44,7 +69,7 @@ export class DataTypeServiceImpl implements DataTypeService {
 
     this.logger.log(`[listDataTypes] List retrieved (size=${results ? results.length : 0})`);
 
-    return ResponseOk(JSON.stringify(results));
+    return ResponseOk(results);
   }
 
   async updateDataType(request, id: string, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {

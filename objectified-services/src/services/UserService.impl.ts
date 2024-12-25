@@ -50,7 +50,7 @@ export class UserServiceImpl implements UserService {
       if (result) {
         if (result.source.includes(source)) {
           this.logger.log(`[getUser] User '${emailAddress}' retrieved`);
-          return ResponseOk(JSON.stringify(result));
+          return ResponseOk(result);
         }
 
         this.logger.error(`[getUser] User '${emailAddress}' found, but source '${source}' not allowed.`);
