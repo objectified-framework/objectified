@@ -44,10 +44,12 @@ export const formItems: any[] = [
   {
     name: 'name',
     description: 'Data Type Name',
+    required: true,
   },
   {
     name: 'description',
     description: 'Description',
+    required: true,
   },
   {
     name: 'data_type',
@@ -55,7 +57,8 @@ export const formItems: any[] = [
     type: 'enum',
     options: [
       'STRING', 'BOOLEAN', 'NUMBER', 'INTEGER', 'NULL', 'ARRAY', 'OBJECT',
-    ]
+    ],
+    required: true,
   },
   {
     name: 'data_format',

@@ -13,6 +13,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
 export interface IAutoForm {
   header: string;
@@ -36,15 +37,33 @@ export const AutoForm = (props: IAutoForm) => {
   }
 
   const saveClicked = () => {
-    const preparedPayload = {};
+    let required = false;
+    const requiredFields: string[] = [];
 
-    props.onAdd(preparedPayload);
+    props.formElements.forEach((x) => {
+      const formName = x.name;
+      const formRequired = x.required;
+
+      if (x.required) {
+        if (!payload[formName]) {
+          required = true;
+          requiredFields.push(formName);
+        }
+      }
+    });
+
+    if (required) {
+      errorDialog(`One or more required fields are missing: ${requiredFields.join(', ')}`);
+    } else {
+      props.onAdd(payload);
+    }
   }
 
   const generateFormElement = (element: any) => {
     const name = element.name;
     const description = element.description;
     const type = element.type ?? 'textfield';
+    const required = element.required ?? false;
 
     if (type === 'textfield') {
       return (
@@ -55,6 +74,7 @@ export const AutoForm = (props: IAutoForm) => {
                          fullWidth
                          value={payload[name] ?? ''}
                          name={name}
+                         required={required}
                          onChange={handleChange}/>
             </Item>
           </Stack>
@@ -66,13 +86,16 @@ export const AutoForm = (props: IAutoForm) => {
       return (
         <Stack direction={'column'}>
           <Item sx={{width: '100%'}}>
-            <FormControl fullWidth>
+            <FormControl
+              required={required}
+              fullWidth>
               <InputLabel id={labelName}>{description}</InputLabel>
               <Select labelId={labelName}
                       label={description}
                       style={{ textAlign: 'left' }}
                       value={payload[name] ?? 'STRING'}
                       name={name}
+                      required={required}
                       onChange={handleChange}
                       fullWidth>
                 {element.options.map((x) => (
@@ -91,6 +114,7 @@ export const AutoForm = (props: IAutoForm) => {
               name={name}
               onChange={handleChange}
               checked={payload[name] ?? false}
+              required={required}
             />} label={description} />
           </Item>
         </Stack>
@@ -106,6 +130,7 @@ export const AutoForm = (props: IAutoForm) => {
                          name={name}
                          onChange={handleChange}
                          multiline
+                         required={required}
                          rows={3}/>
             </Item>
           </Stack>
