@@ -9,7 +9,11 @@ export const listDataTypes = () => {
         'Content-Type': 'application/json',
       }
     }).then((res) => {
-      return resolve(JSON.parse(res.data.response));
+      if (res.data && res.data.response) {
+        return resolve(JSON.parse(res.data.response));
+      }
+
+      return resolve({});
     }).catch(e => reject(e));
   });
 }

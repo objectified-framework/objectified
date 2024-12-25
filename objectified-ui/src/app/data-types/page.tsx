@@ -1,21 +1,9 @@
 'use client';
 
 import {useRouter} from "next/navigation";
-import {HEADER_COLOR} from "@/app/components/common/ColorDatabase";
-import Item from "@/app/components/common/Item";
 import {
-  Button,
   Dialog,
-  DialogContent,
-  DialogTitle, FormControl, IconButton,
-  InputLabel, MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography
 } from "@mui/material";
-import {AddOutlined} from "@mui/icons-material";
-import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
 import {listDataTypes} from "@/app/services/data-type";
@@ -23,7 +11,6 @@ import {formItems, tableItems} from "@/app/data-types/index";
 import AutoForm from "@/app/components/common/AutoForm";
 
 const DataTypes = () => {
-  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [payload, setPayload] = useState<any>({});
@@ -46,17 +33,6 @@ const DataTypes = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleChange = (e: any) => {
-    setPayload({
-      ...payload,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  const clearForm = () => {
-    setPayload({});
-  }
 
   const saveClicked = (payload: any) => {
     console.log('Save payload', payload);
