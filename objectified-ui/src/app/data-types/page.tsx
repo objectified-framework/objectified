@@ -13,7 +13,6 @@ import AutoForm from "@/app/components/common/AutoForm";
 const DataTypes = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [payload, setPayload] = useState<any>({});
   const [dataPayload, setDataPayload] = useState([]);
 
   const refreshDataTypes = () => {

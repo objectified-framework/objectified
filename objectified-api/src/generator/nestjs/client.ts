@@ -162,7 +162,7 @@ function generateClient(
     serviceClassBody += ` * @param headers Any optional additional headers to send along with the request
  */
 export const Client${initCap(name)}${initCap(operationId)} = async (${inputVariables.join(", ")},) => {
-  console.log(\`Requesting ${path}\`);
+  console.log(\`[Client${initCap(name)}${initCap(operationId)}] Requesting ${path}\`);
   
   const requestUrl = process.env.SERVICE_URL ?? 'http://localhost:3001';
   const config = {
