@@ -50,11 +50,4 @@ INSERT INTO obj.data_type (name, description, data_type, data_format, core_type)
     ('date-time', 'Date-time notation per RFC-3339 section 5.6', 'STRING', 'date-time', true),
     ('password', 'A password UI hint', 'STRING', 'password', true),
     ('byte', 'Base64-encoded character string', 'STRING', 'byte', true),
-    ('binary', 'Binary data', 'STRING', 'binary', true),
-    ('email', 'Email Address', 'STRING', 'email', true),
-    ('uuid', 'UUID', 'STRING', 'uuid', true),
-    ('uri', 'URI', 'STRING', 'uri', true),
-    ('uri-reference', 'URI Reference', 'STRING', 'uri-reference', true),
-    ('hostname', 'A hostname', 'STRING', 'hostname', true),
-    ('ipv4', 'IPv4 Address', 'STRING', 'ipv4', true),
-    ('ipv6', 'IPv6 Address', 'STRING', 'ipv6', true);
+    ('binary', 'Binary data', 'STRING', 'binary', true);

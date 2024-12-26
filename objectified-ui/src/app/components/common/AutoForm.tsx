@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import Item from "@/app/components/common/Item";
 import {
@@ -33,8 +33,24 @@ export const AutoForm = (props: IAutoForm) => {
   }
 
   const clearForm = () => {
-    setPayload({});
+    const clearPayload: any = {};
+
+    props.formElements.forEach((x) => {
+      const name = x.name;
+      const type = x.type;
+      const options = x.options;
+
+      if (type === 'enum') {
+        clearPayload[name] = options[0];
+      }
+    });
+
+    setPayload(clearPayload);
   }
+
+  useEffect(() => {
+    clearForm();
+  }, []);
 
   const saveClicked = () => {
     let required = false;
@@ -55,7 +71,18 @@ export const AutoForm = (props: IAutoForm) => {
     if (required) {
       errorDialog(`One or more required fields are missing: ${requiredFields.join(', ')}`);
     } else {
-      props.onAdd(payload);
+      const modifiedPayload: any = {};
+
+      props.formElements.forEach((x) => {
+        const formName = x.name;
+        const formType = x.type;
+
+        if (formType === 'array') {
+          modifiedPayload[formName] = payload[formName].split(',');
+        }
+      })
+
+      props.onAdd(modifiedPayload);
     }
   }
 
