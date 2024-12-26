@@ -17,7 +17,7 @@ export async function PUT(request: any) {
       data,
     };
 
-    const response = await ClientUserPutUser(userDto)
+    const response = await UserPutUser(userDto)
       .then((x) => x.data)
       .catch((x) => {
         console.log('Error', x);

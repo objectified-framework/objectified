@@ -13,17 +13,17 @@ export class DataTypeServiceImpl implements DataTypeService {
   private readonly logger = new Logger(DataTypeServiceImpl.name);
 
   async createDataType(request, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {
-    this.logger.log(`[createDataType] dataTypeDto=${JSON.stringify(dataTypeDto, null, 2)}`);
-
     const insertObject = dataTypeDto;
 
-    insertObject.id = null;
     insertObject.updateDate = null;
     insertObject.deleteDate = null;
 
     const dao = new DataTypeDao();
     const result = await dao.create(insertObject)
-      .then((x) => x)
+      .then((x) => {
+        this.logger.log(`[createDataType] Created new data type: name=${insertObject.name} owner=${insertObject.ownerId}`);
+        return x;
+      })
       .catch((x) => {
         this.logger.error('[createDataType] Error creating type', x);
         return null;

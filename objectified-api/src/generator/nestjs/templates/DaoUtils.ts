@@ -51,7 +51,7 @@ export class DaoUtils {
    */
   public static generateInsertSql(tableName: string, data: any): string {
     const keys = Object.keys(data);
-    let sql = `INSERT INTO ${tableName} (${keys.join(", ")}) VALUES (`;
+    let sql = `INSERT INTO ${tableName} (${keys.map((x) => toSnakeCase(x)).join(", ")}) VALUES (`;
 
     sql += keys.map((x) => "$[" + x + "]").join(", ");
     sql += ") RETURNING *";
@@ -103,7 +103,8 @@ export function initCap(str: string): string {
 /**
  * Converts a string to camel case.
  *
- * @param str String to convert.
+ * @param str {string} to convert.
+ * @returns camelCased string
  */
 export function toCamelCase(str: string): string {
   const s =
@@ -121,8 +122,8 @@ export function toCamelCase(str: string): string {
 /**
  * Converts a string to kebab-case.
  *
- * @param str String to convert
- * @returns `string` in kebab-case.
+ * @param str {string} to convert
+ * @returns kebab-case string.
  */
 export function toKebabCase(str: string): string {
   return str
@@ -134,12 +135,23 @@ export function toKebabCase(str: string): string {
 /**
  * Converts a string to PascalCase.
  *
- * @param str String to convert.
- * @returns The PascalCased string.
+ * @param str {string} to convert.
+ * @returns PascalCased string.
  */
 export function toPascalCase(str: string): string {
   return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
     .map((x) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
     .join("");
+}
+
+/**
+ * Converts a string from anyAlternateCase to snake_case.
+ *
+ * @param str {string} to convert.
+ * @returns snake_cased string.
+ */
+export function toSnakeCase(str: string): string {
+  return str
+    .replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }

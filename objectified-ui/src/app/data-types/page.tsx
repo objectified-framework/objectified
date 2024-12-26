@@ -5,11 +5,13 @@ import {
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
-import {listDataTypes} from "@/app/services/data-type";
+import {listDataTypes, saveDataType} from "@/app/services/data-type";
 import {formItems, tableItems} from "@/app/data-types/index";
 import AutoForm from "@/app/components/common/AutoForm";
+import {useSession} from 'next-auth/react';
 
 const DataTypes = () => {
+  const { data: session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
@@ -32,9 +34,14 @@ const DataTypes = () => {
     setOpen(false);
   };
 
-  const saveClicked = (payload: any) => {
-    console.log('Save payload', payload);
-    setOpen(false);
+  const saveClicked = async (payload: any) => {
+    payload.ownerId = session.objectified.id;
+
+    await saveDataType(payload)
+      .finally(() => {
+        refreshDataTypes();
+        setOpen(false);
+      });
   }
 
   return (

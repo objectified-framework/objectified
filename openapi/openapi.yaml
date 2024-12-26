@@ -130,8 +130,7 @@ paths:
       summary: Create data type
       operationId: createDataType
       description: Creates a new data type
-      security:
-        - JWT: []
+      security: []
       requestBody:
         description: The user payload, only the data field is used.
         required: true
@@ -155,8 +154,7 @@ paths:
       summary: Retrieves a data type by ID
       operationId: getDataTypeById
       description: Retrieves a data type by its ID
-      security:
-        - JWT: []
+      security: []
       parameters:
         - in: path
           name: id
@@ -182,8 +180,7 @@ paths:
       summary: Edits data type
       operationId: updateDataType
       description: Saves changes to a data type
-      security:
-        - JWT: []
+      security: []
       parameters:
         - in: path
           name: id

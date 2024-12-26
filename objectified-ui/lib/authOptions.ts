@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
         const result = await ClientUserGetUser({
           'Authorization': `Bearer ${encodedJwt}`,
         }).then((x) => {
-          const resultData = JSON.parse(x);
+          const resultData = x;
           return {
             id: resultData.id,
             data: resultData.data,
