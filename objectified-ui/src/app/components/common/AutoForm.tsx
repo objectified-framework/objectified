@@ -26,10 +26,17 @@ export const AutoForm = (props: IAutoForm) => {
   const [payload, setPayload] = useState<any>({});
 
   const handleChange = (e: any) => {
-    setPayload({
-      ...payload,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.type === 'checkbox') {
+      setPayload({
+        ...payload,
+        [e.target.name]: e.target.checked,
+      });
+    } else {
+      setPayload({
+        ...payload,
+        [e.target.name]: e.target.value,
+      });
+    }
   }
 
   const clearForm = () => {
@@ -78,7 +85,11 @@ export const AutoForm = (props: IAutoForm) => {
         const formType = x.type;
 
         if (formType === 'array') {
-          modifiedPayload[formName] = payload[formName].split(',');
+          if (payload[formName]) {
+            modifiedPayload[formName] = payload[formName].split(',');
+          }
+        } else {
+          modifiedPayload[formName] = payload[formName];
         }
       })
 
