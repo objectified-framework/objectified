@@ -207,6 +207,28 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+    delete:
+      tags:
+        - DataType
+      summary: Disables a data type
+      operationId: disableDataType
+      description: Disables a data type
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the data type.
+      responses:
+        '201':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:

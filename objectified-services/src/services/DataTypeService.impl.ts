@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import {
-  DataTypeService,
+  DataTypeService, ResponseForbidden,
   ResponseNotFound,
   ResponseOk,
   ResponseUnauthorized,
@@ -11,6 +11,7 @@ import {DataTypeDao} from "../generated/dao";
 
 export class DataTypeServiceImpl implements DataTypeService {
   private readonly logger = new Logger(DataTypeServiceImpl.name);
+  private readonly dao = new DataTypeDao();
 
   async createDataType(request, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {
     const insertObject = dataTypeDto;
@@ -18,8 +19,17 @@ export class DataTypeServiceImpl implements DataTypeService {
     insertObject.updateDate = null;
     insertObject.deleteDate = null;
 
-    const dao = new DataTypeDao();
-    const result = await dao.create(insertObject)
+    if (insertObject.coreType) {
+      this.logger.error(`[createDataType] Attempted to create data type '${insertObject.name}' as a core type; not permitted.`);
+      return ResponseForbidden('Unable to create a data type.');
+    }
+
+    if (!insertObject.ownerId) {
+      this.logger.error(`[createDataType] Attempted to create data type '${insertObject.name}' without an owner ID`);
+      return ResponseForbidden('Unable to create data type.');
+    }
+
+    const result = await this.dao.create(insertObject)
       .then((x) => {
         this.logger.log(`[createDataType] Created new data type: name=${insertObject.name} owner=${insertObject.ownerId}`);
         return x;
@@ -39,8 +49,7 @@ export class DataTypeServiceImpl implements DataTypeService {
   async getDataTypeById(request, id: string): Promise<ServiceResponse<DataTypeDto>> {
     this.logger.log(`[getDataTypeById] id=${id}`);
 
-    const dataTypeDao = new DataTypeDao();
-    const result = await dataTypeDao.getById(id)
+    const result = await this.dao.getById(id)
       .then((x) => {
         this.logger.log('[getDataTypeById] Object retrieved', x);
         return x;
@@ -58,8 +67,7 @@ export class DataTypeServiceImpl implements DataTypeService {
   }
 
   async listDataTypes(request): Promise<ServiceResponse<DataTypeDto[]>> {
-    const dataTypeDao = new DataTypeDao();
-    const results = (await dataTypeDao.getAll()) ?? [];
+    const results = (await this.dao.getAll()) ?? [];
 
     if (results) {
       for (const mappedResult of results) {
@@ -74,6 +82,11 @@ export class DataTypeServiceImpl implements DataTypeService {
 
   async updateDataType(request, id: string, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {
     this.logger.log(`[updateDataType] id=${id} dataTypeDto=${JSON.stringify(dataTypeDto, null, 2)}`);
+    return Promise.resolve(undefined);
+  }
+
+  async disableDataType(request, id: string): Promise<ServiceResponse<null>> {
+    this.logger.log(`[disableDataType] id=${id}`);
     return Promise.resolve(undefined);
   }
 }

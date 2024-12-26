@@ -98,6 +98,14 @@ export const ResponseUnauthorized = (val: any | null = null) => {
   };
 }
 
+export const ResponseForbidden = (val: any | null = null) => {
+  return {
+    returnValue: val,
+    returnContentType: 'application/json',
+    statusCode: 403,
+  };
+}
+
 export const ResponseNotFound = (val: any | null = null) => {
   return {
     returnValue: val,
