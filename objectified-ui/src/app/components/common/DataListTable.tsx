@@ -30,6 +30,7 @@ import {AddOutlined, RefreshOutlined, CheckBox} from '@mui/icons-material';
  * @param dataset {any[]} resulting data from a data lookup, names must match the names in the columns to display, omitted if absent
  * @param isLoading {boolean} indicating if a loading state is set - will show a circular progress image if so
  * @param onAdd {function} called when the "+" button is selected
+ * @param onDelete {function} called when the "trash" button is selected
  * @param onRefresh {function} called when the "reload" button is selected
  */
 export interface IDataList {
