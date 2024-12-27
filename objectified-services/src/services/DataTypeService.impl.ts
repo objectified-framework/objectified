@@ -106,6 +106,7 @@ export class DataTypeServiceImpl implements DataTypeService {
       return ResponseForbidden('Cannot disable a core data type');
     }
 
+    result.enabled = false;
     result.updateDate = new Date();
 
     return await this.dao.updateById(id, result)
