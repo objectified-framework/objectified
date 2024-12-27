@@ -73,62 +73,62 @@ export const DataListTable = (props: IDataList) => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
-              {props.columns.map((x) => (
-                <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }}>{x.description}</TableCell>
+            <TableRow key={'tablehead'}>
+              {props.columns.map((x, counter: number) => (
+                <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }} key={ `head-${counter}` }>{x.description}</TableCell>
               ))}
               <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }}>Action</TableCell>
             </TableRow>
           </TableHead>
 
           {props.isLoading ? (
-            <>
-              <TableRow>
-                <TableCell colspan={props.columns.length} style={{ textAlign: 'center' }}>
+            <TableBody>
+              <TableRow key={'tableloading'}>
+                <TableCell colSpan={props.columns.length} style={{ textAlign: 'center' }}>
                   <CircularProgress/>
                 </TableCell>
               </TableRow>
-            </>
+            </TableBody>
           ) : (
             <TableBody>
               {props.dataset.length === 0 ? (
                 <>
-                  <TableRow>
-                    <TableCell colspan={props.columns.length} style={{ textAlign: 'center' }}>
+                  <TableRow key={'emptyset'}>
+                    <TableCell colSpan={props.columns.length} style={{ textAlign: 'center' }}>
                       Dataset is empty
                     </TableCell>
                   </TableRow>
                 </>
                 ) : (
                 <>
-                  {props.dataset.map((x) => (
-                    <TableRow>
-                      {props.columns.map((y) => {
+                  {props.dataset.map((x, counter: number) => (
+                    <TableRow key={ `row-${counter}` }>
+                      {props.columns.map((y, subcounter: number) => {
                         if (y.type && y.type === 'check') {
                           if (x[y.name]) {
                             return (
-                              <TableCell><CheckBox style={{ color: 'green' }}/></TableCell>
+                              <TableCell key={ `row-${counter}-${subcounter}` }><CheckBox style={{ color: 'green' }}/></TableCell>
                             );
                           }
                         } else if (y.type && y.type === 'uuid') {
                           const uuidSplit = x[y.name].split('-');
 
                           return (
-                            <TableCell>...{uuidSplit[uuidSplit.length - 1]}</TableCell>
+                            <TableCell key={ `row-${counter}-${subcounter}` }>...{uuidSplit[uuidSplit.length - 1]}</TableCell>
                           );
                         } else if (y.type && y.type === 'date-time') {
                           const timeSplit = x[y.name].split('T');
 
                           return (
-                            <TableCell>{timeSplit[0]} {timeSplit[1]}</TableCell>
+                            <TableCell key={ `row-${counter}-${subcounter}` }>{timeSplit[0]} {timeSplit[1]}</TableCell>
                           );
                         }
 
                         return (
-                          <TableCell>{x[y.name]}</TableCell>
+                          <TableCell key={ `row-${counter}-${subcounter}` }>{x[y.name]}</TableCell>
                         );
                       })}
-                      <TableCell><IconButton onClick={() => props.onDelete(x)}>
+                      <TableCell key={ `row-${counter}-icons` }><IconButton onClick={() => props.onDelete(x)}>
                         <DeleteIcon/>
                       </IconButton></TableCell>
                     </TableRow>
