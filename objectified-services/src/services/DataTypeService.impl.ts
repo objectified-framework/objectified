@@ -90,7 +90,7 @@ export class DataTypeServiceImpl implements DataTypeService {
 
     const result = await this.dao.getById(id)
       .then((x) => {
-        this.logger.log('[disableDataType] Object retrieved', x);
+        this.logger.log(`[disableDataType] Object retrieved by ID=${id}`);
         return x;
       })
       .catch((x) => {
@@ -107,7 +107,7 @@ export class DataTypeServiceImpl implements DataTypeService {
     }
 
     result.enabled = false;
-    result.updateDate = new Date();
+    result.deleteDate = new Date();
 
     return await this.dao.updateById(id, result)
       .then((x) => {
