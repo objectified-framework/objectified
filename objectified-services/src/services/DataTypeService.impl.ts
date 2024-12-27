@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import {
-  DataTypeService, ResponseForbidden,
+  DataTypeService, ResponseForbidden, ResponseNoContent,
   ResponseNotFound,
   ResponseOk,
   ResponseUnauthorized,
@@ -86,7 +86,36 @@ export class DataTypeServiceImpl implements DataTypeService {
   }
 
   async disableDataType(request, id: string): Promise<ServiceResponse<null>> {
-    this.logger.log(`[disableDataType] id=${id}`);
-    return Promise.resolve(undefined);
+    this.logger.log(`[disableDataType] Disable data_type by ID=${id}`);
+
+    const result = await this.dao.getById(id)
+      .then((x) => {
+        this.logger.log('[disableDataType] Object retrieved', x);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error('[disableDataType] Object failed to retrieve', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseNotFound(id);
+    }
+
+    if (result.coreType) {
+      return ResponseForbidden('Cannot disable a core data type');
+    }
+
+    result.updateDate = new Date();
+
+    return await this.dao.updateById(id, result)
+      .then((x) => {
+        this.logger.log(`[disableDataType] Object disabled ID=${id}`);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[disableDataType] Unable to disable ID=${id}`, x);
+        return ResponseForbidden('Cannot disable this data type');
+      });
   }
 }

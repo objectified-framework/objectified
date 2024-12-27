@@ -8,10 +8,12 @@ import Item from '@/app/components/common/Item';
 import {
   Button,
   CircularProgress,
+  IconButton,
   Paper,
   Stack,
   Typography
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -36,6 +38,7 @@ export interface IDataList {
   dataset: any[];
   isLoading: boolean;
   onAdd: () => any;
+  onDelete: (payload: any) => any;
   onRefresh: () => any;
 }
 
@@ -74,6 +77,7 @@ export const DataListTable = (props: IDataList) => {
               {props.columns.map((x) => (
                 <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }}>{x.description}</TableCell>
               ))}
+              <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }}>Action</TableCell>
             </TableRow>
           </TableHead>
 
@@ -124,6 +128,9 @@ export const DataListTable = (props: IDataList) => {
                           <TableCell>{x[y.name]}</TableCell>
                         );
                       })}
+                      <TableCell><IconButton onClick={() => props.onDelete(x)}>
+                        <DeleteIcon/>
+                      </IconButton></TableCell>
                     </TableRow>
                   ))}
                 </>

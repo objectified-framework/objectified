@@ -69,7 +69,7 @@ export class DaoUtils {
     const keys = Object.keys(data);
     let sql = `UPDATE ${tableName} SET `;
 
-    sql += keys.map((x) => x + "=$[" + x + "]").join(", ");
+    sql += keys.map((x) => toSnakeCase(x) + "=$[" + x + "]").join(", ");
     sql += " WHERE id=$[id] RETURNING *";
 
     return sql;
@@ -85,7 +85,7 @@ export class DaoUtils {
     const keys = Object.keys(where);
     let sql = `SELECT * FROM ${tableName} WHERE `;
 
-    sql += keys.map((x) => x + "=$[" + x + "]").join(" AND ");
+    sql += keys.map((x) => toSnakeCase(x) + "=$[" + x + "]").join(" AND ");
 
     return sql;
   }
