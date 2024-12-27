@@ -136,8 +136,8 @@ export const AutoForm = (props: IAutoForm) => {
                       required={required}
                       onChange={handleChange}
                       fullWidth>
-                {element.options.map((x) => (
-                  <MenuItem value={x}>{x}</MenuItem>
+                {element.options.map((x, counter: number) => (
+                  <MenuItem value={x} key={ `${labelName}-counter` }>{x}</MenuItem>
                 ))}
               </Select>
             </FormControl>
