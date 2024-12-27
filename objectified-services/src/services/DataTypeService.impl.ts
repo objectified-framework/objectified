@@ -69,12 +69,6 @@ export class DataTypeServiceImpl implements DataTypeService {
   async listDataTypes(request): Promise<ServiceResponse<DataTypeDto[]>> {
     const results = (await this.dao.getAll()) ?? [];
 
-    if (results) {
-      for (const mappedResult of results) {
-        mappedResult.ownerId = null;
-      }
-    }
-
     this.logger.log(`[listDataTypes] List retrieved (size=${results ? results.length : 0})`);
 
     return ResponseOk(results);

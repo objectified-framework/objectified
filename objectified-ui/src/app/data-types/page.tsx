@@ -46,8 +46,6 @@ const DataTypes = () => {
   }
 
   const deleteClicked = async (payload: any) => {
-    console.log('Delete clicked', payload);
-
     if (payload.coreType) {
       errorDialog('You are not allowed to delete a core data type.');
       return;
@@ -67,6 +65,20 @@ const DataTypes = () => {
       });
   }
 
+  const editClicked = async (payload: any) => {
+    if (payload.coreType) {
+      errorDialog('You are not allowed to edit core types.');
+      return;
+    }
+
+    console.log(`Owner=${payload.ownerId} Session=${session.objectified.id}`);
+
+    if (payload.ownerId !== session.objectified.id) {
+      errorDialog('You cannot edit data types that you do not own.');
+      return;
+    }
+  }
+
   return (
     <>
       <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
@@ -83,6 +95,7 @@ const DataTypes = () => {
                        isLoading={isLoading}
                        onAdd={() => setOpen(true)}
                        onDelete={(payload) => deleteClicked(payload)}
+                       onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshDataTypes()}
         />
       </div>

@@ -20,7 +20,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {AddOutlined, RefreshOutlined, CheckBox} from '@mui/icons-material';
+import {AddOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material';
 
 /**
  * This is the input set of data required for the Data List table.
@@ -31,6 +31,7 @@ import {AddOutlined, RefreshOutlined, CheckBox} from '@mui/icons-material';
  * @param isLoading {boolean} indicating if a loading state is set - will show a circular progress image if so
  * @param onAdd {function} called when the "+" button is selected
  * @param onDelete {function} called when the "trash" button is selected
+ * @param onEdit {function} called when the "edit" button is selected
  * @param onRefresh {function} called when the "reload" button is selected
  */
 export interface IDataList {
@@ -40,6 +41,7 @@ export interface IDataList {
   isLoading: boolean;
   onAdd: () => any;
   onDelete: (payload: any) => any;
+  onEdit: (payload: any) => any;
   onRefresh: () => any;
 }
 
@@ -129,9 +131,15 @@ export const DataListTable = (props: IDataList) => {
                           <TableCell key={ `row-${counter}-${subcounter}` }>{x[y.name]}</TableCell>
                         );
                       })}
-                      <TableCell key={ `row-${counter}-icons` }><IconButton onClick={() => props.onDelete(x)}>
-                        <DeleteIcon/>
-                      </IconButton></TableCell>
+                      <TableCell key={ `row-${counter}-icons` }>
+                        <Stack direction={'row'}>
+                          <IconButton onClick={() => props.onDelete(x)}>
+                            <DeleteIcon/>
+                          </IconButton>
+                          <IconButton onClick={() => props.onEdit(x)}>
+                            <Edit/>
+                          </IconButton>
+                        </Stack></TableCell>
                     </TableRow>
                   ))}
                 </>
