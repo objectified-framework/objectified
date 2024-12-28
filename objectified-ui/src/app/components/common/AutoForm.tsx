@@ -18,7 +18,8 @@ import {errorDialog} from "@/app/components/common/ConfirmDialog";
 export interface IAutoForm {
   header: string;
   formElements: any[];
-  onAdd: (data: any) => any;
+  editPayload: any;
+  onSave: (data: any) => any;
   onCancel: () => any;
 }
 
@@ -59,6 +60,10 @@ export const AutoForm = (props: IAutoForm) => {
     clearForm();
   }, []);
 
+  useEffect(() => {
+    console.log('Edit payload changed');
+  }, [props.editPayload]);
+
   const saveClicked = () => {
     let required = false;
     const requiredFields: string[] = [];
@@ -93,7 +98,7 @@ export const AutoForm = (props: IAutoForm) => {
         }
       })
 
-      props.onAdd(modifiedPayload);
+      props.onSave(modifiedPayload);
     }
   }
 

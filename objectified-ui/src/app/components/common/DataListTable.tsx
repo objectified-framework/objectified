@@ -94,7 +94,7 @@ export const DataListTable = (props: IDataList) => {
             </TableBody>
           ) : (
             <TableBody>
-              {props.dataset.length === 0 ? (
+              {!props.dataset || !props.dataset.map || props.dataset.length === 0 ? (
                 <>
                   <TableRow key={'emptyset'}>
                     <TableCell colSpan={props.columns.length} style={{ textAlign: 'center' }}>
@@ -139,7 +139,8 @@ export const DataListTable = (props: IDataList) => {
                           <IconButton onClick={() => props.onEdit(x)}>
                             <Edit/>
                           </IconButton>
-                        </Stack></TableCell>
+                        </Stack>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </>

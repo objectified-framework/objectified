@@ -16,6 +16,11 @@ const DataTypes = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
+  const [selectedLine, setSelectedLine] = useState({});
+
+  const resetSelectedLine = () => {
+    setSelectedLine({});
+  }
 
   const refreshDataTypes = () => {
     setIsLoading(true);
@@ -29,6 +34,7 @@ const DataTypes = () => {
 
   useEffect(() => {
     refreshDataTypes();
+    resetSelectedLine();
   }, []);
 
   const handleClose = () => {
@@ -71,12 +77,13 @@ const DataTypes = () => {
       return;
     }
 
-    console.log(`Owner=${payload.ownerId} Session=${session.objectified.id}`);
-
     if (payload.ownerId !== session.objectified.id) {
       errorDialog('You cannot edit data types that you do not own.');
       return;
     }
+
+    setSelectedLine(payload);
+    setOpen(true);
   }
 
   return (
@@ -84,7 +91,8 @@ const DataTypes = () => {
       <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
         <AutoForm header={'Data Type'}
                   formElements={formItems}
-                  onAdd={saveClicked}
+                  editPayload={selectedLine}
+                  onSave={saveClicked}
                   onCancel={handleClose}/>
       </Dialog>
 
@@ -93,7 +101,10 @@ const DataTypes = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
-                       onAdd={() => setOpen(true)}
+                       onAdd={() => {
+                         resetSelectedLine();
+                         setOpen(true);
+                       }}
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshDataTypes()}
