@@ -32,8 +32,11 @@ tags:
       User services are applied after a user login is complete.  Once a user has been successfully
       authenticated using auth, the user data store can be modified or retrieved.
   - name: DataType
+    description: Data Type service is used for CRUD operations associated with data types.
+  - name: Tenant
     description: |
-      Data Type service is used for CRUD operations associated with data types.
+      Tenant services are used for CRUD services on Tenants, along with tenancy
+      assignment.
 paths:
   /auth:
     post:
@@ -229,6 +232,212 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /tenant:
+    get:
+      tags:
+        - Tenant
+      summary: Lists tenants
+      operationId: listTenants
+      description: Retrieves a list of tenants
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+        '404':
+          description: Not found
+    post:
+      tags:
+        - Tenant
+      summary: Creates a new tenant
+      operationId: createTenant
+      description: Creates a new Tenant record
+      security: []
+      requestBody:
+        description: The tenant to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized
+  /tenant/{id}:
+    get:
+      tags:
+        - Tenant
+      summary: Retrieves a tenant
+      operationId: getTenantById
+      description: Retrieves a tenant by its ID
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the tenant.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: Not found
+    put:
+      tags:
+        - Tenant
+      summary: Edits a tenant
+      operationId: editTenant
+      description: Edits an existing Tenant record
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the tenant.
+      requestBody:
+        description: The tenant to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Tenant
+      summary: Disables a tenant
+      operationId: disableTenantById
+      description: Disables/Deletes an existing Tenant record
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the data type.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+  /tenant/{id}/user:
+    get:
+      tags:
+        - Tenant
+      summary: Lists tenant users
+      operationId: listUsersByTenantId
+      description: Lists users by tenant ID
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the tenant.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TenantUser'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    post:
+      tags:
+        - Tenant
+      summary: Assigns a user to a tenant
+      operationId: addUserToTenantId
+      description: Adds a user to a tenancy list
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the tenant.
+      requestBody:
+        description: The user payload, only the data field is used.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantUser'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+  /tenant/{id}/user/{userId}:
+    delete:
+      tags:
+        - Tenant
+      summary: Removes a user tenancy
+      operationId: removeUserFromTenant
+      description: Removes a user by ID from a tenant by ID
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the tenant.
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The User ID.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -350,3 +559,56 @@ components:
           type: string
           format: date-time
           description: Date the data type was disabled
+    Tenant:
+      type: object
+      x-schema: obj
+      required:
+        - ownerId
+        - name
+      description: |
+        Tenants are definitions used to isolate like- objects with a company or
+        group name.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Tenant
+        ownerId:
+          type: string
+          format: UUID
+          description: User ID that owns the Tenant
+        name:
+          type: string
+          description: The name of the tenant
+        enabled:
+          type: boolean
+          description: Indicates if the tenant record is enabled
+        data:
+          type: object
+          description: Free-form tenant record information
+    TenantUser:
+      type: object
+      x-schema: obj
+      required:
+        - tenantId
+        - userId
+      description: This object describes a user tenancy membership.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Tenant User record
+        tenantId:
+          type: string
+          format: UUID
+          description: The ID of the Tenant
+        userId:
+          type: string
+          format: UUID
+          description: The User ID that belongs to the Tenant
+        enabled:
+          type: boolean
+          description: Indicates if the user to tenant record is enabled
+        permissions:
+          type: object
+          description: Permissions storage object for this user record, used for ABAC

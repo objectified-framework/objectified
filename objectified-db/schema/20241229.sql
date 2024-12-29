@@ -5,6 +5,7 @@ CREATE TABLE obj.tenant (
     id UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     owner_id UUID NOT NULL REFERENCES obj.user(id),
     name VARCHAR(80) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT true,
     data JSON
 );
 
