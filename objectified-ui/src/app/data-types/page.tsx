@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
-import {deleteDataType, listDataTypes, saveDataType} from "@/app/services/data-type";
+import {deleteDataType, listDataTypes, saveDataType, putDataType,} from "@/app/services/data-type";
 import {formItems, tableItems} from "@/app/data-types/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
@@ -42,13 +42,23 @@ const DataTypes = () => {
   };
 
   const saveClicked = async (payload: any) => {
-    payload.ownerId = session.objectified.id;
+    if (payload.id) {
+      console.log('This is an edit mode save.', payload);
 
-    await saveDataType(payload)
-      .finally(() => {
-        refreshDataTypes();
-        setOpen(false);
-      });
+      await putDataType(payload)
+        .finally(() => {
+          refreshDataTypes();
+          setOpen(false);
+        });
+    } else {
+      payload.ownerId = session.objectified.id;
+
+      await saveDataType(payload)
+        .finally(() => {
+          refreshDataTypes();
+          setOpen(false);
+        });
+    }
   }
 
   const deleteClicked = async (payload: any) => {

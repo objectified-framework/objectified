@@ -52,7 +52,7 @@ export const formItems: any[] = [
     required: true,
   },
   {
-    name: 'data_type',
+    name: 'dataType',
     description: 'Data Type',
     type: 'enum',
     options: [
@@ -61,16 +61,16 @@ export const formItems: any[] = [
     required: true,
   },
   {
-    name: 'data_format',
+    name: 'dataFormat',
     description: 'Data Format',
   },
   {
-    name: 'is_array',
+    name: 'isArray',
     description: 'Is an Array of Data',
     type: 'check',
   },
   {
-    name: 'max_length',
+    name: 'maxLength',
     description: 'Max input length',
   },
   {
@@ -78,12 +78,12 @@ export const formItems: any[] = [
     description: 'Regexp Pattern',
   },
   {
-    name: 'enum_values',
+    name: 'enumValues',
     description: 'Enumeration Values',
     type: 'array',
   },
   {
-    name: 'enum_descriptions',
+    name: 'enumDescriptions',
     description: 'Enumeration Descriptions',
     type: 'array',
   },

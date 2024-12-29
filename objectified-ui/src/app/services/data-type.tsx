@@ -54,3 +54,22 @@ export const deleteDataType = (id: string) => {
     }).catch(e => reject(e));
   });
 }
+
+export const putDataType = (dataType: DataTypeDto) => {
+  return new Promise((resolve, reject) => {
+    axios.put('/api/data-type', {
+      payload: dataType
+    }, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      if (res.data && res.data.response) {
+        return resolve(res.data.response);
+      }
+
+      return resolve({});
+    }).catch(e => reject(e));
+  });
+}

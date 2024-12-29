@@ -11,7 +11,6 @@ import {
 import {useState, useEffect} from "react";
 import Item from "@/app/components/common/Item";
 import {useSession} from "next-auth/react";
-import { UserPutUser } from '@objectified-framework/objectified-services/dist/generated/clients';
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 

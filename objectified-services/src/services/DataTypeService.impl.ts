@@ -76,7 +76,35 @@ export class DataTypeServiceImpl implements DataTypeService {
 
   async updateDataType(request, id: string, dataTypeDto: DataTypeDto): Promise<ServiceResponse<DataTypeDto>> {
     this.logger.log(`[updateDataType] id=${id} dataTypeDto=${JSON.stringify(dataTypeDto, null, 2)}`);
-    return Promise.resolve(undefined);
+
+    const replacePayload: any = {
+      name: dataTypeDto.name,
+      description: dataTypeDto.description,
+      dataType: dataTypeDto.dataType,
+      isArray: dataTypeDto.isArray,
+      maxLength: dataTypeDto.maxLength,
+      pattern: dataTypeDto.pattern,
+      enumValues: dataTypeDto.enumValues,
+      enumDescriptions: dataTypeDto.enumDescriptions,
+      examples: dataTypeDto.examples,
+      updateDate: new Date(),
+    }
+
+    const result = await this.dao.updateById(id, replacePayload)
+      .then((x) => {
+        console.log('[updateDataType] Update', x);
+        return x;
+      })
+      .catch((x) => {
+        console.log('[updateDataType] Update fail', x);
+        return null;
+      })
+
+    if (!result) {
+      return ResponseForbidden('Unable to update data type.');
+    }
+
+    return ResponseOk(result);
   }
 
   async disableDataType(request, id: string): Promise<ServiceResponse<null>> {
