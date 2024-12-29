@@ -43,12 +43,13 @@ const DataTypes = () => {
 
   const saveClicked = async (payload: any) => {
     if (payload.id) {
-      console.log('This is an edit mode save.', payload);
-
       await putDataType(payload)
-        .finally(() => {
+        .then((x) => {
           refreshDataTypes();
           setOpen(false);
+        })
+        .catch((x) => {
+          errorDialog('Failed to update this data type - duplicate entry or other error.');
         });
     } else {
       payload.ownerId = session.objectified.id;

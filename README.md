@@ -25,3 +25,7 @@ This is a list of the subprojects included in this repository:
 ### objectified-services
 
 [This project contains the services layer for the Objectified UI](objectified-services/README.md)
+
+### objectified-ui
+
+[This project is the UI](objectified-ui/README.md)

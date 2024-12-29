@@ -69,7 +69,7 @@ export const putDataType = (dataType: DataTypeDto) => {
         return resolve(res.data.response);
       }
 
-      return resolve({});
+      return reject('Duplicate entry');
     }).catch(e => reject(e));
   });
 }
