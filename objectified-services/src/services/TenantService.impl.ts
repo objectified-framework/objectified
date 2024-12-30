@@ -67,7 +67,7 @@ export class TenantServiceImpl implements TenantService {
   }
 
   async editTenant(request: Request, id: string, tenantDto: TenantDto): Promise<ServiceResponse<null>> {
-    const payload = {
+    const payload: any = {
       name: tenantDto.name,
       data: tenantDto.data,
     };
