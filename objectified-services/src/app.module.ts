@@ -1,5 +1,5 @@
-import {AuthController, DataTypeController, UserController} from './generated/controllers';
-import {AuthServiceImpl, DataTypeServiceImpl, UserServiceImpl} from './services';
+import {AuthController, DataTypeController, TenantController, UserController} from './generated/controllers';
+import {AuthServiceImpl, DataTypeServiceImpl, TenantServiceImpl, UserServiceImpl} from './services';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -7,11 +7,13 @@ import { Module } from '@nestjs/common';
   controllers: [
     AuthController,
     DataTypeController,
+    TenantController,
     UserController,
   ],
   providers: [
     AuthServiceImpl,
     DataTypeServiceImpl,
+    TenantServiceImpl,
     UserServiceImpl,
   ],
 })

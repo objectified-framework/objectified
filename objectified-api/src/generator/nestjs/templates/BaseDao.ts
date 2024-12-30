@@ -103,4 +103,17 @@ export class BaseDao<T> {
       .oneOrNone(sql, where)
       .then((data: any) => DaoUtils.normalize(data));
   }
+
+  /**
+   * Retrieves all object in the database using a where clause.  The key/value entries in the where clause
+   * indicate the names of the columns to search.
+   *
+   * @param where {any} containing the where clause to search for, key/value pairs of column names and values.
+   */
+  public async findAll(where: any): Promise<void | T> {
+    const db = DaoUtils.getDatabase();
+    const sql = DaoUtils.generateSelectSql(this.tableName, where);
+
+    return (await db.any(sql, where)).map((x) => DaoUtils.normalize<T>(x));
+  }
 }

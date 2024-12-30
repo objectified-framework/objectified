@@ -19,9 +19,11 @@ const SWAGGER_PATH: string = '/v1/api';
       'information provided by the third party authenticators are stored in the users\' associated\n' +
       'accounts, or in session variables as necessary.  Remaining information such as a user\'s\n' +
       'name, or account settings are stored in Objectified through other services.')
-    .addTag('session', 'Session management for active users, which stores information regarding a user\'s interactions\n' +
-      'in the system through a database.  Session variables are programmatically available, and are\n' +
-      'not stored on the browser other than through access via the JWT.')
+    .addTag('user', 'User services are applied after a user login is complete.  Once a user has been successfully\n' +
+      'authenticated using auth, the user data store can be modified or retrieved.')
+    .addTag('data-type', 'Data Type service is used for CRUD operations associated with data types.')
+    .addTag('tenant', 'Tenant services are used for CRUD services on Tenants, along with tenancy\n' +
+      'assignment.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);
