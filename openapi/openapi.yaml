@@ -37,6 +37,11 @@ tags:
     description: |
       Tenant services are used for CRUD services on Tenants, along with tenancy
       assignment.
+  - name: Field
+    description: |
+      Field services assign data types to reusable storage objects.  Fields are used
+      by properties to define the data they contain, represented by properties in
+      classes.
 paths:
   /auth:
     post:
@@ -438,6 +443,131 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /field:
+    get:
+      tags:
+        - Field
+      summary: List fields
+      operationId: listFields
+      description: Returns a list of fields
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Field
+      summary: Creates a field
+      operationId: createField
+      description: Creates a new field record
+      security:
+        - JWT: []
+      requestBody:
+        description: The field payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+  /field/{id}:
+    get:
+      tags:
+        - Field
+      summary: Retrieves a field
+      operationId: getFieldById
+      description: Retrieves a field by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the field.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    put:
+      tags:
+        - Field
+      summary: Edits a field
+      operationId: editFieldById
+      description: Edits a field record
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the field.
+      requestBody:
+        description: The field payload to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Field
+      summary: Disables a field
+      operationId: disableFieldById
+      description: Disables a field by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the field.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -612,3 +742,52 @@ components:
         permissions:
           type: object
           description: Permissions storage object for this user record, used for ABAC
+    Field:
+      type: object
+      x-schema: obj
+      required:
+        - tenantId
+        - dataTypeId
+        - name
+        - description
+      description: |
+        Fields store DataType objects which are used to define the type of data that
+        a Property may store.  Field definitions are unique to tenants, and cannot
+        be shared across tenants.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Field
+        tenantId:
+          type: string
+          format: UUID
+          description: The Tenant ID that owns this field definition.
+        dataTypeId:
+          type: string
+          format: UUID
+          description: The Data Type ID that is used to store data in this field definition.
+        name:
+          type: string
+          description: The name of the field
+        description:
+          type: string
+          description: This is a description of what the field stores
+        defaultValue:
+          type: string
+          description: This is the default value that the field provides
+        enabled:
+          type: boolean
+          description: Indicates if the field record is enabled
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of field creation
+        updateDate:
+          type: string
+          format: date-time
+          description: Date and time of field update
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date and time of field deletion

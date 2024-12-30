@@ -24,6 +24,9 @@ const SWAGGER_PATH: string = '/v1/api';
     .addTag('data-type', 'Data Type service is used for CRUD operations associated with data types.')
     .addTag('tenant', 'Tenant services are used for CRUD services on Tenants, along with tenancy\n' +
       'assignment.')
+    .addTag('field', 'Field services assign data types to reusable storage objects.  Fields are used\n' +
+      'by properties to define the data they contain, represented by properties in\n' +
+      'classes.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);

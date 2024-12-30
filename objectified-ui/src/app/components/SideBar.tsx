@@ -105,6 +105,16 @@ export default function SideBar(props: SideBarProps) {
                 <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ExtensionOutlined/></ListItemIcon>
               </ListItemButton>
             </Item>
+
+            <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/fields') }}>
+              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+                '&:hover': {
+                  border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/fields')
+                }, backgroundColor: selectedBackgroundColor('/fields')
+              }} onClick={() => router.push('/fields')}>
+                <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ArticleOutlined/></ListItemIcon>
+              </ListItemButton>
+            </Item>
           </Stack>
         </div>
 
@@ -154,6 +164,23 @@ export default function SideBar(props: SideBarProps) {
                               fontWeight: "medium",
                             }}>
                 Data Types
+              </ListItemText>
+            </ListItemButton>
+          </Item>
+
+          <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/fields') }}>
+            <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              '&:hover': {
+                border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/fields')
+              }, backgroundColor: selectedBackgroundColor('/fields')
+            }} onClick={() => router.push('/fields')}>
+              <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ArticleOutlined/></ListItemIcon>
+              <ListItemText sx={{ textAlign: 'left', paddingLeft: '0px' }}
+                            primaryTypographyProps={{
+                              fontSize: 14,
+                              fontWeight: "medium",
+                            }}>
+                Fields
               </ListItemText>
             </ListItemButton>
           </Item>
