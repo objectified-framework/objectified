@@ -32,7 +32,7 @@ export class AuthServiceImpl implements AuthService {
             };
 
             this.logger.log(`[login] User ${userDto.emailAddress} successful`);
-            return ResponseOk(JSON.stringify(resultResponse));
+            return ResponseOk(resultResponse);
           } else {
             this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);
             return ResponseUnauthorized('You are not permitted to login.');

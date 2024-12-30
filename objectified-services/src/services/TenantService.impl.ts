@@ -147,4 +147,16 @@ export class TenantServiceImpl implements TenantService {
       });
   }
 
+  async listTenantsByUserId(request: Request, id: string): Promise<ServiceResponse<TenantUserDto[]>> {
+    return await this.tenantUserDao.findAll({
+      userId: id,
+    }).then((x) => {
+      this.logger.log(`[listTenantsForUserId] Retrieve tenant list`, x);
+      return ResponseOk(x);
+    }).catch((x) => {
+      this.logger.error(`[listTenantsForUserId] Retrieve tenant list for user ID ${id} failed.`, x);
+      return ResponseNotFound('This user does not belong to any tenants.');
+    });
+  }
+
 }
