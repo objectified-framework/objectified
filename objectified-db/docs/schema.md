@@ -37,3 +37,19 @@ as desired.
 When data is assigned to a field from a class instantiation, that data can be indexed by
 the system, and can be used to cross-reference data between other instantiated classes
 using internal tooling.
+
+## property
+
+A property is an assignment of a field to a name and default properties which can be used
+by a class in order to define its schema.
+
+## class
+
+This is a storage mechanism that defines a schema for the data it can contain.  Think of
+a `Class` as the same as a `Class` in other languages, where it can define the names of
+properties it stores, along with the data type for each property.
+
+## class_property
+
+This defines the properties that are attached to a `Class`, defining its schema.
+
