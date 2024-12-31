@@ -1,5 +1,7 @@
 // These are the table items that will be displayed in the DataListTable.
 // Any items omitted from this list will not be shown, even if they're included in the dataset.
+import {listDataTypes} from "@/app/services/data-type";
+
 export const tableItems: any[] = [
   {
     name: 'id',
@@ -49,6 +51,8 @@ export const formItems: any[] = [
     name: 'dataTypeId',
     description: 'Data Type ID',
     required: true,
+    type: 'select',
+    dataset: [],
   },
   {
     name: 'defaultValue',

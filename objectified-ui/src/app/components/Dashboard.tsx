@@ -95,7 +95,8 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
 
         <div style={{ position: 'fixed', width: calcWidth, left: mainLeft, backgroundColor: '#000', height: '52px' }}>
           <Stack direction={'row'} spacing={2} sx={{ textAlign: 'right' }}>
-            <Item sx={{ width: '80%', textAlign: 'left', paddingLeft: '20px', paddingTop: '4px', backgroundColor: '#000' }}>
+            <Item sx={{ width: '80%', textAlign: 'left', paddingTop: '4px', backgroundColor: '#000',
+                        color: '#fff' }}>
               <TenantSelector onTenantChanged={handleTenantChanged}/>
             </Item>
 

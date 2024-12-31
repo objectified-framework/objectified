@@ -1,7 +1,7 @@
 import RouteHelper from "../../../../lib/RouteHelper";
 import { getToken } from "next-auth/jwt";
 import {JWT} from "../../../../lib/JWT";
-import { ClientFieldListFields } from '@objectified-framework/objectified-services/dist/generated/clients';
+import { ClientFieldListFields, ClientFieldGetFieldById } from '@objectified-framework/objectified-services/dist/generated/clients';
 
 // /field:
 // /field/{id}:
@@ -26,7 +26,16 @@ export async function GET(request: any) {
 
     return helper.createResponse({ results });
   } else {
+    const results = await ClientFieldGetFieldById(id, headers)
+      .then((x) => {
+        console.log(`[field::get] Get field ${id}`, x);
+        return x.data;
+      }).catch((x) => {
+        console.log(`[field::get] Get field ${id} failed`, x);
+        return null;
+      });
 
+    return helper.createResponse({ results });
   }
 }
 

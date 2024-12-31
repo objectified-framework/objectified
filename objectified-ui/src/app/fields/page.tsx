@@ -10,6 +10,7 @@ import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listFields} from "@/app/services/field";
+import {listDataTypes} from "@/app/services/data-type";
 
 const Fields = () => {
   const { data: session } = useSession();
@@ -17,9 +18,25 @@ const Fields = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
   const [selectedLine, setSelectedLine] = useState({});
+  const [dataTypes, setDataTypes] = useState([]);
 
   const resetSelectedLine = () => {
     setSelectedLine({});
+  }
+
+  const loadFields = async () => {
+    await listDataTypes()
+      .then((x) => {
+        const mappedResults = x.map((y) => {
+          return {
+            dataTypeId: y.id,
+            name: y.name,
+          };
+        })
+        formItems[2].dataset = mappedResults;
+        setDataTypes(mappedResults);
+      })
+      .catch((x) => errorDialog('Unable to load data types'));
   }
 
   const refreshDataTypes = () => {
@@ -114,6 +131,7 @@ const Fields = () => {
                        isLoading={isLoading}
                        onAdd={() => {
                          resetSelectedLine();
+                         loadFields();
                          setOpen(true);
                        }}
                        onDelete={(payload) => deleteClicked(payload)}

@@ -233,6 +233,33 @@ export const AutoForm = (props: IAutoForm) => {
           </Stack>
         </>
       );
+    } else if (type === 'select') {
+      const labelName = `${name}-label`;
+
+      return (
+        <Stack direction={'column'}>
+          <Item sx={{width: '100%'}}>
+            <FormControl
+              required={required}
+              fullWidth>
+              <InputLabel id={labelName}>{description} ({name})</InputLabel>
+              <Select labelId={labelName}
+                      label={`${description} (${name})`}
+                      style={{ textAlign: 'left' }}
+                      value={payload[name] ?? 'STRING'}
+                      name={name}
+                      required={required}
+                      onChange={handleChange}
+                      fullWidth>
+                {element.dataset.map((x, counter: number) => (
+                  <MenuItem value={x[name]}>{x.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Item>
+        </Stack>
+
+      )
     }
 
     /**

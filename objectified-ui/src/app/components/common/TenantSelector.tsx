@@ -10,6 +10,7 @@ import {
   TextField,
   LinearProgress,
 } from '@mui/material';
+import Item from "@/app/components/common/Item";
 
 export interface ITenantSelector {
   onTenantChanged: (tenantId: string) => any;
@@ -25,20 +26,37 @@ export const TenantSelector = (props: ITenantSelector) => {
 
   if (tenants.length > 0) {
     return (
-      <FormControl style={{ color: '#fff' }} size={'small'}>
-        <InputLabel id={'tenant-selector'} style={{ color: '#fff' }}></InputLabel>
-        <Select labelId={'tenant-selector'}
-                label={''}
-                style={{ textAlign: 'left', color: '#fff', border: '#1px solid #fff' }}
-                name={'tenantSelector'}
-                value={session.currentTenant}
-                onChange={(e) => props.onTenantChanged(e.target.value)}
-                fullWidth>
-          {tenants.map((x) => (
-            <MenuItem value={x.id}>{x.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Stack direction={'row'}>
+        <Item style={{ backgroundColor: '#000', color: '#fff', paddingTop: '10px' }}>
+          Tenant:
+        </Item>
+
+        <Item style={{ backgroundColor: '#000', color: '#fff', paddingTop: '0px' }}>
+          <FormControl style={{ color: '#fff' }} size={'small'}>
+            <InputLabel id={'tenant-selector'} style={{ color: '#fff' }}></InputLabel>
+            <Select labelId={'tenant-selector'}
+                    label={''}
+                    style={{ textAlign: 'left', color: '#fff', border: '#1px solid #fff', borderColor: '#fff' }}
+                    name={'tenantSelector'}
+                    value={session.currentTenant ?? ''}
+                    onChange={(e) => props.onTenantChanged(e.target.value)}
+                    sx={{
+                      color: "white",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white",
+                      },
+                    }}
+                    fullWidth>
+              <MenuItem disabled value={''}>
+                <em>Select Tenant</em>
+              </MenuItem>
+              {tenants.map((x: any, counter: number) => (
+                <MenuItem value={x.id} key={`tenant-selector-${counter}`}>{x.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Item>
+      </Stack>
     );
   } else {
     return <LinearProgress />;
