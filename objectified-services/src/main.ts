@@ -13,7 +13,7 @@ const SWAGGER_PATH: string = '/v1/api';
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Objectified API')
-    .setVersion('0.1.1')
+    .setVersion('0.1.2')
     .addTag('auth', 'Authentication services that are used in conjunction with third party authenticators.  These\n' +
       'services provide access to user accounts based on their email addresses.  Any additional\n' +
       'information provided by the third party authenticators are stored in the users\' associated\n' +
