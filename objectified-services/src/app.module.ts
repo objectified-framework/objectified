@@ -1,17 +1,25 @@
 import {
-  AuthController,
+  AuthController, ClassController,
   DataTypeController,
   FieldController,
   TenantController,
   UserController
 } from './generated/controllers';
-import {AuthServiceImpl, DataTypeServiceImpl, FieldServiceImpl, TenantServiceImpl, UserServiceImpl} from './services';
+import {
+  AuthServiceImpl,
+  ClassServiceImpl,
+  DataTypeServiceImpl,
+  FieldServiceImpl,
+  TenantServiceImpl,
+  UserServiceImpl
+} from './services';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [],
   controllers: [
     AuthController,
+    ClassController,
     DataTypeController,
     FieldController,
     TenantController,
@@ -19,6 +27,7 @@ import { Module } from '@nestjs/common';
   ],
   providers: [
     AuthServiceImpl,
+    ClassServiceImpl,
     DataTypeServiceImpl,
     FieldServiceImpl,
     TenantServiceImpl,

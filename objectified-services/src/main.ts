@@ -27,6 +27,8 @@ const SWAGGER_PATH: string = '/v1/api';
     .addTag('field', 'Field services assign data types to reusable storage objects.  Fields are used\n' +
       'by properties to define the data they contain, represented by properties in\n' +
       'classes.')
+    .addTag('class', 'Classes services are used for CRUD services to create Class entries, along with\n' +
+      'assignment of properties for their definitions.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);

@@ -42,6 +42,10 @@ tags:
       Field services assign data types to reusable storage objects.  Fields are used
       by properties to define the data they contain, represented by properties in
       classes.
+  - name: Class
+    description: |
+      Classes services are used for CRUD services to create Class entries, along with
+      assignment of properties for their definitions.
 paths:
   /auth:
     post:
@@ -597,6 +601,131 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /class:
+    get:
+      tags:
+        - Class
+      summary: Lists classes
+      operationId: listClasses
+      description: Lists all classes owned by a tenant
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Class
+      summary: Creates a class
+      operationId: createClass
+      description: Creates a new class record
+      security:
+        - JWT: []
+      requestBody:
+        description: The class payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+  /class/{id}:
+    get:
+      tags:
+        - Class
+      summary: Retrieves a class
+      operationId: getClassById
+      description: Retrieves a class by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    put:
+      tags:
+        - Class
+      summary: Edits a class
+      operationId: editClassById
+      description: Edits a class record
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class.
+      requestBody:
+        description: The class payload to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Class
+      summary: Disables a class
+      operationId: disableClassById
+      description: Disables a class by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -820,3 +949,47 @@ components:
           type: string
           format: date-time
           description: Date and time of field deletion
+    Class:
+      type: object
+      x-schema: obj
+      required:
+        - tenantId
+        - ownerId
+        - name
+      description: |
+        Classes define objects that can be stored in Objectified.  Classes are collections
+        of properties that define object definitions.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Field
+        tenantId:
+          type: string
+          format: UUID
+          description: The ID of the Tenant
+        ownerId:
+          type: string
+          format: UUID
+          description: The ID of the owner
+        name:
+          type: string
+          description: The name of the class
+        description:
+          type: string
+          description: This is a description of what the class defines
+        enabled:
+          type: boolean
+          description: Indicates if the class is enabled
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of class creation
+        updateDate:
+          type: string
+          format: date-time
+          description: Date and time of class update
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date and time of class deletion
