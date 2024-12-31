@@ -31,6 +31,7 @@ export const TenantSelector = (props: ITenantSelector) => {
                 label={''}
                 style={{ textAlign: 'left', color: '#fff', border: '#1px solid #fff' }}
                 name={'tenantSelector'}
+                value={session.currentTenant}
                 onChange={(e) => props.onTenantChanged(e.target.value)}
                 fullWidth>
           {tenants.map((x) => (

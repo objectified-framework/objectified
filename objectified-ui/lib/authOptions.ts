@@ -65,6 +65,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token, user }) {
       console.log(`[next-auth::session]: session=${JSON.stringify(session, null, 2)} user=${JSON.stringify(user, null, 2)} token=${JSON.stringify(token, null, 2)}`);
 
+      // Set session variables if not set, and the token contains the data necessary.
+      session.currentTenant = token.currentTenant ?? '';
       session.objectified = token.objectified;
 
       return session;
