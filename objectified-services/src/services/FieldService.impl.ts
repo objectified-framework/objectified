@@ -1,6 +1,6 @@
 import {
   FieldService,
-  ResponseForbidden,
+  ResponseForbidden, ResponseNoContent, ResponseNotFound,
   ResponseOk,
   ResponseUnauthorized,
   ServiceResponse
@@ -16,19 +16,118 @@ export class FieldServiceImpl implements FieldService {
   private readonly dao = new FieldDao();
 
   async createField(request: Request, fieldDto: FieldDto): Promise<ServiceResponse<FieldDto>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      tenantId,
+      dataTypeId: fieldDto.dataTypeId,
+      name: fieldDto.name,
+      description: fieldDto.description,
+      defaultValue: fieldDto.defaultValue,
+      enabled: true,
+    };
+
+    const result = await this.dao.create(payload)
+      .then((x) => {
+        this.logger.log('[createField] Field created', x);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error('[createField] Field create failed', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseForbidden('Creation of field failed');
+    }
+
+    return ResponseOk(result);
   }
 
   async disableFieldById(request: Request, id: string): Promise<ServiceResponse<null>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      enabled: false,
+      deleteDate: new Date(),
+    };
+
+    return await this.dao.updateById(id, payload)
+      .then((x) => {
+        this.logger.log(`[disableFieldById] Disabled ${id}`, x);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[disableFieldById] Disable for field ${id} failed`, x);
+        return ResponseForbidden('Unable to disable field.');
+      });
   }
 
   async editFieldById(request: Request, id: string, fieldDto: FieldDto): Promise<ServiceResponse<null>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      tenantId,
+      dataTypeId: fieldDto.dataTypeId,
+      name: fieldDto.name,
+      description: fieldDto.description,
+      defaultValue: fieldDto.defaultValue,
+      updateDate: new Date(),
+    };
+
+    return await this.dao.updateById(id, payload)
+      .then((x) => {
+        this.logger.log(`[disableFieldById] Disabled ${id}`, x);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[disableFieldById] Disable for field ${id} failed`, x);
+        return ResponseForbidden('Unable to disable field.');
+      });
   }
 
   async getFieldById(request: Request, id: string): Promise<ServiceResponse<FieldDto>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const result = await this.dao.getById(id)
+      .then((x) => {
+        this.logger.log(`[getFieldById] Field retrieved for ${id}`, x);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error(`[getFieldById] Field retrieve failed for ${id}`, x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseNotFound(id);
+    }
+
+    if (result.tenantId !== tenantId) {
+      return ResponseForbidden('You do not have permission to retrieve this field.');
+    }
+
+    return ResponseOk(result);
   }
 
   async listFields(request: Request): Promise<ServiceResponse<FieldDto[]>> {
