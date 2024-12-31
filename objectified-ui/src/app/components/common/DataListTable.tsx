@@ -87,7 +87,7 @@ export const DataListTable = (props: IDataList) => {
           {props.isLoading ? (
             <TableBody>
               <TableRow key={'tableloading'}>
-                <TableCell colSpan={props.columns.length} style={{ textAlign: 'center' }}>
+                <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center' }}>
                   <CircularProgress/>
                 </TableCell>
               </TableRow>
@@ -97,7 +97,7 @@ export const DataListTable = (props: IDataList) => {
               {!props.dataset || !props.dataset.map || props.dataset.length === 0 ? (
                 <>
                   <TableRow key={'emptyset'}>
-                    <TableCell colSpan={props.columns.length} style={{ textAlign: 'center' }}>
+                    <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center' }}>
                       Dataset is empty
                     </TableCell>
                   </TableRow>

@@ -22,6 +22,7 @@ import {PersonOutline, PersonOutlined} from "@mui/icons-material";
 import {useState} from "react";
 import Item from "@/app/components/common/Item";
 import ProfileForm from "@/app/components/profile/ProfileForm";
+import TenantSelector from "@/app/components/common/TenantSelector";
 const inter = Inter({ subsets: ["latin"] });
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
@@ -61,6 +62,10 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
+  const handleTenantChanged = (tenantId: string) => {
+    console.log('Changed tenant', tenantId);
+  }
+
   return (
     <>
       <Dialog open={logoutShowing}>
@@ -90,7 +95,11 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
 
         <div style={{ position: 'fixed', width: calcWidth, left: mainLeft, backgroundColor: '#000', height: '52px' }}>
           <Stack direction={'row'} spacing={2} sx={{ textAlign: 'right' }}>
-            <Item sx={{ width: '100%', textAlign: 'right', padding: '0px', backgroundColor: '#000' }}>
+            <Item sx={{ width: '80%', textAlign: 'left', paddingLeft: '20px', backgroundColor: '#000' }}>
+              <TenantSelector onTenantChanged={handleTenantChanged}/>
+            </Item>
+
+            <Item sx={{ width: '20%', textAlign: 'right', padding: '0px', backgroundColor: '#000' }}>
               <Button sx={{ padding: '2px'}}
                       onClick={handleClick}
                       aria-controls={open ? 'simple-menu' : undefined}
