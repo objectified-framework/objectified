@@ -53,3 +53,8 @@ properties it stores, along with the data type for each property.
 
 This defines the properties that are attached to a `Class`, defining its schema.
 
+## object_property
+
+Properties can contain complex objects, which are defined using this table.  This table
+allows a property (of an object type) to contain multiple other objects, even objects of
+objects, if defined properly by the schema.
