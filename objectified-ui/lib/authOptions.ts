@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account, profile, trigger, session }) {
       /**
        * Assignment of the JWT token should only take place once, when a user logs in for the first time.
        * The JWT token is created, extra data is assigned to the token, and returned.  Once returned, the
@@ -77,6 +77,14 @@ export const authOptions: NextAuthOptions = {
        * function, which checks the login, the objectified token, and all of its extra lookups.
        * JWT may take a few seconds to compute.
        */
+
+      // A triggered update indicates that a session variable may have been altered.  If so, we look for
+      // a specific variable - in this case, the tenant selected, and make a change as required to the
+      // JWT token to store the current tenant that was changed.
+      if (trigger === 'update' && session?.currentTenant) {
+        console.log(`[next-auth::jwt] Target tenant changed to ${session.currentTenant}`);
+        token.currentTenant = session.currentTenant;
+      }
 
       const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '';
 

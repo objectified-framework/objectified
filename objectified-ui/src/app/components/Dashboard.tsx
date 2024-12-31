@@ -26,7 +26,7 @@ import TenantSelector from "@/app/components/common/TenantSelector";
 const inter = Inter({ subsets: ["latin"] });
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
-  const {data: session, status} = useSession();
+  const {data: session, status, update} = useSession();
   const router = useRouter();
   const [mainLeft, setMainLeft] = useState('260px');
   const [calcWidth, setCalcWidth] = useState('calc(100% - 260px)');
@@ -63,7 +63,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const handleClose = () => setAnchorEl(null);
 
   const handleTenantChanged = (tenantId: string) => {
-    console.log('Changed tenant', tenantId);
+    update({ currentTenant: tenantId });
   }
 
   return (
