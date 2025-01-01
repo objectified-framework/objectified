@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Dialog,
+  Dialog, Box, Stack,
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
@@ -11,6 +11,7 @@ import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listFields, saveField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
+import Item from "@/app/components/common/Item";
 
 const Fields = () => {
   const { data: session } = useSession();
@@ -115,6 +116,18 @@ const Fields = () => {
     //
     // setSelectedLine(payload);
     // setOpen(true);
+  }
+
+  if (!session.currentTenant) {
+    return (
+      <Stack direction={'column'}>
+        <Item sx={{width: '100%', padding: '30px' }}>
+          <Box sx={{ boxShadow: 4, padding: '20px', backgroundColor: '#f66', color: '#fff' }}>
+            <b>You have not chosen a tenant.</b>
+          </Box>
+        </Item>
+      </Stack>
+    );
   }
 
   return (

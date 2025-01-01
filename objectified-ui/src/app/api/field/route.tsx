@@ -5,6 +5,7 @@ import {
   ClientFieldListFields,
   ClientFieldGetFieldById,
   ClientFieldCreateField,
+  ClientFieldEditFieldById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 
 // /field:
@@ -84,6 +85,26 @@ export async function PUT(request: any) {
   if (!payload) {
     return helper.missingFieldResponse('payload');
   }
+
+  const editPayload: any = {
+
+  };
+
+  const results = await ClientFieldEditFieldById(id, editPayload)
+    .then((x) => {
+      console.log('[field::put] Field edited', x);
+      return x.data;
+    })
+    .catch((x) => {
+      console.log('[field::put] Field edit failed', x);
+      return null;
+    });
+
+  if (results === null) {
+    return helper.unauthorizedResponse();
+  }
+
+  return helper.createResponse(results);
 }
 
 // /field/{id}:
