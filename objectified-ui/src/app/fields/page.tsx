@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/fields/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listFields} from "@/app/services/field";
+import {listFields, saveField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
 
 const Fields = () => {
@@ -32,14 +32,17 @@ const Fields = () => {
             dataTypeId: y.id,
             name: y.name,
           };
-        })
+        });
+
         formItems[2].dataset = mappedResults;
         setDataTypes(mappedResults);
       })
-      .catch((x) => errorDialog('Unable to load data types'));
+      .catch((x) => {
+        return Promise.reject();
+      });
   }
 
-  const refreshDataTypes = () => {
+  const refreshFields = () => {
     setIsLoading(true);
 
     listFields().then((x) => {
@@ -50,7 +53,7 @@ const Fields = () => {
   }
 
   useEffect(() => {
-    refreshDataTypes();
+    refreshFields();
     resetSelectedLine();
   }, []);
 
@@ -62,20 +65,20 @@ const Fields = () => {
     // if (payload.id) {
     //   await putDataType(payload)
     //     .then((x) => {
-    //       refreshDataTypes();
+    //       refreshFields();
     //       setOpen(false);
     //     })
     //     .catch((x) => {
     //       errorDialog('Failed to update this data type - duplicate entry or other error.');
     //     });
     // } else {
-    //   payload.ownerId = session.objectified.id;
-    //
-    //   await saveDataType(payload)
-    //     .finally(() => {
-    //       refreshDataTypes();
-    //       setOpen(false);
-    //     });
+      payload.ownerId = session.objectified.id;
+
+      await saveField(payload)
+        .finally(() => {
+          refreshFields();
+          setOpen(false);
+        });
     // }
   }
 
@@ -92,7 +95,7 @@ const Fields = () => {
     //
     // await deleteDataType(payload.id)
     //   .then((x) => {
-    //     refreshDataTypes();
+    //     refreshFields();
     //   })
     //   .catch((x) => {
     //     errorDialog('You do not have permission to remove this data type.');
@@ -131,12 +134,16 @@ const Fields = () => {
                        isLoading={isLoading}
                        onAdd={() => {
                          resetSelectedLine();
-                         loadFields();
-                         setOpen(true);
+                         loadFields().then(r => {
+                           setOpen(true);
+                         }).catch(() => {
+                           setOpen(false);
+                           errorDialog('Unable to load data types');
+                         });
                        }}
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
-                       onRefresh={() => refreshDataTypes()}
+                       onRefresh={() => refreshFields()}
         />
       </div>
     </>

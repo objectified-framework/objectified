@@ -6,8 +6,7 @@
  */
 
 
-import { Request } from 'express';
-import { sign, decode, verify } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 
 // JWT Secret Key: either JWT_SECRET_KEY in environment variable, or generated randomly on restart using faker.
 export const SECRET_KEY = process.env.JWT_SECRET_KEY ?? '=Gz}Un"NZW0qN:hY[UhISXW2bJnASjUD57iDx(8B=jV;3;_|RFdp_mSW2k\\r43S^';
@@ -24,7 +23,7 @@ export class JWT {
     if (timeout) {
       return sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });
     }
-    
+
     return sign({ data: payload }, SECRET_KEY);
   }
 }
