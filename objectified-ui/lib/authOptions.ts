@@ -60,6 +60,11 @@ export const authOptions: NextAuthOptions = {
     },
     async redirect({ url, baseUrl }) {
       console.log(`[next-auth::redirect]: url=${JSON.stringify(url)} baseUrl=${JSON.stringify(baseUrl)}`);
+
+      if (url === '/login') {
+        return baseUrl + '/login';
+      }
+
       return baseUrl;
     },
     async session({ session, token, user }) {

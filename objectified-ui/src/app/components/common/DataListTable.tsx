@@ -33,8 +33,8 @@ import {AddOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material'
  * @param onDelete {function} called when the "trash" button is selected
  * @param onEdit {function} called when the "edit" button is selected
  * @param onRefresh {function} called when the "reload" button is selected
- * @param isEditable {function} called with the `payload` determining if the edit button appears
- * @param isDeletable {function} called with the `payload` determining if the delete button appears
+ * @param isEditable {function} called with the `payload` determining if the edit button appears, `true` indicates editable.
+ * @param isDeletable {function} called with the `payload` determining if the delete button appears, `true` indicates deletable.
  */
 export interface IDataList {
   header: string;
@@ -80,7 +80,7 @@ export const DataListTable = (props: IDataList) => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow key={'tablehead'}>
+            <TableRow key={'data-list-table-head'}>
               {props.columns.map((x, counter: number) => (
                 <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000' }} key={ `head-${counter}` }>{x.description}</TableCell>
               ))}
@@ -90,7 +90,7 @@ export const DataListTable = (props: IDataList) => {
 
           {props.isLoading ? (
             <TableBody>
-              <TableRow key={'tableloading'}>
+              <TableRow key={'data-list-table-loading'}>
                 <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center' }}>
                   <CircularProgress/>
                 </TableCell>
@@ -100,7 +100,7 @@ export const DataListTable = (props: IDataList) => {
             <TableBody>
               {!props.dataset || !props.dataset.map || props.dataset.length === 0 ? (
                 <>
-                  <TableRow key={'emptyset'}>
+                  <TableRow key={'data-list-table-empty-set'}>
                     <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center' }}>
                       Dataset is empty
                     </TableCell>

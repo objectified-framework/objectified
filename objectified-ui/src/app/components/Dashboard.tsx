@@ -115,10 +115,10 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                   setProfileShowing(true);
                 }}>Profile</MenuItem>
                 <Divider/>
-                <MenuItem onClick={() => {
+                <MenuItem onClick={async () => {
                   handleClose();
                   setLogoutShowing(true);
-                  signOut({
+                  await signOut({
                     callbackUrl: '/login',
                     redirect: true,
                   });
