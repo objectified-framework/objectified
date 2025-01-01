@@ -33,6 +33,8 @@ import {AddOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material'
  * @param onDelete {function} called when the "trash" button is selected
  * @param onEdit {function} called when the "edit" button is selected
  * @param onRefresh {function} called when the "reload" button is selected
+ * @param isEditable {function} called with the `payload` determining if the edit button appears
+ * @param isDeletable {function} called with the `payload` determining if the delete button appears
  */
 export interface IDataList {
   header: string;
@@ -43,6 +45,8 @@ export interface IDataList {
   onDelete: (payload: any) => any;
   onEdit: (payload: any) => any;
   onRefresh: () => any;
+  isEditable: (payload: any) => boolean;
+  isDeletable: (payload: any) => boolean;
 }
 
 /**
@@ -133,12 +137,17 @@ export const DataListTable = (props: IDataList) => {
                       })}
                       <TableCell key={ `row-${counter}-icons` }>
                         <Stack direction={'row'}>
-                          <IconButton onClick={() => props.onDelete(x)}>
-                            <DeleteIcon/>
-                          </IconButton>
-                          <IconButton onClick={() => props.onEdit(x)}>
-                            <Edit/>
-                          </IconButton>
+                          {props.isDeletable(x) && (
+                            <IconButton onClick={() => props.onDelete(x)}>
+                              <DeleteIcon/>
+                            </IconButton>
+                          )}
+
+                          {props.isEditable(x) && (
+                            <IconButton onClick={() => props.onEdit(x)}>
+                              <Edit/>
+                            </IconButton>
+                          )}
                         </Stack>
                       </TableCell>
                     </TableRow>

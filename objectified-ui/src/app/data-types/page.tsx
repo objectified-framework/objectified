@@ -119,6 +119,12 @@ const DataTypes = () => {
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshDataTypes()}
+                       isEditable={(x: any) => {
+                         return !x.coreType || (x.ownerId && x.ownerId != session.objectified.id);
+                       }}
+                       isDeletable={(x: any) => {
+                         return x.ownerId && x.ownerId === session.objectified.id;
+                       }}
         />
       </div>
     </>
