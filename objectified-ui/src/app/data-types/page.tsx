@@ -120,10 +120,10 @@ const DataTypes = () => {
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshDataTypes()}
                        isEditable={(x: any) => {
-                         return !x.coreType || (x.ownerId && x.ownerId != session.objectified.id);
+                         return (!x.coreType || (x.ownerId && x.ownerId != session.objectified.id)) && x.enabled;
                        }}
                        isDeletable={(x: any) => {
-                         return x.ownerId && x.ownerId === session.objectified.id;
+                         return (x.ownerId && x.ownerId === session.objectified.id) && x.enabled;
                        }}
         />
       </div>

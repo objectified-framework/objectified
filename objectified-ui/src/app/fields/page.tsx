@@ -157,6 +157,12 @@ const Fields = () => {
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshFields()}
+                       isDeletable={(x) => {
+                         return x.enabled;
+                       }}
+                       isEditable={(x) => {
+                         return x.enabled;
+                       }}
         />
       </div>
     </>
