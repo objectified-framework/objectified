@@ -47,6 +47,7 @@ export interface IDataList {
   onRefresh: () => any;
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
+  renderColumn?: (column: string, value: string) => string;
 }
 
 /**
@@ -132,7 +133,7 @@ export const DataListTable = (props: IDataList) => {
                         }
 
                         return (
-                          <TableCell key={ `row-${counter}-${subcounter}` }>{x[y.name]}</TableCell>
+                          <TableCell key={ `row-${counter}-${subcounter}` }>{props.renderColumn ? props.renderColumn(y.name, x[y.name]) : x[y.name]}</TableCell>
                         );
                       })}
                       <TableCell key={ `row-${counter}-icons` }>

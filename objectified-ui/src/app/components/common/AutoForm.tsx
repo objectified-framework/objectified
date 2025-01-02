@@ -57,8 +57,6 @@ export const AutoForm = (props: IAutoForm) => {
       ...payload,
       [name]: value[name],
     });
-
-    console.log('Payload', payload);
   }
 
   /**

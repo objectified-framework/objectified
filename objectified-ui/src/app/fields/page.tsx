@@ -56,6 +56,7 @@ const Fields = () => {
   useEffect(() => {
     refreshFields();
     resetSelectedLine();
+    loadFields().then(r => {});
   }, []);
 
   const handleClose = () => {
@@ -162,6 +163,15 @@ const Fields = () => {
                        }}
                        isEditable={(x) => {
                          return x.enabled;
+                       }}
+                       renderColumn={(column, value) => {
+                         if (column === 'dataTypeId') {
+                           const result = dataTypes.filter((x) => x['dataTypeId'] === value);
+
+                           return (result.length > 0) ? result[0].name : value;
+                         }
+
+                         return value;
                        }}
         />
       </div>
