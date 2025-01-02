@@ -8,6 +8,8 @@ This project contains the database for Objectified.
 
 This database schema is defined for Postgres.
 
+You must install [`schema-evolution-manager`](https://github.com/mbryzek/schema-evolution-manager) 
+
 ## Running the script
 
 In order to run the loading script, you must have the following environment variables
@@ -31,7 +33,9 @@ This will build and execute the SQL commands to generate the schema.
 
 > **NOTE:**\
 > If you have already run this script once, and want to back up the data, make sure
-> to use `pg_dump` command to dump your schema beforehand.
+> to use `pg_dump` command to dump your schema beforehand.  Otherwise, if you have loaded
+> your database prior to this, the database will simply include an upgrade path from the
+> point which you ran the install script.
 
 ## Current database visualized
 
