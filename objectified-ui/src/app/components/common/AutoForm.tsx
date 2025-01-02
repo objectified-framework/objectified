@@ -52,6 +52,16 @@ export const AutoForm = (props: IAutoForm) => {
     }
   }
 
+  /**
+   * Handles the change of values when an autocomplete event takes place.  This only includes the internal
+   * control, so it needs to take the event from the outer (parent) object, and the value that was
+   * changed to.  The "name" here is used to support the name of the field being affected.  This way,
+   * multiple Autocomplete controls can be used.
+   *
+   * @param event The event that caused the change.
+   * @param value The value of the row that was selected.
+   * @param name The name of the control for population in the payload from the selected value.
+   */
   const handleAutocompleteChange = (event: object, value: any, name: string) => {
     setPayload({
       ...payload,
@@ -249,6 +259,9 @@ export const AutoForm = (props: IAutoForm) => {
         </>
       );
     } else if (type === 'select') {
+      /**
+       * This is a select dropdown list.
+       */
       const labelName = `${name}-label`;
 
       return (
@@ -275,6 +288,10 @@ export const AutoForm = (props: IAutoForm) => {
         </Stack>
       );
     } else if (type === 'autocomplete') {
+      /**
+       * This is an autocomplete field, which uses a list from the dataset (similar to the select dropdown)
+       * and allows for filtering via text input.
+       */
       const labelName = `${name}-label`;
 
       return (
