@@ -187,7 +187,7 @@ export const AutoForm = (props: IAutoForm) => {
               <Select labelId={labelName}
                       label={`${description} (${name})`}
                       style={{ textAlign: 'left' }}
-                      value={payload[name] ?? 'STRING'}
+                      value={payload[name] ?? element.options[0]}
                       name={name}
                       required={required}
                       onChange={handleChange}
@@ -250,7 +250,7 @@ export const AutoForm = (props: IAutoForm) => {
               <Select labelId={labelName}
                       label={`${description} (${name})`}
                       style={{ textAlign: 'left' }}
-                      value={payload[name] ?? 'STRING'}
+                      value={payload[name] ?? element.dataset[0].name}
                       name={name}
                       required={required}
                       onChange={handleChange}
