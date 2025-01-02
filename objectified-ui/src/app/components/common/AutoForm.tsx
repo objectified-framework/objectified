@@ -283,7 +283,7 @@ export const AutoForm = (props: IAutoForm) => {
               name={name}
               required={required}
               onChange={handleChange}
-              renderInput={(params) => <TextField {...params} label={description}/>}
+              renderInput={(params) => <TextField {...params} label={`${description} (${name})`}/>}
             />
           </Item>
         </Stack>
