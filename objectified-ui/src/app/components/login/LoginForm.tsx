@@ -100,7 +100,8 @@ const LoginForm = () => {
       <div style={{
         backgroundColor: '#fff', color: '#000', width: '100%',
         border: '1px solid #000',
-        padding: '20px'
+        padding: '20px',
+        boxShadow: '6px 6px 4px #aaf',
       }}>
         <div style={{
           paddingTop: '1em', width: '100%'
@@ -117,7 +118,17 @@ const LoginForm = () => {
             <PasswordTextField fullWidth value={password} onChange={handlePasswordChange}
                                placeholder={'Enter your password'}/>
 
-            <Stack direction={'row'} sx={{paddingTop: '40px'}}>
+            <Stack direction={'row'} sx={{paddingTop: '20px'}}>
+              <Item sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px'}}>
+                <Button variant={'contained'}
+                        sx={{backgroundColor: '#66f', fontWeight: 'bold'}}
+                        fullWidth
+                        disabled={true}
+                        type={'submit'}>Request Early Access</Button>
+              </Item>
+            </Stack>
+
+            <Stack direction={'row'}>
               <Item sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px'}}>
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#66f', fontWeight: 'bold'}}

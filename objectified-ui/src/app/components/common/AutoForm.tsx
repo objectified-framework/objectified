@@ -80,10 +80,13 @@ export const AutoForm = (props: IAutoForm) => {
   }, []);
 
   /**
-   * This effect is only called when an edit action is performed, meaning the edit payload is populated.
+   * This effect is only called when an edit action is performed, meaning the edit payload is populated.  This
+   * function will always get called, but will only affect the payload if an edit payload exists.
    */
   useEffect(() => {
-    setPayload(props.editPayload);
+    if (props.editPayload && Object.keys(props.editPayload).length > 0) {
+      setPayload(props.editPayload);
+    }
   }, [props.editPayload]);
 
   /**
