@@ -72,9 +72,12 @@ export const AutoForm = (props: IAutoForm) => {
       const name = x.name;
       const type = x.type;
       const options = x.options;
+      const dataset = x.dataset;
 
       if (type === 'enum') {
         clearPayload[name] = options[0];
+      } else if (type === 'autocomplete') {
+        clearPayload[name] = x.dataset[0][name];
       }
     });
 
@@ -283,14 +286,26 @@ export const AutoForm = (props: IAutoForm) => {
               disablePortal
               options={element.dataset}
               fullWidth
-              value={payload[name] ?? ''}
+              value={payload[name] ?? element.dataset[0].name}
               name={name}
               required={required}
               onChange={(event, value) => handleAutocompleteChange(event, value, name)}
-              getOptionLabel={option => option.name ?? ''}
-              renderInput={(params) => <TextField {...params} name={name}
-                                                  value={payload[name] ?? element.dataset[0].name}
-                                                  label={`${description} (${name})`}/>}
+              getOptionLabel={option => {
+                // Look up the entry from the dataset for the value in the option
+                const datasetValue = element.dataset.filter((x: any) => x[name] === option);
+
+                if (datasetValue.length === 0) {
+                  if (option.name) {
+                    return option.name;
+                  }
+
+                  return option;
+                }
+
+                return datasetValue[0].name;
+              }}
+              isOptionEqualToValue={(option, value) => option[name] === value}
+              renderInput={(params) => <TextField {...params} name={name} label={`${description} (${name})`}/>}
             />
           </Item>
         </Stack>
