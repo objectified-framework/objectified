@@ -52,6 +52,15 @@ export const AutoForm = (props: IAutoForm) => {
     }
   }
 
+  const handleAutocompleteChange = (event: object, value: any, name: string) => {
+    setPayload({
+      ...payload,
+      [name]: value[name],
+    });
+
+    console.log('Payload', payload);
+  }
+
   /**
    * Clears the form by clearing the payload, and resetting any enumeration values to their default (first)
    * values.
@@ -272,18 +281,16 @@ export const AutoForm = (props: IAutoForm) => {
           <Item sx={{width: '100%'}}>
             <Autocomplete
               disablePortal
-              options={element.dataset.map((x: any, counter: number) => {
-                return {
-                  label: x.name,
-                  id: x.id,
-                };
-              })}
+              options={element.dataset}
               fullWidth
-              value={payload[name] ?? element.dataset[0].name}
+              value={payload[name] ?? ''}
               name={name}
               required={required}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} label={`${description} (${name})`}/>}
+              onChange={(event, value) => handleAutocompleteChange(event, value, name)}
+              getOptionLabel={option => option.name ?? ''}
+              renderInput={(params) => <TextField {...params} name={name}
+                                                  value={payload[name] ?? element.dataset[0].name}
+                                                  label={`${description} (${name})`}/>}
             />
           </Item>
         </Stack>
