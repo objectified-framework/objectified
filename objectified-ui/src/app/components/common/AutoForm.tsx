@@ -191,6 +191,7 @@ export const AutoForm = (props: IAutoForm) => {
                       name={name}
                       required={required}
                       onChange={handleChange}
+                      key={`auto-form-${name}`}
                       fullWidth>
                 {element.options.map((x, counter: number) => (
                   <MenuItem value={x}>{x}</MenuItem>
