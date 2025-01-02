@@ -52,7 +52,7 @@ export const formItems: any[] = [
     name: 'dataTypeId',
     description: 'Data Type ID',
     required: true,
-    type: 'select',
+    type: 'autocomplete',
     dataset: [],
   },
   {

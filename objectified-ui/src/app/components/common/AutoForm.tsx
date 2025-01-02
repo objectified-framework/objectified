@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import Item from "@/app/components/common/Item";
 import {
+  Autocomplete,
   Button,
   Checkbox,
   DialogTitle, FormControl, FormControlLabel, IconButton,
@@ -262,8 +263,31 @@ export const AutoForm = (props: IAutoForm) => {
             </FormControl>
           </Item>
         </Stack>
+      );
+    } else if (type === 'autocomplete') {
+      const labelName = `${name}-label`;
 
-      )
+      return (
+        <Stack direction={'column'}>
+          <Item sx={{width: '100%'}}>
+            <Autocomplete
+              disablePortal
+              options={element.dataset.map((x: any, counter: number) => {
+                return {
+                  label: x.name,
+                  id: x.id,
+                };
+              })}
+              fullWidth
+              value={payload[name] ?? element.dataset[0].name}
+              name={name}
+              required={required}
+              onChange={handleChange}
+              renderInput={(params) => <TextField {...params} label={description}/>}
+            />
+          </Item>
+        </Stack>
+      );
     }
 
     /**
