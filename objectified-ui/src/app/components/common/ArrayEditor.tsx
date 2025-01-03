@@ -8,7 +8,7 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import {AddOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material';
+import {AddOutlined, RemoveOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material';
 
 export interface IArrayEditor {
   header: string;
@@ -31,10 +31,15 @@ export const ArrayEditor = (props: IArrayEditor) => {
   }, [props.arrayPayload]);
 
   const addClicked = () => {
-    props.onChange(props.name, payload);
+    const copiedPayload = Object.assign([], payload);
+
+    copiedPayload.push('Random Object');
+
+    setPayload(copiedPayload);
+    props.onChange(props.name, copiedPayload);
   }
 
-  const removeClicked = () => {
+  const removeClicked = (position: number) => {
     props.onChange(props.name, payload);
   }
 
@@ -46,23 +51,39 @@ export const ArrayEditor = (props: IArrayEditor) => {
         </Item>
 
         <Item sx={{width: '20%', textAlign: 'right', padding: '0px'}}>
-          <Button onClick={() => addClicked}>
+          <Button onClick={() => addClicked()}>
             <AddOutlined/>
           </Button>
         </Item>
       </Stack>
 
-      <Stack direction={'column'} sx={{ border: '1px solid #ccc',
-                                        borderRadius: 1,
-                                        padding: '3px',
-                                        borderTop: '0px',
-                                        backgroundColor: '#eee' }}>
-        {props.arrayPayload.length === 0 && (
+      {payload.length === 0 && (
+        <Stack direction={'row'} sx={{ border: '1px solid #ccc',
+          borderRadius: 1,
+          padding: '3px',
+          borderTop: '0px',
+          backgroundColor: '#eee' }}>
           <Item sx={{ width: '100%', textAlign: 'center', backgroundColor: '#eee' }}>
             Click "+" to add an array item
           </Item>
-        )}
-      </Stack>
+        </Stack>
+      )}
+
+      {payload.map((item, counter: number) => (
+        <Stack direction={'row'} sx={{ border: '1px solid #ccc',
+          borderRadius: 1,
+          padding: '3px',
+          borderTop: '0px' }}>
+          <Item sx={{ width: '80%', textAlign: 'left' }}>
+            {item} ({counter})
+          </Item>
+          <Item sx={{ width: '20%', textAlign: 'right', paddingRight: '0px' }}>
+            <Button onClick={() => removeClicked(counter)}>
+              <RemoveOutlined/>
+            </Button>
+          </Item>
+        </Stack>
+      ))}
     </>
   );
 }
