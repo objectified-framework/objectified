@@ -40,7 +40,12 @@ export const ArrayEditor = (props: IArrayEditor) => {
   }
 
   const removeClicked = (position: number) => {
-    props.onChange(props.name, payload);
+    const copiedPayload = Object.assign([], payload);
+
+    delete copiedPayload[position];
+
+    setPayload(copiedPayload);
+    props.onChange(props.name, copiedPayload);
   }
 
   return (
