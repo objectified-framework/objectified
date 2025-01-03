@@ -12,6 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
+import ArrayEditor from "@/app/components/common/ArrayEditor";
 
 export interface IAutoForm {
   header: string;
@@ -245,15 +246,17 @@ export const AutoForm = (props: IAutoForm) => {
       return (
         <>
           <Stack direction={'column'}>
-            <Item sx={{width: '100%'}}>
-              <TextField label={`${description} (${name})`}
-                         fullWidth
-                         value={payload[name] ?? ''}
-                         name={name}
-                         onChange={handleChange}
-                         multiline
-                         required={required}
-                         rows={3}/>
+            <Item sx={{ width: '100%' }}>
+              <ArrayEditor header={`${description} (${name})`}
+                           arrayPayload={payload[name] ?? []}
+                           name={name}
+                           onChange={(name, newPayload) => {
+                             setPayload({
+                               ...payload,
+                               [name]: newPayload,
+                             });
+                           }}
+               />
             </Item>
           </Stack>
         </>
@@ -332,7 +335,7 @@ export const AutoForm = (props: IAutoForm) => {
      */
     return (
       <>
-        Unknown type: {type}
+        Cannot render unknown type: "{type}"
       </>
     );
   }
