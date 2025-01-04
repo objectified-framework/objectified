@@ -150,14 +150,10 @@ export const AutoForm = (props: IAutoForm) => {
         const formName = x.name;
         const formType = x.type;
 
-        if (formType === 'array') {
-          if (payload[formName]) {
-            modifiedPayload[formName] = payload[formName].split(',').map((x) => x.trim());
-          }
-        } else {
-          modifiedPayload[formName] = payload[formName];
-        }
+        modifiedPayload[formName] = payload[formName];
       });
+
+      console.log('[saveClicked] Saving', modifiedPayload);
 
       props.onSave(modifiedPayload);
     }
@@ -167,7 +163,7 @@ export const AutoForm = (props: IAutoForm) => {
    * Generates a single element from the element properties defined for the form generator from the
    * props.formElements property.
    */
-  const generateFormElement = (element: any) => {
+  const generateFormElement = (element: any, formCounter: number) => {
     const name = element.name;
     const description = element.description;
     const type = element.type ?? 'textfield';
@@ -179,13 +175,14 @@ export const AutoForm = (props: IAutoForm) => {
     if (type === 'textfield') {
       return (
         <>
-          <Stack direction={'column'}>
+          <Stack direction={'column'} key={`auto-form-line-${name}`}>
             <Item sx={{width: '100%'}}>
               <TextField label={`${description} (${name})`}
                          fullWidth
                          value={payload[name] ?? ''}
                          name={name}
                          required={required}
+                         key={`auto-form-${formCounter}`}
                          onChange={handleChange}/>
             </Item>
           </Stack>
@@ -200,7 +197,7 @@ export const AutoForm = (props: IAutoForm) => {
       const labelName = `${name}-label`;
 
       return (
-        <Stack direction={'column'}>
+        <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{width: '100%'}}>
             <FormControl
               required={required}
@@ -216,7 +213,7 @@ export const AutoForm = (props: IAutoForm) => {
                       key={`auto-form-${name}`}
                       fullWidth>
                 {element.options.map((x, counter: number) => (
-                  <MenuItem value={x}>{x}</MenuItem>
+                  <MenuItem value={x} key={`auto-form-${name}-${counter}`}>{x}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -228,13 +225,14 @@ export const AutoForm = (props: IAutoForm) => {
        * Checkbox controls here.
        */
       return (
-        <Stack direction={'column'}>
+        <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{ width: '100%', textAlign: 'left' }}>
             <FormControlLabel control={<Checkbox
               name={name}
               onChange={handleChange}
               checked={payload[name] ?? false}
               required={required}
+              key={`auto-form-${formCounter}`}
             />} label={`${description} (${name})`} />
           </Item>
         </Stack>
@@ -245,7 +243,7 @@ export const AutoForm = (props: IAutoForm) => {
        */
       return (
         <>
-          <Stack direction={'column'}>
+          <Stack direction={'column'} key={`auto-form-line-${name}`}>
             <Item sx={{ width: '100%' }}>
               <ArrayEditor header={`${description} (${name})`}
                            arrayPayload={payload[name] ?? []}
@@ -268,9 +266,10 @@ export const AutoForm = (props: IAutoForm) => {
       const labelName = `${name}-label`;
 
       return (
-        <Stack direction={'column'}>
+        <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{width: '100%'}}>
             <FormControl
+              key={`auto-form-${formCounter}`}
               required={required}
               fullWidth>
               <InputLabel id={labelName}>{description} ({name})</InputLabel>
@@ -281,6 +280,7 @@ export const AutoForm = (props: IAutoForm) => {
                       name={name}
                       required={required}
                       onChange={handleChange}
+                      key={`auto-form-select-${name}`}
                       fullWidth>
                 {element.dataset.map((x, counter: number) => (
                   <MenuItem value={x[name]}>{x.name}</MenuItem>
@@ -298,7 +298,7 @@ export const AutoForm = (props: IAutoForm) => {
       const labelName = `${name}-label`;
 
       return (
-        <Stack direction={'column'}>
+        <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{width: '100%'}}>
             <Autocomplete
               disablePortal
@@ -307,6 +307,7 @@ export const AutoForm = (props: IAutoForm) => {
               value={payload[name] ?? element.dataset[0].name}
               name={name}
               required={required}
+              key={`auto-form-${formCounter}`}
               onChange={(event, value) => handleAutocompleteChange(event, value, name)}
               getOptionLabel={option => {
                 // Look up the entry from the dataset for the value in the option
@@ -344,30 +345,28 @@ export const AutoForm = (props: IAutoForm) => {
    * Generate the form here.
    */
   return (
-    <>
-      <DialogTitle>
-        <Stack direction={'row'}>
-          <div style={{ width: '50%' }}>
-            {props.header} {props.editPayload && props.editPayload.id ? `(id: ${props.editPayload.id})` : ''}
-          </div>
-          <div style={{ width: '50%', textAlign: 'right' }}>
-            <IconButton onClick={() => props.onCancel()}>
-              <CloseIcon/>
-            </IconButton>
-          </div>
-        </Stack>
+    <DialogTitle key={'auto-form-dialog-title'}>
+      <Stack direction={'row'} key={'auto-form-header'}>
+        <div style={{ width: '50%' }} key={'auto-form-header-1'}>
+          {props.header} {props.editPayload && props.editPayload.id ? `(id: ${props.editPayload.id})` : ''}
+        </div>
+        <div style={{ width: '50%', textAlign: 'right' }} key={'auto-form-header-2'}>
+          <IconButton onClick={() => props.onCancel()}>
+            <CloseIcon/>
+          </IconButton>
+        </div>
+      </Stack>
 
-        {props.formElements.map(x => generateFormElement(x))}
+      {props.formElements.map((x, formElementCounter) => generateFormElement(x, formElementCounter))}
 
-        <Stack direction={'row'}>
-          <Item sx={{ width: '100%', textAlign: 'right' }}>
-            <Button variant={'contained'} color={'error'} onClick={() => clearForm()}>Clear Form</Button>
-            &nbsp;
-            <Button variant={'contained'} onClick={() => saveClicked()}>Save</Button>
-          </Item>
-        </Stack>
-      </DialogTitle>
-    </>
+      <Stack direction={'row'} key={'auto-form-controls'}>
+        <Item sx={{ width: '100%', textAlign: 'right' }}>
+          <Button variant={'contained'} color={'error'} onClick={() => clearForm()}>Clear Form</Button>
+          &nbsp;
+          <Button variant={'contained'} onClick={() => saveClicked()}>Save</Button>
+        </Item>
+      </Stack>
+    </DialogTitle>
   );
 }
 

@@ -1,14 +1,20 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Item from '@/app/components/common/Item';
 import {
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Paper,
   Stack,
+  TextField,
   Typography
 } from '@mui/material';
 import {AddOutlined, RemoveOutlined, RefreshOutlined, CheckBox, Edit} from '@mui/icons-material';
+import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
 export interface IArrayEditor {
   header: string;
@@ -25,18 +31,32 @@ export interface IArrayEditor {
  */
 export const ArrayEditor = (props: IArrayEditor) => {
   const [payload, setPayload] = useState([]);
+  const [open, setOpen] = useState(false);
+  const addValueRef = useRef('');
 
   useEffect(() => {
     setPayload(props.arrayPayload);
   }, [props.arrayPayload]);
 
   const addClicked = () => {
+    setOpen(true);
+  }
+
+  const addItem = () => {
     const copiedPayload = Object.assign([], payload);
+    const value = addValueRef.current.value;
 
-    copiedPayload.push(`Random Object ${copiedPayload.length}`);
+    if (value) {
+      copiedPayload.push(addValueRef.current.value);
 
-    setPayload(copiedPayload);
-    props.onChange(props.name, copiedPayload);
+      setPayload(copiedPayload);
+      props.onChange(props.name, copiedPayload);
+    } else {
+      errorDialog('Missing value.');
+      return;
+    }
+
+    setOpen(false);
   }
 
   const removeClicked = (position: number) => {
@@ -48,8 +68,29 @@ export const ArrayEditor = (props: IArrayEditor) => {
     props.onChange(props.name, copiedPayload);
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <>
+      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
+        <DialogTitle key={'auto-form-dialog-title'}>
+          Add Array Record
+        </DialogTitle>
+        <DialogContent>
+          <TextField inputRef={addValueRef} fullWidth/>
+        </DialogContent>
+        <DialogActions>
+          <Button variant={'contained'} color={'error'} onClick={() => {
+            setOpen(false);
+          }}>Cancel</Button>
+          <Button variant={'contained'} onClick={() => {
+            addItem();
+          }}>Add</Button>
+        </DialogActions>
+      </Dialog>
+
       <Stack direction={'row'} sx={{ border: '1px solid #ccc', borderRadius: 1, padding: '3px' }} key={`${props.name}-header`}>
         <Item sx={{width: '80%', textAlign: 'left', padding: '0px', paddingLeft: '8px', paddingTop: '6px' }}>
           <Typography>{props.header} ({payload.length} item(s))</Typography>
