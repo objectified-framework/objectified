@@ -153,8 +153,6 @@ export const AutoForm = (props: IAutoForm) => {
         modifiedPayload[formName] = payload[formName];
       });
 
-      console.log('[saveClicked] Saving', modifiedPayload);
-
       props.onSave(modifiedPayload);
     }
   }
