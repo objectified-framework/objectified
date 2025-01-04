@@ -6,6 +6,7 @@ import {
   ClientFieldGetFieldById,
   ClientFieldCreateField,
   ClientFieldEditFieldById,
+  ClientFieldDisableFieldById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 
 // /field:
@@ -117,4 +118,19 @@ export async function DELETE(request: any) {
     'Authorization': `Bearer ${jwt}`,
   };
 
+  if (!id) {
+    return helper.missingFieldResponse('id');
+  }
+
+  const results = await ClientFieldDisableFieldById(id, headers)
+    .then((x) => {
+      console.log('[field::delete] Field disabled', x);
+      return true;
+    })
+    .catch((x) => {
+      console.log('[field::delete] Field disable failed', x);
+      return false;
+    });
+
+  return helper.createResponse(results);
 }

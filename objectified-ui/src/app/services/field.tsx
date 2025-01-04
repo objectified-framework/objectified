@@ -38,3 +38,22 @@ export const saveField = (field: FieldDto) => {
     }).catch(e => reject(e));
   });
 }
+
+export const deleteField = (id: string) => {
+  return new Promise((resolve, reject) => {
+    axios.delete(`/api/field?id=${id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      console.log('[deleteField] response', res);
+
+      if (res.data) {
+        return resolve(res.data);
+      }
+
+      return resolve({});
+    }).catch(e => reject(e));
+  });
+}

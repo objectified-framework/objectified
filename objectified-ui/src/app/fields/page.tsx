@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/fields/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listFields, saveField} from "@/app/services/field";
+import {deleteField, listFields, saveField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
 import Item from "@/app/components/common/Item";
 
@@ -85,23 +85,19 @@ const Fields = () => {
   }
 
   const deleteClicked = async (payload: any) => {
-    // if (payload.coreType) {
-    //   errorDialog('You are not allowed to delete a core data type.');
-    //   return;
-    // }
-    //
-    // if (!payload.enabled) {
-    //   errorDialog('This data type has already been deleted.');
-    //   return;
-    // }
-    //
-    // await deleteDataType(payload.id)
-    //   .then((x) => {
-    //     refreshFields();
-    //   })
-    //   .catch((x) => {
-    //     errorDialog('You do not have permission to remove this data type.');
-    //   });
+    if (!payload.enabled) {
+      errorDialog('This data type has already been deleted.');
+      return;
+    }
+
+    await deleteField(payload.id)
+      .then((x) => {
+        refreshFields();
+      })
+      .catch((x) => {
+        errorDialog('Unable to disable the selected field.');
+        refreshFields();
+      });
   }
 
   const editClicked = async (payload: any) => {
