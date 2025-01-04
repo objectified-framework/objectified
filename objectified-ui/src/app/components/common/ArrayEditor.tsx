@@ -33,7 +33,7 @@ export const ArrayEditor = (props: IArrayEditor) => {
   const addClicked = () => {
     const copiedPayload = Object.assign([], payload);
 
-    copiedPayload.push('Random Object');
+    copiedPayload.push(`Random Object ${copiedPayload.length}`);
 
     setPayload(copiedPayload);
     props.onChange(props.name, copiedPayload);
@@ -42,7 +42,7 @@ export const ArrayEditor = (props: IArrayEditor) => {
   const removeClicked = (position: number) => {
     const copiedPayload = Object.assign([], payload);
 
-    delete copiedPayload[position];
+    copiedPayload.splice(position, 1);
 
     setPayload(copiedPayload);
     props.onChange(props.name, copiedPayload);
@@ -50,9 +50,9 @@ export const ArrayEditor = (props: IArrayEditor) => {
 
   return (
     <>
-      <Stack direction={'row'} sx={{ border: '1px solid #ccc', borderRadius: 1, padding: '3px' }}>
+      <Stack direction={'row'} sx={{ border: '1px solid #ccc', borderRadius: 1, padding: '3px' }} key={`${props.name}-header`}>
         <Item sx={{width: '80%', textAlign: 'left', padding: '0px', paddingLeft: '8px', paddingTop: '6px' }}>
-          <Typography>{props.header}</Typography>
+          <Typography>{props.header} ({payload.length} item(s))</Typography>
         </Item>
 
         <Item sx={{width: '20%', textAlign: 'right', padding: '0px'}}>
@@ -67,7 +67,9 @@ export const ArrayEditor = (props: IArrayEditor) => {
           borderRadius: 1,
           padding: '3px',
           borderTop: '0px',
-          backgroundColor: '#eee' }}>
+          backgroundColor: '#eee' }}
+          key={`${props.name}-no-items`}
+        >
           <Item sx={{ width: '100%', textAlign: 'center', backgroundColor: '#eee' }}>
             Click "+" to add an array item
           </Item>
@@ -78,9 +80,10 @@ export const ArrayEditor = (props: IArrayEditor) => {
         <Stack direction={'row'} sx={{ border: '1px solid #ccc',
           borderRadius: 1,
           padding: '3px',
-          borderTop: '0px' }}>
+          borderTop: '0px' }}
+          key={`${props.name}-items-${counter}`}>
           <Item sx={{ width: '80%', textAlign: 'left' }}>
-            {item} ({counter})
+            {item}
           </Item>
           <Item sx={{ width: '20%', textAlign: 'right', paddingRight: '0px' }}>
             <Button onClick={() => removeClicked(counter)}>
