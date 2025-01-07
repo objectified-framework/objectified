@@ -101,7 +101,7 @@ const Fields = () => {
   }
 
   const editClicked = async (payload: any) => {
-    if (!session.objectified.tenancy.map((x) => x.id).includes(payload.tenantId)) {
+    if (session.currentTenant !== payload.tenantId) {
       errorDialog('You cannot edit data types that you do not own.');
       return;
     }
