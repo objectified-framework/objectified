@@ -88,17 +88,21 @@ export async function PUT(request: any) {
   }
 
   const editPayload: any = {
-
+    dataTypeId: payload.dataTypeId,
+    name: payload.name,
+    description: payload.description,
+    defaultValue: payload.defaultValue,
+    updateDate: new Date(),
   };
 
-  const results = await ClientFieldEditFieldById(id, editPayload)
+  const results = await ClientFieldEditFieldById(id, editPayload, headers)
     .then((x) => {
       console.log('[field::put] Field edited', x);
-      return x.data;
+      return true;
     })
     .catch((x) => {
       console.log('[field::put] Field edit failed', x);
-      return null;
+      return false;
     });
 
   if (results === null) {

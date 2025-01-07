@@ -92,12 +92,12 @@ export class FieldServiceImpl implements FieldService {
 
     return await this.dao.updateById(id, payload)
       .then((x) => {
-        this.logger.log(`[disableFieldById] Disabled ${id}`, x);
+        this.logger.log(`[editFieldById] Edited ${id}`, x);
         return ResponseNoContent();
       })
       .catch((x) => {
-        this.logger.error(`[disableFieldById] Disable for field ${id} failed`, x);
-        return ResponseForbidden('Unable to disable field.');
+        this.logger.error(`[editFieldById] Edit for field ${id} failed`, x);
+        return ResponseForbidden('Unable to edit field.');
       });
   }
 

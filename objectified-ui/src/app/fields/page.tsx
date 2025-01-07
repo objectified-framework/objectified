@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/fields/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {deleteField, listFields, saveField} from "@/app/services/field";
+import {deleteField, listFields, saveField, putField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
 import Item from "@/app/components/common/Item";
 
@@ -64,16 +64,16 @@ const Fields = () => {
   };
 
   const saveClicked = async (payload: any) => {
-    // if (payload.id) {
-    //   await putDataType(payload)
-    //     .then((x) => {
-    //       refreshFields();
-    //       setOpen(false);
-    //     })
-    //     .catch((x) => {
-    //       errorDialog('Failed to update this data type - duplicate entry or other error.');
-    //     });
-    // } else {
+    if (payload.id) {
+      await putField(payload.id, payload)
+        .then((x) => {
+          refreshFields();
+          setOpen(false);
+        })
+        .catch((x) => {
+          errorDialog('Failed to update this data type - duplicate entry or other error.');
+        });
+    } else {
       payload.ownerId = session.objectified.id;
 
       await saveField(payload)
@@ -81,7 +81,7 @@ const Fields = () => {
           refreshFields();
           setOpen(false);
         });
-    // }
+    }
   }
 
   const deleteClicked = async (payload: any) => {
@@ -101,18 +101,13 @@ const Fields = () => {
   }
 
   const editClicked = async (payload: any) => {
-    // if (payload.coreType) {
-    //   errorDialog('You are not allowed to edit core types.');
-    //   return;
-    // }
-    //
-    // if (payload.ownerId !== session.objectified.id) {
-    //   errorDialog('You cannot edit data types that you do not own.');
-    //   return;
-    // }
-    //
-    // setSelectedLine(payload);
-    // setOpen(true);
+    if (!session.objectified.tenancy.map((x) => x.id).includes(payload.tenantId)) {
+      errorDialog('You cannot edit data types that you do not own.');
+      return;
+    }
+
+    setSelectedLine(payload);
+    setOpen(true);
   }
 
   if (!session.currentTenant) {
