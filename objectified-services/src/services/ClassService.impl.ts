@@ -16,18 +16,22 @@ export class ClassServiceImpl implements ClassService {
   private readonly dao = new ClassDao();
 
   async createClass(request: Request, classDto: ClassDto): Promise<ServiceResponse<ClassDto>> {
+    this.logger.log(`[createClass] classDto=${JSON.stringify(classDto, null, 2)}`);
     return Promise.resolve(undefined);
   }
 
   async disableClassById(request: Request, id: string): Promise<ServiceResponse<null>> {
+    this.logger.log(`[disableClassById] id=${id}`);
     return Promise.resolve(undefined);
   }
 
   async editClassById(request: Request, id: string, classDto: ClassDto): Promise<ServiceResponse<null>> {
+    this.logger.log(`[editClassById] id=${id} classDto=${JSON.stringify(classDto, null, 2)}`);
     return Promise.resolve(undefined);
   }
 
   async getClassById(request: Request, id: string): Promise<ServiceResponse<ClassDto>> {
+    this.logger.log(`[getClassById] id=${id}`);
     return Promise.resolve(undefined);
   }
 
@@ -38,6 +42,8 @@ export class ClassServiceImpl implements ClassService {
     if (!tenantId) {
       return ResponseForbidden('No tenant selected');
     }
+
+    this.logger.log(`[getClassById] tenantId=${tenantId}`);
 
     return await this.dao.findAll({
       tenantId,
