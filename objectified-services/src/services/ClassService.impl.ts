@@ -16,8 +16,36 @@ export class ClassServiceImpl implements ClassService {
   private readonly dao = new ClassDao();
 
   async createClass(request: Request, classDto: ClassDto): Promise<ServiceResponse<ClassDto>> {
-    this.logger.log(`[createClass] classDto=${JSON.stringify(classDto, null, 2)}`);
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      tenantId,
+      ownerId: classDto.ownerId,
+      name: classDto.name,
+      description: classDto.description,
+      enabled: true,
+    };
+
+    const result = await this.dao.create(payload)
+      .then((x) => {
+        this.logger.log('[createClass] Class created', x);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error('[createClass] Class create failed', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseForbidden('Creation of class failed');
+    }
+
+    return ResponseOk(result);
   }
 
   async disableClassById(request: Request, id: string): Promise<ServiceResponse<null>> {
@@ -27,7 +55,28 @@ export class ClassServiceImpl implements ClassService {
 
   async editClassById(request: Request, id: string, classDto: ClassDto): Promise<ServiceResponse<null>> {
     this.logger.log(`[editClassById] id=${id} classDto=${JSON.stringify(classDto, null, 2)}`);
-    return Promise.resolve(undefined);
+
+    const replacePayload: any = {
+      name: classDto.name,
+      description: classDto.description,
+      updateDate: new Date(),
+    }
+
+    const result = await this.dao.updateById(id, replacePayload)
+      .then((x) => {
+        console.log('[editClassById] Update', x);
+        return x;
+      })
+      .catch((x) => {
+        console.log('[editClassById] Update fail', x);
+        return null;
+      })
+
+    if (!result) {
+      return ResponseForbidden('Unable to update class.');
+    }
+
+    return ResponseOk(result);
   }
 
   async getClassById(request: Request, id: string): Promise<ServiceResponse<ClassDto>> {

@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
-import {listClasses,} from "@/app/services/class";
+import {listClasses, putClass, saveClass,} from "@/app/services/class";
 import {formItems, tableItems} from "@/app/classes/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
@@ -42,36 +42,29 @@ const Classes = () => {
   };
 
   const saveClicked = async (payload: any) => {
-    // if (!payload) {
-    //   errorDialog('Empty payload.');
-    //   return;
-    // }
-    //
-    // if (payload.enumValues && payload.enumDescriptions) {
-    //   if (payload.enumValues.length !== payload.enumDescriptions.length) {
-    //     errorDialog('Enumeration values and descriptions must equal each other in length: values and descriptions must be a one-to-one assignment.')
-    //     return;
-    //   }
-    // }
-    //
-    // if (payload.id) {
-    //   await putDataType(payload)
-    //     .then((x) => {
-    //       refreshClasses();
-    //       setOpen(false);
-    //     })
-    //     .catch((x) => {
-    //       errorDialog('Failed to update this data type - duplicate entry or other error.');
-    //     });
-    // } else {
-    //   payload.ownerId = session.objectified.id;
-    //
-    //   await saveDataType(payload)
-    //     .finally(() => {
-    //       refreshClasses();
-    //       setOpen(false);
-    //     });
-    // }
+    if (!payload) {
+      errorDialog('Empty payload.');
+      return;
+    }
+
+    if (payload.id) {
+      await putClass(payload)
+        .then((x) => {
+          refreshClasses();
+          setOpen(false);
+        })
+        .catch((x) => {
+          errorDialog('Failed to update this data type - duplicate entry or other error.');
+        });
+    } else {
+      payload.ownerId = session.objectified.id;
+
+      await saveClass(payload)
+        .finally(() => {
+          refreshClasses();
+          setOpen(false);
+        });
+    }
   }
 
   const deleteClicked = async (payload: any) => {
@@ -95,18 +88,13 @@ const Classes = () => {
   }
 
   const editClicked = async (payload: any) => {
-    // if (payload.coreType) {
-    //   errorDialog('You are not allowed to edit core types.');
-    //   return;
-    // }
-    //
-    // if (payload.ownerId !== session.objectified.id) {
-    //   errorDialog('You cannot edit data types that you do not own.');
-    //   return;
-    // }
-    //
-    // setSelectedLine(payload);
-    // setOpen(true);
+    if (payload.ownerId !== session.objectified.id || payload.tenantId != session.currentTenant) {
+      errorDialog('You cannot edit data types that you or your tenant do not own.');
+      return;
+    }
+
+    setSelectedLine(payload);
+    setOpen(true);
   }
 
   return (
