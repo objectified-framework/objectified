@@ -6,6 +6,7 @@ import {
   ClientClassGetClassById,
   ClientClassCreateClass,
   ClientClassEditClassById,
+  ClientClassDisableClassById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 
 // /class:
@@ -113,27 +114,27 @@ export async function PUT(request: any) {
 
 // /class/{id}:
 export async function DELETE(request: any) {
-  // const helper = new RouteHelper(request);
-  // const id = helper.getInputVariable('id');
-  // const token = await getToken({ req: request });
-  // const jwt = JWT.encrypt(token);
-  // const headers: any = {
-  //   'Authorization': `Bearer ${jwt}`,
-  // };
-  //
-  // if (!id) {
-  //   return helper.missingFieldResponse('id');
-  // }
-  //
-  // const results = await ClientFieldDisableFieldById(id, headers)
-  //   .then((x) => {
-  //     console.log('[field::delete] Field disabled', x);
-  //     return true;
-  //   })
-  //   .catch((x) => {
-  //     console.log('[field::delete] Field disable failed', x);
-  //     return false;
-  //   });
-  //
-  // return helper.createResponse(results);
+  const helper = new RouteHelper(request);
+  const id = helper.getInputVariable('id');
+  const token = await getToken({ req: request });
+  const jwt = JWT.encrypt(token);
+  const headers: any = {
+    'Authorization': `Bearer ${jwt}`,
+  };
+
+  if (!id) {
+    return helper.missingFieldResponse('id');
+  }
+
+  const results = await ClientClassDisableClassById(id, headers)
+    .then((x) => {
+      console.log('[class::delete] Class disabled', x);
+      return true;
+    })
+    .catch((x) => {
+      console.log('[class::delete] Class disable failed', x);
+      return false;
+    });
+
+  return helper.createResponse(results);
 }

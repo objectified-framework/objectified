@@ -1,6 +1,6 @@
 import {
   ClassService,
-  ResponseForbidden,
+  ResponseForbidden, ResponseNoContent, ResponseNotFound,
   ResponseOk,
   ResponseUnauthorized,
   ServiceResponse
@@ -50,7 +50,33 @@ export class ClassServiceImpl implements ClassService {
 
   async disableClassById(request: Request, id: string): Promise<ServiceResponse<null>> {
     this.logger.log(`[disableClassById] id=${id}`);
-    return Promise.resolve(undefined);
+
+    const result = await this.dao.getById(id)
+      .then((x) => {
+        this.logger.log(`[disableClassById] Object retrieved by ID=${id}`);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error('[disableClassById] Object failed to retrieve', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseNotFound(id);
+    }
+
+    result.enabled = false;
+    result.deleteDate = new Date();
+
+    return await this.dao.updateById(id, result)
+      .then((x) => {
+        this.logger.log(`[disableClassById] Object disabled ID=${id}`);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[disableClassById] Unable to disable ID=${id}`, x);
+        return ResponseForbidden('Cannot disable this data type');
+      });
   }
 
   async editClassById(request: Request, id: string, classDto: ClassDto): Promise<ServiceResponse<null>> {

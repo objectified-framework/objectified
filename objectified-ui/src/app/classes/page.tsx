@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
-import {listClasses, putClass, saveClass,} from "@/app/services/class";
+import {listClasses, putClass, saveClass, deleteClass} from "@/app/services/class";
 import {formItems, tableItems} from "@/app/classes/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
@@ -68,23 +68,18 @@ const Classes = () => {
   }
 
   const deleteClicked = async (payload: any) => {
-    // if (payload.coreType) {
-    //   errorDialog('You are not allowed to delete a core data type.');
-    //   return;
-    // }
-    //
-    // if (!payload.enabled) {
-    //   errorDialog('This data type has already been deleted.');
-    //   return;
-    // }
-    //
-    // await deleteDataType(payload.id)
-    //   .then((x) => {
-    //     refreshClasses();
-    //   })
-    //   .catch((x) => {
-    //     errorDialog('You do not have permission to remove this data type.');
-    //   });
+    if (!payload.enabled) {
+      errorDialog('This data type has already been deleted.');
+      return;
+    }
+
+    await deleteClass(payload.id)
+      .then((x) => {
+        refreshClasses();
+      })
+      .catch((x) => {
+        errorDialog('You do not have permission to remove this class.');
+      });
   }
 
   const editClicked = async (payload: any) => {

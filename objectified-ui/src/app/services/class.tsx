@@ -57,3 +57,20 @@ export const putClass = (cls: ClassDto) => {
     }).catch(e => reject(e));
   });
 }
+
+export const deleteClass = (id: string) => {
+  return new Promise((resolve, reject) => {
+    axios.delete(`/api/class?id=${id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      if (res.data && res.data.response) {
+        return resolve(res.data.response);
+      }
+
+      return resolve({});
+    }).catch(e => reject(e));
+  });
+}

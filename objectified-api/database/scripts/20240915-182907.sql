@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 INSERT INTO obj.user (username, password, email_address, verified, status, source)
-    VALUES ('system',  crypt('password', gen_salt('md5')), 'none@none@com', true, 'enabled', 'system');
+    VALUES ('system',  crypt('password', gen_salt('md5')), 'none@none.com', true, 'enabled', 'system');
 INSERT INTO obj.group (name, description) VALUES ('system', 'Objectified System');
 INSERT INTO obj.group_user (group_id, user_id) VALUES ((SELECT id FROM obj.group WHERE name='system'),
     (SELECT id FROM obj.user WHERE username='system'));

@@ -10,7 +10,7 @@ CREATE TABLE obj.class (
     enabled BOOLEAN NOT NULL DEFAULT true,
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 --- Property tables
@@ -29,7 +29,7 @@ CREATE TABLE obj.property (
     enabled BOOLEAN NOT NULL DEFAULT true,
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 --- Class table property definitions

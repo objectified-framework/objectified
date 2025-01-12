@@ -91,7 +91,7 @@ CREATE TABLE obj.class (
     status obj.class_status_enum NOT NULL DEFAULT 'enabled',
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS obj.namespace_class CASCADE;
@@ -158,7 +158,7 @@ CREATE TABLE obj.field (
     status obj.field_status NOT NULL DEFAULT 'enabled',
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS obj.namespace_field CASCADE;
@@ -190,7 +190,7 @@ CREATE TABLE obj.property (
     indexed BOOLEAN NOT NULL DEFAULT false,
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS obj.object_property CASCADE;
@@ -227,7 +227,7 @@ CREATE TABLE obj.instance (
     status obj.instance_status NOT NULL DEFAULT 'active',
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     update_date TIMESTAMP WITHOUT TIME ZONE,
-    disable_date TIMESTAMP WITHOUT TIME ZONE
+    delete_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS obj.instance_data CASCADE;
