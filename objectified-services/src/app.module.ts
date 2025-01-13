@@ -2,6 +2,7 @@ import {
   AuthController, ClassController,
   DataTypeController,
   FieldController,
+  PropertyController,
   TenantController,
   UserController
 } from './generated/controllers';
@@ -10,6 +11,7 @@ import {
   ClassServiceImpl,
   DataTypeServiceImpl,
   FieldServiceImpl,
+  PropertyServiceImpl,
   TenantServiceImpl,
   UserServiceImpl
 } from './services';
@@ -22,6 +24,7 @@ import { Module } from '@nestjs/common';
     ClassController,
     DataTypeController,
     FieldController,
+    PropertyController,
     TenantController,
     UserController,
   ],
@@ -30,6 +33,7 @@ import { Module } from '@nestjs/common';
     ClassServiceImpl,
     DataTypeServiceImpl,
     FieldServiceImpl,
+    PropertyServiceImpl,
     TenantServiceImpl,
     UserServiceImpl,
   ],

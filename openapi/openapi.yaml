@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.1.2
+  version: 0.1.3
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -32,20 +32,60 @@ tags:
       User services are applied after a user login is complete.  Once a user has been successfully
       authenticated using auth, the user data store can be modified or retrieved.
   - name: DataType
-    description: Data Type service is used for CRUD operations associated with data types.
+    description: |
+      `DataType`s describes the types of data that can be handled by Objectified.
+
+      `DataType`s can contain arrays of data, enumerations, regular expressions, and
+      much more.
+
+      Core `DataType`s cannot be modified or removed, as they are considered
+      essential to the Objectified platform.  Normal `DataType`s are specific to their
+      `Tenant`.  Core `DataType`s are available system-wide, so use with care.  Core
+      `DataType`s are defined by the project, and cannot be modified.
+
+      The most common usage for `DataType`s outside of the core `DataType`s is in
+      defining custom enumeration values.  Other `DataType`s like custom filters and
+      regular expressions can be created, but these occasions are generally rare.
+
+      Please [refer to this documentation](https://soon-to-be-created.com)
+      for more detailed on best practices regarding `DataType` and `Field` definitions.
   - name: Tenant
     description: |
-      Tenant services are used for CRUD services on Tenants, along with tenancy
-      assignment.
+      `Tenant`s are names that are used to organize groups of objects.  They are used 
+      to prevent name collisions that can occur when multiple organizations may 
+      use similar names to describe different object definitions.
+
+      A `Tenant` ensures that all of a given set of objects have unique names so 
+      that they may easily be identified and separated under a common group.
+
+      For instance, one `Tenant`'s definition of a `User` may differ from another 
+      `Tenant`'s `User`. Same with a `Car`, `Bike`, or `Computer`.
   - name: Field
     description: |
-      Field services assign data types to reusable storage objects.  Fields are used
-      by properties to define the data they contain, represented by properties in
-      classes.
+      `Field`s are assignments of logical names defined by a `DataType` definition.
+
+      In Object Oriented design, `Field`s define the data that can be stored for a
+      `Class` property.  `Property` names are unique per `Class` and the `Field`s that
+      contain the storage definitions can be reused.
+
+      Please
+      [refer to this documentation](https://soon-to-be-created.com)
+      for more detailed on best practices regarding `DataType` and `Field` definitions.
   - name: Class
     description: |
-      Classes services are used for CRUD services to create Class entries, along with
-      assignment of properties for their definitions.
+      `Class`es are templates that define the _shape_ (or _schema_) of data that 
+      can be contained in a record (or `Instance`).  For more information on best 
+      practices on creating and updating classes, please 
+      [refer to this documentation](https://soon-to-be-created.com)
+      for more detailed information.
+  - name: Property
+    description: |
+      `Properties` are member stores that are used by `Class`es to store data 
+      defined by a `Field`.
+
+      `Properties` extend `Fields` by adding options such as nullability,
+      default values, required flags, and so on.  `Properties` can also be
+      objects that implement other `Properties` (sub-properties).
 paths:
   /auth:
     post:
@@ -726,6 +766,131 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /property:
+    get:
+      tags:
+        - Property
+      summary: Lists properties
+      operationId: listProperties
+      description: Lists all properties owned by a tenant
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Property
+      summary: Creates a property
+      operationId: createProperty
+      description: Creates a new property record
+      security:
+        - JWT: []
+      requestBody:
+        description: The property payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+  /property/{id}:
+    get:
+      tags:
+        - Property
+      summary: Retrieves a property
+      operationId: getPropertyById
+      description: Retrieves a property by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the property.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    put:
+      tags:
+        - Property
+      summary: Edits a property
+      operationId: editPropertyById
+      description: Edits a property record
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the property].
+      requestBody:
+        description: The property payload to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Property
+      summary: Disables a property
+      operationId: disablePropertyById
+      description: Disables a property by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the property.
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
 components:
   securitySchemes:
     JWT:
@@ -993,3 +1158,64 @@ components:
           type: string
           format: date-time
           description: Date and time of class deletion
+    Property:
+      type: object
+      x-schema: obj
+      required:
+        - tenantId
+        - fieldId
+        - name
+      description: |
+        `Property` assigns a field to a well defined storage key.  In Object Oriented terms, a property
+        contains a `Field` that defines the type of data it can store.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Property
+        tenantId:
+          type: string
+          format: UUID
+          description: The ID of the Tenant
+        fieldId:
+          type: string
+          format: UUID
+          description: The ID of the Field that defines this Property
+        name:
+          type: string
+          description: The name of the property
+        description:
+          type: string
+          description: This is a description of what the property defines
+        required:
+          type: boolean
+          description: Indicates whether or not this property requires a value
+          default: false
+        nullable:
+          type: boolean
+          description: Indicates if the property can be assigned a `null` value
+          default: false
+        isArray:
+          type: boolean
+          description: Indicates if the data stored in the property is an array of values
+          default: false
+        defaultValue:
+          type: string
+          maxLength: 4096
+          default: null
+        enabled:
+          type: boolean
+          description: Indicates if the property is enabled
+          default: true
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of property creation
+        updateDate:
+          type: string
+          format: date-time
+          description: Date and time of property update
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date and time of property deletion
