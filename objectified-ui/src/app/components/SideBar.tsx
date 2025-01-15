@@ -20,6 +20,7 @@ import {
   InfoOutlined,
   InputOutlined,
   LinkOutlined, MenuOpenOutlined, MenuOutlined,
+  ListAltOutlined,
   PersonOutlined,
   PostAddOutlined,
   SaveAltOutlined,
@@ -126,6 +127,16 @@ export default function SideBar(props: SideBarProps) {
                 <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ArticleOutlined/></ListItemIcon>
               </ListItemButton>
             </Item>
+
+            <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/properties') }}>
+              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+                '&:hover': {
+                  border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/properties')
+                }, backgroundColor: selectedBackgroundColor('/properties')
+              }} onClick={() => router.push('/properties')}>
+                <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ListAltOutlined/></ListItemIcon>
+              </ListItemButton>
+            </Item>
           </Stack>
         </div>
 
@@ -209,6 +220,23 @@ export default function SideBar(props: SideBarProps) {
                               fontWeight: "medium",
                             }}>
                 Fields
+              </ListItemText>
+            </ListItemButton>
+          </Item>
+
+          <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/properties') }}>
+            <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              '&:hover': {
+                border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/properties')
+              }, backgroundColor: selectedBackgroundColor('/properties')
+            }} onClick={() => router.push('/properties')}>
+              <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><ListAltOutlined/></ListItemIcon>
+              <ListItemText sx={{ textAlign: 'left', paddingLeft: '0px' }}
+                            primaryTypographyProps={{
+                              fontSize: 14,
+                              fontWeight: "medium",
+                            }}>
+                Properties
               </ListItemText>
             </ListItemButton>
           </Item>
