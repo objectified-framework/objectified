@@ -10,12 +10,14 @@ import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listProperties} from "@/app/services/property";
+import {listFields} from "@/app/services/field";
 
 const Properties = () => {
   const { data: session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
+  const [fields, setFields] = useState([]);
   const [selectedLine, setSelectedLine] = useState({});
 
   const resetSelectedLine = () => {
@@ -32,8 +34,27 @@ const Properties = () => {
     });
   }
 
+  const refreshFields = async (): Promise<void> => {
+    await listFields()
+      .then((x) => {
+        const mappedResults = x.map((y) => {
+          return {
+            fieldId: y.id,
+            name: y.name,
+          };
+        });
+
+        formItems[0].dataset = mappedResults;
+        setFields(mappedResults);
+      })
+      .catch((x) => {
+        return Promise.reject();
+      });
+  }
+
   useEffect(() => {
     refreshProperties();
+    refreshFields();
     resetSelectedLine();
   }, []);
 
@@ -108,6 +129,10 @@ const Properties = () => {
                        dataset={dataPayload}
                        isLoading={isLoading}
                        onAdd={() => {
+                         if (fields.length === 0) {
+                           errorDialog('You need to add at least one field before you can create a property.');
+                           return;
+                         }
                          resetSelectedLine();
                          setOpen(true);
                        }}
