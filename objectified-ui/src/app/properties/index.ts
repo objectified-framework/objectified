@@ -56,7 +56,7 @@ export const formItems: any[] = [
   },
   {
     name: 'name',
-    description: 'Data Type Name',
+    description: 'Property Name',
     required: true,
   },
   {

@@ -16,7 +16,40 @@ export class PropertyServiceImpl implements PropertyService {
   private readonly dao = new PropertyDao();
 
   async createProperty(request: Request, propertyDto: PropertyDto): Promise<ServiceResponse<PropertyDto>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      tenantId,
+      fieldId: propertyDto.fieldId,
+      name: propertyDto.name,
+      description: propertyDto.description,
+      required: propertyDto.required ?? false,
+      nullable: propertyDto.nullable ?? false,
+      isArray: propertyDto.isArray ?? false,
+      defaultValue: propertyDto.defaultValue,
+      enabled: true,
+    };
+
+    const result = await this.dao.create(payload)
+      .then((x) => {
+        this.logger.log('[createProperty] Property created', x);
+        return x;
+      })
+      .catch((x) => {
+        this.logger.error('[createProperty] Property create failed', x);
+        return null;
+      });
+
+    if (!result) {
+      return ResponseForbidden('Creation of property failed');
+    }
+
+    return ResponseOk(result);
   }
 
   async disablePropertyById(request: Request, id: string): Promise<ServiceResponse<null>> {

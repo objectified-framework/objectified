@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/properties/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listProperties} from "@/app/services/property";
+import {listProperties, saveProperty} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
 
 const Properties = () => {
@@ -63,11 +63,16 @@ const Properties = () => {
   };
 
   const saveClicked = async (payload: any) => {
-    // if (!payload) {
-    //   errorDialog('Empty payload.');
-    //   return;
-    // }
-    //
+    if (!payload) {
+      errorDialog('Empty payload.');
+      return;
+    }
+
+    if (payload.name.charAt(0) === payload.name.charAt(0).toUpperCase() || payload.name.includes('-')) {
+      errorDialog('Property names must be lowercase, pascalCase, or snake_case.');
+      return;
+    }
+
     // if (payload.id) {
     //   await putClass(payload)
     //     .then((x) => {
@@ -78,13 +83,13 @@ const Properties = () => {
     //       errorDialog('Failed to update this data type - duplicate entry or other error.');
     //     });
     // } else {
-    //   payload.ownerId = session.objectified.id;
-    //
-    //   await saveClass(payload)
-    //     .finally(() => {
-    //       refreshProperties();
-    //       setOpen(false);
-    //     });
+      payload.ownerId = session.objectified.id;
+
+      await saveProperty(payload)
+        .finally(() => {
+          refreshProperties();
+          setOpen(false);
+        });
     // }
   }
 
