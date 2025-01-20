@@ -64,6 +64,16 @@ const Fields = () => {
   };
 
   const saveClicked = async (payload: any) => {
+    if (!payload) {
+      errorDialog('Empty payload.');
+      return;
+    }
+
+    if (payload.name.charAt(0) === payload.name.charAt(0).toUpperCase() || payload.name.includes('-')) {
+      errorDialog('Field names must be lowercase, pascalCase, or snake_case.');
+      return;
+    }
+
     if (payload.id) {
       await putField(payload.id, payload)
         .then((x) => {

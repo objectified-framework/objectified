@@ -46,10 +46,16 @@ const DataTypes = () => {
       errorDialog('Empty payload.');
       return;
     }
-    
+
+    if (payload.name.charAt(0) === payload.name.charAt(0).toUpperCase() || payload.name.includes('-')) {
+      errorDialog('Data Type names must be lowercase, pascalCase, or snake_case.');
+      return;
+    }
+
     if (payload.enumValues && payload.enumDescriptions) {
       if (payload.enumValues.length !== payload.enumDescriptions.length) {
-        errorDialog('Enumeration values and descriptions must equal each other in length: values and descriptions must be a one-to-one assignment.')
+        errorDialog('Enumeration values and descriptions must equal each other in length: ' +
+          'values and descriptions must be a one-to-one assignment.')
         return;
       }
     }
