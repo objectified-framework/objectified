@@ -1,6 +1,6 @@
 import {
   PropertyService,
-  ResponseForbidden,
+  ResponseForbidden, ResponseNoContent,
   ResponseOk,
   ResponseUnauthorized,
   ServiceResponse
@@ -57,7 +57,33 @@ export class PropertyServiceImpl implements PropertyService {
   }
 
   async editPropertyById(request: Request, id: string, propertyDto: PropertyDto): Promise<ServiceResponse<null>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      fieldId: propertyDto.fieldId,
+      name: propertyDto.name,
+      description: propertyDto.description,
+      required: propertyDto.required ?? false,
+      nullable: propertyDto.nullable ?? false,
+      isArray: propertyDto.isArray ?? false,
+      defaultValue: propertyDto.defaultValue,
+      updateDate: new Date(),
+    };
+
+    return await this.dao.updateById(id, payload)
+      .then((x) => {
+        this.logger.log(`[editPropertyById] Edited ${id}`, x);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[editPropertyById] Edit for property ${id} failed`, x);
+        return ResponseForbidden('Unable to edit property.');
+      });
   }
 
   async getPropertyById(request: Request, id: string): Promise<ServiceResponse<PropertyDto>> {

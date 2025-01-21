@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/properties/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listProperties, saveProperty} from "@/app/services/property";
+import {listProperties, saveProperty, putProperty} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
 
 const Properties = () => {
@@ -73,16 +73,16 @@ const Properties = () => {
       return;
     }
 
-    // if (payload.id) {
-    //   await putClass(payload)
-    //     .then((x) => {
-    //       refreshProperties();
-    //       setOpen(false);
-    //     })
-    //     .catch((x) => {
-    //       errorDialog('Failed to update this data type - duplicate entry or other error.');
-    //     });
-    // } else {
+    if (payload.id) {
+      await putProperty(payload)
+        .then((x) => {
+          refreshProperties();
+          setOpen(false);
+        })
+        .catch((x) => {
+          errorDialog('Failed to update this property - duplicate entry or other error.');
+        });
+    } else {
       payload.ownerId = session.objectified.id;
 
       await saveProperty(payload)
@@ -90,7 +90,7 @@ const Properties = () => {
           refreshProperties();
           setOpen(false);
         });
-    // }
+    }
   }
 
   const deleteClicked = async (payload: any) => {
@@ -109,13 +109,15 @@ const Properties = () => {
   }
 
   const editClicked = async (payload: any) => {
-    // if (payload.ownerId !== session.objectified.id || payload.tenantId != session.currentTenant) {
-    //   errorDialog('You cannot edit data types that you or your tenant do not own.');
-    //   return;
-    // }
-    //
-    // setSelectedLine(payload);
-    // setOpen(true);
+    console.log(payload);
+
+    if (payload.tenantId != session.currentTenant) {
+      errorDialog('You cannot edit properties that you or your tenant do not own.');
+      return;
+    }
+
+    setSelectedLine(payload);
+    setOpen(true);
   }
 
   return (
@@ -145,10 +147,10 @@ const Properties = () => {
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshProperties()}
                        isEditable={(x: any) => {
-                         return (!x.coreType || (x.ownerId && x.ownerId != session.objectified.id)) && x.enabled;
+                         return (x.tenantId === session.currentTenant) && x.enabled;
                        }}
                        isDeletable={(x: any) => {
-                         return (x.ownerId && x.ownerId === session.objectified.id) && x.enabled;
+                         return (x.tenantId === session.currentTenant) && x.enabled;
                        }}
         />
       </div>

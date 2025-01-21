@@ -38,3 +38,22 @@ export const saveProperty = (property: PropertyDto) => {
     }).catch(e => reject(e));
   });
 }
+
+export const putProperty = (property: PropertyDto) => {
+  return new Promise((resolve, reject) => {
+    axios.put(`/api/property?id=${property.id}`, {
+      payload: property,
+    }, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      if (res.data) {
+        return resolve(res.data);
+      }
+
+      return reject('Duplicate entry');
+    }).catch(e => reject(e));
+  });
+}
