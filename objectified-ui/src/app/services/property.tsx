@@ -57,3 +57,22 @@ export const putProperty = (property: PropertyDto) => {
     }).catch(e => reject(e));
   });
 }
+
+export const deleteProperty = (id: string) => {
+  return new Promise((resolve, reject) => {
+    axios.delete(`/api/property?id=${id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      console.log('[deleteProperty] response', res);
+
+      if (res.data) {
+        return resolve(res.data);
+      }
+
+      return resolve({});
+    }).catch(e => reject(e));
+  });
+}

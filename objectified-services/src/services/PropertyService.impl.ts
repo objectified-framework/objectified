@@ -53,7 +53,27 @@ export class PropertyServiceImpl implements PropertyService {
   }
 
   async disablePropertyById(request: Request, id: string): Promise<ServiceResponse<null>> {
-    return Promise.resolve(undefined);
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    const payload: any = {
+      enabled: false,
+      deleteDate: new Date(),
+    };
+
+    return await this.dao.updateById(id, payload)
+      .then((x) => {
+        this.logger.log(`[disablePropertyById] Disabled property ${id}`, x);
+        return ResponseNoContent();
+      })
+      .catch((x) => {
+        this.logger.error(`[disablePropertyById] Disable for property ${id} failed`, x);
+        return ResponseForbidden('Unable to disable property.');
+      });
   }
 
   async editPropertyById(request: Request, id: string, propertyDto: PropertyDto): Promise<ServiceResponse<null>> {

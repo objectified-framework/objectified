@@ -9,7 +9,7 @@ import {formItems, tableItems} from "@/app/properties/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listProperties, saveProperty, putProperty} from "@/app/services/property";
+import {listProperties, saveProperty, putProperty, deleteProperty} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
 
 const Properties = () => {
@@ -94,18 +94,18 @@ const Properties = () => {
   }
 
   const deleteClicked = async (payload: any) => {
-    // if (!payload.enabled) {
-    //   errorDialog('This data type has already been deleted.');
-    //   return;
-    // }
-    //
-    // await deleteClass(payload.id)
-    //   .then((x) => {
-    //     refreshProperties();
-    //   })
-    //   .catch((x) => {
-    //     errorDialog('You do not have permission to remove this class.');
-    //   });
+    if (!payload.enabled) {
+      errorDialog('This data type has already been deleted.');
+      return;
+    }
+
+    await deleteProperty(payload.id)
+      .then((x) => {
+        refreshProperties();
+      })
+      .catch((x) => {
+        errorDialog('You do not have permission to remove this class.');
+      });
   }
 
   const editClicked = async (payload: any) => {

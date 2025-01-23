@@ -5,6 +5,7 @@ import {
   ClientPropertyListProperties,
   ClientPropertyCreateProperty,
   ClientPropertyEditPropertyById,
+  ClientPropertyDisablePropertyById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 
 export async function GET(request: any) {
@@ -106,6 +107,32 @@ export async function PUT(request: any) {
   if (results === null) {
     return helper.unauthorizedResponse();
   }
+
+  return helper.createResponse(results);
+}
+
+export async function DELETE(request: any) {
+  const helper = new RouteHelper(request);
+  const id = helper.getInputVariable('id');
+  const token = await getToken({ req: request });
+  const jwt = JWT.encrypt(token);
+  const headers: any = {
+    'Authorization': `Bearer ${jwt}`,
+  };
+
+  if (!id) {
+    return helper.missingFieldResponse('id');
+  }
+
+  const results = await ClientPropertyDisablePropertyById(id, headers)
+    .then((x) => {
+      console.log('[property::delete] Property disabled', x);
+      return true;
+    })
+    .catch((x) => {
+      console.log('[property::delete] Property disable failed', x);
+      return false;
+    });
 
   return helper.createResponse(results);
 }
