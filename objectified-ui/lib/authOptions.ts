@@ -1,7 +1,6 @@
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
-import {LoginDto} from '@objectified-framework/objectified-services/dist/generated/dto';
 import {
   ClientAuthLogin,
   ClientUserGetUser,
@@ -26,13 +25,14 @@ export const authOptions: NextAuthOptions = {
     signIn: async function ({user, account, profile, email, credentials}) {
       console.log(`[next-auth::signIn] user=${JSON.stringify(user, null, 2)} account=${JSON.stringify(account, null, 2)} profile=${JSON.stringify(profile, null, 2)} email=${JSON.stringify(email)} credentials=${JSON.stringify(credentials, null, 2)}`);
 
-      if (account.provider === 'github') {
+      if (account?.provider === 'github') {
         // Github login path
-        const loginDto: LoginDto = {
+        const loginDto = {
           emailAddress: <string>user['email'],
-          source: ['github'],
+          source: 'github',
         };
 
+        // @ts-ignore
         const login = await ClientAuthLogin(loginDto)
           .then((x) => {
             console.log('Auth login', x);
@@ -71,11 +71,14 @@ export const authOptions: NextAuthOptions = {
       console.log(`[next-auth::session]: session=${JSON.stringify(session, null, 2)} user=${JSON.stringify(user, null, 2)} token=${JSON.stringify(token, null, 2)}`);
 
       // Set session variables if not set, and the token contains the data necessary.
+      // @ts-ignore
       session.currentTenant = token.currentTenant ?? '';
+      // @ts-ignore
       session.objectified = token.objectified;
 
       return session;
     },
+    // @ts-ignore
     async jwt({ token, user, account, profile, trigger, session }) {
       /**
        * Assignment of the JWT token should only take place once, when a user logs in for the first time.
@@ -102,7 +105,7 @@ export const authOptions: NextAuthOptions = {
 
       if (account) {
         token.objectified = {
-          emailAddress: profile.email,
+          emailAddress: profile?.email,
           source: account.provider,
         };
 
@@ -124,17 +127,18 @@ export const authOptions: NextAuthOptions = {
           console.log('User failed to authenticate via JWT');
         } else {
           token.objectified = {
+            // @ts-ignore
             ...token.objectified,
             ...result,
           };
 
           // #6 - This applies tenancy to the session.  This function only returns a list of
           // tenants that are assigned to a specific user.
-          const tenancy = await ClientTenantListTenantsByUserId(token.objectified.id)
+          const tenancy = await ClientTenantListTenantsByUserId((<any>token.objectified).id)
             .then((x) => {
-              return x.map((y) => y.tenantId);
+              return x.map((y: any) => y.tenantId);
             })
-            .catch((x) => {
+            .catch((x: any) => {
               console.log('Tenant list failed', x);
               return [];
             });
@@ -155,7 +159,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           // Assign the tenancy.
-          token.objectified.tenancy = tenancyList;
+          (<any>token.objectified).tenancy = tenancyList;
 
           console.log('[next-auth::jwt] Assign Token', token);
         }

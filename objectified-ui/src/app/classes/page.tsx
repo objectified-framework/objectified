@@ -25,7 +25,7 @@ const Classes = () => {
   const refreshClasses = () => {
     setIsLoading(true);
 
-    listClasses().then((x) => {
+    listClasses().then((x: any) => {
       setDataPayload(x);
     }).finally(() => {
       setIsLoading(false);
@@ -57,7 +57,8 @@ const Classes = () => {
           errorDialog('Failed to update this data type - duplicate entry or other error.');
         });
     } else {
-      payload.ownerId = session.objectified.id;
+      // @ts-ignore
+      payload.ownerId = session!.objectified.id;
 
       await saveClass(payload)
         .finally(() => {
@@ -83,6 +84,7 @@ const Classes = () => {
   }
 
   const editClicked = async (payload: any) => {
+    // @ts-ignore
     if (payload.ownerId !== session.objectified.id || payload.tenantId != session.currentTenant) {
       errorDialog('You cannot edit data types that you or your tenant do not own.');
       return;
@@ -94,7 +96,7 @@ const Classes = () => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
+      <Dialog fullWidth open={open} onClose={handleClose}>
         <AutoForm header={'Class'}
                   formElements={formItems}
                   editPayload={selectedLine}
@@ -115,9 +117,11 @@ const Classes = () => {
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshClasses()}
                        isEditable={(x: any) => {
+                         // @ts-ignore
                          return (!x.coreType || (x.ownerId && x.ownerId != session.objectified.id)) && x.enabled;
                        }}
                        isDeletable={(x: any) => {
+                         // @ts-ignore
                          return (x.ownerId && x.ownerId === session.objectified.id) && x.enabled;
                        }}
         />

@@ -15,6 +15,8 @@ export async function PUT(request: any) {
     const userDto: UserDto = {
       id,
       data,
+      // @ts-ignore
+      source: ['github'],
     };
 
     const response = await ClientUserPutUser(userDto)

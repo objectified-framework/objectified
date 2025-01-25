@@ -69,7 +69,7 @@ export async function PUT(request: any) {
       ...payload,
     };
 
-    const response = await ClientDataTypeUpdateDataType(dataTypeDto.id, dataTypeDto)
+    const response = await ClientDataTypeUpdateDataType(payload.id, dataTypeDto)
       .then((x) => x)
       .catch((x) => {
         console.log('Error', x);
