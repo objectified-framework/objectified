@@ -109,6 +109,7 @@ export class BaseDao<T> {
    * indicate the names of the columns to search.
    *
    * @param where {any} containing the where clause to search for, key/value pairs of column names and values.
+   * @returns T[] containing the results as an array of objects.
    */
   public async findAll(where: any): Promise<void | T[]> {
     const db = DaoUtils.getDatabase();
