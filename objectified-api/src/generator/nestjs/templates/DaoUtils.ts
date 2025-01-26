@@ -6,7 +6,8 @@
  * This is a utilities class that contains methods for interacting with the database.
  */
 export class DaoUtils {
-  private static readonly pgp = require("pg-promise")();
+  // eslint-disable-next-line
+  private static readonly pgp = require('pg-promise')();
   private static readonly db = this.pgp(
     process.env.DATABASE_URL ?? "postgres://localhost:5432/postgres",
   );

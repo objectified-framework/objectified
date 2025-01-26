@@ -110,10 +110,10 @@ export class BaseDao<T> {
    *
    * @param where {any} containing the where clause to search for, key/value pairs of column names and values.
    */
-  public async findAll(where: any): Promise<void | T> {
+  public async findAll(where: any): Promise<void | T[]> {
     const db = DaoUtils.getDatabase();
     const sql = DaoUtils.generateSelectSql(this.tableName, where);
 
-    return (await db.any(sql, where)).map((x) => DaoUtils.normalize<T>(x));
+    return (await db.any(sql, where)).map((x: any) => DaoUtils.normalize<T>(x));
   }
 }

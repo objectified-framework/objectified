@@ -9,6 +9,9 @@ echo
 echo "Installing dependency packages"
 yarn install
 
+echo "Lint"
+yarn lint
+
 echo
 echo "Building code"
 yarn build

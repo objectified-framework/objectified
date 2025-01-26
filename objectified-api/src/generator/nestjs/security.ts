@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
+import * as fs from 'fs';
 
 const HEADER: string = `/**\n * This utility security scheme file is automatically generated.\n * Do not modify this file, any changes will be overwritten.\n *\n * Generated ${new Date()}\n */\n\n`;
 
 export function generateSecuritySchemes(utilDirectory: string, schema: any) {
-  const fs = require("fs");
   const schemes = schema.components.securitySchemes;
 
   fs.mkdirSync(utilDirectory, { recursive: true });
@@ -20,7 +20,6 @@ function generateSecurity(
   schemeName: string,
   schemeData: any,
 ) {
-  const fs = require("fs");
   const file = `${directory}/${schemeName}.ts`;
   let utilBody: string = "";
 
@@ -29,7 +28,7 @@ function generateSecurity(
 
   switch (schemeData.bearerFormat.toLowerCase()) {
     case "jwt":
-      utilBody += jwtUtilBody(schemeName);
+      utilBody += jwtUtilBody();
       break;
 
     default:
@@ -42,7 +41,7 @@ function generateSecurity(
   console.log(`  - Wrote security scheme utility: ${file}`);
 }
 
-function jwtUtilBody(schemeName: string): string {
+function jwtUtilBody(): string {
   let body = "";
 
   // JWT Encode/Decode import, encoder, decoder, and validator

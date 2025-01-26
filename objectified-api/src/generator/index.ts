@@ -17,9 +17,9 @@ const VERSION: string = "0.1.22";
 
 import * as fs from "fs";
 import * as yaml from "yaml";
+import { Command, Option } from 'commander';
 
 (async () => {
-  const { Command, Option } = require("commander");
   const program = new Command();
 
   console.log(`Code Auto-Generator: ${VERSION}`);
@@ -80,29 +80,29 @@ import * as yaml from "yaml";
 
   fs.rmSync(DTO_DIRECTORY, { recursive: true, force: true });
 
-  const generator = require(`./${program.opts().g}`);
+  import(`./${program.opts().g}`).then((generator) => {
+    if (!program.opts().skipDao) {
+      generator.generateDaos(program.opts().dao, openapi);
+    }
 
-  if (!program.opts().skipDao) {
-    generator.generateDaos(program.opts().dao, openapi);
-  }
+    if (!program.opts().skipDto) {
+      generator.generateDtos(program.opts().dto, openapi);
+    }
 
-  if (!program.opts().skipDto) {
-    generator.generateDtos(program.opts().dto, openapi);
-  }
+    if (!program.opts().skipController) {
+      generator.generateControllers(program.opts().controllers, openapi);
+    }
 
-  if (!program.opts().skipController) {
-    generator.generateControllers(program.opts().controllers, openapi);
-  }
+    if (!program.opts().skipClients) {
+      generator.generateClients(program.opts().clients, openapi);
+    }
 
-  if (!program.opts().skipClients) {
-    generator.generateClients(program.opts().clients, openapi);
-  }
+    if (!program.opts().skipServices) {
+      generator.generateServices(program.opts().services, openapi);
+    }
 
-  if (!program.opts().skipServices) {
-    generator.generateServices(program.opts().services, openapi);
-  }
-
-  if (!program.opts().skipUtils) {
-    generator.generateSecuritySchemes(program.opts().utils, openapi);
-  }
+    if (!program.opts().skipUtils) {
+      generator.generateSecuritySchemes(program.opts().utils, openapi);
+    }
+  });
 })();
