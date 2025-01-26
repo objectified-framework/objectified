@@ -65,7 +65,7 @@ function generateController(
   const controllerDtoImports = {};
   let controllerBody = "";
   let controllerClassBody = "";
-  let controllerSecurityImports: string[] = [];
+  const controllerSecurityImports: string[] = [];
 
   controllerBody += HEADER;
 

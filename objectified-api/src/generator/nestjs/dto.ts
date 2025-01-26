@@ -57,8 +57,8 @@ export class ${dtoName} {
         .replaceAll("\n", "\n  ")
         .replace(/"([^"]+)":/g, "$1:")
         .replaceAll('  type: "object",\n  ', "");
-      let requiredFlag = required.includes(property) ? "" : "?";
-      let optionalFlag = required.includes(property)
+      const requiredFlag = required.includes(property) ? "" : "?";
+      const optionalFlag = required.includes(property)
         ? "ApiProperty"
         : "ApiPropertyOptional";
 
