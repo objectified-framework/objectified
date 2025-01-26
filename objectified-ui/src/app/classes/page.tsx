@@ -17,6 +17,8 @@ const Classes = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
   const [selectedLine, setSelectedLine] = useState({});
+  // @ts-ignore
+  const sessionObject: any = session!.objectified;
 
   const resetSelectedLine = () => {
     setSelectedLine({});
@@ -58,7 +60,7 @@ const Classes = () => {
         });
     } else {
       // @ts-ignore
-      payload.ownerId = session!.objectified.id;
+      payload.ownerId = sessionObject.id;
 
       await saveClass(payload)
         .finally(() => {
@@ -117,12 +119,10 @@ const Classes = () => {
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshClasses()}
                        isEditable={(x: any) => {
-                         // @ts-ignore
-                         return (!x.coreType || (x.ownerId && x.ownerId != session.objectified.id)) && x.enabled;
+                         return (!x.coreType || (x.ownerId && x.ownerId != sessionObject.id)) && x.enabled;
                        }}
                        isDeletable={(x: any) => {
-                         // @ts-ignore
-                         return (x.ownerId && x.ownerId === session.objectified.id) && x.enabled;
+                         return (x.ownerId && x.ownerId === sessionObject.id) && x.enabled;
                        }}
         />
       </div>
