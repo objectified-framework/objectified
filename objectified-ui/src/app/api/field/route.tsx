@@ -15,9 +15,8 @@ export async function GET(request: any) {
   const helper = new RouteHelper(request);
   const id = helper.getInputVariable('id');
   const token = await getToken({ req: request });
-  const jwt = JWT.encrypt(token);
   const headers: any = {
-    'Authorization': `Bearer ${jwt}`,
+    'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
 
   if (!id) {
@@ -50,9 +49,8 @@ export async function POST(request: any) {
   const helper = new RouteHelper(request);
   const { payload } = await helper.getPostPayload();
   const token = await getToken({ req: request });
-  const jwt = JWT.encrypt(token);
   const headers: any = {
-    'Authorization': `Bearer ${jwt}`,
+    'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
 
   if (!payload) {
@@ -78,13 +76,16 @@ export async function PUT(request: any) {
   const id = helper.getInputVariable('id');
   const { payload } = await helper.getPostPayload();
   const token = await getToken({ req: request });
-  const jwt = JWT.encrypt(token);
   const headers: any = {
-    'Authorization': `Bearer ${jwt}`,
+    'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
 
   if (!payload) {
     return helper.missingFieldResponse('payload');
+  }
+
+  if (!id) {
+    return helper.missingFieldResponse('id');
   }
 
   const editPayload: any = {
@@ -117,9 +118,8 @@ export async function DELETE(request: any) {
   const helper = new RouteHelper(request);
   const id = helper.getInputVariable('id');
   const token = await getToken({ req: request });
-  const jwt = JWT.encrypt(token);
   const headers: any = {
-    'Authorization': `Bearer ${jwt}`,
+    'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
 
   if (!id) {

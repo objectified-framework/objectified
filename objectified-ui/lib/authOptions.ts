@@ -8,7 +8,6 @@ import {
   ClientTenantGetTenantById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 import jwt from 'jsonwebtoken';
-import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
   providers: [
