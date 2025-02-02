@@ -155,6 +155,8 @@ function generateService(
     serviceClassBody += "  /**\n";
     serviceClassBody += `   * ${description.trim().replaceAll("\n", "\n   * ")}\n`;
     serviceClassBody += "   *\n";
+    serviceClassBody += `   * Responds to '${method.toUpperCase()} ${path}' requests\n`;
+    serviceClassBody += "   *\n";
 
     for (const [responseCode, responseData] of Object.entries(responses)) {
       if (responseData["content"]) {
