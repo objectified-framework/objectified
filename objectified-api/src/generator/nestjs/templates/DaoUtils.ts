@@ -90,6 +90,25 @@ export class DaoUtils {
 
     return sql;
   }
+
+  /**
+   * Generates a delete statement for the specified table and where clause.
+   *
+   * @param tableName {string} The name of the table to delete from.
+   * @param where {any} The where clause data to search for.
+   */
+  public static generateDeleteSql(tableName: string, where: any): string {
+    const keys = Object.keys(where);
+    let sql = `DELETE FROM ${tableName} WHERE `;
+
+    if (Object.keys(where)?.length === 0) {
+      throw new Error('Where clause missing from delete statement.');
+    }
+
+    sql += keys.map((x) => toSnakeCase(x) + "=$[" + x + "]").join(" AND ");
+
+    return sql;
+  }
 }
 
 /**

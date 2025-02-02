@@ -71,6 +71,18 @@ export class BaseDao<T> {
   }
 
   /**
+   * Deletes a record, or records, using a dynamic WHERE clause.
+   *
+   * @param where {any} containing the where clause to search for, key/value pairs of column names and values.
+   */
+  public async deleteWhere(where: any): Promise<void | T[]> {
+    const db = DaoUtils.getDatabase();
+    const sql = DaoUtils.generateSelectSql(this.tableName, where);
+
+    return (await db.any(sql, where)).map((x: any) => DaoUtils.normalize<T>(x));
+  }
+
+  /**
    * Updates a record by its ID.
    *
    * @param id {number | string} the ID (numeric or UUID) of the record to update.

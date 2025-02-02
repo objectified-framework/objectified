@@ -1,4 +1,10 @@
-import {ClassPropertyService, ResponseForbidden, ResponseOk, ServiceResponse} from "../generated/services";
+import {
+  ClassPropertyService,
+  ResponseForbidden,
+  ResponseNoContent, ResponseNotFound,
+  ResponseOk,
+  ServiceResponse
+} from "../generated/services";
 import {ClassPropertyDto} from "../generated/dto";
 import { Request } from 'express';
 import { Logger } from '@nestjs/common';
@@ -47,7 +53,26 @@ export class ClassPropertyServiceImpl implements ClassPropertyService {
       return ResponseForbidden('No tenant selected');
     }
 
-    return Promise.resolve(undefined);
+    const deleteWhere = {
+      classId,
+      propertyId,
+    };
+
+    const result = await this.dao.deleteWhere(deleteWhere)
+      .then((x) => {
+        this.logger.log('[deletePropertyFromClass] Delete successful');
+        return true;
+      })
+      .catch((x) => {
+        this.logger.error('[deletePropertyFromClass] Delete failed', x);
+        return false;
+      });
+
+    if (result) {
+      return ResponseNoContent();
+    }
+
+    return ResponseNotFound();
   }
 
   async getPropertiesForClass(request: Request, id: string): Promise<ServiceResponse<ClassPropertyDto[]>> {
