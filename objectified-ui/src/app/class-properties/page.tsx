@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import {listProperties} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
+import ClassPropertyManager from "@/app/components/class-properties/ClassPropertyManager";
 
 const ClassProperties = () => {
   const { data: session } = useSession();
@@ -69,19 +70,12 @@ const ClassProperties = () => {
 
   return (
     <>
-      {dataPayload.map((classEntry) => (
-        <div style={{width: '100%', padding: '10px', paddingBottom: '0px'}}>
-          <div style={{
-            width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
-            border: '1px solid #000'
-          }}>
-            <Stack direction={'row'}>
-              <Item sx={{width: '100%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
-                <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>{classEntry.name}</Typography>
-              </Item>
-            </Stack>
-          </div>
-        </div>
+      {dataPayload.map((classEntry: any) => (
+        <ClassPropertyManager name={classEntry.name}
+                              classId={classEntry.id}
+                              properties={properties}
+                              fields={fields}
+                              classProperties={[]}/>
       ))}
     </>
   );

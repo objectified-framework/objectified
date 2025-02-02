@@ -86,6 +86,10 @@ tags:
       `Properties` extend `Fields` by adding options such as nullability,
       default values, required flags, and so on.  `Properties` can also be
       objects that implement other `Properties` (sub-properties).
+  - name: ClassProperty
+    description: |
+      `ClassProperty` entries are used to assign a `Property` to a `Class` in order
+      to define the shape of the data that a `Class` can store.
 paths:
   /auth:
     post:
@@ -766,6 +770,99 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /class/{id}/property:
+    get:
+      tags:
+        - ClassProperty
+      summary: Lists class properties
+      operationId: getPropertiesForClass
+      description: Returns a list of properties assigned to a class by ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class
+      responses:
+        '200':
+          description: List of `ClassProperty` objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassProperty'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+  /class/{classId}/property/{propertyId}:
+    put:
+      tags:
+        - ClassProperty
+      summary: Assigns a property to a class
+      operationId: addPropertyToClass
+      description: Adds a property by ID to a class by ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: Class by ID
+        - in: path
+          name: propertyId
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: Property by ID
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '404':
+          description: Class or Property not found
+        '409':
+          description: Conflict or duplicate
+    delete:
+      tags:
+        - ClassProperty
+      summary: Removes a property from a class
+      operationId: deletePropertyFromClass
+      description: Removes a property by ID from a class by ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: Class by ID
+        - in: path
+          name: propertyId
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: Property by ID
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Class or Property not found
   /property:
     get:
       tags:
@@ -1219,3 +1316,21 @@ components:
           type: string
           format: date-time
           description: Date and time of property deletion
+    ClassProperty:
+      type: object
+      x-schema: obj
+      required:
+        - classId
+        - propertyId
+      description: |
+        Storage class that shows the assignment of a property by its ID to the
+        class by its ID, respectively.
+      properties:
+        classId:
+          type: string
+          format: UUID
+          description: ID of the class
+        propertyId:
+          type: string
+          format: UUID
+          description: ID of the property
