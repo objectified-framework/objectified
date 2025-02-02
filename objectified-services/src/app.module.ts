@@ -1,5 +1,7 @@
 import {
-  AuthController, ClassController,
+  AuthController,
+  ClassController,
+  ClassPropertyController,
   DataTypeController,
   FieldController,
   PropertyController,
@@ -9,6 +11,7 @@ import {
 import {
   AuthServiceImpl,
   ClassServiceImpl,
+  ClassPropertyServiceImpl,
   DataTypeServiceImpl,
   FieldServiceImpl,
   PropertyServiceImpl,
@@ -22,6 +25,7 @@ import { Module } from '@nestjs/common';
   controllers: [
     AuthController,
     ClassController,
+    ClassPropertyController,
     DataTypeController,
     FieldController,
     PropertyController,
@@ -31,6 +35,7 @@ import { Module } from '@nestjs/common';
   providers: [
     AuthServiceImpl,
     ClassServiceImpl,
+    ClassPropertyServiceImpl,
     DataTypeServiceImpl,
     FieldServiceImpl,
     PropertyServiceImpl,

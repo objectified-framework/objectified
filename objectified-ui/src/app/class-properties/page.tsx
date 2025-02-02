@@ -74,8 +74,7 @@ const ClassProperties = () => {
         <ClassPropertyManager name={classEntry.name}
                               classId={classEntry.id}
                               properties={properties}
-                              fields={fields}
-                              classProperties={[]}/>
+                              fields={fields}/>
       ))}
     </>
   );

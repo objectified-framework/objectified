@@ -13,7 +13,7 @@ const SWAGGER_PATH: string = '/v1/api';
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Objectified API')
-    .setVersion('0.1.2')
+    .setVersion('0.1.4')
     .addTag('auth', 'Authentication services that are used in conjunction with third party authenticators.  These\n' +
       'services provide access to user accounts based on their email addresses.  Any additional\n' +
       'information provided by the third party authenticators are stored in the users\' associated\n' +
@@ -29,6 +29,8 @@ const SWAGGER_PATH: string = '/v1/api';
       'classes.')
     .addTag('class', 'Classes services are used for CRUD services to create Class entries, along with\n' +
       'assignment of properties for their definitions.')
+    .addTag('class-property', 'ClassProperty entries are used to assign a Property to a Class in order\n' +
+      'to define the shape of the data that a Class can store.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);
