@@ -770,7 +770,7 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
-  /class/{id}/property:
+  /class-property/{id}/property:
     get:
       tags:
         - ClassProperty
@@ -800,7 +800,7 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
-  /class/{classId}/property/{propertyId}:
+  /class-property/{classId}/property/{propertyId}:
     put:
       tags:
         - ClassProperty
