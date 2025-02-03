@@ -6,8 +6,9 @@ import {
   Typography,
   Button,
   Dialog,
+  IconButton,
 } from '@mui/material';
-import {AddOutlined, RefreshOutlined} from '@mui/icons-material';
+import {AddOutlined, RefreshOutlined, DeleteOutlined} from '@mui/icons-material';
 import AutoForm from "@/app/components/common/AutoForm";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listClasses} from "@/app/services/class";
@@ -36,13 +37,17 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
   const refreshClassProperties = () => {
     listClassProperties(props.classId)
       .then((x) => {
-        console.log('ClassProperties', x);
+        setClassProperties(x);
       })
       .catch((x) => {
         console.log('Class properties failed.', x);
       });
 
     setClassProperties([]);
+  }
+
+  const onDelete = (prop: any) => {
+    console.log('Delete', prop);
   }
 
   useEffect(() => {
@@ -94,10 +99,15 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
     refreshClassProperties();
   }, [props.properties, props.fields]);
 
+  const getProperty = (propId: string) => props.properties.filter((x) => x.id === propId)[0] ?? {
+    name: `???`,
+    description: `Unknown property: ${propId}`,
+  };
+
   return (
     <>
       <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
-        <AutoForm header={'Class Property'}
+        <AutoForm header={'Add Property'}
                   formElements={formItems}
                   editPayload={null}
                   onSave={saveClicked}
@@ -126,20 +136,33 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
           </Stack>
         </div>
 
-          {classProperties.length === 0 && (
-            <Stack direction={'row'}>
-              <Item sx={{width: '100%', textAlign: 'center', backgroundColor: '#ccc', border: '1px solid #000', borderTop: '0px' }}>
-                <Typography sx={{color: '#000'}} fontWeight={'bold'}>
-                  This class definition is empty.
-                </Typography>
-              </Item>
-            </Stack>
-          )}
+        {classProperties.length === 0 && (
+          <Stack direction={'row'}>
+            <Item sx={{width: '100%', textAlign: 'center', backgroundColor: '#ccc', border: '1px solid #000', borderTop: '0px' }}>
+              <Typography sx={{color: '#000'}} fontWeight={'bold'}>
+                This class definition is empty.
+              </Typography>
+            </Item>
+          </Stack>
+        )}
 
-          {classProperties.length > 0 && classProperties.map((prop: any) => (
-            <>
-            </>
-          ))}
+        {classProperties.length > 0 && classProperties.map((prop: any) => (
+          <Stack direction={'row'}>
+            <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderTop: '0px', borderRight: '0px' }}>
+              <Typography sx={{color: '#000'}}>
+                {getProperty(prop.propertyId).name} ({getProperty(prop.propertyId).description})
+              </Typography>
+            </Item>
+
+            <Item sx={{width: '10%', textAlign: 'right', backgroundColor: '#fff', border: '1px solid #000', borderLeft: '0px', borderTop: '0px', padding: '0px' }}>
+              <Typography sx={{color: '#000'}}>
+                <IconButton onClick={() => onDelete(prop)}>
+                  <DeleteOutlined/>
+                </IconButton>
+              </Typography>
+            </Item>
+          </Stack>
+        ))}
       </div>
     </>
   );
