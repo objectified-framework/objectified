@@ -77,9 +77,9 @@ export class BaseDao<T> {
    */
   public async deleteWhere(where: any): Promise<void | T[]> {
     const db = DaoUtils.getDatabase();
-    const sql = DaoUtils.generateSelectSql(this.tableName, where);
+    const sql = DaoUtils.generateDeleteSql(this.tableName, where);
 
-    return (await db.any(sql, where)).map((x: any) => DaoUtils.normalize<T>(x));
+    return db.none(sql, { ...where });
   }
 
   /**

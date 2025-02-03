@@ -12,7 +12,7 @@ import {AddOutlined, RefreshOutlined, DeleteOutlined} from '@mui/icons-material'
 import AutoForm from "@/app/components/common/AutoForm";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listClasses} from "@/app/services/class";
-import {listClassProperties} from "@/app/services/class-properties";
+import {deleteClassProperties, listClassProperties} from "@/app/services/class-properties";
 export interface IClassPropertyManager {
   name: string;
   classId: string;
@@ -47,7 +47,13 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
   }
 
   const onDelete = (prop: any) => {
-    console.log('Delete', prop);
+    deleteClassProperties(props.classId, prop.propertyId)
+      .then((x) => {
+        console.log('Delete', x);
+      })
+      .catch((x) => {
+        console.log('Delete fail', x);
+      });
   }
 
   useEffect(() => {
