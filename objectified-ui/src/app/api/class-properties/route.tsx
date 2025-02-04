@@ -35,15 +35,10 @@ export async function PUT(request: any) {
   const helper = new RouteHelper(request);
   const classId = helper.getInputVariable('classId');
   const propertyId = helper.getInputVariable('propertyId');
-  const { payload } = await helper.getPostPayload();
   const token = await getToken({ req: request });
   const headers: any = {
     'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
-
-  if (!payload) {
-    return helper.missingFieldResponse('payload');
-  }
 
   if (!classId || !propertyId) {
     return helper.missingFieldResponse('classId, propertyId');

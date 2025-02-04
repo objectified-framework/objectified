@@ -12,7 +12,7 @@ import {AddOutlined, RefreshOutlined, DeleteOutlined} from '@mui/icons-material'
 import AutoForm from "@/app/components/common/AutoForm";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listClasses} from "@/app/services/class";
-import {deleteClassProperties, listClassProperties} from "@/app/services/class-properties";
+import {deleteClassProperties, listClassProperties, putClassProperties} from "@/app/services/class-properties";
 export interface IClassPropertyManager {
   name: string;
   classId: string;
@@ -22,8 +22,8 @@ export interface IClassPropertyManager {
 
 export const formItems: any[] = [
   {
-    name: 'propertyId',
-    description: 'Property ID',
+    name: 'id',
+    description: 'Property',
     required: true,
     type: 'autocomplete',
     dataset: [],
@@ -49,7 +49,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
   const onDelete = (prop: any) => {
     deleteClassProperties(props.classId, prop.propertyId)
       .then((x) => {
-        console.log('Delete', x);
+        refreshClassProperties();
       })
       .catch((x) => {
         console.log('Delete fail', x);
@@ -76,29 +76,15 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
       return;
     }
 
-    // if (payload.name.charAt(0) === payload.name.charAt(0).toUpperCase() || payload.name.includes('-')) {
-    //   errorDialog('Field names must be lowercase, pascalCase, or snake_case.');
-    //   return;
-    // }
-    //
-    // if (payload.id) {
-    //   await putField(payload.id, payload)
-    //     .then((x) => {
-    //       refreshFields();
-    //       setOpen(false);
-    //     })
-    //     .catch((x) => {
-    //       errorDialog('Failed to update this data type - duplicate entry or other error.');
-    //     });
-    // } else {
-    //   payload.ownerId = session.objectified.id;
-    //
-    //   await saveField(payload)
-    //     .finally(() => {
-    //       refreshFields();
-    //       setOpen(false);
-    //     });
-    // }
+    await putClassProperties(props.classId, payload.id)
+      .then((x) => {
+        setOpen(false);
+        refreshClassProperties();
+      })
+      .catch((x) => {
+        console.log('Save failed', x);
+        setOpen(false);
+      });
   }
 
   useEffect(() => {
