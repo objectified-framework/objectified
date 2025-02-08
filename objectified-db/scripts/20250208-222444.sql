@@ -1,3 +1,8 @@
+-- This stored procedure is used to check enforcement on the obj.class_property table during
+-- an insert or update for values.  This checks that the class_id and property_id from the
+-- obj.class and obj.property tables match the tenant_id for each, enforcing tenancy
+-- records, while keeping the database clean.
+
 CREATE OR REPLACE FUNCTION enforce_class_property_tenant()
 RETURNS TRIGGER AS $$
 BEGIN
