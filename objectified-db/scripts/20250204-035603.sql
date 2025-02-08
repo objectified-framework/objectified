@@ -1,4 +1,4 @@
--- Link definition table
+-- Instance record table
 
 DROP TABLE IF EXISTS obj.instance CASCADE;
 DROP INDEX IF EXISTS idx_instance_unique;
