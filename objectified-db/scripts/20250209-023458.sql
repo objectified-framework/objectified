@@ -12,7 +12,7 @@ BEGIN
             NEW.vectorization := OLD.vectorization;
         END IF;
     END IF;
-    
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
