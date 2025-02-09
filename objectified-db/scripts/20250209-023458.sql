@@ -5,8 +5,14 @@
 CREATE OR REPLACE FUNCTION obj.nullify_vectorization()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- When an update occurs (such as via an upsert), clear the vectorization column.
-    NEW.vectorization := NULL;
+    IF TG_OP = 'UPDATE' THEN
+        -- If the update did not explicitly set a new vectorization value,
+        -- then keep the old vectorization (i.e. do not nullify it).
+        IF NEW.vectorization IS NULL THEN
+            NEW.vectorization := OLD.vectorization;
+        END IF;
+    END IF;
+    
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
