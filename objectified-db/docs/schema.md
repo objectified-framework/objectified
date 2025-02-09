@@ -58,3 +58,44 @@ This defines the properties that are attached to a `Class`, defining its schema.
 Properties can contain complex objects, which are defined using this table.  This table
 allows a property (of an object type) to contain multiple other objects, even objects of
 objects, if defined properly by the schema.
+
+# Stored Procedures
+
+Stored procedures are used in Objectified's Database engine to assist with creation of
+schemas and validation rules.  It also controls insertion of data from one table to
+another, enforcing data retention rules.
+
+## enforce_class_property_tenant
+
+Triggered on upsert in `class_property`, checks that the class and property are members
+of the same tenant ID.
+
+## generate_schema_for_class(id)
+
+Walks a `Class` by its ID, generating a JSON Schema as a result based on the
+`class_property` membership for the `Class`.  Obeys generation of properties and `$ref`
+references.
+
+## update_class_schema(id)
+
+Triggered on upsert to `class_property` table, calling `generate_schema_for_class` when
+a change is detected, re-generating the schema, and saving it in the `class_schema`
+table.
+
+## nullify_vectorization
+
+Triggered on upsert in `instance_current`, nullifies the embedding table on update.
+
+## enforce_instance_tenancy
+
+Triggered on upsert in `instance`, enforces that the owner and tenant have appropriate 
+access to the `Class` by ID when an `instance` is being inserted or updated.
+
+## validate_and_update_instance_data
+
+Triggered on create, update, delete, or restore of data in the `instance_data` table,
+copying data to the `instance_current` table after validation against the `class_schema`
+table.  Performs replacement, deletion, restoration of data, and update delta operations
+automatically.
+
+
