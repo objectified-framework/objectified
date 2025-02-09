@@ -8,7 +8,7 @@ import {
 import {ClassDto} from "../generated/dto";
 import { Request } from 'express';
 import { Logger } from '@nestjs/common';
-import {ClassDao, TenantDao} from "../generated/dao";
+import {ClassDao, DaoUtils, TenantDao} from "../generated/dao";
 import {JWT} from "../generated/util/JWT";
 
 export class ClassServiceImpl implements ClassService {
@@ -129,6 +129,26 @@ export class ClassServiceImpl implements ClassService {
       this.logger.error(`[listClasses] Classes failed for tenant ${tenantId}`, x);
       return ResponseUnauthorized('Retrieval of classes failed.');
     });
+  }
+
+  async getSchemaForClassById(request: Request, id: string): Promise<ServiceResponse<string>> {
+    const jwtData = JWT.decrypt(request);
+    const tenantId = jwtData.data.currentTenant;
+
+    if (!tenantId) {
+      return ResponseForbidden('No tenant selected');
+    }
+
+    this.logger.log(`[getSchemaForClassById] classId=${id}`);
+
+    const db = DaoUtils.getDatabase();
+    const sql = `SELECT * FROM obj.generate_schema_for_class('${id}')`;
+
+    const result = await db
+      .oneOrNone(sql)
+      .then((data: any) => data['generate_schema_for_class']);
+
+    return ResponseOk(result);
   }
 
 }

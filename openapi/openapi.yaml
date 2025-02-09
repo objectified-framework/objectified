@@ -770,6 +770,34 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /class/{id}/schema:
+    get:
+      tags:
+        - Class
+      summary: Retrieves a class schema
+      operationId: getSchemaForClassById
+      description: Retrieves a schema for the class by its ID
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
   /class-property/{id}/property:
     get:
       tags:
