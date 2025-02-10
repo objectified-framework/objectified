@@ -48,6 +48,8 @@ export interface IDataList {
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
   renderColumn?: (column: string, value: string) => string;
+  extraIcon?: any;
+  onExtraIcon?: (payload: any) => void;
 }
 
 /**
@@ -147,6 +149,12 @@ export const DataListTable = (props: IDataList) => {
                           {props.isEditable(x) && (
                             <IconButton onClick={() => props.onEdit(x)}>
                               <Edit/>
+                            </IconButton>
+                          )}
+
+                          {props.extraIcon && props.onExtraIcon && (
+                            <IconButton onClick={() => props.onExtraIcon!(x)}>
+                              {props.extraIcon}
                             </IconButton>
                           )}
                         </Stack>

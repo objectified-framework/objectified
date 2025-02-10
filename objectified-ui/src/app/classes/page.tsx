@@ -1,8 +1,18 @@
 'use client';
 
 import {
+  Button,
+  CircularProgress,
   Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Stack,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
+import {SearchOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
 import {listClasses, putClass, saveClass, deleteClass} from "@/app/services/class";
@@ -14,6 +24,10 @@ import {errorDialog} from "@/app/components/common/ConfirmDialog";
 const Classes = () => {
   const { data: session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
+  const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
+  const [schema, setSchema] = useState<string>('');
+  const [schemaLoading, setSchemaLoading] = useState<boolean>(true);
+  const [schemaFormat, setSchemaFormat] = useState<string>('json');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
   const [selectedLine, setSelectedLine] = useState({});
@@ -96,8 +110,70 @@ const Classes = () => {
     setOpen(true);
   }
 
+  const showSchemaClicked = (payload: any) => {
+    console.log(payload);
+    setSchemaOpen(true);
+  }
+
+  const handleSchemaViewChange = (event, val: string) => {
+    setSchemaFormat(val);
+  }
+
+  const closeSchemaClicked = () => {
+    setSchemaOpen(false);
+    setSchemaFormat('json');
+    setSchema('');
+    setSchemaLoading(true);
+  }
+
   return (
     <>
+      <Dialog
+        open={schemaOpen}
+        scroll={'paper'}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        maxWidth={'md'}
+        fullWidth
+      >
+        <DialogTitle id="scroll-dialog-title">
+          <Stack direction={'row'}>
+            <div style={{ width: '60%' }}>
+              Schema
+            </div>
+            <div style={{ width: '40%', textAlign: 'right' }}>
+              <ToggleButtonGroup
+                color="primary"
+                value={schemaFormat}
+                exclusive
+                onChange={handleSchemaViewChange}
+                aria-label="Format"
+              >
+                <ToggleButton value="json">JSON</ToggleButton>
+                <ToggleButton value="yaml">YAML</ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers={true}>
+          <DialogContentText
+            id="scroll-dialog-description"
+            tabIndex={-1}
+          >
+            {schemaLoading && (
+              <>
+                <CircularProgress/>
+              </>
+            )}
+
+            {schema}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSchemaClicked}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
       <Dialog fullWidth open={open} onClose={handleClose}>
         <AutoForm header={'Class'}
                   formElements={formItems}
@@ -124,6 +200,8 @@ const Classes = () => {
                        isDeletable={(x: any) => {
                          return (x.ownerId && x.ownerId === sessionObject.id) && x.enabled;
                        }}
+                       extraIcon={<SearchOutlined/>}
+                       onExtraIcon={(payload) => showSchemaClicked(payload)}
         />
       </div>
     </>
