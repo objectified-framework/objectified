@@ -98,7 +98,11 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
+      <Dialog PaperProps={{ style: {
+                minHeight: '65%',
+                maxHeight: '65%',
+              }}}
+              fullWidth={'md'} open={open} onClose={handleClose}>
         <AutoForm header={'Add Property'}
                   formElements={formItems}
                   editPayload={null}
