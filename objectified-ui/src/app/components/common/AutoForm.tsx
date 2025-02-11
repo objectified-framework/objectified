@@ -166,6 +166,8 @@ export const AutoForm = (props: IAutoForm) => {
     const description = element.description;
     const type = element.type ?? 'textfield';
     const required = element.required ?? false;
+    const multiline = element.multiline ?? false;
+    const maxRows = element.maxRows ?? 1;
 
     /**
      * Text fields are handled here.  Text fields are single lines of text that can be edited.
@@ -177,9 +179,11 @@ export const AutoForm = (props: IAutoForm) => {
             <Item sx={{width: '100%'}}>
               <TextField label={`${description} (${name})`}
                          fullWidth
+                         multiline={multiline}
                          value={payload[name] ?? ''}
                          name={name}
                          required={required}
+                         maxRows={maxRows}
                          key={`auto-form-${formCounter}`}
                          onChange={handleChange}/>
             </Item>

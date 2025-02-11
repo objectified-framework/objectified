@@ -36,5 +36,7 @@ export const formItems: any[] = [
     name: 'description',
     description: 'Description',
     required: true,
+    multiline: true,
+    maxRows: 4,
   },
 ];
