@@ -15,11 +15,12 @@ import {
 import {SearchOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
-import {listClasses, putClass, saveClass, deleteClass} from "@/app/services/class";
+import {listClasses, putClass, saveClass, deleteClass, getClassSchema} from "@/app/services/class";
 import {formItems, tableItems} from "@/app/classes/index";
 import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
+import * as yaml from 'yaml';
 
 const Classes = () => {
   const { data: session } = useSession();
@@ -110,12 +111,25 @@ const Classes = () => {
     setOpen(true);
   }
 
-  const showSchemaClicked = (payload: any) => {
+  const showSchemaClicked = async (payload: any) => {
     console.log(payload);
     setSchemaOpen(true);
+    await getClassSchema(payload.id)
+      .then((x) => {
+        setSchema(JSON.stringify(x.results, null, 2));
+        setSchemaLoading(false);
+      })
+      .catch((x) => {
+        setSchema(`{ "result": "Schema failed to retrieve: ${x}" }`);
+        setSchemaLoading(false);
+      });
   }
 
   const handleSchemaViewChange = (event, val: string) => {
+    if (val === null) {
+      return;
+    }
+
     setSchemaFormat(val);
   }
 
@@ -135,6 +149,10 @@ const Classes = () => {
         aria-describedby="scroll-dialog-description"
         maxWidth={'md'}
         fullWidth
+        PaperProps={{ style: {
+            minHeight: '90%',
+            maxHeight: '90%',
+          }}}
       >
         <DialogTitle id="scroll-dialog-title">
           <Stack direction={'row'}>
@@ -166,7 +184,17 @@ const Classes = () => {
               </>
             )}
 
-            {schema}
+            {schema && schemaFormat === 'json' && (
+              <pre>
+                {JSON.stringify(JSON.parse(schema), null, 2)}
+              </pre>
+            )}
+
+            {schema && schemaFormat === 'yaml' && (
+              <pre>
+                {yaml.stringify(JSON.parse(schema))}
+              </pre>
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

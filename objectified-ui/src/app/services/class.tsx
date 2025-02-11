@@ -18,6 +18,23 @@ export const listClasses = () => {
   });
 }
 
+export const getClassSchema = (id: string) => {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/schema?id=${id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      if (res.data) {
+        return resolve(res.data);
+      }
+
+      return resolve({});
+    }).catch(e => reject(e));
+  });
+}
+
 export const saveClass = (cls: ClassDto) => {
   return new Promise((resolve, reject) => {
     axios.post(`/api/class`, {
