@@ -98,4 +98,8 @@ copying data to the `instance_current` table after validation against the `class
 table.  Performs replacement, deletion, restoration of data, and update delta operations
 automatically.
 
+## create_default_fields_for_tenant(id)
 
+Used to create a set of default field definitions for a tenant by their Tenant ID.
+Creates fields that map to data types, both the data types and the field names are
+identical.  Generic descriptions for all data types are included.
