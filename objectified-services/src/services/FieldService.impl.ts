@@ -28,7 +28,11 @@ export class FieldServiceImpl implements FieldService {
       dataTypeId: fieldDto.dataTypeId,
       name: fieldDto.name,
       description: fieldDto.description,
-      defaultValue: fieldDto.defaultValue,
+      dataFormat: fieldDto.dataFormat,
+      pattern: fieldDto.pattern,
+      enumValues: fieldDto.enumValues,
+      enumDescriptions: fieldDto.enumDescriptions,
+      examples: fieldDto.examples,
       enabled: true,
     };
 
@@ -59,7 +63,6 @@ export class FieldServiceImpl implements FieldService {
 
     const payload: any = {
       enabled: false,
-      deleteDate: new Date(),
     };
 
     return await this.dao.updateById(id, payload)
@@ -86,8 +89,11 @@ export class FieldServiceImpl implements FieldService {
       dataTypeId: fieldDto.dataTypeId,
       name: fieldDto.name,
       description: fieldDto.description,
-      defaultValue: fieldDto.defaultValue,
-      updateDate: new Date(),
+      dataFormat: fieldDto.dataFormat,
+      pattern: fieldDto.pattern,
+      enumValues: fieldDto.enumValues,
+      enumDescriptions: fieldDto.enumDescriptions,
+      examples: fieldDto.examples,
     };
 
     return await this.dao.updateById(id, payload)
