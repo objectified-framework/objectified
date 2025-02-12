@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.1.4
+  version: 0.1.5
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -1052,6 +1052,14 @@ components:
         data:
           type: object
           description: Extra data associated with the user.
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of user creation
+        updateDate:
+          type: string
+          format: date-time
+          description: Date and time of user update
     DataType:
       type: object
       x-schema: obj
@@ -1164,6 +1172,18 @@ components:
         data:
           type: object
           description: Free-form tenant record information
+        createDate:
+          type: string
+          format: date-time
+          description: Date the tenant was created
+        updateDate:
+          type: string
+          format: date-time
+          description: Date of the last update to the tenant
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date the tenant was disabled
     TenantUser:
       type: object
       x-schema: obj

@@ -11,14 +11,26 @@ is automatically populated using the `trigger_update_user_date` trigger.
 
 ## tenant
 
+Tenants allow for logical groups of ownership in Objectified.  It is used to separate
+and manage different organizations, users, or groups that use the same system while
+keeping their data isolated.
+
+Tenants can be created, updated, and deleted, but their records are soft-deleted, meaning
+their delete dates will be updated, but their records will be disabled.
+
+When a tenant record is updated, the update_date is automatically altered by the
+`trigger_update_tenant_date` trigger.  When a tenant is disabled, the `delete_date`
+column is updated with the current date by the `trigger_update_tenant_delete_date`
+trigger.
+
 ## tenant_user
 
-[//]: # (## user)
+This table describes user tenancy membership.  It describes a membership list of the
+users and tenants that they belong to, along with any additional `permissions` they might
+be assigned, using a free-formed JSON object.  Create, update, and delete dates are
+triggered using the `trigger_update_tenant_user_date` trigger, along with the
+`trigger_update_tenant_user_delete_date` triggers, respectively.
 
-[//]: # ()
-[//]: # (This is the user table.)
-
-[//]: # ()
 [//]: # (## data_type)
 
 [//]: # ()
