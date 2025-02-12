@@ -1,6 +1,6 @@
 DROP TYPE IF EXISTS obj.data_type_enum CASCADE;
 CREATE TYPE obj.data_type_enum AS ENUM (
-    'STRING', 'BOOLEAN', 'NUMBER', 'INTEGER', 'NULL', 'ARRAY', 'OBJECT'
+    'STRING', 'BOOLEAN', 'NUMBER', 'INTEGER', 'NULL', 'OBJECT', '$REF'
 );
 
 DROP TABLE IF EXISTS obj.data_type CASCADE;
