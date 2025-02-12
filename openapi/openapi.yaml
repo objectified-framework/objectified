@@ -1014,20 +1014,8 @@ components:
             - NUMBER
             - INTEGER
             - NULL
-            - ARRAY
             - OBJECT
-#        dataFormat:
-#          type: string
-#          description: The format of the data
-#        isArray:
-#          type: boolean
-#          description: Indicates if the data type stores an array of data
-#        maxLength:
-#          type: integer
-#          description: The maximum length stored in the data type
-#        pattern:
-#          type: string
-#          description: Data pattern (regex) that the data must validate against
+            - '$REF'
         enabled:
           type: boolean
           default: true
