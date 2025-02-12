@@ -93,7 +93,6 @@ export async function PUT(request: any) {
     name: payload.name,
     description: payload.description,
     defaultValue: payload.defaultValue,
-    updateDate: new Date(),
   };
 
   const results = await ClientClassEditClassById(id, editPayload, headers)

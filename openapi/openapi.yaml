@@ -1028,21 +1028,6 @@ components:
 #        pattern:
 #          type: string
 #          description: Data pattern (regex) that the data must validate against
-#        enumValues:
-#          type: array
-#          items:
-#            type: string
-#          description: Array of values that the enumeration can store
-#        enumDescriptions:
-#          type: array
-#          items:
-#            type: string
-#          description: The descriptions for each of the enumeration values
-#        examples:
-#          type: array
-#          items:
-#            type: string
-#          description: Free-formed examples that the data type can hold
         enabled:
           type: boolean
           default: true
@@ -1155,9 +1140,27 @@ components:
         description:
           type: string
           description: This is a description of what the field stores
-        defaultValue:
+        dataFormat:
           type: string
-          description: This is the default value that the field provides
+          description: This is an additional format for the data type
+        pattern:
+          type: string
+          description: Regular expression pattern that may be applied to the input
+        enumValues:
+          type: array
+          items:
+            type: string
+          description: Array of values that the enumeration can store
+        enumDescriptions:
+          type: array
+          items:
+            type: string
+          description: The descriptions for each of the enumeration values
+        examples:
+          type: array
+          items:
+            type: string
+          description: Free-formed examples that the data type can hold
         enabled:
           type: boolean
           description: Indicates if the field record is enabled

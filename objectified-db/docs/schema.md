@@ -48,25 +48,16 @@ They obey the same triggers with respect to `update` and `delete`
 actions using the `trigger_update_class_date` and `trigger_update_class_delete_date`
 triggers, respectively. 
 
-[//]: # (## field)
+## field
 
-[//]: # ()
-[//]: # (The field table defines a `data_type` to an object that can be assigned a `property`.)
+This is a table that extends data types by assigning constraints, formats, patterns, 
+enumeration values, and examples.  It is used by `Property` entries to describe how
+the field will be applied.
 
-[//]: # (Think of a field as a class or object store type, which can be instantiated to store)
+They obey the same triggers with respect to `update` and `delete`
+actions using the `trigger_update_field_date` and `trigger_update_field_delete_date`
+triggers, respectively.
 
-[//]: # (data contained in a class.  Fields can be reused and reassigned to as many properties)
-
-[//]: # (as desired.)
-
-[//]: # ()
-[//]: # (When data is assigned to a field from a class instantiation, that data can be indexed by)
-
-[//]: # (the system, and can be used to cross-reference data between other instantiated classes)
-
-[//]: # (using internal tooling.)
-
-[//]: # ()
 [//]: # (## property)
 
 [//]: # ()
