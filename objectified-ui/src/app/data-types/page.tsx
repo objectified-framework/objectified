@@ -134,15 +134,9 @@ const DataTypes = () => {
                          resetSelectedLine();
                          setOpen(true);
                        }}
-                       onDelete={(payload) => deleteClicked(payload)}
-                       onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshDataTypes()}
-                       isEditable={(x: any) => {
-                         return (!x.coreType || (x.ownerId && x.ownerId != session.objectified.id)) && x.enabled;
-                       }}
-                       isDeletable={(x: any) => {
-                         return (x.ownerId && x.ownerId === session.objectified.id) && x.enabled;
-                       }}
+                       isEditable={(x) => false}
+                       isDeletable={(x) => false}
         />
       </div>
     </>

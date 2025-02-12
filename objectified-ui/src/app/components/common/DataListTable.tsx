@@ -42,8 +42,8 @@ export interface IDataList {
   dataset: any[];
   isLoading: boolean;
   onAdd: () => any;
-  onDelete: (payload: any) => any;
-  onEdit: (payload: any) => any;
+  onDelete?: (payload: any) => any;
+  onEdit?: (payload: any) => any;
   onRefresh: () => any;
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
@@ -141,13 +141,13 @@ export const DataListTable = (props: IDataList) => {
                       <TableCell key={ `row-${counter}-icons` }>
                         <Stack direction={'row'}>
                           {props.isDeletable(x) && (
-                            <IconButton onClick={() => props.onDelete(x)}>
+                            <IconButton onClick={() => props.onDelete!(x)}>
                               <DeleteIcon/>
                             </IconButton>
                           )}
 
                           {props.isEditable(x) && (
-                            <IconButton onClick={() => props.onEdit(x)}>
+                            <IconButton onClick={() => props.onEdit!(x)}>
                               <Edit/>
                             </IconButton>
                           )}

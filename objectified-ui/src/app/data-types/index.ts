@@ -19,18 +19,8 @@ export const tableItems: any[] = [
     description: 'Data type',
   },
   {
-    name: 'isArray',
-    description: 'Array',
-    type: 'check',
-  },
-  {
     name: 'enabled',
     description: 'Enabled',
-    type: 'check',
-  },
-  {
-    name: 'coreType',
-    description: 'Core',
     type: 'check',
   },
   {
