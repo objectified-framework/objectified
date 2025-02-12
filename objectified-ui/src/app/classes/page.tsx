@@ -202,7 +202,12 @@ const Classes = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog fullWidth open={open} onClose={handleClose}>
+      <Dialog fullWidth open={open} onClose={handleClose}
+              maxWidth={'md'}
+              PaperProps={{ style: {
+                minHeight: '90%',
+                maxHeight: '90%',
+              }}}>
         <AutoForm header={'Class'}
                   formElements={formItems}
                   editPayload={selectedLine}
@@ -215,6 +220,7 @@ const Classes = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
+                       isAddable={true}
                        onAdd={() => {
                          resetSelectedLine();
                          setOpen(true);
@@ -228,8 +234,8 @@ const Classes = () => {
                        isDeletable={(x: any) => {
                          return (x.ownerId && x.ownerId === sessionObject.id) && x.enabled;
                        }}
-                       extraIcon={<SearchOutlined/>}
-                       onExtraIcon={(payload) => showSchemaClicked(payload)}
+                       // extraIcon={<SearchOutlined/>}
+                       // onExtraIcon={(payload) => showSchemaClicked(payload)}
         />
       </div>
     </>

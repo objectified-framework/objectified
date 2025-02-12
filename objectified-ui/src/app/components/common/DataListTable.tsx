@@ -65,19 +65,19 @@ export const DataListTable = (props: IDataList) => {
       <div style={{width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
                    borderBottom: '1px solid #000' }}>
         <Stack direction={'row'}>
-          <Item sx={{width: '50%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
+          <Item sx={{width: '70%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
             <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>{props.header}</Typography>
           </Item>
 
-          <Item sx={{width: '50%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
-            <Button sx={{color: '#fff'}} onClick={() => props.onRefresh()}>
+          <Item sx={{width: '30%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
+            <IconButton sx={{color: '#fff'}} onClick={() => props.onRefresh()}>
               <RefreshOutlined/>
-            </Button>
+            </IconButton>
 
             {props.isAddable && (
-              <Button sx={{color: '#fff'}} onClick={() => props.onAdd()}>
+              <IconButton sx={{color: '#fff'}} onClick={() => props.onAdd()}>
                 <AddOutlined/>
-              </Button>
+              </IconButton>
             )}
           </Item>
         </Stack>

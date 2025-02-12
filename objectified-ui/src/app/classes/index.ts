@@ -21,7 +21,12 @@ export const tableItems: any[] = [
   },
   {
     name: 'createDate',
-    description: 'Create Date',
+    description: 'Created',
+    type: 'date-time',
+  },
+  {
+    name: 'updateDate',
+    description: 'Updated',
     type: 'date-time',
   },
 ];

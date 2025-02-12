@@ -183,7 +183,7 @@ export const AutoForm = (props: IAutoForm) => {
                          value={payload[name] ?? ''}
                          name={name}
                          required={required}
-                         maxRows={maxRows}
+                         rows={maxRows}
                          key={`auto-form-${formCounter}`}
                          onChange={handleChange}/>
             </Item>
