@@ -66,7 +66,6 @@ export class ClassServiceImpl implements ClassService {
     }
 
     result.enabled = false;
-    result.deleteDate = new Date();
 
     return await this.dao.updateById(id, result)
       .then((x) => {
@@ -85,7 +84,6 @@ export class ClassServiceImpl implements ClassService {
     const replacePayload: any = {
       name: classDto.name,
       description: classDto.description,
-      updateDate: new Date(),
     }
 
     const result = await this.dao.updateById(id, replacePayload)

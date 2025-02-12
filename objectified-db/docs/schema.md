@@ -38,39 +38,16 @@ This table defines and stores the JSON Schema data types that are available for 
 actions using the `trigger_update_data_type_date` and `trigger_update_data_type_delete_date`
 triggers, respectively.
 
-[//]: # (## data_type)
+## class
 
-[//]: # ()
-[//]: # (This is used to define the different types of data that can be stored in specific)
+This is a storage mechanism that defines a schema for the data it can contain.  Think of
+a `Class` as the same as a `Class` in other languages, where it can define the names of
+properties it stores, along with the data type for each property.
 
-[//]: # (field definitions.)
+They obey the same triggers with respect to `update` and `delete`
+actions using the `trigger_update_class_date` and `trigger_update_class_delete_date`
+triggers, respectively. 
 
-[//]: # ()
-[//]: # (This data table is loaded with initial data so that a list of [JSON Schema valid types]&#40;https://cswr.github.io/JsonSchema/spec/basic_types/&#41; )
-
-[//]: # (are available for use.)
-
-[//]: # ()
-[//]: # (## tenant)
-
-[//]: # ()
-[//]: # (This is an important table in the system, used to group users and objects together with)
-
-[//]: # (their own tenancy names.  This concept is similar to a Namespace, in that only objects)
-
-[//]: # (that belong to a tenant can be used by the tenant.  Tenants contain a `data` field, which)
-
-[//]: # (can be used to store information specific to the tenant.)
-
-[//]: # ()
-[//]: # (## tenant_user)
-
-[//]: # ()
-[//]: # (This groups users with tenants.  It contains a `permission` column for eventual ABAC)
-
-[//]: # (service functionality.)
-
-[//]: # ()
 [//]: # (## field)
 
 [//]: # ()
@@ -96,16 +73,6 @@ triggers, respectively.
 [//]: # (A property is an assignment of a field to a name and default properties which can be used)
 
 [//]: # (by a class in order to define its schema.)
-
-[//]: # ()
-[//]: # (## class)
-
-[//]: # ()
-[//]: # (This is a storage mechanism that defines a schema for the data it can contain.  Think of)
-
-[//]: # (a `Class` as the same as a `Class` in other languages, where it can define the names of)
-
-[//]: # (properties it stores, along with the data type for each property.)
 
 [//]: # ()
 [//]: # (## class_property)
