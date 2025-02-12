@@ -1,6 +1,5 @@
 import RouteHelper from "../../../../lib/RouteHelper";
 import { ClientDataTypeListDataTypes } from '@objectified-framework/objectified-services/dist/generated/clients';
-import { DataTypeDto } from '@objectified-framework/objectified-services/dist/generated/dto';
 
 export async function GET(request: any) {
   const helper = new RouteHelper(request);

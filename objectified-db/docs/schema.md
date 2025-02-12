@@ -31,6 +31,13 @@ be assigned, using a free-formed JSON object.  Create, update, and delete dates 
 triggered using the `trigger_update_tenant_user_date` trigger, along with the
 `trigger_update_tenant_user_delete_date` triggers, respectively.
 
+## data_type
+
+This table defines and stores the JSON Schema data types that are available for use by
+`Field` definitions.  They obey the same triggers with respect to `update` and `delete`
+actions using the `trigger_update_data_type_date` and `trigger_update_data_type_delete_date`
+triggers, respectively.
+
 [//]: # (## data_type)
 
 [//]: # ()

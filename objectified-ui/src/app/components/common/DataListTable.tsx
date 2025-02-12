@@ -45,6 +45,7 @@ export interface IDataList {
   onDelete?: (payload: any) => any;
   onEdit?: (payload: any) => any;
   onRefresh: () => any;
+  isAddable: boolean;
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
   renderColumn?: (column: string, value: string) => string;
@@ -73,9 +74,11 @@ export const DataListTable = (props: IDataList) => {
               <RefreshOutlined/>
             </Button>
 
-            <Button sx={{color: '#fff'}} onClick={() => props.onAdd()}>
-              <AddOutlined/>
-            </Button>
+            {props.isAddable && (
+              <Button sx={{color: '#fff'}} onClick={() => props.onAdd()}>
+                <AddOutlined/>
+              </Button>
+            )}
           </Item>
         </Stack>
       </div>
@@ -94,7 +97,7 @@ export const DataListTable = (props: IDataList) => {
           {props.isLoading ? (
             <TableBody>
               <TableRow key={'data-list-table-loading'}>
-                <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center' }}>
+                <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center', width: '100%' }}>
                   <CircularProgress/>
                 </TableCell>
               </TableRow>
@@ -117,7 +120,8 @@ export const DataListTable = (props: IDataList) => {
                         if (y.type && y.type === 'check') {
                           if (x[y.name]) {
                             return (
-                              <TableCell key={ `row-${counter}-${subcounter}` }><CheckBox style={{ color: 'green' }}/></TableCell>
+                              <TableCell key={ `row-${counter}-${subcounter}` }
+                               style={{ textAlign: 'center' }}><CheckBox style={{ color: 'green' }}/></TableCell>
                             );
                           }
                         } else if (y.type && y.type === 'uuid') {
