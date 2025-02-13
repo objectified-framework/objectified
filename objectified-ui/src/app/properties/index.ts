@@ -9,7 +9,6 @@ export const tableItems: any[] = [
   {
     name: 'fieldId',
     description: 'Field UUID',
-    type: 'uuid',
   },
   {
     name: 'name',

@@ -158,6 +158,15 @@ const Properties = () => {
                        isDeletable={(x: any) => {
                          return (x.tenantId === session.currentTenant) && x.enabled;
                        }}
+                       renderColumn={(column, value) => {
+                         if (column === 'fieldId') {
+                           const result = fields.filter((x) => x['fieldId'] === value);
+
+                           return (result.length > 0) ? result[0].name : value;
+                         }
+
+                         return value;
+                       }}
         />
       </div>
     </>

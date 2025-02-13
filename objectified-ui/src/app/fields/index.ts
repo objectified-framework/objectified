@@ -9,12 +9,12 @@ export const tableItems: any[] = [
     type: 'uuid',
   },
   {
-    name: 'dataTypeId',
-    description: 'Type ID',
-  },
-  {
     name: 'name',
     description: 'Name',
+  },
+  {
+    name: 'dataTypeId',
+    description: 'Type',
   },
   {
     name: 'description',
