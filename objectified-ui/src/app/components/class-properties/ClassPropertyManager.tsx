@@ -121,13 +121,13 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
             </Item>
 
             <Item sx={{width: '50%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
-              <Button sx={{color: '#fff'}} onClick={() => refreshClassProperties()}>
+              <IconButton sx={{color: '#fff'}} onClick={() => refreshClassProperties()}>
                 <RefreshOutlined/>
-              </Button>
+              </IconButton>
 
-              <Button sx={{color: '#fff'}} onClick={() => onAdd()}>
+              <IconButton sx={{color: '#fff'}} onClick={() => onAdd()}>
                 <AddOutlined/>
-              </Button>
+              </IconButton>
             </Item>
           </Stack>
         </div>
