@@ -26,6 +26,7 @@ export class PropertyServiceImpl implements PropertyService {
     const payload: any = {
       tenantId,
       fieldId: propertyDto.fieldId,
+      classId: propertyDto.classId,
       name: propertyDto.name,
       description: propertyDto.description,
       required: propertyDto.required ?? false,
@@ -85,6 +86,7 @@ export class PropertyServiceImpl implements PropertyService {
 
     const payload: any = {
       fieldId: propertyDto.fieldId,
+      classId: propertyDto.classId,
       name: propertyDto.name,
       description: propertyDto.description,
       required: propertyDto.required ?? false,

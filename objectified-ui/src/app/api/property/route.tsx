@@ -86,6 +86,7 @@ export async function PUT(request: any) {
   const editPayload: any = {
     tenantId: payload.tenantId,
     fieldId: payload.fieldId,
+    classId: payload.classId,
     name: payload.name,
     description: payload.description,
     required: payload.required ?? false,

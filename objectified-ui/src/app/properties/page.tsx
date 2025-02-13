@@ -11,6 +11,7 @@ import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listProperties, saveProperty, putProperty, deleteProperty} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
+import {listClasses} from "@/app/services/class";
 
 const Properties = () => {
   const { data: session } = useSession();
@@ -18,6 +19,7 @@ const Properties = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataPayload, setDataPayload] = useState([]);
   const [fields, setFields] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [selectedLine, setSelectedLine] = useState({});
 
   const resetSelectedLine = () => {
@@ -34,16 +36,48 @@ const Properties = () => {
     });
   }
 
+  const refreshClasses = () => {
+    setIsLoading(true);
+
+    listClasses().then((x: any) => {
+      let mappedResults = x.map((y) => {
+        return {
+          classId: y.id,
+          name: y.name,
+        };
+      });
+
+      mappedResults = [
+        {
+          classId: null,
+          name: 'No Class Selected'
+        },
+        ...mappedResults,
+      ]
+      formItems[1].dataset = mappedResults;
+      setClasses(mappedResults);
+    }).finally(() => {
+      setIsLoading(false);
+    });
+  }
+
   const refreshFields = async (): Promise<void> => {
     await listFields()
       .then((x) => {
-        const mappedResults = x.map((y) => {
+        let mappedResults = x.map((y) => {
           return {
             fieldId: y.id,
             name: y.name,
           };
         });
 
+        mappedResults = [
+          {
+            fieldId: null,
+            name: 'No Field Selected'
+          },
+          ...mappedResults,
+        ]
         formItems[0].dataset = mappedResults;
         setFields(mappedResults);
       })
@@ -55,6 +89,7 @@ const Properties = () => {
   useEffect(() => {
     refreshProperties();
     refreshFields();
+    refreshClasses();
     resetSelectedLine();
   }, []);
 
@@ -161,6 +196,18 @@ const Properties = () => {
                        renderColumn={(column, value) => {
                          if (column === 'fieldId') {
                            const result = fields.filter((x) => x['fieldId'] === value);
+
+                           if (value === null) {
+                             return '';
+                           }
+
+                           return (result.length > 0) ? result[0].name : value;
+                         } else if (column === 'classId') {
+                           const result = classes.filter((x) => x['classId'] === value);
+
+                           if (value === null) {
+                             return '';
+                           }
 
                            return (result.length > 0) ? result[0].name : value;
                          }

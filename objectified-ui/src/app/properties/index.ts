@@ -11,6 +11,10 @@ export const tableItems: any[] = [
     description: 'Field',
   },
   {
+    name: 'classId',
+    description: '$REF',
+  },
+  {
     name: 'name',
     description: 'Name',
   },
@@ -49,7 +53,12 @@ export const formItems: any[] = [
   {
     name: 'fieldId',
     description: 'Field ID',
-    required: true,
+    type: 'autocomplete',
+    dataset: [],
+  },
+  {
+    name: 'classId',
+    description: 'Class ID',
     type: 'autocomplete',
     dataset: [],
   },

@@ -1238,6 +1238,10 @@ components:
           type: string
           format: UUID
           description: The ID of the Field that defines this Property
+        classId:
+          type: string
+          format: UUID
+          description: The ID of the Class that is used as a reference
         name:
           type: string
           description: The name of the property
