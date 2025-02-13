@@ -234,8 +234,8 @@ const Classes = () => {
                        isDeletable={(x: any) => {
                          return (x.ownerId && x.ownerId === sessionObject.id) && x.enabled;
                        }}
-                       // extraIcon={<SearchOutlined/>}
-                       // onExtraIcon={(payload) => showSchemaClicked(payload)}
+                       extraIcon={<SearchOutlined/>}
+                       onExtraIcon={(payload) => showSchemaClicked(payload)}
         />
       </div>
     </>

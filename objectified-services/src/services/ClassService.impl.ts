@@ -140,7 +140,7 @@ export class ClassServiceImpl implements ClassService {
     this.logger.log(`[getSchemaForClassById] classId=${id}`);
 
     const db = DaoUtils.getDatabase();
-    const sql = `SELECT * FROM obj.generate_schema_for_class('${id}')`;
+    const sql = `SELECT * FROM generate_schema_for_class('${id}')`;
 
     const result = await db
       .oneOrNone(sql)
