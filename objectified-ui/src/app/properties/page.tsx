@@ -108,6 +108,11 @@ const Properties = () => {
       return;
     }
 
+    if (payload.fieldId === null && payload.classId === null) {
+      errorDialog('Property must refer to a field or a class.');
+      return;
+    }
+
     if (payload.id) {
       await putProperty(payload)
         .then((x) => {
