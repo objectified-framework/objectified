@@ -86,5 +86,13 @@ BEGIN
         'Default date-time field value',
         'date-time'
     ) ON CONFLICT DO NOTHING;
+
+    INSERT INTO obj.field (tenant_id, data_type_id, name, description, data_format)
+    VALUES (
+        tenant_uuid, (SELECT id FROM obj.data_type WHERE name = 'string' LIMIT 1),
+        'uuid',
+        'Default UUID field value',
+        'uuid'
+    ) ON CONFLICT DO NOTHING;
 END;
 $$ LANGUAGE plpgsql;
