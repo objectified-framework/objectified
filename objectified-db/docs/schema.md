@@ -63,7 +63,9 @@ triggers, respectively.
 This table defines properties that accept a `Field` definition to describe the data
 in which the property represents.  The property is an extension of the `Field`, providing
 information such as nullability, array lists, default values, and additional
-constraints.
+constraints.  `Property` objects can also refer to `Class`es as a way to add a `$ref` to
+the class to which the `Property` points.  Constraints aren't really valid when a `$ref`
+is used, however.  Only nullability, arrays, and required fields make sense in those cases.
 
 They obey the same triggers with respect to `update` and `delete`
 actions using the `trigger_update_property_date` and `trigger_update_property_delete_date`
