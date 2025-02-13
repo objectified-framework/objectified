@@ -71,11 +71,9 @@ They obey the same triggers with respect to `update` and `delete`
 actions using the `trigger_update_property_date` and `trigger_update_property_delete_date`
 triggers, respectively.
 
-[//]: # ()
-[//]: # (## class_property)
+## class_property
 
-[//]: # ()
-[//]: # (This defines the properties that are attached to a `Class`, defining its schema.)
+This defines the properties that are attached to a `Class`, defining its shape.
 
 [//]: # ()
 [//]: # (## object_property)

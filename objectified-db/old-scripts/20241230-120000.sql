@@ -1,16 +1,3 @@
---- Class table property definitions
-
-DROP TABLE IF EXISTS obj.class_property CASCADE;
-DROP INDEX IF EXISTS idx_class_property_unique;
-
-CREATE TABLE obj.class_property (
-    id UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    class_id UUID NOT NULL REFERENCES obj.class(id),
-    property_id UUID NOT NULL REFERENCES obj.property(id)
-);
-
-CREATE UNIQUE INDEX idx_class_property_unique ON obj.class_property(class_id, property_id);
-
 --- Object properties
 
 DROP TABLE IF EXISTS obj.object_property CASCADE;
