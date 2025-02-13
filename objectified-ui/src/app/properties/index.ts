@@ -8,7 +8,7 @@ export const tableItems: any[] = [
   },
   {
     name: 'fieldId',
-    description: 'Field UUID',
+    description: 'Field',
   },
   {
     name: 'name',
@@ -89,6 +89,7 @@ export const formItems: any[] = [
     description: 'Constraints',
     multiline: true,
     maxRows: 4,
+    type: 'object',
   },
 ];
 

@@ -190,6 +190,24 @@ export const AutoForm = (props: IAutoForm) => {
           </Stack>
         </>
       );
+    } else if (type === 'object') {
+      return (
+        <>
+          <Stack direction={'column'} key={`auto-form-line-${name}`}>
+            <Item sx={{width: '100%'}}>
+              <TextField label={`${description} (${name})`}
+                         fullWidth
+                         multiline={multiline}
+                         value={JSON.stringify(payload[name], null, 2) ?? '{}'}
+                         name={name}
+                         required={required}
+                         rows={maxRows}
+                         key={`auto-form-${formCounter}`}
+                         onChange={handleChange}/>
+            </Item>
+          </Stack>
+        </>
+      );
     } else if (type === 'enum') {
       /**
        * Enumerations are handled here as separate FormControl items.  The list is parsed, and presented
