@@ -92,7 +92,11 @@ export async function PUT(request: any) {
     dataTypeId: payload.dataTypeId,
     name: payload.name,
     description: payload.description,
-    defaultValue: payload.defaultValue,
+    dataFormat: payload.dataFormat,
+    pattern: payload.pattern,
+    enumValues: payload.enumValues,
+    enumDescriptions: payload.enumDescriptions,
+    examples: payload.examples,
   };
 
   const results = await ClientFieldEditFieldById(id, editPayload, headers)

@@ -21,8 +21,8 @@ export const tableItems: any[] = [
     description: 'Description',
   },
   {
-    name: 'defaultValue',
-    description: 'Default',
+    name: 'dataFormat',
+    description: 'Data Format',
   },
   {
     name: 'enabled',
@@ -31,7 +31,7 @@ export const tableItems: any[] = [
   },
   {
     name: 'createDate',
-    description: 'Create Date',
+    description: 'Created',
     type: 'date-time',
   },
 ];
@@ -56,7 +56,26 @@ export const formItems: any[] = [
     dataset: [],
   },
   {
-    name: 'defaultValue',
-    description: 'Default Value',
+    name: 'dataFormat',
+    description: 'Data Format',
   },
+  {
+    name: 'pattern',
+    description: 'Regexp Pattern',
+  },
+  {
+    name: 'enumValues',
+    description: 'Enumeration Values',
+    type: 'array',
+  },
+  {
+    name: 'enumDescriptions',
+    description: 'Enumeration Descriptions',
+    type: 'array',
+  },
+  {
+    name: 'examples',
+    description: 'Examples',
+    type: 'array',
+  }
 ];

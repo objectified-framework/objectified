@@ -134,7 +134,12 @@ const Fields = () => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
+      <Dialog fullWidth={'md'} open={open} onClose={handleClose}
+              scroll={'paper'}
+              PaperProps={{ style: {
+                  minHeight: '90%',
+                  maxHeight: '90%',
+                }}}>
         <AutoForm header={'Field'}
                   formElements={formItems}
                   editPayload={selectedLine}
@@ -147,6 +152,7 @@ const Fields = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
+                       isAddable={true}
                        onAdd={() => {
                          resetSelectedLine();
                          loadFields().then(r => {
