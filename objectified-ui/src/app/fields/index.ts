@@ -5,12 +5,12 @@ import {listDataTypes} from "@/app/services/data-type";
 export const tableItems: any[] = [
   {
     name: 'id',
-    description: 'Type UUID',
+    description: 'Field ID',
     type: 'uuid',
   },
   {
     name: 'dataTypeId',
-    description: 'Data Type ID',
+    description: 'Type ID',
   },
   {
     name: 'name',
