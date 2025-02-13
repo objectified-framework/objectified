@@ -203,6 +203,7 @@ export const AutoForm = (props: IAutoForm) => {
                          required={required}
                          rows={maxRows}
                          key={`auto-form-${formCounter}`}
+                         inputProps={{ style: { fontFamily: 'monospace' }}}
                          onChange={handleChange}/>
             </Item>
           </Stack>
