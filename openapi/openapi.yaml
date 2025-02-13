@@ -990,9 +990,10 @@ components:
         - description
         - dataType
       description: |
-        Data Type defines a storage type that can be associated with a field.
-        It defines the type of information that is stored, along with any defaults
-        or enumerated values.
+        DataType identifies the type of data that can be assigned to a `Field`.  The DataType
+        matches that of a JSON Schema data type.  Updates may be made to this table,
+        but these changes are controlled by the Objectified project, as they are not
+        editable.
       properties:
         id:
           type: string
@@ -1039,8 +1040,9 @@ components:
         - ownerId
         - name
       description: |
-        Tenants are definitions used to isolate like- objects with a company or
-        group name.
+        Tenants allow for logical groups of ownership in Objectified.  It is used to
+        separate and manage different organizations, users, or groups that use the same
+        system while keeping their data isolated.
       properties:
         id:
           type: string
@@ -1077,7 +1079,10 @@ components:
       required:
         - tenantId
         - userId
-      description: This object describes a user tenancy membership.
+      description: |
+        This table describes user tenancy membership.  It describes a membership list of the
+        users and tenants that they belong to, along with any additional `permissions`
+        they might be assigned.
       properties:
         id:
           type: string
@@ -1106,9 +1111,9 @@ components:
         - name
         - description
       description: |
-        Fields store DataType objects which are used to define the type of data that
-        a Property may store.  Field definitions are unique to tenants, and cannot
-        be shared across tenants.
+        Field extends `DataType`s by assigning constraints, formats, patterns, 
+        enumeration values, and examples.  It is used by `Property` entries to describe
+        how the `Field` will be applied.
       properties:
         id:
           type: string
@@ -1216,8 +1221,10 @@ components:
         - fieldId
         - name
       description: |
-        `Property` assigns a field to a well defined storage key.  In Object Oriented terms, a property
-        contains a `Field` that defines the type of data it can store.
+        `Property` defines properties that accept a `Field` definition to describe the data
+        in which the property represents.  The property is an extension of the `Field`,
+        providing information such as nullability, array lists, default values, and
+        additional constraints.
       properties:
         id:
           type: string

@@ -86,16 +86,13 @@ triggers, respectively.
 [//]: # (objects, if defined properly by the schema.)
 
 [//]: # ()
-[//]: # (# Stored Procedures)
 
-[//]: # ()
-[//]: # (Stored procedures are used in Objectified's Database engine to assist with creation of)
+# Stored Procedures
 
-[//]: # (schemas and validation rules.  It also controls insertion of data from one table to)
+Stored procedures are used in Objectified's Database engine to assist with creation of
+schemas and validation rules.  It also controls insertion of data from one table to
+another, enforcing data retention rules.
 
-[//]: # (another, enforcing data retention rules.)
-
-[//]: # ()
 [//]: # (## enforce_class_property_tenant)
 
 [//]: # ()
@@ -150,11 +147,9 @@ triggers, respectively.
 [//]: # (automatically.)
 
 [//]: # ()
-[//]: # (## create_default_fields_for_tenant&#40;id&#41;)
 
-[//]: # ()
-[//]: # (Used to create a set of default field definitions for a tenant by their Tenant ID.)
+### obj.create_default_fields_for_tenant(id)
 
-[//]: # (Creates fields that map to data types, both the data types and the field names are)
-
-[//]: # (identical.  Generic descriptions for all data types are included.)
+Used to create a set of default field definitions for a tenant by their Tenant ID.
+Creates fields that map to data types, both the data types and the field names are
+identical.  Generic descriptions for all data types are included.

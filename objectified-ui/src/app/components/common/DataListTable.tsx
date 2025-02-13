@@ -131,7 +131,7 @@ export const DataListTable = (props: IDataList) => {
                             <TableCell key={ `row-${counter}-${subcounter}` } style={{ padding: '4px' }}>...{uuidSplit[uuidSplit.length - 1]}</TableCell>
                           );
                         } else if (y.type && y.type === 'date-time') {
-                          const timeSplit = x[y.name].split('T');
+                          const timeSplit = x[y.name] !== null ? x[y.name].split('T') : '';
 
                           return (
                             <TableCell key={ `row-${counter}-${subcounter}` } style={{ padding: '4px' }}>{timeSplit[0]} {timeSplit[1]}</TableCell>
