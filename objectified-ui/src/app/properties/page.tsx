@@ -122,8 +122,13 @@ const Properties = () => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
-        <AutoForm header={'Properties'}
+      <Dialog fullWidth={'md'} open={open} onClose={handleClose}
+              scroll={'paper'}
+              PaperProps={{ style: {
+                  minHeight: '90%',
+                  maxHeight: '90%',
+                }}}>
+      <AutoForm header={'Properties'}
                   formElements={formItems}
                   editPayload={selectedLine}
                   onSave={saveClicked}
@@ -135,6 +140,7 @@ const Properties = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
+                       isAddable={true}
                        onAdd={() => {
                          if (fields.length === 0) {
                            errorDialog('You need to add at least one field before you can create a property.');

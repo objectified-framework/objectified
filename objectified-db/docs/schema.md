@@ -58,12 +58,16 @@ They obey the same triggers with respect to `update` and `delete`
 actions using the `trigger_update_field_date` and `trigger_update_field_delete_date`
 triggers, respectively.
 
-[//]: # (## property)
+## property
 
-[//]: # ()
-[//]: # (A property is an assignment of a field to a name and default properties which can be used)
+This table defines properties that accept a `Field` definition to describe the data
+in which the property represents.  The property is an extension of the `Field`, providing
+information such as nullability, array lists, default values, and additional
+constraints.
 
-[//]: # (by a class in order to define its schema.)
+They obey the same triggers with respect to `update` and `delete`
+actions using the `trigger_update_property_date` and `trigger_update_property_delete_date`
+triggers, respectively.
 
 [//]: # ()
 [//]: # (## class_property)

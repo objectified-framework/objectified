@@ -1253,6 +1253,9 @@ components:
           type: string
           maxLength: 4096
           default: null
+        constraints:
+          type: object
+          description: Additional constraints
         enabled:
           type: boolean
           description: Indicates if the property is enabled

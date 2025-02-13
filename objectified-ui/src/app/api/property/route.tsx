@@ -92,7 +92,7 @@ export async function PUT(request: any) {
     nullable: payload.nullable ?? false,
     isArray: payload.isArray ?? false,
     defaultValue: payload.defaultValue,
-    updateDate: new Date(),
+    constraints: payload.constraints ?? {},
   };
 
   const results = await ClientPropertyEditPropertyById(id, editPayload, headers)

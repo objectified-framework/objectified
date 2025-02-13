@@ -32,7 +32,7 @@ export class PropertyServiceImpl implements PropertyService {
       nullable: propertyDto.nullable ?? false,
       isArray: propertyDto.isArray ?? false,
       defaultValue: propertyDto.defaultValue,
-      enabled: true,
+      constraints: propertyDto.constraints ?? {},
     };
 
     const result = await this.dao.create(payload)
@@ -62,7 +62,6 @@ export class PropertyServiceImpl implements PropertyService {
 
     const payload: any = {
       enabled: false,
-      deleteDate: new Date(),
     };
 
     return await this.dao.updateById(id, payload)
@@ -92,7 +91,7 @@ export class PropertyServiceImpl implements PropertyService {
       nullable: propertyDto.nullable ?? false,
       isArray: propertyDto.isArray ?? false,
       defaultValue: propertyDto.defaultValue,
-      updateDate: new Date(),
+      constraints: propertyDto.constraints ?? {},
     };
 
     return await this.dao.updateById(id, payload)

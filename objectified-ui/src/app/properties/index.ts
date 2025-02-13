@@ -41,7 +41,7 @@ export const tableItems: any[] = [
   },
   {
     name: 'createDate',
-    description: 'Create Date',
+    description: 'Created',
     type: 'date-time',
   },
 ];
@@ -82,6 +82,14 @@ export const formItems: any[] = [
   {
     name: 'defaultValue',
     description: 'Default value',
+    multiline: true,
+    maxRows: 4,
+  },
+  {
+    name: 'constraints',
+    description: 'Constraints',
+    multiline: true,
+    maxRows: 4,
   },
 ];
 
