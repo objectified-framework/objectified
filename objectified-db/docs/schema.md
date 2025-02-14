@@ -69,11 +69,22 @@ is used, however.  Only nullability, arrays, and required fields make sense in t
 
 They obey the same triggers with respect to `update` and `delete`
 actions using the `trigger_update_property_date` and `trigger_update_property_delete_date`
-triggers, respectively.
+triggers, respectively.  When a change to a property occurs that is part of another
+`class_property`, the `trigger_update_class_schema_direct_property` trigger is called
+so that the `class_schema` is updated in turn.
 
 ## class_property
 
 This defines the properties that are attached to a `Class`, defining its shape.
+
+Any upserts to this table will trigger `trigger_update_class_schema`, which automatically
+updates the JSON Schema for the affected class.
+
+## class_schema
+
+This stores a JSON Schema representation of a `Class` after any properties have been
+assigned to it from the `class_property` table.  This table is automatically updated when
+any upsert actions take place in that table, so it is not programmatically updated.
 
 [//]: # ()
 [//]: # (## object_property)
