@@ -26,21 +26,25 @@ BEGIN
                 'examples', f.examples,
                 'anyOf', p.constraints->'anyOf',
                 'allOf', p.constraints->'allOf',
-                'oneOf', p.constraints->'oneOf'
+                'oneOf', p.constraints->'oneOf',
+                '$ref', CASE WHEN cp.class_id IS NOT NULL
+                            THEN format('#/components/schemas/%s', c_ref.name)
+                            ELSE NULL
+                        END
             ))
         ),
-        'required', CASE 
+        'required', CASE
             WHEN EXISTS (
                 SELECT 1 FROM obj.property p
                 JOIN obj.class_property cp ON cp.property_id = p.id
                 WHERE cp.class_id = class_uuid AND p.required = TRUE
-            ) 
+            )
             THEN ARRAY(
                 SELECT COALESCE(cp.name, p.name) FROM obj.property p
                 JOIN obj.class_property cp ON cp.property_id = p.id
                 WHERE cp.class_id = class_uuid AND p.required = TRUE
-            ) 
-            ELSE NULL 
+            )
+            ELSE NULL
         END
     )
     INTO schema_json
