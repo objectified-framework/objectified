@@ -750,7 +750,6 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
-  /class-property/{classId}/property/{propertyId}:
     put:
       tags:
         - ClassProperty
@@ -761,19 +760,19 @@ paths:
         - JWT: []
       parameters:
         - in: path
-          name: classId
+          name: id
           required: true
           schema:
             type: string
             format: UUID
           description: Class by ID
-        - in: path
-          name: propertyId
-          required: true
-          schema:
-            type: string
-            format: UUID
-          description: Property by ID
+      requestBody:
+        description: The class payload to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassProperty'
       responses:
         '201':
           description: Created
@@ -783,6 +782,7 @@ paths:
           description: Class or Property not found
         '409':
           description: Conflict or duplicate
+  /class-property/{classId}/property/{propertyId}:
     delete:
       tags:
         - ClassProperty
@@ -1301,3 +1301,9 @@ components:
           type: string
           format: UUID
           description: ID of the property
+        name:
+          type: string
+          description: The name of the property
+        description:
+          type: string
+          description: This is a description of what the property defines

@@ -17,9 +17,11 @@ export const listClassProperties = (classId: string) => {
   });
 }
 
-export const putClassProperties = (classId: string, propertyId: string) => {
+export const putClassProperties = (classId: string, payload: any) => {
   return new Promise((resolve, reject) => {
-    axios.put(`/api/class-properties?classId=${classId}&propertyId=${propertyId}`, {
+    axios.put(`/api/class-properties?classId=${classId}`, {
+      payload
+    }, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

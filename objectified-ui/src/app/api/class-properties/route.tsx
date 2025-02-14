@@ -34,17 +34,24 @@ export async function GET(request: any) {
 export async function PUT(request: any) {
   const helper = new RouteHelper(request);
   const classId = helper.getInputVariable('classId');
-  const propertyId = helper.getInputVariable('propertyId');
+  const { payload } = await helper.getPostPayload();
   const token = await getToken({ req: request });
   const headers: any = {
     'Authorization': `Bearer ${JWT.encrypt(token)}`,
   };
 
-  if (!classId || !propertyId) {
-    return helper.missingFieldResponse('classId, propertyId');
+  if (!classId || !payload) {
+    return helper.missingFieldResponse('classId, payload');
   }
 
-  const results = await ClientClassPropertyAddPropertyToClass(classId, propertyId, headers)
+  const postPayload = {
+    classId,
+    propertyId: payload.id,
+    name: payload.name ?? null,
+    description: payload.description ?? null,
+  };
+
+  const results = await ClientClassPropertyAddPropertyToClass(classId, postPayload, headers)
     .then((x) => {
       console.log('[class-properties::put] Class property add', x);
       return true;

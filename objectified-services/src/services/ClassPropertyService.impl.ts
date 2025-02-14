@@ -15,7 +15,7 @@ export class ClassPropertyServiceImpl implements ClassPropertyService {
   private readonly logger = new Logger(ClassPropertyServiceImpl.name);
   private readonly dao = new ClassPropertyDao();
 
-  async addPropertyToClass(request: Request, classId: string, propertyId: string): Promise<ServiceResponse<null>> {
+  async addPropertyToClass(request: Request, id: string, classPropertyDto: ClassPropertyDto): Promise<ServiceResponse<null>> {
     const jwtData = JWT.decrypt(request);
     const tenantId = jwtData.data.currentTenant;
 
@@ -23,9 +23,14 @@ export class ClassPropertyServiceImpl implements ClassPropertyService {
       return ResponseForbidden('No tenant selected');
     }
 
+    const name = classPropertyDto.name ?? '';
+    const description = classPropertyDto.description ?? '';
+
     const payload: any = {
-      classId,
-      propertyId,
+      classId: id,
+      propertyId: classPropertyDto.propertyId,
+      name: name.trim().length > 0 ? name : null,
+      description: description.trim().length > 0 ? description : null,
     };
 
     const result = await this.dao.create(payload)

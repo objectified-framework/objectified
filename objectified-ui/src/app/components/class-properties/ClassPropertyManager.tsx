@@ -28,6 +28,16 @@ export const formItems: any[] = [
     type: 'autocomplete',
     dataset: [],
   },
+  {
+    name: 'name',
+    description: 'Data Type Name',
+  },
+  {
+    name: 'description',
+    description: 'Description',
+    multiline: true,
+    maxRows: 4,
+  },
 ];
 
 export const ClassPropertyManager = (props: IClassPropertyManager) => {
@@ -76,7 +86,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
       return;
     }
 
-    await putClassProperties(props.classId, payload.id)
+    await putClassProperties(props.classId, payload)
       .then((x) => {
         setOpen(false);
         refreshClassProperties();
@@ -146,7 +156,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
           <Stack direction={'row'}>
             <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderTop: '0px', borderRight: '0px' }}>
               <Typography sx={{color: '#000'}}>
-                {getProperty(prop.propertyId).name} ({getProperty(prop.propertyId).description})
+                {prop.name ?? getProperty(prop.propertyId).name} ({prop.description ?? getProperty(prop.propertyId).description})
               </Typography>
             </Item>
 
