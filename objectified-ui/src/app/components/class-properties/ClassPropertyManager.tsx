@@ -8,11 +8,11 @@ import {
   Dialog,
   IconButton,
 } from '@mui/material';
-import {AddOutlined, RefreshOutlined, DeleteOutlined} from '@mui/icons-material';
+import {AddOutlined, RefreshOutlined, DeleteOutlined, SearchOutlined,} from '@mui/icons-material';
 import AutoForm from "@/app/components/common/AutoForm";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
-import {listClasses} from "@/app/services/class";
 import {deleteClassProperties, listClassProperties, putClassProperties} from "@/app/services/class-properties";
+import {SchemaDialog} from "@/app/components/class-properties/SchemaDialog";
 export interface IClassPropertyManager {
   name: string;
   classId: string;
@@ -43,6 +43,8 @@ export const formItems: any[] = [
 export const ClassPropertyManager = (props: IClassPropertyManager) => {
   const [classProperties, setClassProperties] = useState([]);
   const [open, setOpen] = useState(false);
+  const [schemaOpen, setSchemaOpen] = useState<boolean>(false);
+  const [selectedClassId, setSelectedClassId] = useState<string>('');
 
   const refreshClassProperties = () => {
     listClassProperties(props.classId)
@@ -97,6 +99,16 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
       });
   }
 
+  const onSchemaClicked = () => {
+    setSelectedClassId(props.classId);
+    setSchemaOpen(true);
+  }
+
+  const closeSchemaClicked = () => {
+    setSelectedClassId('');
+    setSchemaOpen(false);
+  }
+
   useEffect(() => {
     refreshClassProperties();
   }, [props.properties, props.fields]);
@@ -108,6 +120,8 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
   return (
     <>
+      <SchemaDialog schemaOpen={schemaOpen} classId={selectedClassId} closeSchemaClicked={() => closeSchemaClicked()}/>
+
       <Dialog PaperProps={{ style: {
                 minHeight: '65%',
                 maxHeight: '65%',
@@ -137,6 +151,10 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
               <IconButton sx={{color: '#fff'}} onClick={() => onAdd()}>
                 <AddOutlined/>
+              </IconButton>
+
+              <IconButton sx={{color: '#fff'}} onClick={() => onSchemaClicked()}>
+                <SearchOutlined/>
               </IconButton>
             </Item>
           </Stack>
