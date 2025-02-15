@@ -3,17 +3,18 @@ import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 
-const SERVER_PORT: number = 3001;
+const SERVER_PORT: number = process.env['BIND_PORT'] ? parseInt(process.env['BIND_PORT']) : 3001;
+const SERVER_ADDRESS: string = process.env['BIND_ADDRESS'] ?? '0.0.0.0';
 const SWAGGER_PATH: string = '/v1/api';
 
 (async () => {
   const logger = new Logger('main');
-  logger.log(`Bootstrap: Port ${SERVER_PORT}`);
+  logger.log(`Bootstrap: Port ${SERVER_ADDRESS}:${SERVER_PORT}`);
 
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Objectified API')
-    .setVersion('0.1.4')
+    .setVersion('0.1.7')
     .addTag('auth', 'Authentication services that are used in conjunction with third party authenticators.  These\n' +
       'services provide access to user accounts based on their email addresses.  Any additional\n' +
       'information provided by the third party authenticators are stored in the users\' associated\n' +
@@ -35,5 +36,5 @@ const SWAGGER_PATH: string = '/v1/api';
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);
 
-  await app.listen(SERVER_PORT);
+  await app.listen(SERVER_PORT, SERVER_ADDRESS);
 })();

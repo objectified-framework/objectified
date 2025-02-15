@@ -198,7 +198,7 @@ const Classes = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeSchemaClicked}>Close</Button>
+          <Button onClick={closeSchemaClicked} variant={'contained'}>Close</Button>
         </DialogActions>
       </Dialog>
 
