@@ -11,6 +11,7 @@ import {
   Stack,
   ToggleButtonGroup,
   ToggleButton,
+  Typography,
 } from "@mui/material";
 import {SearchOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
@@ -107,15 +108,19 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           )}
 
           {schema && schemaFormat === 'json' && (
+            <>
             <pre>
-                {JSON.stringify(JSON.parse(schema), null, 2)}
-              </pre>
+              {JSON.stringify(JSON.parse(schema), null, 2)}
+            </pre>
+            </>
           )}
 
           {schema && schemaFormat === 'yaml' && (
+            <>
             <pre>
-                {yaml.stringify(JSON.parse(schema))}
-              </pre>
+              {yaml.stringify(JSON.parse(schema))}
+            </pre>
+            </>
           )}
         </DialogContentText>
       </DialogContent>

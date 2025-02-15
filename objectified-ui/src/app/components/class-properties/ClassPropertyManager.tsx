@@ -18,6 +18,7 @@ export interface IClassPropertyManager {
   classId: string;
   properties: any[];
   fields: any[];
+  key: string;
 }
 
 export const formItems: any[] = [
@@ -139,7 +140,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
           width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
           border: '1px solid #000'
         }}>
-          <Stack direction={'row'}>
+          <Stack direction={'row'} key={'key1'}>
             <Item sx={{width: '50%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
               <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>{props.name}</Typography>
             </Item>
@@ -161,7 +162,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
         </div>
 
         {classProperties.length === 0 && (
-          <Stack direction={'row'}>
+          <Stack direction={'row'} key={'key2'}>
             <Item sx={{width: '100%', textAlign: 'center', backgroundColor: '#ccc', border: '1px solid #000', borderTop: '0px' }}>
               <Typography sx={{color: '#000'}} fontWeight={'bold'}>
                 This class definition is empty.
@@ -170,8 +171,8 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
           </Stack>
         )}
 
-        {classProperties.length > 0 && classProperties.map((prop: any) => (
-          <Stack direction={'row'}>
+        {classProperties.length > 0 && classProperties.map((prop: any, position: number) => (
+          <Stack direction={'row'} key={`key3-${position}`}>
             <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderTop: '0px', borderRight: '0px' }}>
               <Typography sx={{color: '#000'}}>
                 {prop.name ?? getProperty(prop.propertyId).name} ({prop.description ?? getProperty(prop.propertyId).description})

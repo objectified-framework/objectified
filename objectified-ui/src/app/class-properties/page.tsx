@@ -70,11 +70,12 @@ const ClassProperties = () => {
 
   return (
     <>
-      {dataPayload.map((classEntry: any) => (
+      {dataPayload.map((classEntry: any, position: number) => (
         <ClassPropertyManager name={classEntry.name}
                               classId={classEntry.id}
                               properties={properties}
-                              fields={fields}/>
+                              fields={fields}
+                              key={`${classEntry.id}-${position}`}/>
       ))}
     </>
   );
