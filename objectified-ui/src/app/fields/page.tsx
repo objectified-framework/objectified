@@ -27,13 +27,13 @@ const Fields = () => {
 
   const loadFields = async () => {
     await listDataTypes()
-      .then((x) => {
+      .then((x: any) => {
         const mappedResults = x.map((y) => {
           return {
             dataTypeId: y.id,
             name: y.name,
           };
-        }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+        }).sort((a: any, b: any) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
         formItems[2].dataset = mappedResults;
         setDataTypes(mappedResults);
@@ -46,7 +46,7 @@ const Fields = () => {
   const refreshFields = () => {
     setIsLoading(true);
 
-    listFields().then((x) => {
+    listFields().then((x: any) => {
       setDataPayload(x);
     }).finally(() => {
       setIsLoading(false);
@@ -56,7 +56,7 @@ const Fields = () => {
   useEffect(() => {
     refreshFields();
     resetSelectedLine();
-    loadFields().then(r => {});
+    loadFields().then(() => {});
   }, []);
 
   const handleClose = () => {

@@ -2,6 +2,8 @@
 
 import {
   Dialog,
+  Box,
+  Stack,
 } from "@mui/material";
 import {SearchOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
@@ -12,6 +14,7 @@ import AutoForm from "@/app/components/common/AutoForm";
 import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {SchemaDialog} from "@/app/components/class-properties/SchemaDialog";
+import Item from "@/app/components/common/Item";
 
 const Classes = () => {
   const { data: session } = useSession();
@@ -32,7 +35,7 @@ const Classes = () => {
     setIsLoading(true);
 
     listClasses().then((x: any) => {
-      setDataPayload(x.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+      setDataPayload(x.sort((a: any, b: any) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     }).finally(() => {
       setIsLoading(false);
     });
@@ -81,10 +84,10 @@ const Classes = () => {
     }
 
     await deleteClass(payload.id)
-      .then((x) => {
+      .then((x: any) => {
         refreshClasses();
       })
-      .catch((x) => {
+      .catch((x: any) => {
         errorDialog('You do not have permission to remove this class.');
       });
   }
@@ -106,22 +109,29 @@ const Classes = () => {
     setSchemaOpen(true);
   }
 
-  const handleSchemaViewChange = (event, val: string) => {
-    if (val === null) {
-      return;
-    }
-
-    setSchemaFormat(val);
-  }
-
   const closeSchemaClicked = () => {
     setSchemaOpen(false);
     setSelectedClassId('');
   }
 
+  if (!session.currentTenant) {
+    return (
+      <Stack direction={'column'}>
+        <Item sx={{width: '100%', padding: '30px' }}>
+          <Box sx={{ boxShadow: 4, padding: '20px', backgroundColor: '#f66', color: '#fff' }}>
+            <b>You have not chosen a tenant.</b>
+          </Box>
+        </Item>
+      </Stack>
+    );
+  }
+
   return (
     <>
-      <SchemaDialog schemaOpen={schemaOpen} classId={selectedClassId} closeSchemaClicked={() => closeSchemaClicked()}/>
+      <SchemaDialog
+        schemaOpen={schemaOpen}
+        classId={selectedClassId}
+        closeSchemaClicked={() => closeSchemaClicked()}/>
 
       <Dialog fullWidth open={open} onClose={handleClose}
               maxWidth={'md'}

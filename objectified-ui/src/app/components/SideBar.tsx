@@ -1,52 +1,22 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
-import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import SideBarMenuGroup, { SideBarMenuGroupProps } from './SideBarMenuGroup';
-import {Button, IconButton, ListItem, MenuItem, Select, Stack, Typography} from '@mui/material';
+import { IconButton, Stack, } from '@mui/material';
 import {
-  AddOutlined,
   ArticleOutlined,
-  BadgeOutlined,
   ClassOutlined,
-  DocumentScannerOutlined,
   ElectricBoltOutlined,
   ExtensionOutlined,
-  GroupsOutlined,
-  InfoOutlined,
-  InputOutlined,
-  LinkOutlined, MenuOpenOutlined, MenuOutlined,
+  MenuOpenOutlined, MenuOutlined,
   ListAltOutlined,
-  PersonOutlined,
-  PostAddOutlined,
-  SaveAltOutlined,
-  SaveAsOutlined, SearchOutlined, SettingsOutlined,
   WidgetsOutlined,
-  WorkspacesOutlined
 } from '@mui/icons-material';
 import {usePathname, useRouter} from 'next/navigation';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {SELECTED_MENU_COLOR} from "@/app/components/common/ColorDatabase";
 import Item from "@/app/components/common/Item";
-import {errorDialog} from "@/app/components/common/ConfirmDialog";
-
-const FireNav = styled(List)<{ component?: React.ElementType }>({
-  "& .MuiListItemButton-root": {
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: 0,
-    marginRight: 16,
-  },
-  "& .MuiSvgIcon-root": {
-    fontSize: 20,
-  },
-});
 
 export interface SideBarProps {
   width: number;
@@ -95,7 +65,7 @@ export default function SideBar(props: SideBarProps) {
 
         <div style={{
           position: 'fixed', top: '48px', height: 'calc(100% - 96px)', backgroundColor: '#060606',
-          overflowY: 'none', width: '53px', color: '#ccc', paddingTop: '10px', paddingLeft: '2px',
+          width: '53px', color: '#ccc', paddingTop: '10px', paddingLeft: '2px',
           paddingRight: '2px'
         }}>
           <Stack direction={'column'}>

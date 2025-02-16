@@ -16,9 +16,6 @@ import {
 import {useRouter} from "next/navigation";
 import {Inter} from "next/font/google";
 import SideBar from "@/app/components/SideBar";
-import {SideBarMenuItemProps} from "@/app/components/sidebar/SideBarMenuItem";
-import {SideBarMenuGroupProps} from "@/app/components/sidebar/SideBarMenuGroup";
-import {PersonOutline, PersonOutlined} from "@mui/icons-material";
 import {useState} from "react";
 import Item from "@/app/components/common/Item";
 import ProfileForm from "@/app/components/profile/ProfileForm";
@@ -106,7 +103,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                       aria-controls={open ? 'simple-menu' : undefined}
                       aria-haspopup={'true'}
                       aria-expanded={open ? 'true' : undefined}>
-                <Avatar alt={session.user.name} src={session.user.image}/>
+                <Avatar alt={`${session?.user?.name}`} src={`${session?.user?.image}`}/>
               </Button>
               <Menu id={'simple-menu'} anchorEl={anchorEl} open={open} onClose={handleClose}
                     MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
