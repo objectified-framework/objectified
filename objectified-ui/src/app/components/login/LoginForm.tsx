@@ -93,7 +93,8 @@ const LoginForm = () => {
     setRequestShowing(true);
     saveSignup(payload)
       .then((x: any) => {
-        if (!x.data) {
+        console.log(x);
+        if (x !== true) {
           errorDialog('Your signup request could not be completed: you may have already signed up, or your email address may not be valid.');
           return;
         }
