@@ -102,25 +102,19 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           tabIndex={-1}
         >
           {schemaLoading && (
-            <>
-              <CircularProgress/>
-            </>
+            <CircularProgress/>
           )}
 
           {schema && schemaFormat === 'json' && (
-            <>
             <pre>
               {JSON.stringify(JSON.parse(schema), null, 2)}
             </pre>
-            </>
           )}
 
           {schema && schemaFormat === 'yaml' && (
-            <>
             <pre>
               {yaml.stringify(JSON.parse(schema))}
             </pre>
-            </>
           )}
         </DialogContentText>
       </DialogContent>
