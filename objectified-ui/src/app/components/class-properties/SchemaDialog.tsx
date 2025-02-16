@@ -12,6 +12,7 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Typography,
+  TextField
 } from "@mui/material";
 import {SearchOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
@@ -92,6 +93,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
               exclusive
               onChange={handleSchemaViewChange}
               aria-label="Format"
+              style={{ height: '28px' }}
             >
               <ToggleButton value="json">JSON</ToggleButton>
               <ToggleButton value="yaml">YAML</ToggleButton>
@@ -109,15 +111,41 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           )}
 
           {schema && schemaFormat === 'json' && (
-            <pre>
-              {JSON.stringify(JSON.parse(schema), null, 2)}
-            </pre>
+            <>
+            <div style={{ width: '100%', height: '100%' }}>
+              <div style={{ width: '100%', textAlign: 'right' }}>
+                <Button onClick={() => navigator.clipboard.writeText(JSON.stringify(JSON.parse(schema), null, 2))}>Copy to Clipboard</Button>
+              </div>
+              <TextField label={''}
+                         fullWidth
+                         multiline
+                         value={JSON.stringify(JSON.parse(schema), null, 2)}
+                         name={'json-text'}
+                         key={`schema-form-json`}
+                         inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}
+                         style={{ width: '100%', height: '100%' }}>
+              </TextField>
+            </div>
+            </>
           )}
 
           {schema && schemaFormat === 'yaml' && (
-            <pre>
-              {yaml.stringify(JSON.parse(schema))}
-            </pre>
+            <>
+              <div style={{ width: '100%', height: '100%' }}>
+                <div style={{ width: '100%', textAlign: 'right' }}>
+                  <Button onClick={() => navigator.clipboard.writeText(yaml.stringify(JSON.parse(schema)))}>Copy to Clipboard</Button>
+                </div>
+              <TextField label={''}
+                         fullWidth
+                         multiline
+                         value={yaml.stringify(JSON.parse(schema))}
+                         name={'yaml-text'}
+                         key={`schema-form-yaml`}
+                         inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}
+                         style={{ width: '100%', height: '100%' }}>
+              </TextField>
+              </div>
+            </>
           )}
         </DialogContentText>
       </DialogContent>
