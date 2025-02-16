@@ -173,7 +173,7 @@ const LoginForm = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant={'contained'} onClick={() => {
+          <Button variant={'contained'} color={'error'} onClick={() => {
             setRequestAccessShowing(false);
             setRequestShowing(false);
             setPayload({});
