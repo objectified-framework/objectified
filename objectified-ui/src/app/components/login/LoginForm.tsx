@@ -26,6 +26,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [loginShowing, setLoginShowing] = useState(false);
   const [requestAccessShowing, setRequestAccessShowing] = useState<boolean>(false);
+  const [requestShowing, setRequestShowing] = useState<boolean>(false);
   const [payload, setPayload] = useState<any>({});
   const router = useRouter();
 
@@ -84,10 +85,12 @@ const LoginForm = () => {
 
   const completeSignup = () => {
     if (!payload.name || !payload.emailAddress || !payload.source) {
+      setRequestShowing(false);
       errorDialog('Please complete the form: we need your email address, name, and your source of referral.');
       return;
     }
 
+    setRequestShowing(true);
     saveSignup(payload)
       .then((x: any) => {
         if (!x.data) {
@@ -101,6 +104,9 @@ const LoginForm = () => {
       })
       .catch((x) => {
         errorDialog('Your signup request could not be completed: you may have already signed up, or your email address may not be valid.');
+      })
+      .finally(() => {
+        setRequestShowing(false);
       });
   }
 
@@ -111,6 +117,18 @@ const LoginForm = () => {
           <DialogContentText>
             <Typography>
               Stand by, logging you in.
+            </Typography>
+            <p style={{ paddingBottom: '10px' }}/>
+            <LinearProgress sx={{ paddingTop: '10px' }}/>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={requestShowing}>
+        <DialogContent>
+          <DialogContentText>
+            <Typography>
+              Submitting request ...
             </Typography>
             <p style={{ paddingBottom: '10px' }}/>
             <LinearProgress sx={{ paddingTop: '10px' }}/>
@@ -157,6 +175,7 @@ const LoginForm = () => {
         <DialogActions>
           <Button variant={'contained'} onClick={() => {
             setRequestAccessShowing(false);
+            setRequestShowing(false);
             setPayload({});
           }}>Cancel</Button>
           <Button variant={'contained'} onClick={() => {
