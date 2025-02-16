@@ -127,6 +127,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
                 minHeight: '65%',
                 maxHeight: '65%',
               }}}
+              fullWidth
               open={open} onClose={handleClose}>
         <AutoForm header={'Add Property'}
                   formElements={formItems}
