@@ -69,6 +69,7 @@ const ClassProperties = () => {
                               fields={fields}
                               key={`${classEntry.id}-${position}`}/>
       ))}
+      <div style={{ padding: '6px' }}/>
     </>
   );
 }

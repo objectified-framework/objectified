@@ -1183,7 +1183,7 @@ components:
         id:
           type: string
           format: UUID
-          description: The ID of the Field
+          description: The ID of the Class
         tenantId:
           type: string
           format: UUID
@@ -1264,6 +1264,7 @@ components:
           type: string
           maxLength: 4096
           default: null
+          description: Contains the default value for the property
         constraints:
           type: object
           description: Additional constraints

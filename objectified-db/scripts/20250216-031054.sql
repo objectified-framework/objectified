@@ -63,7 +63,7 @@ BEGIN
                 FROM obj.class_property cp
                 JOIN obj.property p ON cp.property_id = p.id
                 WHERE cp.class_id = class_uuid AND p.required = TRUE)
-            ELSE NULL
+            ELSE '[]'
         END
     )
     INTO schema_json
