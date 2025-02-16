@@ -3,7 +3,7 @@
 export const tableItems: any[] = [
   {
     name: 'id',
-    description: 'Type UUID',
+    description: 'ID',
     type: 'uuid',
   },
   {

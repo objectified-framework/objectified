@@ -45,7 +45,7 @@ const Properties = () => {
           classId: y.id,
           name: y.name,
         };
-      });
+      }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
       mappedResults = [
         {
@@ -69,7 +69,7 @@ const Properties = () => {
             fieldId: y.id,
             name: y.name,
           };
-        });
+        }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
         mappedResults = [
           {

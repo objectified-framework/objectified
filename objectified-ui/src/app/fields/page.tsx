@@ -33,7 +33,7 @@ const Fields = () => {
             dataTypeId: y.id,
             name: y.name,
           };
-        });
+        }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
         formItems[2].dataset = mappedResults;
         setDataTypes(mappedResults);

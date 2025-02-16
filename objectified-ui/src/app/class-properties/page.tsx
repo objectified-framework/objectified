@@ -20,7 +20,7 @@ const ClassProperties = () => {
     setIsLoading(true);
 
     listClasses().then((x: any) => {
-      setDataPayload(x);
+      setDataPayload(x.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     }).finally(() => {
       setIsLoading(false);
     });
@@ -30,7 +30,7 @@ const ClassProperties = () => {
     setIsLoading(true);
 
     listProperties().then((x) => {
-      setProperties(x);
+      setProperties(x.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     }).finally(() => {
       setIsLoading(false);
     });
@@ -40,7 +40,7 @@ const ClassProperties = () => {
     setIsLoading(true);
 
     listFields().then((x) => {
-      setFields(x);
+      setFields(x.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     }).finally(() => {
       setIsLoading(false);
     });

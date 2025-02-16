@@ -32,7 +32,7 @@ const Classes = () => {
     setIsLoading(true);
 
     listClasses().then((x: any) => {
-      setDataPayload(x);
+      setDataPayload(x.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     }).finally(() => {
       setIsLoading(false);
     });
