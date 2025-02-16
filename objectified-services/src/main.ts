@@ -32,6 +32,7 @@ const SWAGGER_PATH: string = '/v1/api';
       'assignment of properties for their definitions.')
     .addTag('class-property', 'ClassProperty entries are used to assign a Property to a Class in order\n' +
       'to define the shape of the data that a Class can store.')
+    .addTag('signup', 'Signup is a service that records signup requests.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(SWAGGER_PATH, app, document);

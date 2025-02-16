@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.1.7
+  version: 0.1.8
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -90,6 +90,9 @@ tags:
     description: |
       `ClassProperty` entries are used to assign a `Property` to a `Class` in order
       to define the shape of the data that a `Class` can store.
+  - name: Signup
+    description: |
+      `Signup` is a service that records signup requests.
 paths:
   /auth:
     post:
@@ -938,6 +941,26 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+  /signup:
+    post:
+      tags:
+        - Signup
+      summary: Record a signup
+      operationId: saveSignup
+      description: Records a signup request
+      security: []
+      requestBody:
+        description: The property payload to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Conflict
 components:
   securitySchemes:
     JWT:
@@ -1308,3 +1331,34 @@ components:
         description:
           type: string
           description: This is a description of what the property defines
+    Signup:
+      type: object
+      x-schema: obj
+      required:
+        - emailAddress
+        - name
+        - source
+      description: |
+        Signup record for requesting early access.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: ID of the signup record
+        emailAddress:
+          type: string
+          description: E-Mail address
+          maxLength: 255
+        name:
+          type: string
+          description: Name of the person signing up
+        source:
+          type: string
+          description: Source of the reference for the signup
+        ipAddress:
+          type: string
+          description: IP Address of the signup attempt
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of the signup

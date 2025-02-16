@@ -6,3 +6,4 @@ export * from './FieldService.impl';
 export * from './ClassService.impl';
 export * from './PropertyService.impl';
 export * from './ClassPropertyService.impl';
+export * from './SignupService.impl';
