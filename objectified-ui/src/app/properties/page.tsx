@@ -32,7 +32,7 @@ const Properties = () => {
   const refreshProperties = () => {
     setIsLoading(true);
 
-    listProperties().then((x) => {
+    listProperties().then((x: any) => {
       setDataPayload(x);
     }).finally(() => {
       setIsLoading(false);
@@ -43,12 +43,12 @@ const Properties = () => {
     setIsLoading(true);
 
     listClasses().then((x: any) => {
-      let mappedResults = x.map((y) => {
+      let mappedResults = x.map((y: any) => {
         return {
           classId: y.id,
           name: y.name,
         };
-      }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+      }).sort((a: any, b: any) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
       mappedResults = [
         {
@@ -66,13 +66,13 @@ const Properties = () => {
 
   const refreshFields = async (): Promise<void> => {
     await listFields()
-      .then((x) => {
-        let mappedResults = x.map((y) => {
+      .then((x: any) => {
+        let mappedResults = x.map((y: any) => {
           return {
             fieldId: y.id,
             name: y.name,
           };
-        }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+        }).sort((a: any, b: any) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
         mappedResults = [
           {
@@ -84,14 +84,14 @@ const Properties = () => {
         formItems[0].dataset = mappedResults;
         setFields(mappedResults);
       })
-      .catch((x) => {
+      .catch(() => {
         return Promise.reject();
       });
   }
 
   useEffect(() => {
     refreshProperties();
-    refreshFields();
+    refreshFields().then(() => {});
     refreshClasses();
     resetSelectedLine();
   }, []);
@@ -118,15 +118,15 @@ const Properties = () => {
 
     if (payload.id) {
       await putProperty(payload)
-        .then((x) => {
+        .then(() => {
           refreshProperties();
           setOpen(false);
         })
-        .catch((x) => {
+        .catch(() => {
           errorDialog('Failed to update this property - duplicate entry or other error.');
         });
     } else {
-      payload.ownerId = session.objectified.id;
+      payload.ownerId = (session as any).objectified.id;
 
       await saveProperty(payload)
         .finally(() => {
@@ -143,10 +143,10 @@ const Properties = () => {
     }
 
     await deleteProperty(payload.id)
-      .then((x) => {
+      .then(() => {
         refreshProperties();
       })
-      .catch((x) => {
+      .catch(() => {
         errorDialog('You do not have permission to remove this class.');
       });
   }
@@ -154,7 +154,7 @@ const Properties = () => {
   const editClicked = async (payload: any) => {
     console.log(payload);
 
-    if (payload.tenantId != session.currentTenant) {
+    if (payload.tenantId != (session as any).currentTenant) {
       errorDialog('You cannot edit properties that you or your tenant do not own.');
       return;
     }
@@ -163,7 +163,7 @@ const Properties = () => {
     setOpen(true);
   }
 
-  if (!session.currentTenant) {
+  if (!(session as any).currentTenant) {
     return (
       <Stack direction={'column'}>
         <Item sx={{width: '100%', padding: '30px' }}>
@@ -177,7 +177,7 @@ const Properties = () => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}
+      <Dialog fullWidth open={open} onClose={handleClose}
               scroll={'paper'}
               PaperProps={{ style: {
                   minHeight: '90%',
@@ -208,14 +208,14 @@ const Properties = () => {
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshProperties()}
                        isEditable={(x: any) => {
-                         return (x.tenantId === session.currentTenant) && x.enabled;
+                         return (x.tenantId === (session as any).currentTenant) && x.enabled;
                        }}
                        isDeletable={(x: any) => {
-                         return (x.tenantId === session.currentTenant) && x.enabled;
+                         return (x.tenantId === (session as any).currentTenant) && x.enabled;
                        }}
                        renderColumn={(column, value) => {
                          if (column === 'fieldId') {
-                           const result = fields.filter((x) => x['fieldId'] === value);
+                           const result: any[] = fields.filter((x: any) => x['fieldId'] === value);
 
                            if (value === null) {
                              return '';
@@ -223,7 +223,7 @@ const Properties = () => {
 
                            return (result.length > 0) ? result[0].name : value;
                          } else if (column === 'classId') {
-                           const result = classes.filter((x) => x['classId'] === value);
+                           const result: any[] = classes.filter((x: any) => x['classId'] === value);
 
                            if (value === null) {
                              return '';

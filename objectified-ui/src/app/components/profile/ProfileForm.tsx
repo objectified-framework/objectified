@@ -39,9 +39,9 @@ export const ProfileForm = (props: IProfileForm) => {
 
     console.log('Service URL', process.env.SERVICE_URL);
 
-    await putUser(session.objectified.id, payload)
+    await putUser((session as any).objectified.id, payload)
       .then((x) => {
-        session.objectified.data = payload;
+        (session as any).objectified.data = payload;
         setSavingShowing(false);
       }).catch((x) => {
         errorDialog(`Failed to save your profile: ${x}`);
@@ -51,8 +51,8 @@ export const ProfileForm = (props: IProfileForm) => {
   }
 
   useEffect(() => {
-    let currentData = session.objectified.data;
-    const currentUser = session.user;
+    let currentData = (session as any).objectified.data;
+    const currentUser = (session as any).user;
 
     if (!currentData) {
       currentData = {};
@@ -79,13 +79,13 @@ export const ProfileForm = (props: IProfileForm) => {
       </Dialog>
 
       <div style={{backgroundColor: 'blue', color: '#fff', padding: '10px', textAlign: 'center', fontWeight: 'bold'}}>
-        Your Objectified Profile (Remember, it's a beta)
+        Your Objectified Profile (Remember, it's an alpha)
       </div>
 
       <Stack direction={'column'}>
         <Item sx={{width: '100%', textAlign: 'left' }}>
           <Typography>
-            Your Objectified ID: {session.objectified.id}
+            Your Objectified ID: {(session as any).objectified.id}
           </Typography>
         </Item>
 

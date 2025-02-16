@@ -22,7 +22,7 @@ import ProfileForm from "@/app/components/profile/ProfileForm";
 import TenantSelector from "@/app/components/common/TenantSelector";
 const inter = Inter({ subsets: ["latin"] });
 
-const Dashboard = ({ children }: { children: React.ReactNode }) => {
+const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   const {data: session, status, update} = useSession();
   const router = useRouter();
   const [mainLeft, setMainLeft] = useState('260px');

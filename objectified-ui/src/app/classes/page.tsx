@@ -26,6 +26,19 @@ const Classes = () => {
   const [selectedLine, setSelectedLine] = useState({});
   // @ts-ignore
   const sessionObject: any = session!.objectified;
+  const sessionCurrentTenant = session ? (session as any)['currentTenant'] : null;
+
+  if (!sessionCurrentTenant) {
+    return (
+      <Stack direction={'column'}>
+        <Item sx={{width: '100%', padding: '30px' }}>
+          <Box sx={{ boxShadow: 4, padding: '20px', backgroundColor: '#f66', color: '#fff' }}>
+            <b>You have not chosen a tenant.</b>
+          </Box>
+        </Item>
+      </Stack>
+    );
+  }
 
   const resetSelectedLine = () => {
     setSelectedLine({});
@@ -112,18 +125,6 @@ const Classes = () => {
   const closeSchemaClicked = () => {
     setSchemaOpen(false);
     setSelectedClassId('');
-  }
-
-  if (!session.currentTenant) {
-    return (
-      <Stack direction={'column'}>
-        <Item sx={{width: '100%', padding: '30px' }}>
-          <Box sx={{ boxShadow: 4, padding: '20px', backgroundColor: '#f66', color: '#fff' }}>
-            <b>You have not chosen a tenant.</b>
-          </Box>
-        </Item>
-      </Stack>
-    );
   }
 
   return (

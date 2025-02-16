@@ -36,7 +36,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
   const [schema, setSchema] = useState<string>('');
   const [schemaHeader, setSchemaHeader] = useState<string>('Schema');
 
-  const handleSchemaViewChange = (event, val: string) => {
+  const handleSchemaViewChange = (event: any, val: string) => {
     if (val === null) {
       return;
     }
@@ -60,7 +60,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           setSchemaHeader(`Schema (${x.results.title})`);
           setSchemaLoading(false);
         })
-        .catch((x) => {
+        .catch((x: any) => {
           setSchema(`{ "result": "Schema failed to retrieve: ${x}" }`);
           setSchemaHeader(`Schema (Unavailable)`);
           setSchemaLoading(false);

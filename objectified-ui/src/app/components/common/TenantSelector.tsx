@@ -21,7 +21,9 @@ export const TenantSelector = (props: ITenantSelector) => {
   const [tenants, setTenants] = useState([]);
 
   useEffect(() => {
-    setTenants(session.objectified.tenancy ?? []);
+    if (session) {
+      setTenants((session as any).objectified.tenancy ?? []);
+    }
   }, [session]);
 
   if (tenants.length > 0) {
@@ -38,8 +40,8 @@ export const TenantSelector = (props: ITenantSelector) => {
                     label={''}
                     style={{ textAlign: 'left', color: '#fff', border: '#1px solid #fff', borderColor: '#fff' }}
                     name={'tenantSelector'}
-                    value={session.currentTenant ?? ''}
-                    onChange={(e) => props.onTenantChanged(e.target.value)}
+                    value={(session as any).currentTenant ?? ''}
+                    onChange={(e: any) => props.onTenantChanged(e.target.value)}
                     sx={{
                       color: "white",
                       "& .MuiOutlinedInput-notchedOutline": {

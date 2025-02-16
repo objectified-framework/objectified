@@ -49,10 +49,10 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
   const refreshClassProperties = () => {
     listClassProperties(props.classId)
-      .then((x) => {
+      .then((x: any) => {
         setClassProperties(x);
       })
-      .catch((x) => {
+      .catch((x: any) => {
         console.log('Class properties failed.', x);
       });
 
@@ -61,10 +61,10 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
   const onDelete = (prop: any) => {
     deleteClassProperties(props.classId, prop.propertyId)
-      .then((x) => {
+      .then((x: any) => {
         refreshClassProperties();
       })
-      .catch((x) => {
+      .catch((x: any) => {
         console.log('Delete fail', x);
       });
   }
@@ -90,11 +90,11 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
     }
 
     await putClassProperties(props.classId, payload)
-      .then((x) => {
+      .then((x: any) => {
         setOpen(false);
         refreshClassProperties();
       })
-      .catch((x) => {
+      .catch((x: any) => {
         console.log('Save failed', x);
         setOpen(false);
       });
@@ -127,7 +127,7 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
                 minHeight: '65%',
                 maxHeight: '65%',
               }}}
-              fullWidth={'md'} open={open} onClose={handleClose}>
+              open={open} onClose={handleClose}>
         <AutoForm header={'Add Property'}
                   formElements={formItems}
                   editPayload={null}

@@ -41,7 +41,7 @@ export interface IDataList {
   columns: any[];
   dataset: any[];
   isLoading: boolean;
-  onAdd: () => any;
+  onAdd?: () => any;
   onDelete?: (payload: any) => any;
   onEdit?: (payload: any) => any;
   onRefresh: () => any;
@@ -75,7 +75,11 @@ export const DataListTable = (props: IDataList) => {
             </IconButton>
 
             {props.isAddable && (
-              <IconButton sx={{color: '#fff'}} onClick={() => props.onAdd()}>
+              <IconButton sx={{color: '#fff'}} onClick={() => {
+                if (props.onAdd) {
+                  props.onAdd();
+                }
+              }}>
                 <AddOutlined/>
               </IconButton>
             )}

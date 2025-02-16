@@ -77,7 +77,7 @@ export const AutoForm = (props: IAutoForm) => {
   const clearForm = () => {
     const clearPayload: any = {};
 
-    props.formElements.forEach((x) => {
+    props.formElements.forEach((x: any) => {
       const name = x.name;
       const type = x.type;
       const options = x.options;
@@ -124,7 +124,7 @@ export const AutoForm = (props: IAutoForm) => {
     /**
      * Gather a list of elements that are required, and have not been assigned values here.
      */
-    props.formElements.forEach((x) => {
+    props.formElements.forEach((x: any) => {
       const formName = x.name;
       const formRequired = x.required;
 
@@ -146,7 +146,7 @@ export const AutoForm = (props: IAutoForm) => {
     } else {
       const modifiedPayload: any = payload;
 
-      props.formElements.forEach((x) => {
+      props.formElements.forEach((x: any) => {
         const formName = x.name;
         const formType = x.type;
 
@@ -233,7 +233,7 @@ export const AutoForm = (props: IAutoForm) => {
                       onChange={handleChange}
                       key={`auto-form-${name}`}
                       fullWidth>
-                {element.options.map((x, counter: number) => (
+                {element.options.map((x: any, counter: number) => (
                   <MenuItem value={x} key={`auto-form-${name}-${counter}`}>{x}</MenuItem>
                 ))}
               </Select>
@@ -303,7 +303,7 @@ export const AutoForm = (props: IAutoForm) => {
                       onChange={handleChange}
                       key={`auto-form-select-${name}`}
                       fullWidth>
-                {element.dataset.map((x, counter: number) => (
+                {element.dataset.map((x: any, counter: number) => (
                   <MenuItem value={x[name]}>{x.name}</MenuItem>
                 ))}
               </Select>
@@ -316,8 +316,6 @@ export const AutoForm = (props: IAutoForm) => {
        * This is an autocomplete field, which uses a list from the dataset (similar to the select dropdown)
        * and allows for filtering via text input.
        */
-      const labelName = `${name}-label`;
-
       return (
         <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{width: '100%'}}>
@@ -326,11 +324,11 @@ export const AutoForm = (props: IAutoForm) => {
               options={element.dataset}
               fullWidth
               value={payload[name] ?? element.dataset[0].name}
-              name={name}
-              required={required}
+              // name={name}
+              // required={required}
               key={`auto-form-${formCounter}`}
-              onChange={(event, value) => handleAutocompleteChange(event, value, name)}
-              getOptionLabel={option => {
+              onChange={(event: any, value: any) => handleAutocompleteChange(event, value, name)}
+              getOptionLabel={(option: any) => {
                 // Look up the entry from the dataset for the value in the option
                 const datasetValue = element.dataset.filter((x: any) => x[name] === option);
 
@@ -344,8 +342,8 @@ export const AutoForm = (props: IAutoForm) => {
 
                 return datasetValue[0].name;
               }}
-              isOptionEqualToValue={(option, value) => option[name] === value}
-              renderInput={(params) => <TextField {...params} name={name} label={`${description} (${name})`}/>}
+              isOptionEqualToValue={(option: any, value: any) => option[name] === value}
+              renderInput={(params: any) => <TextField {...params} name={name} label={`${description} (${name})`}/>}
             />
           </Item>
         </Stack>

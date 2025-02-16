@@ -12,7 +12,7 @@ const DataTypes = () => {
   const refreshDataTypes = () => {
     setIsLoading(true);
 
-    listDataTypes().then((x) => {
+    listDataTypes().then((x: any) => {
       setDataPayload(x);
     }).finally(() => {
       setIsLoading(false);
@@ -22,10 +22,6 @@ const DataTypes = () => {
   useEffect(() => {
     refreshDataTypes();
   }, []);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <>

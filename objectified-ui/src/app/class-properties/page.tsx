@@ -18,7 +18,7 @@ const ClassProperties = () => {
   const [fields, setFields] = useState([]);
   // @ts-ignore
 
-  if (!session.currentTenant) {
+  if (!session?.currentTenant) {
     return (
       <Stack direction={'column'}>
         <Item sx={{width: '100%', padding: '30px' }}>

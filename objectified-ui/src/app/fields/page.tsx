@@ -28,7 +28,7 @@ const Fields = () => {
   const loadFields = async () => {
     await listDataTypes()
       .then((x: any) => {
-        const mappedResults = x.map((y) => {
+        const mappedResults = x.map((y: any) => {
           return {
             dataTypeId: y.id,
             name: y.name,
@@ -76,15 +76,15 @@ const Fields = () => {
 
     if (payload.id) {
       await putField(payload.id, payload)
-        .then((x) => {
+        .then((x: any) => {
           refreshFields();
           setOpen(false);
         })
-        .catch((x) => {
+        .catch((x: any) => {
           errorDialog('Failed to update this data type - duplicate entry or other error.');
         });
     } else {
-      payload.ownerId = session.objectified.id;
+      payload.ownerId = (session as any).objectified.id;
 
       await saveField(payload)
         .finally(() => {
@@ -101,17 +101,17 @@ const Fields = () => {
     }
 
     await deleteField(payload.id)
-      .then((x) => {
+      .then((x: any) => {
         refreshFields();
       })
-      .catch((x) => {
+      .catch((x: any) => {
         errorDialog('Unable to disable the selected field.');
         refreshFields();
       });
   }
 
   const editClicked = async (payload: any) => {
-    if (session.currentTenant !== payload.tenantId) {
+    if ((session as any).currentTenant !== payload.tenantId) {
       errorDialog('You cannot edit data types that you do not own.');
       return;
     }
@@ -120,7 +120,7 @@ const Fields = () => {
     setOpen(true);
   }
 
-  if (!session.currentTenant) {
+  if (!(session as any).currentTenant) {
     return (
       <Stack direction={'column'}>
         <Item sx={{width: '100%', padding: '30px' }}>
@@ -134,7 +134,7 @@ const Fields = () => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}
+      <Dialog fullWidth open={open} onClose={handleClose}
               scroll={'paper'}
               PaperProps={{ style: {
                   minHeight: '90%',
@@ -155,7 +155,7 @@ const Fields = () => {
                        isAddable={true}
                        onAdd={() => {
                          resetSelectedLine();
-                         loadFields().then(r => {
+                         loadFields().then(() => {
                            setOpen(true);
                          }).catch(() => {
                            setOpen(false);
@@ -165,15 +165,15 @@ const Fields = () => {
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
                        onRefresh={() => refreshFields()}
-                       isDeletable={(x) => {
+                       isDeletable={(x: any) => {
                          return x.enabled;
                        }}
-                       isEditable={(x) => {
+                       isEditable={(x: any) => {
                          return x.enabled;
                        }}
-                       renderColumn={(column, value) => {
+                       renderColumn={(column: string, value: string) => {
                          if (column === 'dataTypeId') {
-                           const result = dataTypes.filter((x) => x['dataTypeId'] === value);
+                           const result: any[] = dataTypes.filter((x: any) => x['dataTypeId'] === value);
 
                            return (result.length > 0) ? result[0].name : value;
                          }

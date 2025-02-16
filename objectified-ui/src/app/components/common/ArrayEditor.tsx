@@ -30,7 +30,7 @@ export interface IArrayEditor {
  * @param props {IArrayEditor} properties.
  */
 export const ArrayEditor = (props: IArrayEditor) => {
-  const [payload, setPayload] = useState([]);
+  const [payload, setPayload] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const addValueRef = useRef('');
 
@@ -44,10 +44,10 @@ export const ArrayEditor = (props: IArrayEditor) => {
 
   const addItem = () => {
     const copiedPayload = Object.assign([], payload);
-    const value = addValueRef.current.value;
+    const value = (addValueRef.current as any).value;
 
     if (value) {
-      copiedPayload.push(addValueRef.current.value);
+      copiedPayload.push(value);
 
       setPayload(copiedPayload);
       props.onChange(props.name, copiedPayload);
@@ -74,7 +74,7 @@ export const ArrayEditor = (props: IArrayEditor) => {
 
   return (
     <>
-      <Dialog fullWidth={'md'} open={open} onClose={handleClose}>
+      <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogTitle key={'auto-form-dialog-title'}>
           Add Array Record
         </DialogTitle>

@@ -186,7 +186,7 @@ const LoginForm = () => {
       </Dialog>
 
       <div style={{
-        backgroundColor: '#fff', color: '#000', width: '100%',
+        backgroundColor: '#fff', color: '#000',
         border: '1px solid #000',
         padding: '20px',
         boxShadow: '6px 6px 4px #aaf',
