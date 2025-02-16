@@ -33,6 +33,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
   const [schemaFormat, setSchemaFormat] = useState<string>('json');
   const [schemaLoading, setSchemaLoading] = useState<boolean>(true);
   const [schema, setSchema] = useState<string>('');
+  const [schemaHeader, setSchemaHeader] = useState<string>('Schema');
 
   const handleSchemaViewChange = (event, val: string) => {
     if (val === null) {
@@ -55,10 +56,12 @@ export const SchemaDialog = (props: ISchemaDialog) => {
       getClassSchema(props.classId)
         .then((x: any) => {
           setSchema(JSON.stringify(x.results, null, 2));
+          setSchemaHeader(`Schema (${x.results.title})`);
           setSchemaLoading(false);
         })
         .catch((x) => {
           setSchema(`{ "result": "Schema failed to retrieve: ${x}" }`);
+          setSchemaHeader(`Schema (Unavailable)`);
           setSchemaLoading(false);
         });
     }
@@ -80,7 +83,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
       <DialogTitle id="scroll-dialog-title">
         <Stack direction={'row'}>
           <div style={{ width: '60%' }}>
-            Schema
+            {schemaHeader}
           </div>
           <div style={{ width: '40%', textAlign: 'right' }}>
             <ToggleButtonGroup
