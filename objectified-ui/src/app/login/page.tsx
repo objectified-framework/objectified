@@ -6,7 +6,7 @@ import {
 import LoginForm from '@/app/components/login/LoginForm';
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
-import {VERSION} from "@/app/page";
+import {VERSION} from "@/middleware";
 
 const Login = () => {
   const { data: session } = useSession();

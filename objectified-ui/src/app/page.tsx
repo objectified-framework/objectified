@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Dashboard from "@/app/components/Dashboard";
-
-export const VERSION="0.0.1"
+import {VERSION} from "@/middleware";
 
 export default function Home() {
   return (
@@ -13,3 +12,4 @@ export default function Home() {
     </main>
   );
 }
+
