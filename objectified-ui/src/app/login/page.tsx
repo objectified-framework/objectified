@@ -33,7 +33,13 @@ const Login = () => {
           borderBottom: '1px solid #000',
           padding: '4px',
         }}>
-          <Link href={'https://www.objectified.dev/'}>About</Link>
+          <Link
+            href={'https://www.objectified.dev/'}>
+            About
+          </Link> | <Link
+          href={'https://github.com/objectified-framework'}>
+            GitHub Repository
+          </Link>
         </div>
         <div style={{ position: 'absolute', bottom: 0, right: 0, color: '#000', paddingRight: '5px' }}>
           v{VERSION}
