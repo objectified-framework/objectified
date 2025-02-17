@@ -74,6 +74,18 @@ const ClassProperties = () => {
     );
   }
 
+  if (dataPayload.length === 0) {
+    return (
+      <Stack direction={'column'}>
+        <Item sx={{width: '100%', padding: '30px' }}>
+          <Box sx={{ boxShadow: 4, padding: '20px', backgroundColor: '#f66', color: '#fff' }}>
+            <b>You have not defined any classes.</b>
+          </Box>
+        </Item>
+      </Stack>
+    );
+  }
+
   return (
     <>
       {dataPayload.map((classEntry: any, position: number) => (
