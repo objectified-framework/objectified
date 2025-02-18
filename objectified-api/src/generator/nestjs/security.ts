@@ -31,6 +31,10 @@ function generateSecurity(
       utilBody += jwtUtilBody();
       break;
 
+    case "api_key":
+      utilBody += apiKeyUtilBody();
+      break;
+
     default:
       throw new Error(
         "Cannot write utility for security scheme: " + schemeName,
@@ -39,6 +43,57 @@ function generateSecurity(
 
   fs.writeFileSync(file, utilBody);
   console.log(`  - Wrote security scheme utility: ${file}`);
+}
+
+function apiKeyUtilBody(): string {
+  let body = "";
+
+  // API Key functionality
+  body += `import { DaoUtils } from "../dao";
+import { Request } from 'express';
+import { matches } from 'ip-matching';
+
+export class API_KEY {
+  public static validate(request: Request): boolean {
+    const ip: string = request.headers['x-forwarded-for'] ? request.headers['x-forwarded-for'][0] : request.socket.remoteAddress;
+    const apiKey: string = request.cookies['API_KEY'] ?? '';
+    
+    if (!apiKey) {
+      console.log(\`No API_KEY provided by IP \${ip}\`);
+      return false;
+    }
+    
+    const db = DaoUtils.getDatabase();
+    const sql = 'SELECT * FROM obj.api_key WHERE id=$[apiKey] LIMIT 1';
+    const result = db.oneOrNone(sql, {
+      apiKey,
+    }).then((x) => x)
+    .catch((x) => null);
+    
+    // Make sure we have an access record
+    if (result) {
+      console.log('Result', result);
+      
+      // Check the IP access address to make sure the IP address matches the request
+      if (result.addressPattern && !matches(ip, result.addressPattern)) {
+        return false;
+      }
+      
+      // Check the access count to make sure the access count hasn't exceeded the max access count
+      if (result.maxAccessCount > 0 && result.accessCount > result.maxAccessCount) {
+        return false;
+      }
+      
+      return true;
+    }
+    
+    console.log(\`No API_KEY record found for IP \${ip} API_KEY \${apiKey}\`);
+    return false;
+  }
+}
+  `;
+
+  return body;
 }
 
 function jwtUtilBody(): string {
@@ -102,7 +157,6 @@ export class JWT {
       return false;
     }
 
-    // return verify(token, SECRET_KEY);
     return decode(token, SECRET_KEY) ? true : false;
   }
 }

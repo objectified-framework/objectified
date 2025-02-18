@@ -258,11 +258,19 @@ import { Request, Response } from 'express';
     for (const sec of security) {
       const secType = Object.keys(sec)[0];
 
-      functionBody += `    if (!request.headers.authorization || !${secType}.validate(request)) {
+      if (secType.toLowerCase() === 'api_key') {
+        functionBody += `    if (!${secType}.validate(request)) {
       response.contentType('text/plain').status(401).send('Unauthorized');
       return;
     }
 `;
+      } else {
+        functionBody += `    if (!request.headers.authorization || !${secType}.validate(request)) {
+      response.contentType('text/plain').status(401).send('Unauthorized');
+      return;
+    }
+`;
+      }
     }
 
     if (inputCasts) {

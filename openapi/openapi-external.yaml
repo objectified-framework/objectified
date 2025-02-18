@@ -85,7 +85,7 @@ components:
       type: http
       description: Authentication key
       scheme: bearer
-      bearerFormat: UUID
+      bearerFormat: API_KEY
   schemas:
     Class:
       type: object
