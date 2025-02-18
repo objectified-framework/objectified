@@ -1,0 +1,133 @@
+openapi: 3.1.0
+info:
+  title: Objectified API
+  version: 0.1.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  description: |
+    Objectified is a **time-series object database that supports dynamic schemas**.
+
+    This API specification defines REST services for Objectified.  Requests made to
+    this server can only be made using the `application/json` content type.
+    
+    You must have a valid API_KEY to request data from this server.
+  contact:
+    name: Objectified Project Members
+    url: https://github.com/objectified-framework
+    email: ksuenobu@fastmail.com
+servers:
+  - url: https://api.objectified.wiki/v1
+tags:
+  - name: Class
+    description: |
+      `Class`es are templates that define the _shape_ (or _schema_) of data that 
+      can be contained in a record (or `Instance`).
+paths:
+  /class/{name}:
+    get:
+      tags:
+        - Class
+      summary: Lists classes
+      operationId: listClassesByName
+      description: Lists all classes available
+      security:
+        - API_KEY: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the class to search for.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+  /class/{id}/schema:
+    get:
+      tags:
+        - Class
+      summary: Retrieves a class schema
+      operationId: getSchemaForClassById
+      description: Retrieves a schema for the class by its ID
+      security:
+        - API_KEY: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: UUID
+          description: The ID of the class.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      description: Authentication key
+      scheme: bearer
+      bearerFormat: UUID
+  schemas:
+    Class:
+      type: object
+      x-schema: obj
+      required:
+        - tenantId
+        - ownerId
+        - name
+      description: |
+        Classes define objects that can be stored in Objectified.  Classes are collections
+        of properties that define object definitions.
+      properties:
+        id:
+          type: string
+          format: UUID
+          description: The ID of the Class
+        tenantId:
+          type: string
+          format: UUID
+          description: The ID of the Tenant
+        ownerId:
+          type: string
+          format: UUID
+          description: The ID of the owner
+        name:
+          type: string
+          description: The name of the class
+        description:
+          type: string
+          description: This is a description of what the class defines
+        enabled:
+          type: boolean
+          description: Indicates if the class is enabled
+        createDate:
+          type: string
+          format: date-time
+          description: Date and time of class creation
+        updateDate:
+          type: string
+          format: date-time
+          description: Date and time of class update
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date and time of class deletion
