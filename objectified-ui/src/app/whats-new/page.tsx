@@ -5,7 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const WhatsNew = () => {
+const WhatsNew = () => {
   return (
     <div style={{width: '100%', padding: '10px'}}>
       <div style={{width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
