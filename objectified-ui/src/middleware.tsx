@@ -1,6 +1,6 @@
 export { default } from 'next-auth/middleware';
 
-export const VERSION: string = "0.0.1";
+export const VERSION: string = "0.0.2";
 
 export const config = {
   matcher: [

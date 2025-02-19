@@ -10,6 +10,7 @@ import {
   ElectricBoltOutlined,
   ExtensionOutlined,
   MenuOpenOutlined, MenuOutlined,
+  NewspaperOutlined,
   ListAltOutlined,
   WidgetsOutlined,
 } from '@mui/icons-material';
@@ -116,6 +117,16 @@ export default function SideBar(props: SideBarProps) {
                 }, backgroundColor: selectedBackgroundColor('/class-properties')
               }} onClick={() => router.push('/class-properties')}>
                 <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><WidgetsOutlined/></ListItemIcon>
+              </ListItemButton>
+            </Item>
+
+            <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/whats-new') }}>
+              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+                '&:hover': {
+                  border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/whats-new')
+                }, backgroundColor: selectedBackgroundColor('/whats-new')
+              }} onClick={() => router.push('/whats-new')}>
+                <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><NewspaperOutlined/></ListItemIcon>
               </ListItemButton>
             </Item>
           </Stack>
@@ -235,6 +246,23 @@ export default function SideBar(props: SideBarProps) {
                               fontWeight: "medium",
                             }}>
                 Class Properties
+              </ListItemText>
+            </ListItemButton>
+          </Item>
+
+          <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/whats-new') }}>
+            <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              '&:hover': {
+                border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/whats-new')
+              }, backgroundColor: selectedBackgroundColor('/whats-new')
+            }} onClick={() => router.push('/whats-new')}>
+              <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><NewspaperOutlined/></ListItemIcon>
+              <ListItemText sx={{ textAlign: 'left', paddingLeft: '0px' }}
+                            primaryTypographyProps={{
+                              fontSize: 14,
+                              fontWeight: "medium",
+                            }}>
+                What&apos;s New
               </ListItemText>
             </ListItemButton>
           </Item>
