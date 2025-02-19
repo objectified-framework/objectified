@@ -54,41 +54,41 @@ import { Request } from 'express';
 import { matches } from 'ip-matching';
 
 export class API_KEY {
-  public static validate(request: Request): boolean {
+  public static async validate(request: Request): Promise<boolean> {
     const ip: string = request.headers['x-forwarded-for'] ? request.headers['x-forwarded-for'][0] : request.socket.remoteAddress;
     const apiKey: string = request.cookies['API_KEY'] ?? '';
-    
+
     if (!apiKey) {
       console.log(\`No API_KEY provided by IP \${ip}\`);
-      return false;
+      return Promise.resolve(false);
     }
     
     const db = DaoUtils.getDatabase();
     const sql = 'SELECT * FROM obj.api_key WHERE id=$[apiKey] LIMIT 1';
-    const result = db.oneOrNone(sql, {
+    const result = await db.oneOrNone(sql, {
       apiKey,
     }).then((x) => x)
     .catch((x) => null);
     
     // Make sure we have an access record
     if (result) {
-      console.log('Result', result);
-      
       // Check the IP access address to make sure the IP address matches the request
-      if (result.addressPattern && !matches(ip, result.addressPattern)) {
-        return false;
+      if (result.address_pattern !== '*' && result.address_pattern && !matches(ip, result.address_pattern)) {
+        return Promise.resolve(false);
       }
       
       // Check the access count to make sure the access count hasn't exceeded the max access count
-      if (result.maxAccessCount > 0 && result.accessCount > result.maxAccessCount) {
-        return false;
+      if (result.max_access_count > 0 && result.access_count > result.max_access_count) {
+        return Promise.resolve(false);
       }
-      
-      return true;
+
+      console.log(\`API_Key validated '\${apiKey}'\`);
+
+      return Promise.resolve(true);
     }
     
     console.log(\`No API_KEY record found for IP \${ip} API_KEY \${apiKey}\`);
-    return false;
+    return Promise.resolve(false);
   }
 }
   `;

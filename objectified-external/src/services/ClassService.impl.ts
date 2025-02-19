@@ -1,4 +1,4 @@
-import {ClassService, ServiceResponse} from "../generated/services";
+import {ClassService, ResponseOk, ServiceResponse} from "../generated/services";
 import {ClassDto} from "../generated/dto";
 import {ClassDao, DaoUtils} from "../generated/dao";
 import { Request } from 'express';
@@ -14,7 +14,12 @@ export class ClassServiceImpl implements ClassService {
   }
 
   async listClassesByName(request: Request, name: string): Promise<ServiceResponse<ClassDto[]>> {
-    return Promise.resolve(undefined);
+    const sql = 'SELECT * FROM obj.class WHERE name LIKE $[name]';
+    const results = (await this.db.any(sql, {
+      name: `%${name}%`,
+    })).map((x: any) => DaoUtils.normalize<ClassDto>(x));
+
+    return ResponseOk(results);
   }
 
 }

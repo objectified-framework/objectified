@@ -69,7 +69,7 @@ function generateController(
   controllerBody += HEADER;
 
   controllerBody += `import { Controller, Get, Delete, Post, Patch, Put, Options, Body, Param, Res, Req } from '@nestjs/common';
-import { ApiResponse, ApiOperation, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiOperation, ApiBody, ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { ${name}ServiceImpl } from '../../services';
 import { Request, Response } from 'express';
 `;
@@ -248,6 +248,14 @@ import { Request, Response } from 'express';
     functionComment += "   * @param request The request object\n";
     functionComment += "   * @param response The response object\n";
 
+    for (const sec of security) {
+      const secType = Object.keys(sec)[0];
+
+      if (secType.toLowerCase() === 'api_key') {
+        functionBody += '  @ApiCookieAuth()\n';
+      }
+    }
+
     if (!hasBody) {
       functionBody += `  public async ${operationId}(@Req() request: Request, @Res() response: Response, ${inputs.join(", ")}): Promise<void> {\n`;
     } else {
@@ -259,7 +267,7 @@ import { Request, Response } from 'express';
       const secType = Object.keys(sec)[0];
 
       if (secType.toLowerCase() === 'api_key') {
-        functionBody += `    if (!${secType}.validate(request)) {
+        functionBody += `    if (!await ${secType}.validate(request)) {
       response.contentType('text/plain').status(401).send('Unauthorized');
       return;
     }

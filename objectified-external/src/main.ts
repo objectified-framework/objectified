@@ -24,6 +24,7 @@ const SWAGGER_PATH: string = '/swagger';
       'You must have a valid API_KEY to request data from this server.')
     .addTag('class', 'Classes are templates that define the shape (or schema) of data that can be contained in ' +
       'a record (or Instance).')
+    .addCookieAuth('API_KEY')
     .build();
 
   app.use(cookieParser());
