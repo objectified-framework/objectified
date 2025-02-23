@@ -23,6 +23,7 @@ const WhatsNew = () => {
         <b>Version 0.0.2</b><br/>
         <li> Added API_KEY management and classes to the database</li>
         <li> Created '/swagger' URL for external REST services (soon to be exposed)</li>
+        <li> Added the beginnings of a designer page using ReactFlow</li>
       </div>
     </div>
   );

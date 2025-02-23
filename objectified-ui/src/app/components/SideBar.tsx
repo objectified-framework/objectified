@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { IconButton, Stack, } from '@mui/material';
 import {
+  AccountTreeOutlined,
   ArticleOutlined,
   ClassOutlined,
   ElectricBoltOutlined,
@@ -117,6 +118,16 @@ export default function SideBar(props: SideBarProps) {
                 }, backgroundColor: selectedBackgroundColor('/class-properties')
               }} onClick={() => router.push('/class-properties')}>
                 <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><WidgetsOutlined/></ListItemIcon>
+              </ListItemButton>
+            </Item>
+
+            <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/designer') }}>
+              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+                '&:hover': {
+                  border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/designer')
+                }, backgroundColor: selectedBackgroundColor('/designer')
+              }} onClick={() => router.push('/designer')}>
+                <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><AccountTreeOutlined/></ListItemIcon>
               </ListItemButton>
             </Item>
 
@@ -246,6 +257,23 @@ export default function SideBar(props: SideBarProps) {
                               fontWeight: "medium",
                             }}>
                 Class Properties
+              </ListItemText>
+            </ListItemButton>
+          </Item>
+
+          <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/designer') }}>
+            <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              '&:hover': {
+                border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/designer')
+              }, backgroundColor: selectedBackgroundColor('/designer')
+            }} onClick={() => router.push('/designer')}>
+              <ListItemIcon sx={{ color: 'inherit', minWidth: '40px' }}><AccountTreeOutlined/></ListItemIcon>
+              <ListItemText sx={{ textAlign: 'left', paddingLeft: '0px' }}
+                            primaryTypographyProps={{
+                              fontSize: 14,
+                              fontWeight: "medium",
+                            }}>
+                Designer
               </ListItemText>
             </ListItemButton>
           </Item>
