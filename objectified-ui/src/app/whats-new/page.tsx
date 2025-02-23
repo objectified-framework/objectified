@@ -24,6 +24,7 @@ const WhatsNew = () => {
         <li> Added API_KEY management and classes to the database</li>
         <li> Created '/swagger' URL for external REST services (soon to be exposed)</li>
         <li> Added the beginnings of a designer page using ReactFlow</li>
+        <li> Added validation in fields in autogen forms (name and description, mainly)</li>
       </div>
     </div>
   );

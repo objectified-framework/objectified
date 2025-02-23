@@ -36,6 +36,16 @@ export function toSnakeCase(str: string): string {
 export const AutoForm = (props: IAutoForm) => {
   const [payload, setPayload] = useState<any>({});
 
+  const getPosition = (name: string) => {
+    for(let position = 0; position < props.formElements.length; position++) {
+      if (props.formElements[position].name === name) {
+        return position;
+      }
+    }
+
+    return -1;
+  }
+
   /**
    * Handles the change of the form when a value of an input box or a checkbox changes.
    */
@@ -46,6 +56,18 @@ export const AutoForm = (props: IAutoForm) => {
         [e.target.name]: e.target.checked,
       });
     } else {
+      const pos = getPosition(e.target.name);
+
+      if (e.target.value.length > 0 && props.formElements[pos]['pattern']) {
+        const pattern = props.formElements[pos]['pattern'];
+        const regexp = new RegExp(pattern);
+
+        if (!regexp.test(e.target.value)) {
+          console.log(`Value does not match: regex=${pattern} value=${e.target.value}`);
+          return;
+        }
+      }
+
       setPayload({
         ...payload,
         [e.target.name]: e.target.value,

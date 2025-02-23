@@ -36,6 +36,7 @@ export const formItems: any[] = [
     name: 'name',
     description: 'Data Type Name',
     required: true,
+    pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
@@ -43,5 +44,6 @@ export const formItems: any[] = [
     required: true,
     multiline: true,
     maxRows: 4,
+    pattern: '^[\x00-\x7F]+$'
   },
 ];

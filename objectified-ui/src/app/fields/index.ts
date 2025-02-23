@@ -42,11 +42,13 @@ export const formItems: any[] = [
     name: 'name',
     description: 'Field Name',
     required: true,
+    pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
     description: 'Description',
     required: true,
+    pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'dataTypeId',
@@ -58,24 +60,29 @@ export const formItems: any[] = [
   {
     name: 'dataFormat',
     description: 'Data Format',
+    pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'pattern',
     description: 'Regexp Pattern',
+    pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'enumValues',
     description: 'Enumeration Values',
     type: 'array',
+    pattern: '^[A-Z_][A-Z0-9_]*$',
   },
   {
     name: 'enumDescriptions',
     description: 'Enumeration Descriptions',
     type: 'array',
+    pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'examples',
     description: 'Examples',
     type: 'array',
+    pattern: '^[\x00-\x7F]+$'
   }
 ];

@@ -9,10 +9,12 @@ export const tableItems: any[] = [
   {
     name: 'name',
     description: 'Name',
+    pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
     description: 'Description',
+    pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'dataType',

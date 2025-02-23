@@ -66,11 +66,13 @@ export const formItems: any[] = [
     name: 'name',
     description: 'Property Name',
     required: true,
+    pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
     description: 'Description',
     required: true,
+    pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'required',
