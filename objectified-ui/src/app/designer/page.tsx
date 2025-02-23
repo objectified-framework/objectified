@@ -23,11 +23,11 @@ const Designer = () => {
     setNodes([]);
 
     listClasses().then((x: any) => {
-      const nodeList = [];
+      const nodeList: any[] = [];
       let row = 0;
       let column = 0;
 
-      x.forEach((cls, count: number) => {
+      x.forEach((cls: any, count: number) => {
         nodeList.push({
           id: cls.id,
           position: {
