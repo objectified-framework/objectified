@@ -6,13 +6,11 @@ export const config = {
   matcher: [
     '/',
     '/classes',
+    '/class-properties',
     '/data-types',
+    '/designer',
     '/fields',
-    '/groups',
-    '/instances',
-    '/links',
-    '/namespaces',
     '/properties',
-    '/users',
+    '/whats-new',
   ]
 }

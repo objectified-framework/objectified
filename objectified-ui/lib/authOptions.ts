@@ -20,6 +20,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     })
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     signIn: async function ({user, account, profile, email, credentials}) {
       console.log(`[next-auth::signIn] user=${JSON.stringify(user, null, 2)} account=${JSON.stringify(account, null, 2)} profile=${JSON.stringify(profile, null, 2)} email=${JSON.stringify(email)} credentials=${JSON.stringify(credentials, null, 2)}`);
