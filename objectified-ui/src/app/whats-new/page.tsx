@@ -27,6 +27,7 @@ const WhatsNew = () => {
         <li> Added validation in fields in autogen forms (name and description, mainly)</li>
         <li> Validated fields now contain helper text to explain allowed values</li>
         <li> Fixed text entry bug in object fields</li>
+        <li> Fixed app.objectified.dev to redirect to /login when JWT session is not active</li>
       </div>
     </div>
   );

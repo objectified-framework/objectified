@@ -65,7 +65,7 @@ const Designer = () => {
           <MiniMap/>
           <Controls/>
 
-          <div style={{ width: '100%', top: '70', left: '0', position: 'fixed', textAlign: 'right', zIndex: 999 }}>
+          <div style={{ width: '48px', top: '70', right: '0', position: 'fixed', textAlign: 'right', zIndex: 999 }}>
             <IconButton>
               <RefreshOutlined onClick={() => reloadClasses()}/>
             </IconButton>
