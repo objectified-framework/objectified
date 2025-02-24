@@ -190,6 +190,7 @@ export const AutoForm = (props: IAutoForm) => {
     const required = element.required ?? false;
     const multiline = element.multiline ?? false;
     const maxRows = element.maxRows ?? 1;
+    const helperText = element.helperText ?? '';
 
     /**
      * Text fields are handled here.  Text fields are single lines of text that can be edited.
@@ -207,7 +208,8 @@ export const AutoForm = (props: IAutoForm) => {
                          required={required}
                          rows={maxRows}
                          key={`auto-form-${formCounter}`}
-                         onChange={handleChange}/>
+                         onChange={handleChange}
+                         helperText={helperText}/>
             </Item>
           </Stack>
         </>
@@ -220,13 +222,14 @@ export const AutoForm = (props: IAutoForm) => {
               <TextField label={`${description} (${name})`}
                          fullWidth
                          multiline={multiline}
-                         value={JSON.stringify(payload[name], null, 2) ?? '{}'}
+                         value={payload[name] ?? '{}'}
                          name={name}
                          required={required}
                          rows={maxRows}
                          key={`auto-form-${formCounter}`}
                          inputProps={{ style: { fontFamily: 'monospace' }}}
-                         onChange={handleChange}/>
+                         onChange={handleChange}
+                         helperText={helperText}/>
             </Item>
           </Stack>
         </>

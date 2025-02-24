@@ -42,12 +42,14 @@ export const formItems: any[] = [
     name: 'name',
     description: 'Field Name',
     required: true,
+    helperText: 'Value must start with a letter.',
     pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
     description: 'Description',
     required: true,
+    helperText: 'Value must contain printable ASCII characters.',
     pattern: '^[\x00-\x7F]+$'
   },
   {
@@ -60,29 +62,34 @@ export const formItems: any[] = [
   {
     name: 'dataFormat',
     description: 'Data Format',
+    helperText: 'Value must start with a letter.',
     pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'pattern',
     description: 'Regexp Pattern',
+    helperText: 'Value must contain printable ASCII characters.',
     pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'enumValues',
     description: 'Enumeration Values',
     type: 'array',
+    helperText: 'Value must start with a letter.',
     pattern: '^[A-Z_][A-Z0-9_]*$',
   },
   {
     name: 'enumDescriptions',
     description: 'Enumeration Descriptions',
     type: 'array',
+    helperText: 'Value must contain printable ASCII characters.',
     pattern: '^[\x00-\x7F]+$'
   },
   {
     name: 'examples',
     description: 'Examples',
     type: 'array',
+    helperText: 'Value must contain printable ASCII characters.',
     pattern: '^[\x00-\x7F]+$'
   }
 ];

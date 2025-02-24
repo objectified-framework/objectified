@@ -25,6 +25,8 @@ const WhatsNew = () => {
         <li> Created '/swagger' URL for external REST services (soon to be exposed)</li>
         <li> Added the beginnings of a designer page using ReactFlow</li>
         <li> Added validation in fields in autogen forms (name and description, mainly)</li>
+        <li> Validated fields now contain helper text to explain allowed values</li>
+        <li> Fixed text entry bug in object fields</li>
       </div>
     </div>
   );

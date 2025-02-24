@@ -37,6 +37,7 @@ export const formItems: any[] = [
     description: 'Data Type Name',
     required: true,
     pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
+    helperText: 'Value must start with a letter.',
   },
   {
     name: 'description',
@@ -44,6 +45,7 @@ export const formItems: any[] = [
     required: true,
     multiline: true,
     maxRows: 4,
-    pattern: '^[\x00-\x7F]+$'
+    pattern: '^[\x00-\x7F]+$',
+    helperText: 'Value must contain printable ASCII characters.',
   },
 ];

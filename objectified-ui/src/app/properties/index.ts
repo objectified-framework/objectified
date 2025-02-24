@@ -66,12 +66,14 @@ export const formItems: any[] = [
     name: 'name',
     description: 'Property Name',
     required: true,
+    helperText: 'Value must start with a letter.',
     pattern: '^[A-Za-z_][A-Za-z0-9_]*$',
   },
   {
     name: 'description',
     description: 'Description',
     required: true,
+    helperText: 'Value must contain printable ASCII characters.',
     pattern: '^[\x00-\x7F]+$'
   },
   {
@@ -101,6 +103,7 @@ export const formItems: any[] = [
     multiline: true,
     maxRows: 4,
     type: 'object',
+    helperText: 'Must be in JSON Format',
   },
 ];
 
