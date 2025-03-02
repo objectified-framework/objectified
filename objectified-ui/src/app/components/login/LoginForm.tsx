@@ -22,18 +22,17 @@ import Divider from "@mui/material/Divider";
 import {saveSignup} from "@/app/services/signup";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loginShowing, setLoginShowing] = useState(false);
   const [requestAccessShowing, setRequestAccessShowing] = useState<boolean>(false);
   const [requestShowing, setRequestShowing] = useState<boolean>(false);
   const [payload, setPayload] = useState<any>({});
   const router = useRouter();
 
-  const handleSubmit = (async (e: any) => {
-    e.preventDefault();
+  const handleLogin = (async () => {
+    const emailAddress = payload['emailAddress'];
+    const password = payload['password'];
 
-    if (!email) {
+    if (!emailAddress) {
       errorDialog('E-Mail Address cannot be blank.');
       return;
     }
@@ -43,14 +42,15 @@ const LoginForm = () => {
       return;
     }
 
-    if (email.indexOf('@') === -1) {
+    if (emailAddress.indexOf('@') === -1) {
       errorDialog('Your E-Mail address is malformed.');
       return;
     }
 
     setLoginShowing(true);
+
     signIn('credentials', {
-      email,
+      emailAddress,
       password,
       redirect: false,
     })
@@ -72,11 +72,11 @@ const LoginForm = () => {
   });
 
   const clearInputs = () => {
-    setEmail('');
-    setPassword('');
+    setPayload({});
   }
 
   const handleChange = (e: any) => {
+    console.log('Handling change', e.target.name, e.target.value);
     setPayload({
       ...payload,
       [e.target.name]: e.target.value,
@@ -91,6 +91,7 @@ const LoginForm = () => {
     }
 
     setRequestShowing(true);
+
     saveSignup(payload)
       .then((x: any) => {
         console.log(x);
@@ -199,12 +200,44 @@ const LoginForm = () => {
             Welcome to Objectified!
           </div>
 
-          <Stack direction={'row'} sx={{paddingTop: '30px'}}>
-            <Item sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px'}}>
+          <Stack direction={'column'} sx={{paddingTop: '30px'}}>
+            <Item sx={{ width: '100%', padding: '0px' }}>
+              <TextField type={'text'}
+                         fullWidth
+                         value={payload['emailAddress'] ?? ''}
+                         name={'emailAddress'}
+                         sx={{paddingBottom: '1em'}}
+                         onChange={handleChange}
+                         placeholder={'Enter your email address'}/>
+            </Item>
+
+            <Item sx={{ width: '100%', padding: '0px' }}>
+              <PasswordTextField type={'text'}
+                         fullWidth
+                         value={payload['password'] ?? ''}
+                         name={'password'}
+                         sx={{paddingBottom: '1em'}}
+                         onChange={handleChange}
+                         placeholder={'Enter your password'}/>
+            </Item>
+          </Stack>
+
+          <Stack direction={'row'}>
+            <Item sx={{ width: '100%', textAlign: 'right' }}>
+              <Button variant={'contained'} color={'error'}>Clear</Button>&nbsp;
+              <Button variant={'contained'} color={'success'} onClick={() => handleLogin()}>Login</Button>
+            </Item>
+          </Stack>
+
+          <Stack direction={'column'} sx={{paddingTop: '30px'}}>
+            <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
               <Button variant={'contained'}
                       sx={{backgroundColor: '#0f0', color: '#000', fontWeight: 'bold', padding: '14px'}}
                       fullWidth
-                      onClick={() => setRequestAccessShowing(true)}
+                      onClick={() => {
+                        setPayload({});
+                        setRequestAccessShowing(true);
+                      }}
                       type={'submit'}>Request Early Access</Button>
             </Item>
           </Stack>
@@ -216,23 +249,23 @@ const LoginForm = () => {
           </div>
 
           <Stack direction={'row'} sx={{paddingTop: '20px'}}>
-            <Item sx={{width: '50%'}}>
-              <Button variant={'contained'}
-                      sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
-                      '&:hover': {
-                        backgroundColor: '#fff',
-                        color: '#000',
-                        border: '1px solid #000',
-                      }
-                      }}
-                      fullWidth onClick={() => {
-                        setLoginShowing(true);
-                        signIn("google");
-                      }}
-                      startIcon={<img src={'/g-logo.png'} width={24} height={24}/>}></Button>
-            </Item>
+            {/*<Item sx={{width: '50%'}}>*/}
+            {/*  <Button variant={'contained'}*/}
+            {/*          sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',*/}
+            {/*          '&:hover': {*/}
+            {/*            backgroundColor: '#fff',*/}
+            {/*            color: '#000',*/}
+            {/*            border: '1px solid #000',*/}
+            {/*          }*/}
+            {/*          }}*/}
+            {/*          fullWidth onClick={() => {*/}
+            {/*            setLoginShowing(true);*/}
+            {/*            signIn("google");*/}
+            {/*          }}*/}
+            {/*          startIcon={<img src={'/g-logo.png'} width={24} height={24}/>}></Button>*/}
+            {/*</Item>*/}
 
-            <Item sx={{width: '50%', paddingLeft: '20px'}}>
+            <Item sx={{width: '100%', paddingLeft: '20px'}}>
               <Button variant={'contained'}
                       sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
                         '&:hover': {
