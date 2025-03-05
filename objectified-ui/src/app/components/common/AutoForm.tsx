@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import Item from "@/app/components/common/Item";
 import {
   Autocomplete,
@@ -11,6 +10,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
+import {CloseOutlined} from '@mui/icons-material';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import ArrayEditor from "@/app/components/common/ArrayEditor";
 
@@ -396,7 +396,7 @@ export const AutoForm = (props: IAutoForm) => {
         </div>
         <div style={{ width: '30%', textAlign: 'right' }} key={'auto-form-header-2'}>
           <IconButton onClick={() => props.onCancel()}>
-            <CloseIcon/>
+            <CloseOutlined/>
           </IconButton>
         </div>
       </Stack>
