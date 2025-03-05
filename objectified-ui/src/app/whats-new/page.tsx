@@ -28,6 +28,7 @@ const WhatsNew = () => {
         <li> Validated fields now contain helper text to explain allowed values</li>
         <li> Fixed text entry bug in object fields</li>
         <li> Fixed app.objectified.dev to redirect to /login when JWT session is not active</li>
+        <li> Added username and password authentication</li>
       </div>
     </div>
   );
