@@ -22,12 +22,13 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     Credentials({
-      async authorize(credentials) {
+      // @ts-ignore
+      async authorize(credentials: any) {
         console.log('[providers::Credentials::authorize] credentials', credentials);
-        const { emailAddress, password } = credentials as {
-          emailAddress: string,
-          password: string,
-        };
+        // const { emailAddress, password } = credentials as {
+        //   emailAddress: string,
+        //   password: string,
+        // };
 
         return 'OK';
       }

@@ -21,6 +21,7 @@ export class JWT {
    */
   public static encrypt(payload: any, timeout?: string | number): string {
     if (timeout) {
+      // @ts-ignore
       return sign({ data: payload }, SECRET_KEY, { expiresIn: timeout });
     }
 
