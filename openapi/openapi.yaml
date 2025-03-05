@@ -974,8 +974,6 @@ components:
       x-schema: obj
       required:
         - username
-        - source
-        - jwt
       description: Login credentials input
       properties:
         id:
@@ -993,7 +991,11 @@ components:
               - github
               - gitlab
               - azure
+              - credentials
           description: Source of the account login.
+        password:
+          type: string
+          description: The password for the user.
         data:
           type: object
           description: Extra data associated with the user.

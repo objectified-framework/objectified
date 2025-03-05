@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import {AuthService, ResponseOk, ResponseUnauthorized, ServiceResponse} from '../generated/services';
+import {AuthService, ResponseForbidden, ResponseOk, ResponseUnauthorized, ServiceResponse} from '../generated/services';
 import { Request } from 'express';
 import {UserDao} from "../generated/dao";
 import {UserDto} from "../generated/dto";
@@ -16,23 +16,44 @@ export class AuthServiceImpl implements AuthService {
    */
   async login(request: Request, userDto: UserDto): Promise<ServiceResponse<string>> {
     const dao = new UserDao();
-
-    // This is the "where" clause
     const findStatement: any = {
       email_address: userDto.emailAddress,
     };
 
+    if (!userDto.source) {
+      return ResponseForbidden('Missing login credentials');
+    }
+
     return await dao.findOne(findStatement)
       .then((x: any) => {
         if (x) {
+          if (x.source) {
+            x.source = x.source.replaceAll('{', '').replaceAll('}', '');
+          }
+
           if (x.source.includes(userDto.source)) {
             const resultResponse: any = {
               id: x.id,
               data: x.data,
             };
 
-            this.logger.log(`[login] User ${userDto.emailAddress} successful`);
-            return ResponseOk(resultResponse);
+            if (userDto.source.includes(["credentials"])) {
+              if (x.password === userDto.password) {
+                this.logger.log(`[login] User ${userDto.emailAddress} successful via credentials`);
+                return ResponseOk(resultResponse);
+              }
+
+              this.logger.error(`[login] User ${userDto.emailAddress} unsuccessful login attempt - password mismatch`);
+              return ResponseUnauthorized('Your username and/or password are invalid');
+            }
+
+            if (userDto.source.includes(x.source)) {
+              this.logger.log(`[login] User ${userDto.emailAddress} successful`);
+              return ResponseOk(resultResponse);
+            }
+
+            this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);
+            return ResponseUnauthorized('You are not permitted to login.');
           } else {
             this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);
             return ResponseUnauthorized('You are not permitted to login.');

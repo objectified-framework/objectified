@@ -9,6 +9,7 @@ import {
   ClientTenantGetTenantById,
 } from '@objectified-framework/objectified-services/dist/generated/clients';
 import jwt from 'jsonwebtoken';
+import {JWT} from "./JWT";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -28,6 +29,7 @@ export const authOptions: NextAuthOptions = {
           password: string,
         };
 
+        return 'OK';
       }
     })
   ],
@@ -67,6 +69,35 @@ export const authOptions: NextAuthOptions = {
 
         // If the user has no tenancy, return a failure.
         return (tenancy.length != 0);
+      } else if (account?.provider === 'credentials') {
+        const { emailAddress, password } = credentials as {
+          emailAddress: string,
+          password: string,
+        };
+
+        console.log('Handle credentials here.', account, emailAddress, password);
+
+        // Github login path
+        const loginDto = {
+          emailAddress,
+          password,
+          source: 'credentials',
+        };
+
+        // @ts-ignore
+        const login = await ClientAuthLogin(loginDto)
+          .then((x) => {
+            console.log('Auth login credentials', x);
+            return x;
+          })
+          .catch((x) => {
+            console.log('Auth login credentials fail', x);
+            return null;
+          });
+
+        if (!login) {
+          return false;
+        }
       }
 
       return false;
