@@ -3,6 +3,7 @@ import {AuthService, ResponseForbidden, ResponseOk, ResponseUnauthorized, Servic
 import { Request } from 'express';
 import {UserDao} from "../generated/dao";
 import {UserDto} from "../generated/dto";
+import * as bcrypt from 'bcrypt';
 
 export class AuthServiceImpl implements AuthService {
   private readonly logger = new Logger(AuthServiceImpl.name);
@@ -25,7 +26,7 @@ export class AuthServiceImpl implements AuthService {
     }
 
     return await dao.findOne(findStatement)
-      .then((x: any) => {
+      .then(async (x: any) => {
         if (x) {
           if (x.source) {
             x.source = x.source.replaceAll('{', '').replaceAll('}', '');
@@ -38,7 +39,9 @@ export class AuthServiceImpl implements AuthService {
             };
 
             if (userDto.source.includes(["credentials"])) {
-              if (x.password === userDto.password) {
+              const match = await bcrypt.compare(userDto.password, x.password);
+
+              if (match) {
                 this.logger.log(`[login] User ${userDto.emailAddress} successful via credentials`);
                 return ResponseOk(resultResponse);
               }
@@ -47,6 +50,9 @@ export class AuthServiceImpl implements AuthService {
               return ResponseUnauthorized('Your username and/or password are invalid');
             }
 
+            // Alternative sources could have been sent via other authentication methods, such as github, gitlab, or
+            // azure.  Anything that does not require a database lookup for further logins is handled here.
+            // The source must be an allowed, known source for the user.  Otherwise, the login attempt fails.
             if (userDto.source.includes(x.source)) {
               this.logger.log(`[login] User ${userDto.emailAddress} successful`);
               return ResponseOk(resultResponse);
