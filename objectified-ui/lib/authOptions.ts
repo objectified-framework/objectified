@@ -24,13 +24,15 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       // @ts-ignore
       async authorize(credentials: any) {
-        console.log('[providers::Credentials::authorize] credentials', credentials);
-        // const { emailAddress, password } = credentials as {
-        //   emailAddress: string,
-        //   password: string,
-        // };
+        console.log(`[next-auth::providers::Credentials] user/pass login for user ${credentials.emailAddress}`);
 
-        return 'OK';
+        const { emailAddress } = credentials as {
+          emailAddress: string,
+        };
+
+        return {
+          emailAddress,
+        };
       }
     })
   ],
@@ -39,9 +41,13 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     signIn: async function ({user, account, profile, email, credentials}) {
-      console.log(`[next-auth::signIn] user=${JSON.stringify(user, null, 2)} account=${JSON.stringify(account, null, 2)} profile=${JSON.stringify(profile, null, 2)} email=${JSON.stringify(email)} credentials=${JSON.stringify(credentials, null, 2)}`);
+      console.log(`[next-auth::signIn] provider=${account.provider}`);
 
-      if (account?.provider === 'github') {
+      if (!account || !account.provider) {
+        return false;
+      }
+
+      if (account.provider === 'github') {
         // Github login path
         const loginDto = {
           emailAddress: <string>user['email'],
@@ -51,11 +57,11 @@ export const authOptions: NextAuthOptions = {
         // @ts-ignore
         const login = await ClientAuthLogin(loginDto)
           .then((x) => {
-            console.log('Auth login', x);
+            console.log('[next-auth::signIn] github provider login successful.');
             return x;
           })
           .catch((x) => {
-            console.log('Auth login fail', x);
+            console.log('[next-auth::signIn] github provider auth login fail', x);
             return null;
           });
 
@@ -70,35 +76,43 @@ export const authOptions: NextAuthOptions = {
 
         // If the user has no tenancy, return a failure.
         return (tenancy.length != 0);
-      } else if (account?.provider === 'credentials') {
+      } else if (account.provider === 'credentials') {
         const { emailAddress, password } = credentials as {
           emailAddress: string,
           password: string,
         };
 
-        console.log('Handle credentials here.', account, emailAddress, password);
-
         // Github login path
         const loginDto = {
           emailAddress,
           password,
-          source: 'credentials',
+          source: account.provider,
         };
 
         // @ts-ignore
         const login = await ClientAuthLogin(loginDto)
-          .then((x) => {
-            console.log('Auth login credentials', x);
+          .then((x: any) => {
+            console.log('[next-auth::signIn] credentials login successful.');
             return x;
           })
-          .catch((x) => {
-            console.log('Auth login credentials fail', x);
+          .catch((x: any) => {
+            console.log('[next-auth::signIn] credentials auth login fail', x);
             return null;
           });
 
         if (!login) {
           return false;
         }
+
+        // #6 - retrieve tenancy information
+        const tenancy = await ClientTenantListTenantsByUserId(login.id)
+            .then((x) => x)
+            .catch((x) => []);
+
+        console.log('[next-auth::signIn] tenancy', tenancy);
+
+        // If the user has no tenancy, return a failure.
+        return (tenancy.length != 0);
       }
 
       return false;
@@ -148,9 +162,11 @@ export const authOptions: NextAuthOptions = {
         return null;
       }
 
+      console.log('token', token, 'user', user, 'account', account, 'profile', profile, 'trigger', trigger, 'session', session);
+
       if (account) {
         token.objectified = {
-          emailAddress: profile?.email,
+          emailAddress: profile?.email ?? user.emailAddress,
           source: account.provider,
         };
 
