@@ -38,6 +38,9 @@ export class AuthServiceImpl implements AuthService {
               data: x.data,
             };
 
+            // Credential login comparison is done here.  We check the password against the encrypted
+            // password using the local compare function.  Only if the user is authenticated will they
+            // be allowed in.  Otherwise, an unauthorized response is given.
             if (userDto.source.includes(["credentials"])) {
               const match = await bcrypt.compare(userDto.password, x.password);
 
