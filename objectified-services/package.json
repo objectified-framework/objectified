@@ -9,6 +9,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "autogen": "node ../objectified-api/dist/index.js -g nestjs ../openapi/openapi.yaml",
+    "gen-passwd": "node dist/make-password.js",
     "build": "tsc",
     "release": "npm run build && npm publish",
     "test": "jest"
@@ -51,7 +52,7 @@
     "@types/babel__preset-env": "^7",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.12",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.13.9",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "counterfact": "^1.1.4",

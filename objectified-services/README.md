@@ -34,3 +34,14 @@ services using the clients layer, provided by the `objectified-api` autogenerato
 code.
 
 Services via NextJS run at the server level, so they are not at risk of exposure.
+
+## Creating a password for users
+
+To create a password for a user, use the `gen-passwd` tool in `package.json`:
+
+```shell
+yarn gen-passwd (password)
+```
+
+Once the password is generated using `bcrypt`, copy/paste that into the user's password
+record in the database.
