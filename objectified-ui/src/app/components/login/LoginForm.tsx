@@ -1,12 +1,12 @@
 'use client';
 
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Dialog, DialogActions,
   DialogContent,
-  DialogContentText, DialogTitle, FormControl, InputLabel,
-  LinearProgress, MenuItem, Select,
+  DialogContentText, DialogTitle,
+  LinearProgress, Link,
   Stack,
   TextField,
   Typography
@@ -15,9 +15,7 @@ import Item from '@/app/components/common/Item';
 import PasswordTextField from '@/app/components/common/PasswordTextField';
 import {alertDialog, errorDialog} from '@/app/components/common/ConfirmDialog';
 import {useRouter} from 'next/navigation';
-import {signIn, signOut, useSession} from "next-auth/react";
-import GoogleIcon from '@mui/icons-material/Google';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import {signIn} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import {saveSignup} from "@/app/services/signup";
 
@@ -112,6 +110,7 @@ const LoginForm = () => {
       });
   }
 
+  // @ts-ignore
   return (
     <>
       <Dialog open={loginShowing}>
@@ -188,100 +187,81 @@ const LoginForm = () => {
 
       <div style={{
         backgroundColor: '#fff', color: '#000',
-        border: '1px solid #000',
         padding: '20px',
-        boxShadow: '6px 6px 4px #aaf',
-        width: '500px'
+        width: '100%'
       }}>
-        <div style={{
-          paddingTop: '1em', width: '100%'
-        }}>
-          <div style={{ backgroundColor: 'blue', color: '#fff', padding: '10px', textAlign: 'center', fontWeight: 'bold' }}>
-            Welcome to Objectified!
-          </div>
+        <Item sx={{ width: '100%', textAlign: 'center', paddingBottom: '40px' }}>
+          <Typography variant={'h5'} style={{ fontWeight: 'bold', color: '#000' }}>Log into Objectified</Typography>
+        </Item>
 
-          <Stack direction={'column'} sx={{paddingTop: '30px'}}>
-            <Item sx={{ width: '100%', padding: '0px' }}>
-              <TextField type={'text'}
-                         fullWidth
-                         value={payload['emailAddress'] ?? ''}
-                         name={'emailAddress'}
-                         sx={{paddingBottom: '1em'}}
-                         onChange={handleChange}
-                         placeholder={'Enter your email address'}/>
-            </Item>
+        <Stack direction={'row'}>
+          <Item sx={{ width: '45%' }}>
+            <Stack direction={'column'}>
+              <Item sx={{ width: '100%', padding: '0px' }}>
+                <TextField type={'text'}
+                           fullWidth
+                           value={payload['emailAddress'] ?? ''}
+                           name={'emailAddress'}
+                           sx={{paddingBottom: '1em'}}
+                           onChange={handleChange}
+                           placeholder={'Enter your email address'}/>
+              </Item>
 
-            <Item sx={{ width: '100%', padding: '0px' }}>
-              <PasswordTextField type={'text'}
-                         fullWidth
-                         value={payload['password'] ?? ''}
-                         name={'password'}
-                         sx={{paddingBottom: '1em'}}
-                         onChange={handleChange}
-                         placeholder={'Enter your password'}/>
-            </Item>
-          </Stack>
+              <Item sx={{ width: '100%', padding: '0px' }}>
+                <PasswordTextField type={'text'}
+                           fullWidth
+                           value={payload['password'] ?? ''}
+                           name={'password'}
+                           sx={{paddingBottom: '1em'}}
+                           onChange={handleChange}
+                           placeholder={'Enter your password'}/>
+              </Item>
+            </Stack>
 
-          <Stack direction={'row'}>
-            <Item sx={{ width: '100%', textAlign: 'right' }}>
-              <Button variant={'contained'} color={'error'}>Clear</Button>&nbsp;
-              <Button variant={'contained'} color={'success'} onClick={() => handleLogin()}>Login</Button>
-            </Item>
-          </Stack>
+            <Stack direction={'row'}>
+              <Item sx={{ width: '100%', textAlign: 'center', padding: '40px 0px 0px 0px' }}>
+                <Button variant={'contained'}
+                        style={{ width: '100%', height: '60px', border: '1px solid #000', padding: '0px' }}
+                        onClick={() => handleLogin()}>Login</Button>
+              </Item>
+            </Stack>
+          </Item>
 
-          <Stack direction={'column'} sx={{paddingTop: '30px'}}>
-            <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
-              <Button variant={'contained'}
-                      sx={{backgroundColor: '#0f0', color: '#000', fontWeight: 'bold', padding: '14px'}}
-                      fullWidth
-                      onClick={() => {
-                        setPayload({});
-                        setRequestAccessShowing(true);
-                      }}
-                      type={'submit'}>Request Early Access</Button>
-            </Item>
-          </Stack>
-
-          <div style={{width: '100%', textAlign: 'center', fontWeight: 'bold', paddingTop: '1em'}}>
-            <Divider>
-              or log in with
+          <Item sx={{ width: '10%' }}>
+            <Divider variant={'middle'} orientation={'vertical'}>
+              OR
             </Divider>
-          </div>
+          </Item>
 
-          <Stack direction={'row'} sx={{paddingTop: '20px'}}>
-            {/*<Item sx={{width: '50%'}}>*/}
-            {/*  <Button variant={'contained'}*/}
-            {/*          sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',*/}
-            {/*          '&:hover': {*/}
-            {/*            backgroundColor: '#fff',*/}
-            {/*            color: '#000',*/}
-            {/*            border: '1px solid #000',*/}
-            {/*          }*/}
-            {/*          }}*/}
-            {/*          fullWidth onClick={() => {*/}
-            {/*            setLoginShowing(true);*/}
-            {/*            signIn("google");*/}
-            {/*          }}*/}
-            {/*          startIcon={<img src={'/g-logo.png'} width={24} height={24}/>}></Button>*/}
-            {/*</Item>*/}
+          <Item sx={{ width: '45%' }}>
+            <Stack direction={'column'} sx={{ verticalAlign: 'middle' }}>
+              <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
+                <Button variant={'contained'}
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                          '&:hover': {
+                            backgroundColor: '#fff',
+                            color: '#000',
+                            border: '1px solid #000',
+                          }
+                        }}
+                        fullWidth onClick={() => {
+                          setLoginShowing(true);
+                          signIn("github");
+                        }}
+                        startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}>
+                  <Typography textTransform={'none'}>Sign in with GitHub</Typography>
+                </Button>
+              </Item>
+            </Stack>
+          </Item>
+        </Stack>
 
-            <Item sx={{width: '100%', paddingLeft: '20px'}}>
-              <Button variant={'contained'}
-                      sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
-                        '&:hover': {
-                          backgroundColor: '#fff',
-                          color: '#000',
-                          border: '1px solid #000',
-                        }
-                      }}
-                      fullWidth onClick={() => {
-                        setLoginShowing(true);
-                        signIn("github");
-                      }}
-                      startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}></Button>
-            </Item>
-          </Stack>
-        </div>
+        <Item sx={{ width: '100%', textAlign: 'center', paddingTop: '40px', color: '#000' }}>
+          Don't have an account?  <Link onClick={() => {
+          setPayload({});
+          setRequestAccessShowing(true);
+        }}>Sign up</Link>
+        </Item>
       </div>
     </>
   );

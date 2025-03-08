@@ -29,6 +29,7 @@ const WhatsNew = () => {
         <li> Fixed text entry bug in object fields</li>
         <li> Fixed app.objectified.dev to redirect to /login when JWT session is not active</li>
         <li> Added username and password authentication</li>
+        <li> More fixes to the layout in the base screens</li>
       </div>
     </div>
   );

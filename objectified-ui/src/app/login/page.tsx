@@ -21,7 +21,8 @@ const Login = () => {
           position: 'absolute',
           top: '50%',
           left: '50%',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          width: '80%'
         }}>
           <LoginForm/>
         </div>
@@ -40,9 +41,6 @@ const Login = () => {
           href={'https://github.com/objectified-framework'}>
             GitHub Repository
           </Link>
-        </div>
-        <div style={{ position: 'absolute', bottom: 0, right: 0, color: '#000', paddingRight: '5px' }}>
-          v{VERSION}
         </div>
       </>
     );
