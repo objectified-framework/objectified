@@ -93,7 +93,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
               exclusive
               onChange={handleSchemaViewChange}
               aria-label="Format"
-              style={{ height: '28px' }}
+              sx={{ height: '28px' }}
             >
               <ToggleButton value="json">JSON</ToggleButton>
               <ToggleButton value="yaml">YAML</ToggleButton>
@@ -123,7 +123,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
                          name={'json-text'}
                          key={`schema-form-json`}
                          inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}
-                         style={{ width: '100%', height: '100%' }}>
+                         sx={{ width: '100%', height: '100%' }}>
               </TextField>
             </div>
             </>
@@ -142,7 +142,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
                          name={'yaml-text'}
                          key={`schema-form-yaml`}
                          inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}
-                         style={{ width: '100%', height: '100%' }}>
+                         sx={{ width: '100%', height: '100%' }}>
               </TextField>
               </div>
             </>

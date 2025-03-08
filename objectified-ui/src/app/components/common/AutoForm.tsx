@@ -251,8 +251,9 @@ export const AutoForm = (props: IAutoForm) => {
               <InputLabel id={labelName}>{description} ({name})</InputLabel>
               <Select labelId={labelName}
                       label={`${description} (${name})`}
-                      style={{ textAlign: 'left' }}
+                      sx={{ textAlign: 'left' }}
                       value={payload[name] ?? element.options[0]}
+                      // @ts-ignore
                       name={name}
                       required={required}
                       onChange={handleChange}
@@ -274,6 +275,7 @@ export const AutoForm = (props: IAutoForm) => {
         <Stack direction={'column'} key={`auto-form-line-${name}`}>
           <Item sx={{ width: '100%', textAlign: 'left' }}>
             <FormControlLabel control={<Checkbox
+              // @ts-ignore
               name={name}
               onChange={handleChange}
               checked={payload[name] ?? false}
@@ -321,8 +323,10 @@ export const AutoForm = (props: IAutoForm) => {
               <InputLabel id={labelName}>{description} ({name})</InputLabel>
               <Select labelId={labelName}
                       label={`${description} (${name})`}
+                      // @ts-ignore
                       style={{ textAlign: 'left' }}
                       value={payload[name] ?? element.dataset[0].name}
+                      // @ts-ignore
                       name={name}
                       required={required}
                       onChange={handleChange}
@@ -349,8 +353,6 @@ export const AutoForm = (props: IAutoForm) => {
               options={element.dataset}
               fullWidth
               value={payload[name] ?? element.dataset[0].name}
-              // name={name}
-              // required={required}
               key={`auto-form-${formCounter}`}
               onChange={(event: any, value: any) => handleAutocompleteChange(event, value, name)}
               getOptionLabel={(option: any) => {

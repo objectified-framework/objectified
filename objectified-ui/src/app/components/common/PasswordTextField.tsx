@@ -9,6 +9,7 @@ const PasswordTextField = (props: TextFieldProps) => {
     <TextField {...props}
                type={showing ? 'text' : 'password'}
                InputProps={{
+                 // @ts-ignore
                  endAdornment: (
                    <IconButton onClick={() => setShowing(!showing)}>
                      {showing ? <Visibility/> : <VisibilityOff/>}

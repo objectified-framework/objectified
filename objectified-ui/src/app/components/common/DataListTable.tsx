@@ -91,9 +91,11 @@ export const DataListTable = (props: IDataList) => {
         <Table>
           <TableHead>
             <TableRow key={'data-list-table-head'}>
-              {props.columns.map((x, counter: number) => (
+              {props.columns.map((x: any, counter: number) => (
+                // @ts-ignore
                 <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000', padding: '4px' }} key={ `head-${counter}` }>{x.description}</TableCell>
               ))}
+              {/*// @ts-ignore*/}
               <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000', padding: '4px' }}>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -101,6 +103,7 @@ export const DataListTable = (props: IDataList) => {
           {props.isLoading ? (
             <TableBody>
               <TableRow key={'data-list-table-loading'}>
+                {/*// @ts-ignore*/}
                 <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center', width: '100%', padding: '4px' }}>
                   <CircularProgress/>
                 </TableCell>
@@ -111,6 +114,7 @@ export const DataListTable = (props: IDataList) => {
               {!props.dataset || !props.dataset.map || props.dataset.length === 0 ? (
                 <>
                   <TableRow key={'data-list-table-empty-set'}>
+                    {/*// @ts-ignore*/}
                     <TableCell colSpan={props.columns.length + 1} style={{ textAlign: 'center', padding: '4px' }}>
                       Dataset is empty
                     </TableCell>
@@ -125,6 +129,7 @@ export const DataListTable = (props: IDataList) => {
                           if (x[y.name]) {
                             return (
                               <TableCell key={ `row-${counter}-${subcounter}` }
+                                         // @ts-ignore
                                style={{ textAlign: 'center', padding: '4px' }}><CheckBox style={{ color: 'green' }}/></TableCell>
                             );
                           }
@@ -132,21 +137,29 @@ export const DataListTable = (props: IDataList) => {
                           const uuidSplit = x[y.name].split('-');
 
                           return (
-                            <TableCell key={ `row-${counter}-${subcounter}` } style={{ padding: '4px' }}>...{uuidSplit[uuidSplit.length - 1].slice(-6)}</TableCell>
+                            <TableCell key={ `row-${counter}-${subcounter}` }
+                                       // @ts-ignore
+                                       style={{ padding: '4px' }}>...{uuidSplit[uuidSplit.length - 1].slice(-6)}</TableCell>
                           );
                         } else if (y.type && y.type === 'date-time') {
                           const timeSplit = x[y.name] !== null ? x[y.name].split('T') : '';
 
                           return (
-                            <TableCell key={ `row-${counter}-${subcounter}` } style={{ padding: '4px' }}>{timeSplit[0]} {timeSplit[1]}</TableCell>
+                            <TableCell key={ `row-${counter}-${subcounter}` }
+                                       // @ts-ignore
+                                       style={{ padding: '4px' }}>{timeSplit[0]} {timeSplit[1]}</TableCell>
                           );
                         }
 
                         return (
-                          <TableCell key={ `row-${counter}-${subcounter}` } style={{ padding: '4px' }}>{props.renderColumn ? props.renderColumn(y.name, x[y.name]) : x[y.name]}</TableCell>
+                          <TableCell key={ `row-${counter}-${subcounter}` }
+                                     // @ts-ignore
+                                     style={{ padding: '4px' }}>{props.renderColumn ? props.renderColumn(y.name, x[y.name]) : x[y.name]}</TableCell>
                         );
                       })}
-                      <TableCell key={ `row-${counter}-icons` } style={{ padding: '4px' }}>
+                      <TableCell key={ `row-${counter}-icons` }
+                                 // @ts-ignore
+                                 style={{ padding: '4px' }}>
                         <Stack direction={'row'}>
                           {props.isDeletable(x) && (
                             <IconButton onClick={() => props.onDelete!(x)}>

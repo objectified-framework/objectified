@@ -38,6 +38,7 @@ export const TenantSelector = (props: ITenantSelector) => {
             <InputLabel id={'tenant-selector'} style={{ color: '#fff' }}></InputLabel>
             <Select labelId={'tenant-selector'}
                     label={''}
+                    // @ts-ignore
                     style={{ textAlign: 'left', color: '#fff', border: '#1px solid #fff', borderColor: '#fff' }}
                     name={'tenantSelector'}
                     value={(session as any).currentTenant ?? ''}

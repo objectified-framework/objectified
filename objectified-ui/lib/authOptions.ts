@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     signIn: async function ({user, account, profile, email, credentials}) {
-      console.log(`[next-auth::signIn] provider=${account.provider}`);
+      console.log(`[next-auth::signIn] provider=${account?.provider}`);
 
       if (!account || !account.provider) {
         return false;
@@ -166,7 +166,7 @@ export const authOptions: NextAuthOptions = {
 
       if (account) {
         token.objectified = {
-          emailAddress: profile?.email ?? user.emailAddress,
+          emailAddress: profile?.email ?? (user as any).emailAddress,
           source: account.provider,
         };
 
@@ -205,7 +205,7 @@ export const authOptions: NextAuthOptions = {
             });
 
           // Prepare the tenancy list to assign to the user's token.
-          const tenancyList = [];
+          const tenancyList: any[] = [];
 
           // Retrieve the names of each tenant.
           for(const tenancyId of tenancy) {
