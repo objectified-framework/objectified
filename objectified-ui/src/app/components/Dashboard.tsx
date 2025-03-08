@@ -34,11 +34,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
 
   if (status === 'unauthenticated') {
     return (<>
-      <html lang="en">
-        <body className={inter.className}>
-          {children}
-        </body>
-      </html>
+      {children}
     </>);
   }
 
