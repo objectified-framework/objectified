@@ -32,7 +32,9 @@ export class AuthServiceImpl implements AuthService {
             x.source = x.source.replaceAll('{', '').replaceAll('}', '');
           }
 
-          if (x.source.includes(userDto.source)) {
+          const sources = x.source.split(',');
+
+          if (sources.includes(userDto.source)) {
             const resultResponse: any = {
               id: x.id,
               data: x.data,
@@ -56,8 +58,8 @@ export class AuthServiceImpl implements AuthService {
             // Alternative sources could have been sent via other authentication methods, such as github, gitlab, or
             // azure.  Anything that does not require a database lookup for further logins is handled here.
             // The source must be an allowed, known source for the user.  Otherwise, the login attempt fails.
-            if (userDto.source.includes(x.source)) {
-              this.logger.log(`[login] User ${userDto.emailAddress} successful`);
+            if (sources.includes(userDto.source)) {
+              this.logger.log(`[login] User ${userDto.emailAddress} successful via source ${userDto.source}`);
               return ResponseOk(resultResponse);
             }
 
