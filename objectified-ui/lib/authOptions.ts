@@ -130,10 +130,8 @@ export const authOptions: NextAuthOptions = {
       console.log(`[next-auth::session]: session=${JSON.stringify(session, null, 2)} user=${JSON.stringify(user, null, 2)} token=${JSON.stringify(token, null, 2)}`);
 
       // Set session variables if not set, and the token contains the data necessary.
-      // @ts-ignore
-      session.currentTenant = token.currentTenant ?? '';
-      // @ts-ignore
-      session.objectified = token.objectified;
+      (session as any).currentTenant = token.currentTenant ?? '';
+      (session as any).objectified = token.objectified;
 
       return session;
     },
