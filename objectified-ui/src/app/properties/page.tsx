@@ -197,7 +197,7 @@ const Properties = () => {
                        isLoading={isLoading}
                        isAddable={true}
                        onAdd={() => {
-                         if (fields.length === 0) {
+                         if (fields.length <= 1) {
                            errorDialog('You need to add at least one field before you can create a property.');
                            return;
                          }
