@@ -190,6 +190,10 @@ const LoginForm = () => {
         padding: '20px',
         width: '100%'
       }}>
+        <div style={{ width: '100%', textAlign: 'center' }}>
+          <img src={'/Objectified-07.png'} style={{ width: 64, display: 'block', margin: '0 auto' }}/>
+        </div>
+
         <Item sx={{ width: '100%', textAlign: 'center', paddingBottom: '40px' }}>
           <Typography variant={'h5'} style={{ fontWeight: 'bold', color: '#000' }}>Log into Objectified</Typography>
         </Item>
