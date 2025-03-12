@@ -101,9 +101,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                       aria-expanded={open ? 'true' : undefined}>
                 <Avatar alt={`${session?.user?.name}`} src={`${session?.user?.image}`}/>
               </Button>
-              {/*// @ts-ignore */}
-              <Menu id={'simple-menu'} anchorEl={anchorEl} open={open} onClose={handleClose}
-                    MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                 <MenuItem onClick={() => {
                   handleClose();
                   setProfileShowing(true);
