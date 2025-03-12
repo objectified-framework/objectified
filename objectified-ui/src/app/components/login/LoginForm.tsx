@@ -196,7 +196,7 @@ const LoginForm = () => {
         </div>
 
         <Stack direction={'row'}>
-          <Item sx={{ width: '45%' }}>
+          <Item sx={{ width: '100%' }}>
             <Stack direction={'column'}>
               <Item sx={{ width: '100%', padding: '0px' }}>
                 <TextField type={'text'}
@@ -219,24 +219,22 @@ const LoginForm = () => {
               </Item>
             </Stack>
 
-            <Stack direction={'row'}>
+            <Stack direction={'column'}>
               <Item sx={{ width: '100%', textAlign: 'center', padding: '40px 0px 0px 0px' }}>
                 <Button variant={'contained'}
                         style={{ width: '100%', height: '60px', border: '1px solid #000', padding: '0px' }}
                         onClick={() => handleLogin()}>Login</Button>
               </Item>
+
+              <Item sx={{ width: '100%', padding: '30px' }}>
+                <Divider>
+                  OR
+                </Divider>
+              </Item>
             </Stack>
-          </Item>
 
-          <Item sx={{ width: '10%' }}>
-            <Divider variant={'middle'} orientation={'vertical'}>
-              OR
-            </Divider>
-          </Item>
-
-          <Item sx={{ width: '45%' }}>
             <Stack direction={'column'} sx={{ verticalAlign: 'middle' }}>
-              <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
+              <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px', paddingTop: '0px' }}>
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
                           '&:hover': {
@@ -254,15 +252,15 @@ const LoginForm = () => {
                 </Button>
               </Item>
             </Stack>
+
+            <Item sx={{ width: '100%', textAlign: 'center', paddingTop: '40px', color: '#000' }}>
+              Don't have an account?  <Link onClick={() => {
+              setPayload({});
+              setRequestAccessShowing(true);
+            }}>Sign up</Link>
+            </Item>
           </Item>
         </Stack>
-
-        <Item sx={{ width: '100%', textAlign: 'center', paddingTop: '40px', color: '#000' }}>
-          Don't have an account?  <Link onClick={() => {
-          setPayload({});
-          setRequestAccessShowing(true);
-        }}>Sign up</Link>
-        </Item>
       </div>
     </>
   );
