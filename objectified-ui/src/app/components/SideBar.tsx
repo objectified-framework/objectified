@@ -66,13 +66,13 @@ export default function SideBar(props: SideBarProps) {
         </div>
 
         <div style={{
-          position: 'fixed', top: '48px', height: 'calc(100% - 96px)', backgroundColor: '#060606',
+          position: 'fixed', top: '48px', height: 'calc(100% - 84px)', backgroundColor: '#060606',
           width: '53px', color: '#ccc', paddingTop: '10px', paddingLeft: '2px',
           paddingRight: '2px'
         }}>
           <Stack direction={'column'}>
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/data-types') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/data-types')
                 }, backgroundColor: selectedBackgroundColor('/data-types')
@@ -82,7 +82,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/class') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/classes')
                 }, backgroundColor: selectedBackgroundColor('/classes')
@@ -92,7 +92,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/fields') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/fields')
                 }, backgroundColor: selectedBackgroundColor('/fields')
@@ -102,7 +102,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/properties') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/properties')
                 }, backgroundColor: selectedBackgroundColor('/properties')
@@ -112,7 +112,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/class-properties') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/class-properties')
                 }, backgroundColor: selectedBackgroundColor('/class-properties')
@@ -122,7 +122,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/designer') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/designer')
                 }, backgroundColor: selectedBackgroundColor('/designer')
@@ -132,7 +132,7 @@ export default function SideBar(props: SideBarProps) {
             </Item>
 
             <Item sx={{ padding: '0px', paddingTop: '5px', backgroundColor: '#060606', color: selectedColor('/whats-new') }}>
-              <ListItemButton sx={{ paddingLeft: '10px', minHeight: 32, borderRadius: 2, border: '1px solid #060606',
+              <ListItemButton sx={{ paddingLeft: '10px', height: 47, borderRadius: 2, border: '1px solid #060606',
                 '&:hover': {
                   border: '1px solid #fff', backgroundColor: selectedBackgroundColor('/whats-new')
                 }, backgroundColor: selectedBackgroundColor('/whats-new')
@@ -144,10 +144,9 @@ export default function SideBar(props: SideBarProps) {
         </div>
 
         <div style={{
-          height: '48px', backgroundColor: '#0f0f0f', position: 'fixed', top: 'calc(100% - 48px)',
+          height: '36px', backgroundColor: '#0f0f0f', position: 'fixed', top: 'calc(100% - 36px)',
           width: '53px', borderTop: '1px solid #336', paddingTop: '10px', paddingLeft: '10px', color: '#ccc'
         }}>
-          <ElectricBoltOutlined/>
         </div>
       </>
     );
@@ -161,7 +160,7 @@ export default function SideBar(props: SideBarProps) {
       }}>
         <Stack direction={'row'}>
           <div style={{width: '75%'}}>
-            <b>Objectified Console</b>
+            <img src={'/Objectified-05.png'} width={100}/>
           </div>
           <div style={{width: '25%', textAlign: 'right', paddingRight: '12px', paddingTop: '0px'}}>
             <IconButton style={{color: '#fff', padding: '0px'}}
@@ -172,7 +171,7 @@ export default function SideBar(props: SideBarProps) {
         </Stack>
       </div>
 
-      <div style={{ position: 'fixed', top: '48px', height: 'calc(100% - 96px)', backgroundColor: '#060606',
+      <div style={{ position: 'fixed', top: '48px', height: 'calc(100% - 84px)', backgroundColor: '#060606',
         overflowY: 'auto', width: '260px', color: '#ccc', paddingLeft: '10px', paddingTop: '10px',
         paddingRight: '10px' }}>
         <Stack direction={'column'}>
@@ -297,9 +296,10 @@ export default function SideBar(props: SideBarProps) {
         </Stack>
       </div>
 
-      <div style={{ height: '48px', backgroundColor: '#0f0f0f', position: 'fixed', top: 'calc(100% - 48px)',
-        width: '260px', borderTop: '1px solid #336', paddingTop: '10px', paddingLeft: '10px', color: '#ccc' }}>
-        <ElectricBoltOutlined/> powered by <b>Objectified</b>
+      <div style={{ height: '36px', backgroundColor: '#0f0f0f', position: 'fixed', top: 'calc(100% - 36px)',
+        width: '260px', borderTop: '1px solid #336', paddingTop: '10px', paddingRight: '10px', color: '#ccc',
+        textAlign: 'right', fontSize: '10px' }}>
+        v0.0.2
       </div>
     </>
   );
