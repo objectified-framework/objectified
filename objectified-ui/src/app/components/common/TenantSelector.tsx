@@ -47,7 +47,9 @@ export const TenantSelector = (props: ITenantSelector) => {
                       color: "white",
                       "& .MuiOutlinedInput-notchedOutline": {
                         borderColor: "white",
-                      },
+                      },'& .MuiSvgIcon-root': {
+                        color: 'white'
+                      }
                     }}
                     fullWidth>
               <MenuItem disabled value={''}>
