@@ -32,6 +32,7 @@ const WhatsNew = () => {
         <li> More fixes to the layout in the base screens</li>
         <li> Changed login screen to look more professional</li>
         <li> Fixes to button functionality in the table listings</li>
+        <li> BUG: Auto form corrects 'object' type to use JSON formatting</li>
         <li> Added logos</li>
       </div>
     </div>

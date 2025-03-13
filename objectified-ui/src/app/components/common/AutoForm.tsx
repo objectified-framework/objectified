@@ -222,7 +222,7 @@ export const AutoForm = (props: IAutoForm) => {
               <TextField label={`${description} (${name})`}
                          fullWidth
                          multiline={multiline}
-                         value={payload[name] ?? '{}'}
+                         value={payload[name] ? JSON.stringify(payload[name], null, 2) : '{}'}
                          name={name}
                          required={required}
                          rows={maxRows}
