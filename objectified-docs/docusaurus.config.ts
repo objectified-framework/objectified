@@ -6,7 +6,6 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Objectified Platform',
-  tagline: 'Schemas-as-a-Service with API Support',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -78,7 +77,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Documentation',
         },
         // {to: '/blog', label: 'Blog', position: 'left'},
         // {
@@ -92,17 +91,25 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Links',
           items: [
-            // {
-            //   label: 'Tutorial',
-            //   to: '/docs/intro',
-            // },
+            {
+              label: 'Home',
+              href: 'https://www.objectified.dev/',
+            },
+            {
+              label: 'SaaS',
+              href: 'https://app.objectified.dev/',
+            }
           ],
         },
         {
           title: 'Community',
           items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/objectified-framework',
+            },
             // {
             //   label: 'Stack Overflow',
             //   href: 'https://stackoverflow.com/questions/tagged/docusaurus',
@@ -124,10 +131,6 @@ const config: Config = {
             //   label: 'Blog',
             //   to: '/blog',
             // },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/objectified-framework',
-            },
           ],
         },
       ],
