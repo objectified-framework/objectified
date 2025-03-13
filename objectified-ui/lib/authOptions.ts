@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
         // Github login path
         const loginDto = {
           emailAddress: <string>user['email'],
-          source: 'github',
+          source: account.provider,
         };
 
         // @ts-ignore
