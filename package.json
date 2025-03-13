@@ -3,6 +3,7 @@
   "workspaces": [
     "objectified-api",
     "objectified-db",
+    "objectified-docs",
     "objectified-services",
     "objectified-external",
     "objectified-ui"
