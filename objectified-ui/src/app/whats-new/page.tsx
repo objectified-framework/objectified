@@ -31,7 +31,7 @@ const WhatsNew = () => {
         <li> Added username and password authentication</li>
         <li> More fixes to the layout in the base screens</li>
         <li> Changed login screen to look more professional</li>
-        <li> Fixes to button functionality in the table listings</>
+        <li> Fixes to button functionality in the table listings</li>
         <li> Added logos</li>
       </div>
     </div>
