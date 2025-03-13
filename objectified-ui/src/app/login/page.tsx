@@ -81,6 +81,21 @@ const Login = () => {
                     GitHub Repository
                   </Typography>
                 </Button>
+                <br/><br/>
+                <Button style={{ width: '50%' }}
+                        sx={{backgroundColor: '#ccf', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                          '&:hover': {
+                            backgroundColor: '#99f',
+                            color: '#000',
+                            border: '1px solid #000',
+                          }
+                        }}
+                        variant={'contained'}
+                        onClick={() => { window.open('https://docs.objectified.dev/docs/intro', '_none') }}>
+                  <Typography textTransform={'none'}>
+                    Support
+                  </Typography>
+                </Button>
               </div>
             </div>
           </div>
