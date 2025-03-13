@@ -48,6 +48,7 @@ export interface IDataList {
   isAddable: boolean;
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
+  isRefreshable?: boolean;
   renderColumn?: (column: string, value: string) => string;
   extraIcon?: any;
   onExtraIcon?: (payload: any) => void;
@@ -70,9 +71,11 @@ export const DataListTable = (props: IDataList) => {
           </Item>
 
           <Item sx={{width: '30%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
+            {props.isRefreshable && (
             <IconButton sx={{color: '#fff'}} onClick={() => props.onRefresh()}>
               <RefreshOutlined/>
             </IconButton>
+            )}
 
             {props.isAddable && (
               <IconButton sx={{color: '#fff'}} onClick={() => {

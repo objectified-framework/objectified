@@ -153,6 +153,7 @@ const Classes = () => {
                        dataset={dataPayload}
                        isLoading={isLoading}
                        isAddable={true}
+                       isRefreshable={true}
                        onAdd={() => {
                          resetSelectedLine();
                          setOpen(true);

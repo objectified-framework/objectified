@@ -153,6 +153,7 @@ const Fields = () => {
                        dataset={dataPayload}
                        isLoading={isLoading}
                        isAddable={true}
+                       isRefreshable={true}
                        onAdd={() => {
                          resetSelectedLine();
                          loadFields().then(() => {

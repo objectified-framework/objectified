@@ -196,6 +196,7 @@ const Properties = () => {
                        dataset={dataPayload}
                        isLoading={isLoading}
                        isAddable={true}
+                       isRefreshable={true}
                        onAdd={() => {
                          if (fields.length <= 1) {
                            errorDialog('You need to add at least one field before you can create a property.');
