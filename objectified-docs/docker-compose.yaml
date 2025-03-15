@@ -1,0 +1,16 @@
+services:
+  objectified-docs:
+    image: node:22-alpine
+    container_name: objectified-docs
+    expose:
+      - ${PORT}
+    ports:
+      - "${PORT}:${PORT}"
+    working_dir: /objectified-docs
+    entrypoint: ["yarn", "serve"]
+    command: []
+    environment:
+      - PORT=${PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile

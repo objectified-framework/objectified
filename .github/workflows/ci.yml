@@ -56,5 +56,11 @@ jobs:
       - name: Build Database Docker Image
         run: cd objectified-db && docker-compose build
 
+      - name: Build Service Docker Image
+        run: cd objectified-services && docker-compose build
+
+      - name: Build Documents Docker Image
+        run: cd objectified-docs && PORT="3001" docker-compose build
+
 #      - name: Build Objectified
 #        run: sh ./build.sh
