@@ -2,11 +2,9 @@
 #
 # Project level builder
 
-echo "Building Objectified Master Project"
-
-# Load the database first
-cd objectified-db && ./ci.sh && cd ..
-
+## Load the database first
+#cd objectified-db && ./build.sh && cd ..
+#
 ## Load the OpenAPI toolset next
 #cd objectified-api && sh ./build.sh && cd .. && echo "API project built properly." && echo
 #

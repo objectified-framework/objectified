@@ -52,5 +52,8 @@ jobs:
       - name: Set up latest Yarn with corepack
         run: corepack enable && corepack use yarn
 
-      - name: Build Objectified
-        run: sh ./build.sh
+      - name: Build Database Docker Image
+        run: cd objectified-db && docker-compose build
+
+#      - name: Build Objectified
+#        run: sh ./build.sh
