@@ -2,4 +2,5 @@
 #
 # Build script to build the Docker image
 
-docker-compose up --build
+docker-compose build
+
