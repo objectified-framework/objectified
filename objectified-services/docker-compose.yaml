@@ -1,0 +1,17 @@
+services:
+  objectified-services:
+    image: node:22-alpine
+    container_name: objectified-services
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"
+    working_dir: /objectified/objectified-services
+    entrypoint: ["yarn", "start"]
+    command: []
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PORT=3001
+    build:
+      context: ../
+      dockerfile: objectified-services/Dockerfile
