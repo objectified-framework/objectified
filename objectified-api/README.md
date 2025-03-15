@@ -10,7 +10,7 @@ definition for the DAO/DTO layer.
 To build the `api` library, run:
 
 ```shell
-sh build.sh
+sh run.sh
 ```
 
 This will build the autogenerator.

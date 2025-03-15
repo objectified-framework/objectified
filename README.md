@@ -7,7 +7,7 @@ The Objectified Monorepo
 For clean installations, run the following from the top-level directory in the monorepo:
 
 ```shell
-sh ./build.sh
+sh ./run.sh
 ```
 
 ## Subprojects

@@ -1,0 +1,17 @@
+services:
+  objectified-db:
+    image: ruby:3.1.2-alpine
+    container_name: objectified-db
+    volumes:
+      - .:/objectified-db
+    working_dir: /objectified-db
+    entrypoint: ["./run.sh"]
+    command: []
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    build:
+      context: .
+      dockerfile: Dockerfile

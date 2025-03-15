@@ -11,7 +11,7 @@ OpenAPI Specification in `api/openapi.yaml`.
 To build the application, run the following command:
 
 ```shell
-sh ./build.sh
+sh ./run.sh
 ```
 
 This will install all the prerequisite libraries, autogenerate the
