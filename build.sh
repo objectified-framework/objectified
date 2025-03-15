@@ -5,7 +5,7 @@
 echo "Building Objectified Master Project"
 
 # Load the database first
-cd objectified-db && sh ./build.sh && sh ./docker-run.sh && cd .. && echo "DB Loaded." && echo
+cd objectified-db && ./ci.sh && cd ..
 
 ## Load the OpenAPI toolset next
 #cd objectified-api && sh ./build.sh && cd .. && echo "API project built properly." && echo
