@@ -46,5 +46,10 @@ jobs:
       - name: Set up latest Yarn with corepack
         run: corepack enable && corepack use yarn
 
+      - name: Install Docker using Docker's official script
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh get-docker.sh
+
       - name: Build Objectified
         run: sh ./build.sh
