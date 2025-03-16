@@ -71,4 +71,8 @@ jobs:
         run: cd objectified-docs && PORT="3001" docker-compose build
 
       - name: Notify Build Server to Refresh
-        run: wget --user ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD} https://docker.objectified.dev/nr/build/refresh
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          NODERED_BASE_URL: ${{ secrets.NODERED_BASE_URL }}
+        run: wget --user ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD} "${NODERED_BASE_URL}/build/refresh"
