@@ -5,13 +5,13 @@ services:
       - "3000"
     ports:
       - "3000:3000"
-    working_dir: /objectified-ui
+    working_dir: /objectified/objectified-ui
     entrypoint: ["yarn", "start"]
     command: []
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - PORT=3000
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: objectified-ui/Dockerfile
     image: ${DOCKER_REMOTE}/objectified-ui:${TAG_UI:-latest}

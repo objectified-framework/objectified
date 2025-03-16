@@ -1,7 +1,14 @@
 FROM node:22-alpine
 
-WORKDIR /objectified-ui
-COPY . /objectified-ui
+RUN mkdir -p objectified/objectified-services objectified/objectified-api objectified/objectified-ui objectified/openapi
+COPY objectified-services /objectified/objectified-services
+COPY objectified-ui /objectified/objectified-ui
+COPY objectified-api /objectified/objectified-api
+COPY openapi /objectified/openapi
+COPY package.json /objectified
+WORKDIR /objectified
 RUN corepack enable && corepack install -g yarn
-RUN yarn install && yarn build
+RUN cd /objectified-api && yarn install && yarn build
+RUN cd /objectified-services && yarn install && yarn autogen && yarn build
+RUN cd /objectified-ui && yarn install && yarn autogen && yarn build
 
