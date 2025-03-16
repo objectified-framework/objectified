@@ -10,5 +10,5 @@ WORKDIR /objectified
 RUN corepack enable && corepack install -g yarn
 RUN cd /objectified/objectified-api && yarn install && yarn build && cd ..
 RUN cd /objectified/objectified-services && yarn install && yarn autogen && yarn build && cd ..
-RUN cd /objectified/objectified-ui && yarn install && yarn autogen && yarn build && cd ..
+RUN cd /objectified/objectified-ui && yarn install && yarn build && cd ..
 
