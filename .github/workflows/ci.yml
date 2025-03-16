@@ -72,7 +72,7 @@ jobs:
         run: cd objectified-docs && PORT="3001" docker-compose build
 
       - name: Notify Build Server to Refresh
-        run: curl -u ${DOCKER_USERNAME}:${DOCKER_PASSWORD} ${NODERED_BASE_URL}/build/refresh
+        run: wget --user ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD} "${NODERED_BASE_URL}/build/refresh"
 
 #      - name: Build Objectified
 #        run: sh ./build.sh
