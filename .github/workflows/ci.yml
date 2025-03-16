@@ -12,6 +12,8 @@ jobs:
     env:
       NEXTAUTH_URL: http://localhost:3000/api/auth
       SERVICE_URL: http://localhost:3001/
+      UI_PORT: "3000"
+      SERVICE_PORT: "3001"
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       TAG_DB: 0.0.2
@@ -23,13 +25,12 @@ jobs:
 
       - name: Build Docs Site
         env:
-          PORT: "3001"
         run: |
           cd objectified-docs
-          docker compose build
+          PORT="${SERVICE_PORT}" docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
-          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
-          docker image push ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
+#          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
+#          docker image push ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
 
 #      - name: Build Database Docker Image
 #        run: |
