@@ -24,7 +24,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docs Site
-        env:
         run: |
           cd objectified-docs
           PORT="${SERVICE_PORT}" docker compose build
