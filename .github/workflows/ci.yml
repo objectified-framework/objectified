@@ -21,6 +21,7 @@ jobs:
       TAG_DOCS: 0.0.1
       TAG_SERVICES: 0.0.1
       TAG_EXTERNAL: 0.0.1
+      TAG_UI: 0.0.1
 
     steps:
       - name: Checkout code
@@ -46,13 +47,20 @@ jobs:
 #          docker compose build
 #          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
 #          docker image push ${DOCKER_REMOTE}/objectified-services:${TAG_SERVICES}
+#
+#      - name: Build External
+#        run: |
+#          cd objectified-external
+#          docker compose build
+#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+#          docker image push ${DOCKER_REMOTE}/objectified-external:${TAG_EXTERNAL}
 
-      - name: Build External
+      - name: Build UI
         run: |
-          cd objectified-external
+          cd objectified-ui
           docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-          docker image push ${DOCKER_REMOTE}/objectified-external:${TAG_EXTERNAL}
+          docker image push ${DOCKER_REMOTE}/objectified-ui:${TAG_UI}
 
 #      - name: Build Documents Docker Image
 #        run: cd objectified-docs && PORT="3001" docker-compose build
