@@ -68,7 +68,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           cd objectified-db
-          ./run.sh
           docker-compose build
           docker-compose push
 
