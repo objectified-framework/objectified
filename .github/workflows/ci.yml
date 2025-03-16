@@ -34,15 +34,18 @@ jobs:
       POSTGRES_PORT: 5432
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+      DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "22"
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: "22"
 
       - name: Install Docker Compose
         run: |
@@ -50,29 +53,27 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
-      - name: Set up latest Yarn with corepack
-        run: corepack enable && corepack use yarn
+      - name: Log into Docker Remote
+        run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
+
+#      - name: Set up latest Yarn with corepack
+#        run: corepack enable && corepack use yarn
 
       - name: Build Database Docker Image
-        env:
-          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
           cd objectified-db
-          docker-compose build
-          docker-compose push
+          docker compose build
+          docker compose push
 
-      - name: Build Service Docker Image
-        run: cd objectified-services && docker-compose build
-
-      - name: Build Documents Docker Image
-        run: cd objectified-docs && PORT="3001" docker-compose build
-
-      - name: Notify Build Server to Refresh
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          NODERED_BASE_URL: ${{ secrets.NODERED_BASE_URL }}
-        run: wget --user ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD} "${NODERED_BASE_URL}/build/refresh"
+#      - name: Build Service Docker Image
+#        run: cd objectified-services && docker-compose build
+#
+#      - name: Build Documents Docker Image
+#        run: cd objectified-docs && PORT="3001" docker-compose build
+#
+#      - name: Notify Build Server to Refresh
+#        env:
+#          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#          NODERED_BASE_URL: ${{ secrets.NODERED_BASE_URL }}
+#        run: wget --user ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD} "${NODERED_BASE_URL}/build/refresh"
