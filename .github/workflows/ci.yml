@@ -62,7 +62,7 @@ jobs:
         run: corepack enable && corepack use yarn
 
       - name: Build Database Docker Image
-        run: cd objectified-db && docker-compose build
+        run: cd objectified-db && docker-compose build && ./run.sh
 
       - name: Build Service Docker Image
         run: cd objectified-services && docker-compose build
