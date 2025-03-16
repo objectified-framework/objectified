@@ -49,6 +49,7 @@ jobs:
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          NODERED_BASE_URL: ${{ secrets.NODERED_BASE_URL }}
         run: |
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
 
@@ -69,6 +70,9 @@ jobs:
 
       - name: Build Documents Docker Image
         run: cd objectified-docs && PORT="3001" docker-compose build
+
+      - name: Notify Build Server to Refresh
+        run: curl -u ${DOCKER_USERNAME}:${DOCKER_PASSWORD} ${NODERED_BASE_URL}/build/refresh
 
 #      - name: Build Objectified
 #        run: sh ./build.sh
