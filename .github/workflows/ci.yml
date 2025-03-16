@@ -46,6 +46,7 @@ jobs:
         run: |
           cd objectified-db
           docker compose build
+          docker compose push
 
 #      - name: Set up Node.js
 #        uses: actions/setup-node@v2
