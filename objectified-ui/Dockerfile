@@ -8,7 +8,7 @@ COPY openapi /objectified/openapi
 COPY package.json /objectified
 WORKDIR /objectified
 RUN corepack enable && corepack install -g yarn
-RUN cd /objectified-api && yarn install && yarn build
-RUN cd /objectified-services && yarn install && yarn autogen && yarn build
-RUN cd /objectified-ui && yarn install && yarn autogen && yarn build
+RUN cd /objectified/objectified-api && yarn install && yarn build && cd ..
+RUN cd /objectified/objectified-services && yarn install && yarn autogen && yarn build && cd ..
+RUN cd /objectified/objectified-ui && yarn install && yarn autogen && yarn build && cd ..
 
