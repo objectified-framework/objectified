@@ -1,6 +1,5 @@
 services:
   objectified-docs:
-    image: node:22-alpine
     container_name: objectified-docs
     expose:
       - ${PORT}
@@ -14,4 +13,4 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: objectified-docs:${TAG:-latest}
+    image: objectified-docs:${TAG_DOCS:-latest}
