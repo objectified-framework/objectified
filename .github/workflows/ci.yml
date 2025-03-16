@@ -42,6 +42,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Build Database Docker Image
+        run: |
+          cd objectified-db
+          docker compose build
+
 #      - name: Set up Node.js
 #        uses: actions/setup-node@v2
 #        with:
@@ -59,10 +64,6 @@ jobs:
 #      - name: Set up latest Yarn with corepack
 #        run: corepack enable && corepack use yarn
 
-      - name: Build Database Docker Image
-        run: |
-          cd objectified-db
-          docker compose build
 #          docker compose push
 
 #      - name: Build Service Docker Image
