@@ -14,7 +14,7 @@ jobs:
       SERVICE_URL: http://localhost:3001/
       UI_PORT: "3000"
       SERVICE_PORT: "3001"
-      DOCKER_REMOTE: ${{ secretes.DOCKER_HOST }}
+      DOCKER_REMOTE: ${{ secrets.DOCKER_HOST }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       TAG_DB: 0.0.2
