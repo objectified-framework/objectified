@@ -19,31 +19,33 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       TAG_DB: 0.0.2
       TAG_DOCS: 0.0.1
+      TAG_SERVICES: 0.0.1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Build Docs Site
+#      - name: Build Docs
 #        run: |
 #          cd objectified-docs
 #          PORT="${SERVICE_PORT}" docker compose build
 #          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
 #          docker image push ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS}
+#
+#      - name: Build Database
+#        run: |
+#          cd objectified-db
+#          docker compose build
+#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+#          docker image push ${DOCKER_REMOTE}/objectified-db:${TAG_DB}
 
-      - name: Build Database Docker Image
+      - name: Build Service
         run: |
-          cd objectified-db
+          cd objectified-services
           docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-          docker image push ${DOCKER_REMOTE}/objectified-db:${TAG_DB}
+          docker image push ${DOCKER_REMOTE}/objectified-services:${TAG_SERVICES}
 
-#      - name: Build Service Docker Image
-#        run: |
-#          cd objectified-services
-#          docker compose build
-#
-#
 #      - name: Build Documents Docker Image
 #        run: cd objectified-docs && PORT="3001" docker-compose build
 #

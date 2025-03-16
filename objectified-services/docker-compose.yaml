@@ -1,6 +1,5 @@
 services:
   objectified-services:
-    image: node:22-alpine
     container_name: objectified-services
     expose:
       - "3001"
@@ -15,3 +14,4 @@ services:
     build:
       context: ../
       dockerfile: objectified-services/Dockerfile
+    image: ${DOCKER_REMOTE}/objectified-docs:${TAG_SERVICES:-latest}
