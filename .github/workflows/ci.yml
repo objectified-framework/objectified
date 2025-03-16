@@ -9,70 +9,41 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-#    services:
-#      postgres:
-#        image: postgres:latest
-#        env:
-#          POSTGRES_PASSWORD: postgres
-#          POSTGRES_DB: postgres
-#          POSTGRES_PORT: 5432
-#          POSTGRES_USER: postgres
-#        ports:
-#          - 5432:5432
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-
     env:
-#      YARN_ENABLE_IMMUTABLE_INSTALLS: false
       NEXTAUTH_URL: http://localhost:3000/api/auth
       SERVICE_URL: http://localhost:3001/
-#      POSTGRES_USER: postgres
-#      POSTGRES_HOST: localhost
-#      POSTGRES_PORT: 5432
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_DB: postgres
-#      DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      TAG_DB: 0.0.2
+      TAG_DOCS: 0.0.1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Database Docker Image
+      - name: Build Docs Site
         env:
-          TAG: 0.0.2
+          PORT: "3001"
         run: |
-          cd objectified-db
+          cd objectified-docs
           docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
-          docker image tag objectified-db:${TAG} ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG}
-          docker image push ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG}
+          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
+          docker image push ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
 
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: "22"
-#
-#      - name: Install Docker Compose
+#      - name: Build Database Docker Image
 #        run: |
-#          sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-#          sudo chmod +x /usr/local/bin/docker-compose
-#          docker-compose --version
+#          cd objectified-db
+#          docker compose build
+#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
+#          docker image tag objectified-db:${TAG_DB} ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG_DB}
+#          docker image push ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG_DB}
 #
-#      - name: Log into Docker Remote
-#        run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
-#
-#      - name: Set up latest Yarn with corepack
-#        run: corepack enable && corepack use yarn
-
-#          docker compose push
-
 #      - name: Build Service Docker Image
-#        run: cd objectified-services && docker-compose build
+#        run: |
+#          cd objectified-services
+#          docker compose build
+#
 #
 #      - name: Build Documents Docker Image
 #        run: cd objectified-docs && PORT="3001" docker-compose build
