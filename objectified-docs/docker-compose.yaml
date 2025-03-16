@@ -13,4 +13,4 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: objectified-docs:${TAG_DOCS:-latest}
+    image: ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS:-latest}

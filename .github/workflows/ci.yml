@@ -14,6 +14,7 @@ jobs:
       SERVICE_URL: http://localhost:3001/
       UI_PORT: "3000"
       SERVICE_PORT: "3001"
+      DOCKER_REMOTE: ${{ secretes.DOCKER_HOST }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       TAG_DB: 0.0.2
@@ -27,7 +28,7 @@ jobs:
         run: |
           cd objectified-docs
           PORT="${SERVICE_PORT}" docker compose build
-          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
 #          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
 #          docker image push ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
 
