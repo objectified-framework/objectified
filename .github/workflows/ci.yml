@@ -47,7 +47,7 @@ jobs:
           cd objectified-db
           docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
-          docker compose push
+          docker push objectified-db ${DOCKER_HOST}/objectified-db 
 
 #      - name: Set up Node.js
 #        uses: actions/setup-node@v2
