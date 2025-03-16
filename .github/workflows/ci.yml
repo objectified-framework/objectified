@@ -29,7 +29,7 @@ jobs:
           cd objectified-docs
           PORT="${SERVICE_PORT}" docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
+#          docker image tag objectified-docs:${TAG_DOCS} ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
           docker image push ${{ secrets.DOCKER_HOST }}/objectified-docs:${TAG_DOCS}
 
 #      - name: Build Database Docker Image
