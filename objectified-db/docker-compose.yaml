@@ -14,4 +14,4 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: objectified-db:${TAG:-latest}
+    image: ${DOCKER_REMOTE}/objectified-db:${TAG_DB:-latest}

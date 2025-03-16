@@ -24,21 +24,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docs Site
-        run: |
-          cd objectified-docs
-          PORT="${SERVICE_PORT}" docker compose build
-          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-          docker image push ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS}
-
-#      - name: Build Database Docker Image
+#      - name: Build Docs Site
 #        run: |
-#          cd objectified-db
-#          docker compose build
-#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
-#          docker image tag objectified-db:${TAG_DB} ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG_DB}
-#          docker image push ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG_DB}
-#
+#          cd objectified-docs
+#          PORT="${SERVICE_PORT}" docker compose build
+#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+#          docker image push ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS}
+
+      - name: Build Database Docker Image
+        run: |
+          cd objectified-db
+          docker compose build
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+          docker image push ${DOCKER_REMOTE}/objectified-db:${TAG_DB}
+
 #      - name: Build Service Docker Image
 #        run: |
 #          cd objectified-services
