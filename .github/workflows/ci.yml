@@ -49,7 +49,6 @@ jobs:
           cd objectified-db
           docker compose build
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${{ secrets.DOCKER_HOST }}
-          docker image tag objectified-db objectified-db:${TAG}
           docker image tag objectified-db:${TAG} ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG}
           docker image push ${{ secrets.DOCKER_HOST }}/objectified-db:${TAG}
 

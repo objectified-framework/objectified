@@ -1,6 +1,5 @@
 services:
   objectified-db:
-    image: ruby:3.1.2-alpine
     container_name: objectified-db
     volumes:
       - .:/objectified-db
@@ -15,3 +14,4 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: objectified-db:${TAG:-latest}
