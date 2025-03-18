@@ -6,7 +6,6 @@ services:
     ports:
       - "3000:3000"
     working_dir: /objectified/objectified-ui
-    entrypoint: ["yarn", "start"]
     command: []
     environment:
       - DATABASE_URL=${DATABASE_URL}
