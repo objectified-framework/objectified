@@ -8,3 +8,5 @@ RUN apk --update add postgresql-client
 
 # install the schema evolution manager (see README.md)
 RUN gem install schema-evolution-manager
+
+ENTRYPOINT ["/bin/sh", "-c", "cd /objectified-db && ./run.sh"]
