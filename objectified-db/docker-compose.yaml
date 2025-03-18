@@ -4,7 +4,7 @@ services:
     volumes:
       - .:/objectified-db
     working_dir: /objectified-db
-    entrypoint: ["./run.sh"]
+    entrypoint: ["/bin/sh", "-c", "cd /objectified-db && ./run.sh"]
     command: []
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
