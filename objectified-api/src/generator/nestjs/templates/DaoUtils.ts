@@ -20,6 +20,7 @@ export class DaoUtils {
    * @returns {pgPromise.IDatabase<any>} The database connection.
    */
   public static getDatabase() {
+    console.log(`Connection to: ${process.env.DATABASE_URL ?? "postgres://localhost:5432/postgres"}`);
     return this.db;
   }
 
