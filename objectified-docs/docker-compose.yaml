@@ -6,7 +6,6 @@ services:
     ports:
       - "${PORT}:${PORT}"
     working_dir: /objectified-docs
-    entrypoint: ["yarn", "serve"]
     command: []
     environment:
       - PORT=${PORT}
