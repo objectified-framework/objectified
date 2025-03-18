@@ -27,12 +27,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Build Docs
-#        run: |
-#          cd objectified-docs
-#          PORT="${SERVICE_PORT}" docker compose build
-#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-#          docker image push ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS}
+      - name: Build Docs
+        run: |
+          cd objectified-docs
+          PORT="${SERVICE_PORT}" docker compose build
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+          docker image push ${DOCKER_REMOTE}/objectified-docs:${TAG_DOCS}
 
       - name: Build Database
         run: |
@@ -41,19 +41,19 @@ jobs:
           docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
           docker image push ${DOCKER_REMOTE}/objectified-db:${TAG_DB}
 
-#      - name: Build Service
-#        run: |
-#          cd objectified-services
-#          docker compose build
-#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-#          docker image push ${DOCKER_REMOTE}/objectified-services:${TAG_SERVICES}
-#
-#      - name: Build External
-#        run: |
-#          cd objectified-external
-#          docker compose build
-#          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
-#          docker image push ${DOCKER_REMOTE}/objectified-external:${TAG_EXTERNAL}
+      - name: Build Service
+        run: |
+          cd objectified-services
+          docker compose build
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+          docker image push ${DOCKER_REMOTE}/objectified-services:${TAG_SERVICES}
+
+      - name: Build External
+        run: |
+          cd objectified-external
+          docker compose build
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REMOTE}
+          docker image push ${DOCKER_REMOTE}/objectified-external:${TAG_EXTERNAL}
 
       - name: Build UI
         run: |
