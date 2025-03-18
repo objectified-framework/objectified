@@ -6,7 +6,6 @@ services:
     ports:
       - "3001:3001"
     working_dir: /objectified/objectified-services
-    entrypoint: ["yarn", "start"]
     command: []
     environment:
       - DATABASE_URL=${DATABASE_URL}
