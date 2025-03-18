@@ -17,7 +17,7 @@ jobs:
       DOCKER_REMOTE: ${{ secrets.DOCKER_HOST }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      TAG_DB: 0.0.5
+      TAG_DB: 0.0.6
       TAG_DOCS: 0.0.2
       TAG_SERVICES: 0.0.4
       TAG_EXTERNAL: 0.0.1
