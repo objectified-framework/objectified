@@ -56,7 +56,6 @@ RETURNS jsonb AS $$
     JOIN obj.field f ON p.field_id = f.id
     JOIN obj.data_type dt ON f.data_type_id = dt.id
     WHERE cp.class_id = $1 AND p.class_id IS NULL
-    ORDER BY cp.id  -- This preserves the creation order
   `, [input_class_id]);
 
   // Process standard properties
@@ -188,7 +187,6 @@ RETURNS jsonb AS $$
     JOIN obj.property p ON cp.property_id = p.id
     JOIN obj.class c ON p.class_id = c.id
     WHERE cp.class_id = $1 AND p.class_id IS NOT NULL
-    ORDER BY cp.id
   `, [input_class_id]);
 
   // Process class reference properties
