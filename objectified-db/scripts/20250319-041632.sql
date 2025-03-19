@@ -215,8 +215,6 @@ RETURNS jsonb AS $$
     if (reference.required) {
       requiredProperties.push(propertyName);
     }
-
-    plv8.elog(NOTICE, `Added reference to class ${reference.referenced_class_name} (${reference.referenced_class_id}) as property ${propertyName}`);
   }
 
   // Add required array if there are required properties
