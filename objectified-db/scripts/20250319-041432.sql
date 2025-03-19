@@ -1,14 +1,14 @@
-CREATE OR REPLACE FUNCTION obj.generate_schema_for_class(class_id UUID)
+CREATE OR REPLACE FUNCTION obj.generate_schema_for_class(input_class_id UUID)
 RETURNS jsonb AS $$
-  // Get class information
+  // Get primary class information
   const classQuery = plv8.execute(`
     SELECT c.id, c.tenant_id, c.name, c.description
     FROM obj.class c
     WHERE c.id = $1
-  `, [class_id]);
+  `, [input_class_id]);
 
   if (classQuery.length === 0) {
-    plv8.elog(ERROR, `Class with ID ${class_id} not found`);
+    plv8.elog(ERROR, `Class with ID ${input_class_id} not found`);
     return null;
   }
 
@@ -25,10 +25,10 @@ RETURNS jsonb AS $$
     additionalProperties: false
   };
 
-  // Array to store required properties
+  // Container to store required properties
   const requiredProperties = [];
 
-  // Get all properties for this class with their details
+  // QUERY 1: Get standard properties joined through class_property
   const propertiesQuery = plv8.execute(`
     SELECT
       cp.id as class_property_id,
@@ -42,6 +42,7 @@ RETURNS jsonb AS $$
       p.is_array,
       p.default_value,
       p.constraints,
+      p.class_id as property_class_id,
       f.id as field_id,
       f.name as field_name,
       f.data_format,
@@ -54,21 +55,21 @@ RETURNS jsonb AS $$
     JOIN obj.property p ON cp.property_id = p.id
     JOIN obj.field f ON p.field_id = f.id
     JOIN obj.data_type dt ON f.data_type_id = dt.id
-    WHERE cp.class_id = $1
+    WHERE cp.class_id = $1 AND p.class_id IS NULL
     ORDER BY cp.id  -- This preserves the creation order
-  `, [class_id]);
+  `, [input_class_id]);
 
-  // Process each property
+  // Process standard properties
   for (const property of propertiesQuery) {
     // Use the class_property name if provided, otherwise use the property name
     const propertyName = property.class_property_name || property.property_name;
 
-    // Start building the property schema
+  // Start building the property schema
     const propertySchema = {
       description: property.class_property_description || property.property_description
     };
 
-    // Handle the data type
+  // Handle the data type
     switch (property.data_type) {
       case 'STRING':
         propertySchema.type = property.nullable ? ['string', 'null'] : 'string';
@@ -97,7 +98,7 @@ RETURNS jsonb AS $$
         break;
 
       case '$REF':
-        // Handle references - this assumes the reference is stored in data_format
+        // Handle references using data_format
         if (property.data_format) {
           propertySchema.$ref = property.data_format;
         } else {
@@ -164,6 +165,60 @@ RETURNS jsonb AS $$
     if (property.required) {
       requiredProperties.push(propertyName);
     }
+  }
+
+  // QUERY 2: Get class references - properties with class_id set
+  const classReferencesQuery = plv8.execute(`
+    SELECT
+      cp.id as class_property_id,
+      cp.name as class_property_name,
+      cp.description as class_property_description,
+      p.id as property_id,
+      p.name as property_name,
+      p.description as property_description,
+      p.required,
+      p.nullable,
+      p.is_array,
+      p.default_value,
+      p.constraints,
+      p.class_id as referenced_class_id,
+      c.name as referenced_class_name,
+      c.tenant_id as referenced_tenant_id
+    FROM obj.class_property cp
+    JOIN obj.property p ON cp.property_id = p.id
+    JOIN obj.class c ON p.class_id = c.id
+    WHERE cp.class_id = $1 AND p.class_id IS NOT NULL
+    ORDER BY cp.id
+  `, [input_class_id]);
+
+  // Process class reference properties
+  for (const reference of classReferencesQuery) {
+    // Use the class_property name if provided, otherwise use the property name
+    const propertyName = reference.class_property_name || reference.property_name;
+
+    // Create a reference to the other class
+    const refSchema = {
+      description: reference.class_property_description || reference.property_description,
+      $ref: `#/components/schemas/${reference.referenced_class_name}`
+    };
+
+    // Handle arrays
+    if (reference.is_array) {
+      schema.properties[propertyName] = {
+        type: 'array',
+        description: reference.class_property_description || reference.property_description,
+        items: refSchema
+      };
+    } else {
+      schema.properties[propertyName] = refSchema;
+    }
+
+    // Add to required properties if needed
+    if (reference.required) {
+      requiredProperties.push(propertyName);
+    }
+
+    plv8.elog(NOTICE, `Added reference to class ${reference.referenced_class_name} (${reference.referenced_class_id}) as property ${propertyName}`);
   }
 
   // Add required array if there are required properties
