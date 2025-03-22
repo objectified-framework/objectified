@@ -56,11 +56,11 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (account.provider === 'github') {
-        return githubSignin(user, account);
+        return githubSignin(user);
       } else if (account.provider === 'google') {
-        return googleSignin(user, account);
+        return googleSignin(user);
       } else if (account.provider === 'gitlab') {
-        return gitlabSignin(user, account);
+        return gitlabSignin(user);
       } else if (account.provider === 'credentials') {
         const { emailAddress, password } = credentials as {
           emailAddress: string,

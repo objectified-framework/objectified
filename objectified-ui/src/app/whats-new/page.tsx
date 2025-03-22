@@ -34,6 +34,7 @@ const WhatsNew = () => {
         <li> Fixes to button functionality in the table listings</li>
         <li> BUG: Auto form corrects 'object' type to use JSON formatting</li>
         <li> Added logos</li>
+        <li> Login sources increased to GitLab and Google</li>
       </div>
     </div>
   );
