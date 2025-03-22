@@ -233,8 +233,8 @@ const LoginForm = () => {
               </Item>
             </Stack>
 
-            <Stack direction={'column'} sx={{ verticalAlign: 'middle' }}>
-              <Item sx={{ width: '100%', paddingLeft: '0px', paddingRight: '0px', paddingTop: '0px' }}>
+            <Stack direction={'row'} sx={{ verticalAlign: 'middle' }}>
+              <Item sx={{ width: '50%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
                           '&:hover': {
@@ -249,6 +249,24 @@ const LoginForm = () => {
                         }}
                         startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}>
                   <Typography textTransform={'none'}>Sign in with GitHub</Typography>
+                </Button>
+              </Item>
+
+              <Item sx={{ width: '50%', paddingTop: '0px' }}>
+                <Button variant={'contained'}
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                          '&:hover': {
+                            backgroundColor: '#fff',
+                            color: '#000',
+                            border: '1px solid #000',
+                          }
+                        }}
+                        fullWidth onClick={() => {
+                          setLoginShowing(true);
+                          signIn("google");
+                        }}
+                        startIcon={<img src={'/google-mark.png'} width={24} height={24}/>}>
+                  <Typography textTransform={'none'}>Sign in with Google</Typography>
                 </Button>
               </Item>
             </Stack>
