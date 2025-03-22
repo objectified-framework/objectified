@@ -1,4 +1,5 @@
 import GithubProvider from 'next-auth/providers/github';
+import GitlabProvider from 'next-auth/providers/gitlab';
 import GoogleProvider from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { NextAuthOptions } from 'next-auth';
@@ -12,12 +13,17 @@ import jwt from 'jsonwebtoken';
 import {JWT} from "./JWT";
 import {githubSignin} from "./auth/github/signin";
 import {googleSignin} from "./auth/google/signin";
+import {gitlabSignin} from "./auth/gitlab/signin";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
+    }),
+    GitlabProvider({
+      clientId: process.env.GITLAB_CLIENT_ID as string,
+      clientSecret: process.env.GITLAB_CLIENT_SECRET as string,
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -53,6 +59,8 @@ export const authOptions: NextAuthOptions = {
         return githubSignin(user, account);
       } else if (account.provider === 'google') {
         return googleSignin(user, account);
+      } else if (account.provider === 'gitlab') {
+        return gitlabSignin(user, account);
       } else if (account.provider === 'credentials') {
         const { emailAddress, password } = credentials as {
           emailAddress: string,

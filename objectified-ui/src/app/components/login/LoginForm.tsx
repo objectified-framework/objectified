@@ -234,7 +234,7 @@ const LoginForm = () => {
             </Stack>
 
             <Stack direction={'row'} sx={{ verticalAlign: 'middle' }}>
-              <Item sx={{ width: '50%', paddingTop: '0px' }}>
+              <Item sx={{ width: '33%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
                           '&:hover': {
@@ -248,11 +248,29 @@ const LoginForm = () => {
                           signIn("github");
                         }}
                         startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}>
-                  <Typography textTransform={'none'}>Sign in with GitHub</Typography>
+                  <Typography textTransform={'none'}></Typography>
                 </Button>
               </Item>
 
-              <Item sx={{ width: '50%', paddingTop: '0px' }}>
+              <Item sx={{ width: '34%', paddingTop: '0px' }}>
+                <Button variant={'contained'}
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                          '&:hover': {
+                            backgroundColor: '#fff',
+                            color: '#000',
+                            border: '1px solid #000',
+                          }
+                        }}
+                        fullWidth onClick={() => {
+                  setLoginShowing(true);
+                  signIn("gitlab");
+                }}
+                        startIcon={<img src={'/gitlab.svg'} width={24} height={24}/>}>
+                  <Typography textTransform={'none'}></Typography>
+                </Button>
+              </Item>
+
+              <Item sx={{ width: '33%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
                         sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
                           '&:hover': {
@@ -266,7 +284,7 @@ const LoginForm = () => {
                           signIn("google");
                         }}
                         startIcon={<img src={'/google-mark.png'} width={24} height={24}/>}>
-                  <Typography textTransform={'none'}>Sign in with Google</Typography>
+                  <Typography textTransform={'none'}></Typography>
                 </Button>
               </Item>
             </Stack>
