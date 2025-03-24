@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import {
-  Button,
+  Box, Button,
   Dialog, DialogActions,
   DialogContent,
   DialogContentText, DialogTitle,
@@ -18,6 +18,8 @@ import {useRouter} from 'next/navigation';
 import {signIn} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import {saveSignup} from "@/app/services/signup";
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const LoginForm = () => {
   const [loginShowing, setLoginShowing] = useState(false);
@@ -236,7 +238,8 @@ const LoginForm = () => {
             <Stack direction={'row'} sx={{ verticalAlign: 'middle' }}>
               <Item sx={{ width: '33%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
-                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '0px', border: '1px solid #dfdfdf',
+                          height: '56px',
                           '&:hover': {
                             backgroundColor: '#fff',
                             color: '#000',
@@ -246,15 +249,46 @@ const LoginForm = () => {
                         fullWidth onClick={() => {
                           setLoginShowing(true);
                           signIn("github");
-                        }}
-                        startIcon={<img src={'/github-mark.png'} width={24} height={24}/>}>
-                  <Typography textTransform={'none'}></Typography>
+                        }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '64px',
+                      height: '100%',
+                      backgroundColor: '#096BDE',
+                      color: 'white',
+                      padding: '0px'
+                    }}
+                  >
+                    <GitHubIcon style={{ color: 'white' }}/>
+                  </Box>
+
+                  {/* Text container - flexible width with centered text */}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexGrow: 1,
+                      px: 2,
+                      backgroundColor: '#fff',
+                      color: 'black',
+                      padding: '14px'
+                    }}
+                  >
+                    <Typography variant="button" textTransform={'none'}>
+                      GitHub
+                    </Typography>
+                  </Box>
                 </Button>
               </Item>
 
               <Item sx={{ width: '34%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
-                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '0px', border: '1px solid #dfdfdf',
+                          height: '56px',
                           '&:hover': {
                             backgroundColor: '#fff',
                             color: '#000',
@@ -264,15 +298,47 @@ const LoginForm = () => {
                         fullWidth onClick={() => {
                   setLoginShowing(true);
                   signIn("gitlab");
-                }}
-                        startIcon={<img src={'/gitlab.svg'} width={24} height={24}/>}>
-                  <Typography textTransform={'none'}></Typography>
+                }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '64px',
+                      height: '100%',
+                      backgroundColor: '#e2432a',
+                      color: 'white',
+                      padding: '0px',
+                      borderBottom: '1px solid #00f'
+                    }}
+                  >
+                    <img src={'/gitlab.png'} width={24} height={24} style={{ color: 'white' }}/>
+                  </Box>
+
+                  {/* Text container - flexible width with centered text */}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexGrow: 1,
+                      px: 2,
+                      backgroundColor: '#fff',
+                      color: 'black',
+                      padding: '14px'
+                    }}
+                  >
+                    <Typography variant="button" textTransform={'none'}>
+                      GitLab
+                    </Typography>
+                  </Box>
                 </Button>
               </Item>
 
               <Item sx={{ width: '33%', paddingTop: '0px' }}>
                 <Button variant={'contained'}
-                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '14px', border: '1px solid #dfdfdf',
+                        sx={{backgroundColor: '#fff', fontWeight: 'bold', color: '#000', padding: '0px', border: '1px solid #dfdfdf',
+                          height: '56px',
                           '&:hover': {
                             backgroundColor: '#fff',
                             color: '#000',
@@ -280,11 +346,42 @@ const LoginForm = () => {
                           }
                         }}
                         fullWidth onClick={() => {
-                          setLoginShowing(true);
-                          signIn("google");
-                        }}
-                        startIcon={<img src={'/google-mark.png'} width={24} height={24}/>}>
-                  <Typography textTransform={'none'}></Typography>
+                  setLoginShowing(true);
+                  signIn("gitlab");
+                }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '64px',
+                      height: '100%',
+                      backgroundColor: '#000',
+                      color: 'white',
+                      padding: '0px',
+                      borderBottom: '1px solid #00f'
+                    }}
+                  >
+                    <GoogleIcon style={{ color: 'white' }}/>
+                  </Box>
+
+                  {/* Text container - flexible width with centered text */}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexGrow: 1,
+                      px: 2,
+                      backgroundColor: '#fff',
+                      color: 'black',
+                      padding: '14px'
+                    }}
+                  >
+                    <Typography variant="button" textTransform={'none'}>
+                      Google
+                    </Typography>
+                  </Box>
                 </Button>
               </Item>
             </Stack>
