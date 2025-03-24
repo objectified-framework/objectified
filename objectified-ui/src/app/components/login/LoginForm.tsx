@@ -309,7 +309,6 @@ const LoginForm = () => {
                       backgroundColor: '#e2432a',
                       color: 'white',
                       padding: '0px',
-                      borderBottom: '1px solid #00f'
                     }}
                   >
                     <img src={'/gitlab.png'} width={24} height={24} style={{ color: 'white' }}/>
@@ -359,7 +358,6 @@ const LoginForm = () => {
                       backgroundColor: '#000',
                       color: 'white',
                       padding: '0px',
-                      borderBottom: '1px solid #00f'
                     }}
                   >
                     <GoogleIcon style={{ color: 'white' }}/>
