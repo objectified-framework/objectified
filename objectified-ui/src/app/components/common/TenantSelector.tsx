@@ -61,7 +61,7 @@ export const TenantSelector = (props: ITenantSelector) => {
 
         <Item style={{ padding: '0px', textAlign: 'right', paddingRight: '8px' }}
               className={'bg-slate-300 text-black'}>
-          <IconButton style={{
+          <IconButton sx={{
                     height: '26px', borderRadius: 0,
                     paddingLeft: '4px', paddingRight: '4px' }}
                       className={'bg-slate-100'}
