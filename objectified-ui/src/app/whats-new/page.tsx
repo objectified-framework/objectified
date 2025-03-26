@@ -7,23 +7,22 @@ import {
 
 const WhatsNew = () => {
   return (
-    <div style={{width: '100%', padding: '10px'}}>
-      <div style={{width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
-        borderBottom: '1px solid #000' }}>
-        <Stack direction={'row'}>
-          <Item sx={{width: '100%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
-            <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>What&apos;s New</Typography>
-          </Item>
-        </Stack>
+    <>
+      <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '6px' }}>
+        <Typography className={'font-bold'}>
+          Version 0.0.3
+        </Typography>
+        <p style={{ padding: '4px' }}/>
+        <li> Brand new layout, brand new look.  Slowly evolving!</li>
       </div>
 
-      <p/>
+      <p style={{ padding: '20px'}}/>
 
-      <div style={{ width: '100%', padding: '10px' }}>
-        <b>Version 0.0.3</b><br/>
-        <li> Brand new layout, brand new look.  Slowly evolving!</li>
-        <p/><br/>
-        <b>Version 0.0.2</b><br/>
+      <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '6px' }}>
+        <Typography className={'font-bold'}>
+          Version 0.0.2
+        </Typography>
+        <p style={{ padding: '4px' }}/>
         <li> Added API_KEY management and classes to the database</li>
         <li> Created '/swagger' URL for external REST services (soon to be exposed)</li>
         <li> Added the beginnings of a designer page using ReactFlow</li>
@@ -39,7 +38,7 @@ const WhatsNew = () => {
         <li> Added logos</li>
         <li> Login sources increased to GitLab and Google</li>
       </div>
-    </div>
+    </>
   );
 }
 

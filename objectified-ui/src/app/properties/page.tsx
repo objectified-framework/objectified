@@ -4,6 +4,8 @@ import {
   Dialog,
   Stack,
   Box,
+  Button,
+  Typography,
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
@@ -14,6 +16,7 @@ import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {listProperties, saveProperty, putProperty, deleteProperty} from "@/app/services/property";
 import {listFields} from "@/app/services/field";
 import {listClasses} from "@/app/services/class";
+import HelpIcon from '@mui/icons-material/Help';
 import Item from "@/app/components/common/Item";
 
 const Properties = () => {
@@ -189,6 +192,26 @@ const Properties = () => {
                   onSave={saveClicked}
                   onCancel={handleClose}/>
       </Dialog>
+
+      <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '4px' }}>
+        <Stack direction={'row'}>
+          <div style={{ width: '50%', textAlign: 'left', }}>
+          </div>
+
+          <div style={{ width: '50%', textAlign: 'right', paddingRight: '10px' }}>
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<HelpIcon/>}
+                    onClick={() => window.open('https://docs.objectified.dev/docs/ui/properties', '_none')}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Help
+              </Typography>
+            </Button>
+          </div>
+        </Stack>
+      </div>
 
       <div style={{width: '100%', padding: '10px'}}>
         <DataListTable header={'Properties'}

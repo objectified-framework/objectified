@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Dialog, Box, Stack,
+  Dialog, Box, Stack, Button, Typography,
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import DataListTable from "@/app/components/common/DataListTable";
@@ -11,6 +11,7 @@ import {useSession} from 'next-auth/react';
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {deleteField, listFields, saveField, putField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
+import HelpIcon from '@mui/icons-material/Help';
 import Item from "@/app/components/common/Item";
 
 const Fields = () => {
@@ -146,6 +147,26 @@ const Fields = () => {
                   onSave={saveClicked}
                   onCancel={handleClose}/>
       </Dialog>
+
+      <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '4px' }}>
+        <Stack direction={'row'}>
+          <div style={{ width: '50%', textAlign: 'left', }}>
+          </div>
+
+          <div style={{ width: '50%', textAlign: 'right', paddingRight: '10px' }}>
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<HelpIcon/>}
+                    onClick={() => window.open('https://docs.objectified.dev/docs/ui/fields', '_none')}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Help
+              </Typography>
+            </Button>
+          </div>
+        </Stack>
+      </div>
 
       <div style={{width: '100%', padding: '10px'}}>
         <DataListTable header={'Fields'}

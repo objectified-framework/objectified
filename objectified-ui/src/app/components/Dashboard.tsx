@@ -17,7 +17,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from 'next/navigation';
 import {Inter} from "next/font/google";
 import SideBar from "@/app/components/SideBar";
 import {useState} from "react";
@@ -30,6 +30,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import FolderIcon from '@mui/icons-material/Folder';
 import ReorderIcon from '@mui/icons-material/Reorder';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TenantSelector from "@/app/components/common/TenantSelector";
 
 const VERSION = '0.0.3';
@@ -72,6 +73,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   const [logoutShowing, setLogoutShowing] = useState(false);
   const [profileShowing, setProfileShowing] = useState(false);
   const open = Boolean(anchorEl);
+  const currentPath: string = usePathname();
 
   if (status === 'unauthenticated') {
     return (<>
@@ -83,6 +85,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
     return (<></>);
   }
 
+  const selectedColor = (path: string) => (currentPath.startsWith(path) ? 'bg-blue-300' : '');
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
@@ -185,8 +188,8 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                     </Typography>
                   </ListItemText>
                 </MenuItem>
-                <MenuItem style={{ padding: '0px 10px 1px 32px' }}
-                          className={'text-sm font-extralight'}>
+                <MenuItem style={{ padding: '0px 10px 1px 32px', border: '1px solid #00f' }}
+                          className={'text-sm font-extralight bg-blue-300'}>
                   <ListItemIcon>
                     <FolderIcon style={{ width: '18px', height: '18px' }}/>
                   </ListItemIcon>
@@ -202,9 +205,9 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
         {/*Main Navigation area*/}
         <div style={{ position: 'fixed',
           left: '260px',
-          top: '33px',
+          top: '32px',
           width: 'calc(100% - 260px)',
-          height: 'calc(100% - 33px)',
+          height: 'calc(100% - 32px)',
           backgroundColor: '#fff',
           color: '#000',
           overflowY: 'auto',
@@ -217,18 +220,6 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                   Default
                 </Typography>
               </div>
-
-              <div style={{ width: '50%', textAlign: 'right', paddingRight: '6px' }}>
-                <Button style={{
-                  height: '24px', backgroundColor: '#ccc', borderRadius: 2,
-                  color: 'black', border: '1px solid #fff', paddingLeft: '6px', paddingRight: '6px' }}
-                        variant={'contained'} startIcon={<HelpIcon/>}
-                        onClick={() => window.open('https://docs.objectified.dev', '_none')}>
-                  <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                    Help
-                  </Typography>
-                </Button>
-              </div>
             </Stack>
           </div>
 
@@ -236,8 +227,9 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                className={'bg-slate-100'}>
             <MenuList style={{ padding: '0px' }} dense>
               {NavItems.map((x) => (
-                <ListItemButton style={{ padding: '0px', paddingLeft: '10px' }}
-                  onClick={() => router.push(x.url)}>
+                <ListItemButton style={{ padding: '0px', paddingLeft: '10px', }}
+                  onClick={() => router.push(x.url)}
+                  className={`${selectedColor(x.url)}`}>
                   <ListItemText>
                     <Typography style={{ fontSize: 12 }} className={'font-thin'}>
                       {x.label}
@@ -245,6 +237,28 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                   </ListItemText>
                 </ListItemButton>
               ))}
+              <ListItemButton style={{ padding: '0px', paddingLeft: '10px', paddingRight: '4px' }}>
+                <ListItemText>
+                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                    APIs
+                  </Typography>
+                </ListItemText>
+                <ExpandMoreIcon style={{ width: '16px', height: '16px' }}/>
+              </ListItemButton>
+              <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
+                <ListItemText>
+                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                    OpenAPIs
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+              <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
+                <ListItemText>
+                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                    Arazzo
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
             </MenuList>
           </div>
 
