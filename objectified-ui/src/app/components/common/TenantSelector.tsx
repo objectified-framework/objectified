@@ -31,7 +31,7 @@ export const TenantSelector = (props: ITenantSelector) => {
     return (
       <Stack direction={'row'}>
         <Item style={{ color: '#fff', paddingTop: '0px', width: '100%', }}
-              className={'bg-zinc-400 text-black'}>
+              className={'bg-slate-300 text-black'}>
           <FormControl style={{ width: '100%' }}
                        className={'bg-white'}
                        size={'small'}>
@@ -60,7 +60,7 @@ export const TenantSelector = (props: ITenantSelector) => {
         </Item>
 
         <Item style={{ padding: '0px', textAlign: 'right', paddingRight: '8px' }}
-              className={'bg-zinc-400 text-black'}>
+              className={'bg-slate-300 text-black'}>
           <IconButton style={{
                     height: '26px', borderRadius: 0,
                     paddingLeft: '4px', paddingRight: '4px' }}
