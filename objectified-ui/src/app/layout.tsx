@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "@/app/components/SessionWrapper";
-import {useSession} from "next-auth/react";
 import Dashboard from "@/app/components/Dashboard";
 import ConfirmDialog from "@/app/components/common/ConfirmDialog";
 
@@ -21,7 +20,7 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`bg-white dark:bg-gray-800 ${inter.className}`}>
           <ConfirmDialog/>
           <Dashboard>{children}</Dashboard>
         </body>

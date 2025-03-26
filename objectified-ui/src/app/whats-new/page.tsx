@@ -19,7 +19,10 @@ const WhatsNew = () => {
 
       <p/>
 
-      <div style={{width: '100%', padding: '10px'}}>
+      <div style={{ width: '100%', padding: '10px' }}>
+        <b>Version 0.0.3</b><br/>
+        <li> Brand new layout, brand new look.  Slowly evolving!</li>
+        <p/><br/>
         <b>Version 0.0.2</b><br/>
         <li> Added API_KEY management and classes to the database</li>
         <li> Created '/swagger' URL for external REST services (soon to be exposed)</li>
