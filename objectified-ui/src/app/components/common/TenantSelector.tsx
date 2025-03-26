@@ -51,7 +51,7 @@ export const TenantSelector = (props: ITenantSelector) => {
                     }}
                     fullWidth>
               {tenants.map((x: any, counter: number) => (
-                <MenuItem className={'font-thin text-xs'}
+                <MenuItem className={'font-thin text-sm'}
                           value={x.id}
                           key={`tenant-selector-${counter}`}>{x.name}</MenuItem>
               ))}

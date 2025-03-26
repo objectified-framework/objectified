@@ -231,7 +231,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                   onClick={() => router.push(x.url)}
                   className={`${selectedColor(x.url)}`}>
                   <ListItemText>
-                    <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                    <Typography className={'font-thin text-sm'}>
                       {x.label}
                     </Typography>
                   </ListItemText>
@@ -239,7 +239,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
               ))}
               <ListItemButton style={{ padding: '0px', paddingLeft: '10px', paddingRight: '4px' }}>
                 <ListItemText>
-                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                  <Typography className={'font-thin text-sm'}>
                     APIs
                   </Typography>
                 </ListItemText>
@@ -247,14 +247,14 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
               </ListItemButton>
               <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
                 <ListItemText>
-                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                  <Typography className={'font-thin text-sm'}>
                     OpenAPIs
                   </Typography>
                 </ListItemText>
               </ListItemButton>
               <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
                 <ListItemText>
-                  <Typography style={{ fontSize: 12 }} className={'font-thin'}>
+                  <Typography className={'font-thin text-sm'}>
                     Arazzo
                   </Typography>
                 </ListItemText>
