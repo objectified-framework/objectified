@@ -175,7 +175,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                  className={'bg-white'}>
               <MenuList style={{ padding: '0px' }}>
                 <MenuItem style={{ paddingTop: '2px', paddingBottom: '2px' }}>
-                  <ListItemIcon style={{ paddingRight: '0px' }}>
+                  <ListItemIcon sx={{ paddingRight: '0px' }}>
                     <ReorderIcon style={{ width: '18px', height: '18px' }}/>
                   </ListItemIcon>
                   <ListItemText>
@@ -307,7 +307,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
             </MenuList>
           </div>
 
-          <div style={{ position: 'fixed', width: '100%', left: '390px', height: 'calc(100% - 68)', width: 'calc(100% - 390px)' }}>
+          <div style={{ position: 'fixed', left: '390px', height: 'calc(100% - 68)', width: 'calc(100% - 390px)' }}>
             {children}
           </div>
         </div>

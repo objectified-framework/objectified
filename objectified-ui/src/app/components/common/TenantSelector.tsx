@@ -37,12 +37,13 @@ export const TenantSelector = (props: ITenantSelector) => {
                        size={'small'}>
             <Select labelId={'tenant-selector'}
                     label={''}
-                    style={{ textAlign: 'left', width: '100%', height: '26px', borderRadius: 0 }}
+                    // @ts-ignore
                     className={'font-thin text-black text-sm'}
                     name={'tenantSelector'}
                     value={(session as any).currentTenant ?? ''}
                     onChange={(e: any) => props.onTenantChanged(e.target.value)}
                     sx={{
+                      textAlign: 'left', width: '100%', height: '26px', borderRadius: 0,
                       color: 'white',
                       '& .MuiSvgIcon-root': {
                         color: '#555'
