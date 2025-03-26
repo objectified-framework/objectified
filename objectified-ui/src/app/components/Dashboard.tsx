@@ -30,8 +30,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import FolderIcon from '@mui/icons-material/Folder';
 import ReorderIcon from '@mui/icons-material/Reorder';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TenantSelector from "@/app/components/common/TenantSelector";
+import MenuButton from "@/app/components/common/MenuButton";
 
 const VERSION = '0.0.3';
 
@@ -67,6 +70,22 @@ const NavItems = [
 ];
 
 const Dashboard = ({ children }: { children?: React.ReactNode }) => {
+  const menuOptions: MenuOption[] = [
+    {
+      label: 'Profile',
+      icon: <SettingsIcon fontSize="small" />,
+      onClick: () => setProfileShowing(true),
+    },
+    {
+      label: 'Logout',
+      icon: <LogoutIcon fontSize="small" />,
+      onClick: () => {
+        setLogoutShowing(true);
+        signOut();
+      }
+    }
+  ];
+
   const {data: session, status, update} = useSession();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -150,16 +169,17 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                 </Typography>
               </Button>
               &nbsp;&nbsp;
-              <Button style={{
-                height: '24px', backgroundColor: '#333', borderRadius: 2,
-                color: 'white', border: '1px solid #fff', paddingLeft: '6px', paddingRight: '6px' }}
-                      variant={'contained'}
-                      startIcon={<PersonIcon/>}
-                      endIcon={<ExpandMoreIcon/>}>
-                <Typography style={{ fontWeight: 150, fontSize: 12, }} textTransform={'none'}>
-                  {session?.user?.name ?? 'Unregistered User'}
-                </Typography>
-              </Button>
+              <MenuButton buttonText={`${session?.user?.name ?? 'Unregistered User'}`}
+                          menuOptions={menuOptions}
+                          startIcon={<PersonIcon/>}
+                          endIcon={<ExpandMoreIcon/>}
+                          className={'font-light text-white text-xs'}
+                          menuClassName={'font-light text-black text-sm'}
+                          style={{
+                            height: '24px', backgroundColor: '#333', borderRadius: 2,
+                            color: 'white', border: '1px solid #fff', paddingLeft: '6px', paddingRight: '6px',
+                            fontWeight: 150, fontSize: 12,
+                          }}/>
             </div>
           </Stack>
         </div>
