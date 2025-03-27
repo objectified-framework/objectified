@@ -17,6 +17,8 @@ import {listProperties, saveProperty, putProperty, deleteProperty} from "@/app/s
 import {listFields} from "@/app/services/field";
 import {listClasses} from "@/app/services/class";
 import HelpIcon from '@mui/icons-material/Help';
+import AddIcon from '@mui/icons-material/Add';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Item from "@/app/components/common/Item";
 
 const Properties = () => {
@@ -195,7 +197,35 @@ const Properties = () => {
 
       <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '4px' }}>
         <Stack direction={'row'}>
-          <div style={{ width: '50%', textAlign: 'left', }}>
+          <div style={{ width: '50%', textAlign: 'left', paddingLeft: '2px', }}>
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<AddIcon/>}
+                    onClick={() => {
+                      if (fields.length <= 1) {
+                        errorDialog('You need to add at least one field before you can create a property.');
+                        return;
+                      }
+                      resetSelectedLine();
+                      setOpen(true);
+                    }}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Add
+              </Typography>
+            </Button>
+            &nbsp;
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-green-300'}
+                    variant={'contained'} startIcon={<RefreshIcon/>}
+                    onClick={() => refreshProperties()}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Refresh
+              </Typography>
+            </Button>
           </div>
 
           <div style={{ width: '50%', textAlign: 'right', paddingRight: '10px' }}>
@@ -218,19 +248,10 @@ const Properties = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
-                       isAddable={true}
-                       isRefreshable={true}
-                       onAdd={() => {
-                         if (fields.length <= 1) {
-                           errorDialog('You need to add at least one field before you can create a property.');
-                           return;
-                         }
-                         resetSelectedLine();
-                         setOpen(true);
-                       }}
+                       isAddable={false}
+                       isRefreshable={false}
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
-                       onRefresh={() => refreshProperties()}
                        isEditable={(x: any) => {
                          return (x.tenantId === (session as any).currentTenant) && x.enabled;
                        }}

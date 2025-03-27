@@ -44,7 +44,7 @@ export interface IDataList {
   onAdd?: () => any;
   onDelete?: (payload: any) => any;
   onEdit?: (payload: any) => any;
-  onRefresh: () => any;
+  onRefresh?: () => any;
   isAddable: boolean;
   isEditable: (payload: any) => boolean;
   isDeletable: (payload: any) => boolean;
@@ -63,33 +63,6 @@ export interface IDataList {
 export const DataListTable = (props: IDataList) => {
   return (
     <>
-      <div style={{width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
-                   borderBottom: '1px solid #000' }}>
-        <Stack direction={'row'}>
-          <Item sx={{width: '70%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
-            <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>{props.header}</Typography>
-          </Item>
-
-          <Item sx={{width: '30%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
-            {props.isRefreshable && (
-            <IconButton sx={{color: '#fff'}} onClick={() => props.onRefresh()}>
-              <RefreshOutlined/>
-            </IconButton>
-            )}
-
-            {props.isAddable && (
-              <IconButton sx={{color: '#fff'}} onClick={() => {
-                if (props.onAdd) {
-                  props.onAdd();
-                }
-              }}>
-                <AddOutlined/>
-              </IconButton>
-            )}
-          </Item>
-        </Stack>
-      </div>
-
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

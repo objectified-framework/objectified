@@ -12,6 +12,8 @@ import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {deleteField, listFields, saveField, putField} from "@/app/services/field";
 import {listDataTypes} from "@/app/services/data-type";
 import HelpIcon from '@mui/icons-material/Help';
+import AddIcon from '@mui/icons-material/Add';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Item from "@/app/components/common/Item";
 
 const Fields = () => {
@@ -150,7 +152,36 @@ const Fields = () => {
 
       <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '4px' }}>
         <Stack direction={'row'}>
-          <div style={{ width: '50%', textAlign: 'left', }}>
+          <div style={{ width: '50%', textAlign: 'left', paddingLeft: '2px' }}>
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<AddIcon/>}
+                    onClick={() => {
+                      resetSelectedLine();
+                      loadFields().then(() => {
+                        setOpen(true);
+                      }).catch(() => {
+                        setOpen(false);
+                        errorDialog('Unable to load data types');
+                      });
+                    }}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Add
+              </Typography>
+            </Button>
+            &nbsp;
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-green-300'}
+                    variant={'contained'} startIcon={<RefreshIcon/>}
+                    onClick={() => refreshFields()}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Refresh
+              </Typography>
+            </Button>
           </div>
 
           <div style={{ width: '50%', textAlign: 'right', paddingRight: '10px' }}>
@@ -173,20 +204,10 @@ const Fields = () => {
                        columns={tableItems}
                        dataset={dataPayload}
                        isLoading={isLoading}
-                       isAddable={true}
-                       isRefreshable={true}
-                       onAdd={() => {
-                         resetSelectedLine();
-                         loadFields().then(() => {
-                           setOpen(true);
-                         }).catch(() => {
-                           setOpen(false);
-                           errorDialog('Unable to load data types');
-                         });
-                       }}
+                       isAddable={false}
+                       isRefreshable={false}
                        onDelete={(payload) => deleteClicked(payload)}
                        onEdit={(payload: any) => editClicked(payload)}
-                       onRefresh={() => refreshFields()}
                        isDeletable={(x: any) => {
                          return x.enabled;
                        }}

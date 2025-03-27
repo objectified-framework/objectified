@@ -13,6 +13,10 @@ import AutoForm from "@/app/components/common/AutoForm";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import {deleteClassProperties, listClassProperties, putClassProperties} from "@/app/services/class-properties";
 import {SchemaDialog} from "@/app/components/class-properties/SchemaDialog";
+import AddIcon from '@mui/icons-material/Add';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SearchIcon from '@mui/icons-material/Search';
+
 export interface IClassPropertyManager {
   name: string;
   classId: string;
@@ -140,32 +144,52 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
                   onCancel={handleClose}/>
       </Dialog>
 
+      <div style={{ width: '100%', textAlign: 'left', paddingLeft: '2px', borderBottom: '1px solid #ccc', height: '36px' }}>
+        <Stack direction={'row'}>
+          <div style={{ width: '50%', textAlign: 'left', paddingLeft: '6px', paddingTop: '6px', }}>
+            <Typography className={'text-black font-bold'}>
+              {props.name}
+            </Typography>
+          </div>
+
+          <div style={{ width: '50%', textAlign: 'right', paddingRight: '14px', paddingTop: '4px' }}>
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-green-300'}
+                    variant={'contained'} startIcon={<RefreshIcon/>}
+                    onClick={() => refreshClassProperties()}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Refresh
+              </Typography>
+            </Button>
+            &nbsp;
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<AddIcon/>}
+                    onClick={() => onAdd()}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Add
+              </Typography>
+            </Button>
+            &nbsp;
+            <Button style={{
+              height: '24px', borderRadius: 2,
+              color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                    className={'bg-slate-200'}
+                    variant={'contained'} startIcon={<SearchIcon/>}
+                    onClick={() => onSchemaClicked()}>
+              <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                Inspect
+              </Typography>
+            </Button>
+          </div>
+        </Stack>
+      </div>
+
       <div style={{width: '100%', padding: '10px', paddingBottom: '0px'}}>
-        <div style={{
-          width: '100%', backgroundColor: HEADER_COLOR, color: '#fff', height: '50px', padding: '8px',
-          border: '1px solid #000'
-        }}>
-          <Stack direction={'row'} key={'key1'}>
-            <Item sx={{width: '50%', textAlign: 'left', backgroundColor: 'inherit', padding: '0px'}}>
-              <Typography sx={{color: '#fff'}} variant={'h4'} fontWeight={'bold'}>{props.name}</Typography>
-            </Item>
-
-            <Item sx={{width: '50%', textAlign: 'right', backgroundColor: 'inherit', padding: '0px'}}>
-              <IconButton sx={{color: '#fff'}} onClick={() => refreshClassProperties()}>
-                <RefreshOutlined/>
-              </IconButton>
-
-              <IconButton sx={{color: '#fff'}} onClick={() => onAdd()}>
-                <AddOutlined/>
-              </IconButton>
-
-              <IconButton sx={{color: '#fff'}} onClick={() => onSchemaClicked()}>
-                <SearchOutlined/>
-              </IconButton>
-            </Item>
-          </Stack>
-        </div>
-
         {classProperties.length === 0 && (
           <Stack direction={'row'} key={'key2'}>
             <Item sx={{width: '100%', textAlign: 'center', backgroundColor: '#ccc', border: '1px solid #000', borderTop: '0px' }}>
@@ -178,13 +202,13 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
         {classProperties.length > 0 && classProperties.map((prop: any, position: number) => (
           <Stack direction={'row'} key={`key3-${position}`}>
-            <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderTop: '0px', borderRight: '0px' }}>
+            <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderRight: '0px' }}>
               <Typography sx={{color: '#000'}}>
                 {prop.name ?? getProperty(prop.propertyId).name} ({prop.description ?? getProperty(prop.propertyId).description})
               </Typography>
             </Item>
 
-            <Item sx={{width: '10%', textAlign: 'right', backgroundColor: '#fff', border: '1px solid #000', borderLeft: '0px', borderTop: '0px', padding: '0px' }}>
+            <Item sx={{width: '10%', textAlign: 'right', backgroundColor: '#fff', border: '1px solid #000', borderLeft: '0px', padding: '0px' }}>
               <Typography sx={{color: '#000'}}>
                 <IconButton onClick={() => onDelete(prop)}>
                   <DeleteOutlined/>
