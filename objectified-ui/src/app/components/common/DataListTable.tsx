@@ -72,7 +72,7 @@ export const DataListTable = (props: IDataList) => {
                 <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000', padding: '4px' }} key={ `head-${counter}` }>{x.description}</TableCell>
               ))}
               {/*// @ts-ignore*/}
-              <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000', padding: '4px' }}>Action</TableCell>
+              <TableCell style={{ backgroundColor: '#ccc', borderBottom: '1px solid #000', padding: '4px', textAlign: 'right' }}/>
             </TableRow>
           </TableHead>
 
@@ -135,7 +135,7 @@ export const DataListTable = (props: IDataList) => {
                       })}
                       <TableCell key={ `row-${counter}-icons` }
                                  // @ts-ignore
-                                 style={{ padding: '4px' }}>
+                                 style={{ padding: '4px', textAlign: 'right' }}>
                         <Stack direction={'row'}>
                           {props.isDeletable(x) && (
                             <IconButton onClick={() => props.onDelete!(x)}>
