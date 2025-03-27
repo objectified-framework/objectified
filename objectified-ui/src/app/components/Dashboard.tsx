@@ -22,6 +22,7 @@ import {Inter} from "next/font/google";
 import SideBar from "@/app/components/SideBar";
 import {useState} from "react";
 import Item from "@/app/components/common/Item";
+import MenuOption from '@/app/components/common/MenuButton';
 import ProfileForm from "@/app/components/profile/ProfileForm";
 import HelpIcon from '@mui/icons-material/Help';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
@@ -70,6 +71,7 @@ const NavItems = [
 ];
 
 const Dashboard = ({ children }: { children?: React.ReactNode }) => {
+  // @ts-ignore
   const menuOptions: MenuOption[] = [
     {
       label: 'Profile',

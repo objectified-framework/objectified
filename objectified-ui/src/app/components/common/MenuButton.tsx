@@ -54,9 +54,6 @@ const MenuButton = (props: IMenuButton) => {
         variant={buttonVariant}
         color={buttonColor}
         onClick={handleClick}
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
         style={style}
         startIcon={startIcon}
         endIcon={endIcon}
@@ -67,13 +64,9 @@ const MenuButton = (props: IMenuButton) => {
       </Button>
 
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
       >
         {menuOptions.map((option: MenuOption, index: number) => (
           <MenuItem
