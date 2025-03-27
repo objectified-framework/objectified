@@ -243,7 +243,7 @@ const Properties = () => {
         </Stack>
       </div>
 
-      <div style={{width: '100%', padding: '10px'}}>
+      <div style={{width: '100%', padding: '0px'}}>
         <DataListTable header={'Properties'}
                        columns={tableItems}
                        dataset={dataPayload}

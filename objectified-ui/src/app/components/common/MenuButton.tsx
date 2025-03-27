@@ -67,6 +67,13 @@ const MenuButton = (props: IMenuButton) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        // @ts-ignore
+        PaperProps={{
+          style: {
+            borderRadius: '1px',
+            border: '1px solid #ccf',
+          },
+        }}
       >
         {menuOptions.map((option: MenuOption, index: number) => (
           <MenuItem

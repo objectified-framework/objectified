@@ -199,7 +199,7 @@ const Fields = () => {
         </Stack>
       </div>
 
-      <div style={{width: '100%', padding: '10px'}}>
+      <div style={{width: '100%', padding: '0px'}}>
         <DataListTable header={'Fields'}
                        columns={tableItems}
                        dataset={dataPayload}
