@@ -285,7 +285,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
           </div>
 
           <div style={{
-            position: 'fixed', left: '390px', height: 'calc(100% - 68)', width: 'calc(100% - 390px)', overflowY: 'auto'
+            position: 'fixed', left: '390px', height: 'calc(100% - 68)', width: 'calc(100% - 390px)', overflowY: 'scroll'
           }}>
             {children}
           </div>
