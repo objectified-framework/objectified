@@ -131,7 +131,7 @@ export const DataListTable = (props: IDataList) => {
                                        // @ts-ignore
                                        className={'font-thin'}
                                        // @ts-ignore
-                                       style={{ padding: '4px', fontSize: 13 }}>{timeSplit[0]} {timeSplit[1]}</TableCell>
+                                       style={{ padding: '4px', fontSize: 13 }}>{timeSplit[0]}</TableCell>
                           );
                         }
 
@@ -154,7 +154,7 @@ export const DataListTable = (props: IDataList) => {
                                     }}
                                     variant={'contained'} startIcon={<DeleteIcon/>}
                                     className={'bg-red-400 text-white'}
-                                    onClick={() => () => props.onDelete!(x)}>
+                                    onClick={() => props.onDelete!(x)}>
                               <Typography style={{ fontWeight: 150, fontSize: 12, }} textTransform={'none'}>
                                 Delete
                               </Typography>
@@ -168,7 +168,7 @@ export const DataListTable = (props: IDataList) => {
                                     }}
                                     variant={'contained'} startIcon={<Edit/>}
                                     className={'bg-slate-300 text-black'}
-                                    onClick={() => () => props.onEdit!(x)}>
+                                    onClick={() => props.onEdit!(x)}>
                               <Typography style={{ fontWeight: 150, fontSize: 12, }} textTransform={'none'}>
                                 Edit
                               </Typography>
@@ -182,7 +182,7 @@ export const DataListTable = (props: IDataList) => {
                                     }}
                                     variant={'contained'} startIcon={props.extraIcon}
                                     className={'bg-slate-300 text-black'}
-                                    onClick={() => () => props.onExtraIcon!(x)}>
+                                    onClick={()=> props.onExtraIcon!(x)}>
                               <Typography style={{ fontWeight: 150, fontSize: 12, }} textTransform={'none'}>
                                 View
                               </Typography>

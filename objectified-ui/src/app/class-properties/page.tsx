@@ -132,11 +132,17 @@ const ClassProperties = () => {
       </div>
 
       {dataPayload.map((classEntry: any, position: number) => (
-        <ClassPropertyManager name={classEntry.name}
-                              classId={classEntry.id}
-                              properties={properties}
-                              fields={fields}
-                              key={`${classEntry.id}-${position}`}/>
+        <>
+          {position > 0 && (
+            <div style={{ padding: '10px', borderBottom: '1px solid #ccc' }}></div>
+          )}
+
+          <ClassPropertyManager name={classEntry.name}
+                                classId={classEntry.id}
+                                properties={properties}
+                                fields={fields}
+                                key={`${classEntry.id}-${position}`}/>
+        </>
       ))}
       <div style={{ padding: '6px' }}/>
     </>

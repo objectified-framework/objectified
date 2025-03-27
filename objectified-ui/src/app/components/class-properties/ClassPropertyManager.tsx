@@ -192,8 +192,8 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
       <div style={{width: '100%', padding: '0px', paddingBottom: '0px'}}>
         {classProperties.length === 0 && (
           <Stack direction={'row'} key={'key2'}>
-            <Item sx={{width: '100%', textAlign: 'center', backgroundColor: '#ccc', border: '1px solid #000', borderTop: '0px' }}>
-              <Typography sx={{color: '#000'}} fontWeight={'bold'}>
+            <Item sx={{width: '100%', textAlign: 'center', border: '1px solid #000', borderTop: '0px', borderRight: '0px', borderLeft: '0px' }}>
+              <Typography sx={{color: '#000'}} className={'text-sm font-thin'}>
                 This class definition is empty.
               </Typography>
             </Item>
@@ -202,18 +202,24 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
         {classProperties.length > 0 && classProperties.map((prop: any, position: number) => (
           <Stack direction={'row'} key={`key3-${position}`}>
-            <Item sx={{width: '90%', textAlign: 'left', backgroundColor: '#fff', border: '1px solid #000', borderRight: '0px', borderLeft: '0px' }}>
-              <Typography sx={{color: '#000'}}>
+            <Item sx={{width: '90%', textAlign: 'left', border: '1px solid #000', borderRight: '0px', borderLeft: '0px' }}>
+              <Typography sx={{color: '#000'}} className={'text-sm font-thin'}>
                 {prop.name ?? getProperty(prop.propertyId).name} ({prop.description ?? getProperty(prop.propertyId).description})
               </Typography>
             </Item>
 
-            <Item sx={{width: '10%', textAlign: 'right', backgroundColor: '#fff', border: '1px solid #000', borderRight: '0px', borderLeft: '0px', padding: '0px' }}>
-              <Typography sx={{color: '#000'}}>
-                <IconButton onClick={() => onDelete(prop)}>
-                  <DeleteOutlined/>
-                </IconButton>
-              </Typography>
+            <Item sx={{width: '10%', textAlign: 'right', border: '1px solid #000', borderRight: '0px', borderLeft: '0px', padding: '0px', paddingTop: '6px', paddingRight: '10px' }}>
+              <Button style={{
+                        height: '24px', borderRadius: 1,
+                        border: '1px solid #44f', paddingLeft: '6px', paddingRight: '6px'
+                      }}
+                      variant={'contained'} startIcon={<DeleteOutlined/>}
+                      className={'bg-red-400 text-white'}
+                      onClick={() => onDelete(prop)}>
+                <Typography style={{ fontWeight: 150, fontSize: 12, }} textTransform={'none'}>
+                  Delete
+                </Typography>
+              </Button>
             </Item>
           </Stack>
         ))}
