@@ -24,7 +24,7 @@ const Login = () => {
             position: 'absolute',
             left: '0px',
             height: '100%',
-          }}>
+          }} className={'bg-white'}>
             <div style={{
               position: 'absolute',
               top: '50%',
@@ -32,7 +32,7 @@ const Login = () => {
               transform: 'translate(-50%, -50%)',
               width: '100%',
               padding: '20px'
-            }}>
+            }} className={'bg-white'}>
               <LoginForm/>
             </div>
           </div>
