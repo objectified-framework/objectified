@@ -31,7 +31,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import TenantSelector from "@/app/components/common/TenantSelector";
 import MenuButton from "@/app/components/common/MenuButton";
 
-const VERSION = '0.0.3';
+const VERSION = '0.1.0';
 
 const NavItems = [
   {
