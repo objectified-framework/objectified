@@ -68,6 +68,14 @@ const NavItems = [
     label: 'What\'s New',
     url: '/whats-new',
   },
+  {
+    label: 'API: OpenAPI',
+    url: '/api-openapi',
+  },
+  {
+    label: 'API: Arazzo',
+    url: '/api-arazzo',
+  },
 ];
 
 const Dashboard = ({ children }: { children?: React.ReactNode }) => {
@@ -259,33 +267,11 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                   </ListItemText>
                 </ListItemButton>
               ))}
-              <ListItemButton style={{ padding: '0px', paddingLeft: '10px', paddingRight: '4px' }}>
-                <ListItemText>
-                  <Typography className={'font-thin text-sm'}>
-                    APIs
-                  </Typography>
-                </ListItemText>
-                <ExpandMoreIcon style={{ width: '16px', height: '16px' }}/>
-              </ListItemButton>
-              <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
-                <ListItemText>
-                  <Typography className={'font-thin text-sm'}>
-                    OpenAPIs
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-              <ListItemButton style={{ padding: '0px', paddingLeft: '26px', paddingRight: '4px' }}>
-                <ListItemText>
-                  <Typography className={'font-thin text-sm'}>
-                    Arazzo
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
             </MenuList>
           </div>
 
           <div style={{
-            position: 'fixed', left: '390px', height: 'calc(100% - 68)', width: 'calc(100% - 390px)', overflowY: 'scroll'
+            position: 'fixed', left: '390px', height: 'calc(100% - 68px)', width: 'calc(100% - 390px)', overflowY: 'auto'
           }}>
             {children}
           </div>

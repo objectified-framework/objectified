@@ -202,13 +202,13 @@ export const ClassPropertyManager = (props: IClassPropertyManager) => {
 
         {classProperties.length > 0 && classProperties.map((prop: any, position: number) => (
           <Stack direction={'row'} key={`key3-${position}`}>
-            <Item sx={{width: '90%', textAlign: 'left', border: '1px solid #000', borderRight: '0px', borderLeft: '0px' }}>
+            <Item sx={{width: '90%', textAlign: 'left', borderBottom: '1px solid #000', }}>
               <Typography sx={{color: '#000'}} className={'text-sm font-thin'}>
                 {prop.name ?? getProperty(prop.propertyId).name} ({prop.description ?? getProperty(prop.propertyId).description})
               </Typography>
             </Item>
 
-            <Item sx={{width: '10%', textAlign: 'right', border: '1px solid #000', borderRight: '0px', borderLeft: '0px', padding: '0px', paddingTop: '6px', paddingRight: '10px' }}>
+            <Item sx={{width: '10%', textAlign: 'right', borderBottom: '1px solid #000', padding: '0px', paddingTop: '6px', paddingRight: '10px' }}>
               <Button style={{
                         height: '24px', borderRadius: 1,
                         border: '1px solid #44f', paddingLeft: '6px', paddingRight: '6px'
