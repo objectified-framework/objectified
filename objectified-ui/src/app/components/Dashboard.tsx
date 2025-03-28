@@ -18,13 +18,8 @@ import {
   Typography
 } from "@mui/material";
 import {usePathname, useRouter} from 'next/navigation';
-import {Inter} from "next/font/google";
-import SideBar from "@/app/components/SideBar";
 import {useState} from "react";
-import Item from "@/app/components/common/Item";
-import MenuOption from '@/app/components/common/MenuButton';
 import ProfileForm from "@/app/components/profile/ProfileForm";
-import HelpIcon from '@mui/icons-material/Help';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonIcon from '@mui/icons-material/Person';
@@ -33,7 +28,6 @@ import FolderIcon from '@mui/icons-material/Folder';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TenantSelector from "@/app/components/common/TenantSelector";
 import MenuButton from "@/app/components/common/MenuButton";
 
@@ -68,14 +62,14 @@ const NavItems = [
     label: 'What\'s New',
     url: '/whats-new',
   },
-  {
-    label: 'API: OpenAPI',
-    url: '/api-openapi',
-  },
-  {
-    label: 'API: Arazzo',
-    url: '/api-arazzo',
-  },
+  // {
+  //   label: 'API: OpenAPI',
+  //   url: '/api-openapi',
+  // },
+  // {
+  //   label: 'API: Arazzo',
+  //   url: '/api-arazzo',
+  // },
 ];
 
 const Dashboard = ({ children }: { children?: React.ReactNode }) => {
@@ -101,7 +95,6 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [logoutShowing, setLogoutShowing] = useState(false);
   const [profileShowing, setProfileShowing] = useState(false);
-  const open = Boolean(anchorEl);
   const currentPath: string = usePathname();
 
   if (status === 'unauthenticated') {
@@ -115,9 +108,6 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   }
 
   const selectedColor = (path: string) => (currentPath.startsWith(path) ? 'bg-blue-300' : '');
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-
   const handleTenantChanged = (tenantId: string) => {
     update({ currentTenant: tenantId });
   }
