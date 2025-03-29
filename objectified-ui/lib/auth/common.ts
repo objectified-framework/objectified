@@ -21,7 +21,8 @@ export const commonSignin = async (email: string, provider: string) => {
     });
 
   if (!login) {
-    return false;
+    // return false;
+    throw new Error('Unable to sign in - credentials failed')
   }
 
   // #6 - retrieve tenancy information
