@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.0';
+const VERSION = '0.1.1';
 
 const NavItems = [
   {

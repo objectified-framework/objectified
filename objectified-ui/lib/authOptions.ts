@@ -193,8 +193,8 @@ export const authOptions: NextAuthOptions = {
           // Retrieve the names of each tenant.
           for(const tenancyId of tenancy) {
             const tenantInfo = await ClientTenantGetTenantById(tenancyId)
-              .then((x) => x.name)
-              .catch((x) => `Unable to retrieve tenant ID ${tenancyId}`);
+              .then((x: any) => x.name)
+              .catch((x: any) => `Unable to retrieve tenant ID ${tenancyId}`);
 
             tenancyList.push({
               id: tenancyId,
@@ -206,9 +206,9 @@ export const authOptions: NextAuthOptions = {
           (<any>token.objectified).tenancy = tenancyList;
 
           // Assign the current tenant on login if the selected tenant was set in a previous session.
-          if (token.objectified?.data) {
-            if (token.objectified.data.selectedTenant) {
-              token.currentTenant = token.objectified.data.selectedTenant;
+          if ((<any>token.objectified)?.data) {
+            if ((<any>token.objectified).data.selectedTenant) {
+              token.currentTenant = (<any>token.objectified).data.selectedTenant;
             }
           }
 
