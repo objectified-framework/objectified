@@ -205,6 +205,13 @@ export const authOptions: NextAuthOptions = {
           // Assign the tenancy.
           (<any>token.objectified).tenancy = tenancyList;
 
+          // Assign the current tenant on login if the selected tenant was set in a previous session.
+          if (token.objectified?.data) {
+            if (token.objectified.data.selectedTenant) {
+              token.currentTenant = token.objectified.data.selectedTenant;
+            }
+          }
+
           console.log('[next-auth::jwt] Assign Token', token);
         }
       }

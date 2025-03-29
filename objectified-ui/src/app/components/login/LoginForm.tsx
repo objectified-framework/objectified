@@ -76,7 +76,6 @@ const LoginForm = () => {
   }
 
   const handleChange = (e: any) => {
-    console.log('Handling change', e.target.name, e.target.value);
     setPayload({
       ...payload,
       [e.target.name]: e.target.value,

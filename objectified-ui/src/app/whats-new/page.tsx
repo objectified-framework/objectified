@@ -1,6 +1,7 @@
-import {HEADER_COLOR} from "@/app/components/common/ColorDatabase";
-import Item from "@/app/components/common/Item";
+'use client';
+
 import {
+  Link,
   Stack,
   Typography,
 } from "@mui/material";
@@ -8,6 +9,17 @@ import {
 const WhatsNew = () => {
   return (
     <>
+      <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '6px' }}>
+        <Typography className={'font-bold'}>
+          Version 0.1.x
+        </Typography>
+        <p style={{ padding: '4px' }}/>
+        <li> <Link href={'https://github.com/objectified-framework/objectified/issues/163'} target={'_none'}>#163</Link> Preserves state of previously selected tenant.</li>
+        <li> Removes debugging messages from login screen</li>
+      </div>
+
+      <p style={{ padding: '20px'}}/>
+
       <div style={{ width: '100%', height: '36px', borderBottom: '1px solid #ccc', padding: '6px' }}>
         <Typography className={'font-bold'}>
           Version 0.0.3

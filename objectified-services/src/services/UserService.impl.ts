@@ -77,8 +77,12 @@ export class UserServiceImpl implements UserService {
     }
 
     const dao = new UserDao();
+    const newDto = {
+      id: userDto.id,
+      data: userDto.data,
+    };
 
-    return await dao.updateById(userDto.id, userDto)
+    return await dao.updateById(userDto.id, newDto)
       .then((x) => {
         this.logger.log(`[putUser] Data persisted for ID ${userDto.id}`);
         return ResponseNoContent();

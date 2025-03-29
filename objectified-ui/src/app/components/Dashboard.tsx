@@ -30,6 +30,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TenantSelector from "@/app/components/common/TenantSelector";
 import MenuButton from "@/app/components/common/MenuButton";
+import {putUser} from "@/app/services/user";
+import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
 const VERSION = '0.1.0';
 
@@ -108,8 +110,21 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   }
 
   const selectedColor = (path: string) => (currentPath.startsWith(path) ? 'bg-blue-300' : '');
-  const handleTenantChanged = (tenantId: string) => {
-    update({ currentTenant: tenantId });
+  const handleTenantChanged = async (tenantId: string) => {
+    let currentData = (session as any).objectified;
+
+    if (!currentData.data) {
+      currentData.data = {};
+    }
+
+    currentData.data.selectedTenant = tenantId;
+
+    await putUser((session as any).objectified.id, currentData.data)
+      .then((x) => {
+        update({ currentTenant: tenantId });
+      }).catch((x) => {
+        errorDialog(`Failed to save your profile: ${x}`);
+      });
   }
 
   return (
