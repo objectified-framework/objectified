@@ -20,6 +20,7 @@ const WhatsNew = () => {
           <li> Removes debugging messages from login screen</li>
           <li> <Link href={'https://github.com/objectified-framework/objectified/issues/163'} target={'_none'}>#163</Link> Preserves state of previously selected tenant.</li>
           <li> <Link href={'https://github.com/objectified-framework/objectified/issues/158'} target={'_none'}>#158</Link> Modify error so that the login is shown.</li>
+          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/212'} target={'_none'}>#212</Link> Introduces ability to export class definition.</li>
         </div>
 
         <p style={{ padding: '4px' }}/>
