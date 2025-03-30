@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.2';
+const VERSION = '0.1.3';
 
 const NavItems = [
   {
@@ -64,14 +64,6 @@ const NavItems = [
     label: 'What\'s New',
     url: '/whats-new',
   },
-  // {
-  //   label: 'API: OpenAPI',
-  //   url: '/api-openapi',
-  // },
-  // {
-  //   label: 'API: Arazzo',
-  //   url: '/api-arazzo',
-  // },
 ];
 
 const Dashboard = ({ children }: { children?: React.ReactNode }) => {
@@ -184,7 +176,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                 </Typography>
               </Button>
               &nbsp;&nbsp;
-              <MenuButton buttonText={`${session?.user?.name ?? 'Unregistered User'}`}
+              <MenuButton buttonText={`${session?.user?.emailAddress ?? 'Unregistered User'}`}
                           menuOptions={menuOptions}
                           startIcon={<PersonIcon/>}
                           endIcon={<ExpandMoreIcon/>}
