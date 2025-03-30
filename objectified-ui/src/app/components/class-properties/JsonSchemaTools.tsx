@@ -120,13 +120,15 @@ function mapJsonTypeToSQLType(property: any): string {
 
   switch (type) {
     case 'string':
-      if (property.format === 'date-time' || property.format === 'date') {
+      const format = property.format.toLowerCase();
+
+      if (format === 'date-time' || format === 'date') {
         return 'TIMESTAMP';
-      } else if (property.format === 'time') {
+      } else if (format === 'time') {
         return 'TIME';
-      } else if (property.format === 'email') {
+      } else if (format === 'email') {
         return 'VARCHAR(255)';
-      } else if (property.format === 'uuid') {
+      } else if (format === 'uuid') {
         return 'UUID';
       } else if (property.enum) {
         // For enums, create a custom type or use TEXT with check constraint
