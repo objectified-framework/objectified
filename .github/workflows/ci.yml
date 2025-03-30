@@ -21,7 +21,7 @@ jobs:
       TAG_DOCS: 0.0.3
       TAG_SERVICES: 0.0.6
       TAG_EXTERNAL: 0.0.1
-      TAG_UI: 0.0.24
+      TAG_UI: 0.0.25
 
     steps:
       - name: Checkout code
