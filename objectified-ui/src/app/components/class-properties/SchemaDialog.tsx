@@ -35,8 +35,9 @@ export interface ISchemaDialog {
 
 function toKebabCase(str: string): string {
   return str
-    .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2')
-    .toLowerCase();
+    .replace(/([A-Z])/g, '-$1')
+    .toLowerCase()
+    .replace(/^-/, '');
 }
 
 export const SchemaDialog = (props: ISchemaDialog) => {

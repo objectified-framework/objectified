@@ -26,6 +26,10 @@ interface JSONSchema {
   required?: string[];
 }
 
+function pascalToSnake(pascalCase: string): string {
+  return pascalCase.replace(/([A-Z])/g, '_$1').toLowerCase().substring(1);
+}
+
 export function jsonSchemaToSQL(schema: any): string {
   // Validate and normalize the schema input
   if (!schema) {
@@ -49,8 +53,7 @@ export function jsonSchemaToSQL(schema: any): string {
   }
 
   const tableName = schema.title ?
-    schema.title.toLowerCase().replace(/\s+/g, '_') :
-    'generated_table';
+    pascalToSnake(schema.title) : 'generated_table';
 
   const required = schema.required || [];
 
