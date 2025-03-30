@@ -176,6 +176,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
                 </Typography>
               </Button>
               &nbsp;&nbsp;
+              {/*// @ts-ignore*/}
               <MenuButton buttonText={`${session?.user?.emailAddress ?? 'Unregistered User'}`}
                           menuOptions={menuOptions}
                           startIcon={<PersonIcon/>}
