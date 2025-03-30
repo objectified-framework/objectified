@@ -120,7 +120,7 @@ function mapJsonTypeToSQLType(property: any): string {
 
   switch (type) {
     case 'string':
-      const format = property.format.toLowerCase();
+      const format = property.format ? property.format.toLowerCase() : '';
 
       if (format === 'date-time' || format === 'date') {
         return 'TIMESTAMP';
