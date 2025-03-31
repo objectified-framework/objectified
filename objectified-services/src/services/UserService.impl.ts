@@ -27,11 +27,7 @@ export class UserServiceImpl implements UserService {
       return ResponseUnauthorized('Unable to change password: user lookup failure.');
     }
 
-    let source = result.source;
-
-    source = source.replaceAll('{', '').replaceAll('}', '');
-
-    const sources = source.split(',');
+    const sources = result.source.replaceAll('{', '').replaceAll('}', '').split(',');
 
     if (!sources.includes('credentials')) {
       return ResponseUnauthorized('You are not authorized to login with a username and password.');
@@ -62,62 +58,6 @@ export class UserServiceImpl implements UserService {
     }
 
     return ResponseUnauthorized('Password mismatch.');
-
-    // const result = await dao.findOne(findStatement)
-    //   .then(async (x: any) => {
-    //     if (x) {
-    //       if (x.source) {
-    //         x.source = x.source.replaceAll('{', '').replaceAll('}', '');
-    //       }
-    //
-    //       const sources = x.source.split(',');
-    //
-    //       if (sources.includes(userDto.source)) {
-    //         const resultResponse: any = {
-    //           id: x.id,
-    //           data: x.data,
-    //         };
-    //
-    //         // Credential login comparison is done here.  We check the password against the encrypted
-    //         // password using the local compare function.  Only if the user is authenticated will they
-    //         // be allowed in.  Otherwise, an unauthorized response is given.
-    //         if (userDto.source.includes(["credentials"])) {
-    //           const match = await bcrypt.compare(userDto.password, x.password);
-    //
-    //           if (match) {
-    //             this.logger.log(`[login] User ${userDto.emailAddress} successful via credentials`);
-    //             return ResponseOk(resultResponse);
-    //           }
-    //
-    //           this.logger.error(`[login] User ${userDto.emailAddress} unsuccessful login attempt - password mismatch`);
-    //           return ResponseUnauthorized('Your username and/or password are invalid');
-    //         }
-    //
-    //         // Alternative sources could have been sent via other authentication methods, such as github, gitlab, or
-    //         // azure.  Anything that does not require a database lookup for further logins is handled here.
-    //         // The source must be an allowed, known source for the user.  Otherwise, the login attempt fails.
-    //         if (sources.includes(userDto.source)) {
-    //           this.logger.log(`[login] User ${userDto.emailAddress} successful via source ${userDto.source}`);
-    //           return ResponseOk(resultResponse);
-    //         }
-    //
-    //         this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);
-    //         return ResponseUnauthorized('You are not permitted to login.');
-    //       } else {
-    //         this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);
-    //         return ResponseUnauthorized('You are not permitted to login.');
-    //       }
-    //     } else {
-    //       this.logger.error(`[login] User ${userDto.emailAddress} attempted, not in database`);
-    //       return ResponseUnauthorized('You are not permitted to login.');
-    //     }
-    //   })
-    //   .catch((x: any) => {
-    //     this.logger.error(`[login] DB error: ${findStatement}`, x);
-    //     return ResponseUnauthorized('You are not permitted to login.');
-    //   });
-
-    return ResponseUnauthorized('You are not authorized to change your password.');
   }
 
   async getUser(request): Promise<ServiceResponse<UserDto>> {
