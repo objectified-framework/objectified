@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.1.8
+  version: 0.1.9
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -162,6 +162,30 @@ paths:
           description: Unauthorized
         '403':
           description: Access forbidden
+  /user/password:
+    put:
+      tags:
+        - User
+      summary: Updates a user's password
+      operationId: putUserPassword
+      description: Replaces a user's password.
+      security:
+        - JWT: []
+      requestBody:
+        description: The password payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPassword'
+      responses:
+        '201':
+          description: No content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Access forbidden
+
   /data-type:
     get:
       tags:
@@ -1007,6 +1031,23 @@ components:
           type: string
           format: date-time
           description: Date and time of user update
+    UserPassword:
+      type: object
+      require:
+        - currentPassword
+        - password1
+        - password2
+      description: User Password Payload required for account changes
+      properties:
+        currentPassword:
+          type: string
+          description: The current password
+        password1:
+          type: string
+          description: The new password once
+        password2:
+          type: string
+          description: The new password twice
     DataType:
       type: object
       x-schema: obj

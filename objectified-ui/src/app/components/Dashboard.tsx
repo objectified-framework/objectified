@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.7';
+const VERSION = '0.1.8';
 
 const NavItems = [
   {
@@ -100,6 +100,8 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   if (status === 'loading') {
     return (<></>);
   }
+
+  console.log('Session', session);
 
   const selectedColor = (path: string) => (currentPath.startsWith(path) ? 'bg-blue-300' : '');
   const handleTenantChanged = async (tenantId: string) => {
@@ -177,7 +179,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
               </Button>
               &nbsp;&nbsp;
               {/*// @ts-ignore*/}
-              <MenuButton buttonText={`${session?.user?.emailAddress ?? 'Unregistered User'}`}
+              <MenuButton buttonText={`${session?.user?.emailAddress ?? session?.objectified?.emailAddress ?? 'Unregistered User'}`}
                           menuOptions={menuOptions}
                           startIcon={<PersonIcon/>}
                           endIcon={<ExpandMoreIcon/>}

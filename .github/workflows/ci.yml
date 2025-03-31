@@ -19,9 +19,9 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       TAG_DB: 0.0.11
       TAG_DOCS: 0.0.3
-      TAG_SERVICES: 0.0.6
+      TAG_SERVICES: 0.0.7
       TAG_EXTERNAL: 0.0.1
-      TAG_UI: 0.0.28
+      TAG_UI: 0.0.29
 
     steps:
       - name: Checkout code
