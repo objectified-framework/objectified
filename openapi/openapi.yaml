@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Objectified API
-  version: 0.1.9
+  version: 0.1.10
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -1031,6 +1031,14 @@ components:
           type: string
           format: date-time
           description: Date and time of user update
+        deleteDate:
+          type: string
+          format: date-time
+          description: Date and time of user deletion
+        lastLogin:
+          type: string
+          format: date-time
+          description: Date and time of last login
     UserPassword:
       type: object
       require:

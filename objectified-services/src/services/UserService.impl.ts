@@ -49,10 +49,10 @@ export class UserServiceImpl implements UserService {
 
       return await dao.updateById(userId, newDto)
         .then((x) => {
-          this.logger.log(`[putUser] Password altered for ID ${userId}`);
+          this.logger.log(`[putUserPassword] Password altered for ID ${userId}`);
           return ResponseNoContent();
         }).catch((x) => {
-          this.logger.error('[putUser] Failed to alter password.', x);
+          this.logger.error('[putUserPassword] Failed to alter password.', x);
           return ResponseUnauthorized('You are not authorized to use this service.');
         });
     }

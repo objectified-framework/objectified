@@ -1,5 +1,12 @@
 import { Logger } from '@nestjs/common';
-import {AuthService, ResponseForbidden, ResponseOk, ResponseUnauthorized, ServiceResponse} from '../generated/services';
+import {
+  AuthService,
+  ResponseForbidden,
+  ResponseNoContent,
+  ResponseOk,
+  ResponseUnauthorized,
+  ServiceResponse
+} from '../generated/services';
 import { Request } from 'express';
 import {UserDao} from "../generated/dao";
 import {UserDto} from "../generated/dto";
@@ -48,7 +55,20 @@ export class AuthServiceImpl implements AuthService {
 
               if (match) {
                 this.logger.log(`[login] User ${userDto.emailAddress} successful via credentials`);
-                return ResponseOk(resultResponse);
+
+                const newDto = {
+                  id: x.id,
+                  lastLogin: new Date(),
+                };
+
+                return await dao.updateById(x.id, newDto)
+                  .then((x) => {
+                    this.logger.log(`[login] User ${userDto.emailAddress} successful via source ${userDto.source}`);
+                    return ResponseOk(resultResponse);
+                  }).catch((x) => {
+                    this.logger.error('[login] Failed to alter login time.', x);
+                    return ResponseOk(resultResponse);
+                  });
               }
 
               this.logger.error(`[login] User ${userDto.emailAddress} unsuccessful login attempt - password mismatch`);
@@ -59,8 +79,19 @@ export class AuthServiceImpl implements AuthService {
             // azure.  Anything that does not require a database lookup for further logins is handled here.
             // The source must be an allowed, known source for the user.  Otherwise, the login attempt fails.
             if (sources.includes(userDto.source)) {
-              this.logger.log(`[login] User ${userDto.emailAddress} successful via source ${userDto.source}`);
-              return ResponseOk(resultResponse);
+              const newDto = {
+                id: x.id,
+                lastLogin: new Date(),
+              };
+
+              return await dao.updateById(x.id, newDto)
+                .then((x) => {
+                  this.logger.log(`[login] User ${userDto.emailAddress} successful via source ${userDto.source}`);
+                  return ResponseOk(resultResponse);
+                }).catch((x) => {
+                  this.logger.error('[login] Failed to alter login time.', x);
+                  return ResponseOk(resultResponse);
+                });
             }
 
             this.logger.error(`[login] User ${userDto.emailAddress} failed.  Expected source(s)=${x.source}, sent=${userDto.source}`);

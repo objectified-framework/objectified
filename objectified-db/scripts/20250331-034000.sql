@@ -1,0 +1,2 @@
+ALTER TABLE obj.user
+  ADD last_login TIMESTAMP WITHOUT TIME ZONE;

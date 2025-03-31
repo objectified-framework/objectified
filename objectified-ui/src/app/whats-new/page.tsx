@@ -23,6 +23,7 @@ const WhatsNew = () => {
           <li> <Link href={'https://github.com/objectified-framework/objectified/issues/212'} target={'_none'}>#212</Link> Introduces ability to export class definition.</li>
           <li> <Link href={'https://github.com/objectified-framework/objectified/issues/121'} target={'_none'}>#121</Link> Added SQL schema generation in Class inspection.</li>
           <li> <Link href={'https://github.com/objectified-framework/objectified/issues/189'} target={'_none'}>#189</Link> Ability to change passwords is in place.</li>
+          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/188'} target={'_none'}>#188</Link> Last login recording.</li>
         </div>
 
         <p style={{ padding: '4px' }}/>
