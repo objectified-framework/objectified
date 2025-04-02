@@ -25,7 +25,8 @@ import {errorDialog} from "@/app/components/common/ConfirmDialog";
 import DriveFileMoveRtlOutlinedIcon from '@mui/icons-material/DriveFileMoveRtlOutlined';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import * as yaml from 'yaml';
-import {jsonSchemaToSQL} from "@/app/components/class-properties/JsonSchemaTools";
+import {jsonSchemaToSQL} from "@/app/components/class-properties/JsonSchemaToSql";
+import jsonSchemaToProtobuf from "@/app/components/class-properties/JsonSchemaToProtobuf";
 
 export interface ISchemaDialog {
   schemaOpen: boolean;
@@ -132,6 +133,7 @@ export const SchemaDialog = (props: ISchemaDialog) => {
               <ToggleButton value="json">JSON</ToggleButton>
               <ToggleButton value="yaml">YAML</ToggleButton>
               <ToggleButton value="sql">SQL</ToggleButton>
+              <ToggleButton value="proto">Protobuf</ToggleButton>
             </ToggleButtonGroup>
             &nbsp;
           </div>
@@ -257,6 +259,46 @@ export const SchemaDialog = (props: ISchemaDialog) => {
                            fullWidth
                            multiline
                            value={jsonSchemaToSQL(JSON.parse(schema))}
+                           name={'yaml-text'}
+                           key={`schema-form-yaml`}
+                           inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}
+                           sx={{ width: '100%', height: '100%' }}>
+                </TextField>
+              </div>
+            </>
+          )}
+
+          {schema && schemaFormat === 'proto' && (
+            <>
+              <div style={{ width: '100%', height: '100%' }}>
+                <div style={{ width: '100%', textAlign: 'right', paddingBottom: '10px' }}>
+                  <Button style={{
+                    height: '24px', borderRadius: 2,
+                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                          className={'bg-slate-200'}
+                          variant={'contained'} startIcon={<ContentPasteIcon/>}
+                          onClick={() => navigator.clipboard.writeText(jsonSchemaToProtobuf(JSON.parse(schema)))}>
+                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                      Copy to Clipboard
+                    </Typography>
+                  </Button>
+                  &nbsp;
+                  <Button style={{
+                    height: '24px', borderRadius: 2,
+                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                          className={'bg-slate-200'}
+                          variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
+                          onClick={() => downloadPayload('.proto', 'text/plain', jsonSchemaToProtobuf(JSON.parse(schema)))}>
+                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                      Export
+                    </Typography>
+                  </Button>
+                </div>
+
+                <TextField label={''}
+                           fullWidth
+                           multiline
+                           value={jsonSchemaToProtobuf(JSON.parse(schema))}
                            name={'yaml-text'}
                            key={`schema-form-yaml`}
                            inputProps={{ style: { fontFamily: 'monospace' }, readOnly: true}}

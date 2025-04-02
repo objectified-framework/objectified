@@ -394,7 +394,7 @@ export const AutoForm = (props: IAutoForm) => {
     <DialogTitle key={'auto-form-dialog-title'}>
       <Stack direction={'row'} key={'auto-form-header'}>
         <div style={{ width: '70%' }} key={'auto-form-header-1'}>
-          {props.header} {props.editPayload && props.editPayload.id ? `(id: ${props.editPayload.id})` : ''}
+          {props.header} {props.editPayload && props.editPayload.id ? `(id: ${props.editPayload.id.substring(0, 8)}...)` : ''}
         </div>
         <div style={{ width: '30%', textAlign: 'right' }} key={'auto-form-header-2'}>
           <IconButton onClick={() => props.onCancel()}>

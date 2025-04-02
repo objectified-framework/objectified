@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.9';
+const VERSION = '0.1.10';
 
 const NavItems = [
   {
@@ -100,8 +100,6 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
   if (status === 'loading') {
     return (<></>);
   }
-
-  console.log('Session', session);
 
   const selectedColor = (path: string) => (currentPath.startsWith(path) ? 'bg-blue-300' : '');
   const handleTenantChanged = async (tenantId: string) => {
