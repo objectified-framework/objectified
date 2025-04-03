@@ -26,6 +26,7 @@ const WhatsNew = () => {
           <li> <Link href={`${baseGithub}/133`} target={'_none'}>#133</Link> Added Protobuf schema generation in Class inspection.</li>
           <li> <Link href={`${baseGithub}/189`} target={'_none'}>#189</Link> Ability to change passwords is in place.</li>
           <li> <Link href={`${baseGithub}/188`} target={'_none'}>#188</Link> Last login recording.</li>
+          <li> <Link href={`${baseGithub}/214`} target={'_none'}>#214</Link> Increased size of profile form on the app.</li>
         </div>
 
         <p style={{ padding: '4px' }}/>

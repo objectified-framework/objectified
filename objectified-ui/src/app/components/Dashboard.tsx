@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.10';
+const VERSION = '0.1.11';
 
 const NavItems = [
   {
@@ -131,7 +131,7 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={profileShowing} fullWidth maxWidth={'sm'}>
+      <Dialog open={profileShowing} fullWidth maxWidth={'md'}>
         <DialogContent>
           <ProfileForm onClose={() => {
             setProfileShowing(false);
