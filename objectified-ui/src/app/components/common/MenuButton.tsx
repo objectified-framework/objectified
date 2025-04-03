@@ -12,6 +12,7 @@ interface MenuOption {
   label: string;
   icon?: React.ReactNode;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 interface IMenuButton {
@@ -19,6 +20,7 @@ interface IMenuButton {
   buttonVariant?: 'text' | 'outlined' | 'contained';
   buttonColor?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   menuOptions: MenuOption[];
+  disabled?: boolean;
   style?: any;
   startIcon?: any;
   endIcon?: any;
@@ -80,6 +82,7 @@ const MenuButton = (props: IMenuButton) => {
             key={index}
             onClick={() => handleMenuItemClick(option.onClick)}
             className={menuClassName}
+            disabled={option.disabled}
           >
             {option.icon && <ListItemIcon>{option.icon}</ListItemIcon>}
             {option.label}

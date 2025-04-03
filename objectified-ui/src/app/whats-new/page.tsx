@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 
 const WhatsNew = () => {
+  const baseGithub = 'https://github.com/objectified-framework/objectified/issues';
+
   return (
     <>
       <Stack direction={'column'}>
@@ -17,13 +19,13 @@ const WhatsNew = () => {
         </div>
 
         <div style={{ padding: '10px' }}>
-          <li> Removes debugging messages from login screen</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/163'} target={'_none'}>#163</Link> Preserves state of previously selected tenant.</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/158'} target={'_none'}>#158</Link> Modify error so that the login is shown.</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/212'} target={'_none'}>#212</Link> Introduces ability to export class definition.</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/121'} target={'_none'}>#121</Link> Added SQL schema generation in Class inspection.</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/189'} target={'_none'}>#189</Link> Ability to change passwords is in place.</li>
-          <li> <Link href={'https://github.com/objectified-framework/objectified/issues/188'} target={'_none'}>#188</Link> Last login recording.</li>
+          <li> <Link href={`${baseGithub}/163`} target={'_none'}>#163</Link> Preserves state of previously selected tenant.</li>
+          <li> <Link href={`${baseGithub}/158`} target={'_none'}>#158</Link> Modify error so that the login is shown.</li>
+          <li> <Link href={`${baseGithub}/212`} target={'_none'}>#212</Link> Introduces ability to export class definition.</li>
+          <li> <Link href={`${baseGithub}/121`} target={'_none'}>#121</Link> Added SQL schema generation in Class inspection.</li>
+          <li> <Link href={`${baseGithub}/133`} target={'_none'}>#133</Link> Added Protobuf schema generation in Class inspection.</li>
+          <li> <Link href={`${baseGithub}/189`} target={'_none'}>#189</Link> Ability to change passwords is in place.</li>
+          <li> <Link href={`${baseGithub}/188`} target={'_none'}>#188</Link> Last login recording.</li>
         </div>
 
         <p style={{ padding: '4px' }}/>

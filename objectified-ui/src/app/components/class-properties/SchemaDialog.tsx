@@ -27,6 +27,10 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import * as yaml from 'yaml';
 import {jsonSchemaToSQL} from "@/app/components/class-properties/JsonSchemaToSql";
 import jsonSchemaToProtobuf from "@/app/components/class-properties/JsonSchemaToProtobuf";
+import MenuButton from "@/app/components/common/MenuButton";
+import OutputIcon from '@mui/icons-material/Output';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import JavascriptIcon from '@mui/icons-material/Javascript';
 
 export interface ISchemaDialog {
   schemaOpen: boolean;
@@ -42,6 +46,75 @@ function toKebabCase(str: string): string {
 }
 
 export const SchemaDialog = (props: ISchemaDialog) => {
+  const menuOptions: any[] = [
+    {
+      label: 'C++',
+      icon: <img src={'/cplusplus.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'C#/.NET',
+      icon: <img src={'/dotnet.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Go',
+      icon: <img src={'/golang.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Java',
+      icon: <img src={'/java.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'JavaScript',
+      icon: <img src={'/javascript.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Kotlin',
+      icon: <img src={'/kotlin.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Python',
+      icon: <img src={'/python.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Rust',
+      icon: <img src={'/rust.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Scala',
+      icon: <img src={'/scala.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'Swift',
+      icon: <img src={'/swift.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+    {
+      label: 'TypeScript/Node',
+      icon: <img src={'/typescript.svg'} style={{ width: 18, height: 18 }}/>,
+      onClick: () => {},
+      disabled: true,
+    },
+  ];
+
   const [schemaFormat, setSchemaFormat] = useState<string>('json');
   const [schemaLoading, setSchemaLoading] = useState<boolean>(true);
   const [schema, setSchema] = useState<string>('');
@@ -151,29 +224,46 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           {schema && schemaFormat === 'json' && (
             <>
             <div style={{ width: '100%', height: '100%' }}>
-              <div style={{ width: '100%', textAlign: 'right', paddingBottom: '10px' }}>
-                <Button style={{
-                  height: '24px', borderRadius: 2,
-                  color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                        className={'bg-slate-200'}
-                        variant={'contained'} startIcon={<ContentPasteIcon/>}
-                        onClick={() => navigator.clipboard.writeText(JSON.stringify(JSON.parse(schema), null, 2))}>
-                  <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                    Copy to Clipboard
-                  </Typography>
-                </Button>
-                &nbsp;
-                <Button style={{
-                  height: '24px', borderRadius: 2,
-                  color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                        className={'bg-slate-200'}
-                        variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
-                        onClick={() => downloadPayload('.json', 'text/json', JSON.stringify(JSON.parse(schema), null, 2))}>
-                  <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                    Export
-                  </Typography>
-                </Button>
-              </div>
+              <Stack direction={'row'}>
+                <div style={{ width: '50%', textAlign: 'left', paddingBottom: '10px' }}>
+                  <MenuButton buttonText={`Generate`}
+                              buttonVariant={'contained'}
+                              menuOptions={menuOptions}
+                              startIcon={<OutputIcon style={{ color: 'black' }}/>}
+                              endIcon={<ExpandMoreIcon style={{ color: 'black' }}/>}
+                              className={'font-light text-black text-xs'}
+                              menuClassName={'font-light text-black text-xs'}
+                              style={{
+                                height: '24px', borderRadius: 2, backgroundColor: '#dfdfdf',
+                                paddingLeft: '6px', paddingRight: '6px', border: '1px solid #aaa',
+                                fontWeight: 150, fontSize: 12,
+                              }}/>
+                </div>
+
+                <div style={{ width: '50%', textAlign: 'right', paddingBottom: '10px' }}>
+                  <Button style={{
+                    height: '24px', borderRadius: 2,
+                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                          className={'bg-slate-200'}
+                          variant={'contained'} startIcon={<ContentPasteIcon/>}
+                          onClick={() => navigator.clipboard.writeText(JSON.stringify(JSON.parse(schema), null, 2))}>
+                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                      Copy to Clipboard
+                    </Typography>
+                  </Button>
+                  &nbsp;
+                  <Button style={{
+                    height: '24px', borderRadius: 2,
+                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                          className={'bg-slate-200'}
+                          variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
+                          onClick={() => downloadPayload('.json', 'text/json', JSON.stringify(JSON.parse(schema), null, 2))}>
+                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                      Export
+                    </Typography>
+                  </Button>
+                </div>
+              </Stack>
 
               <TextField label={''}
                          fullWidth
@@ -191,29 +281,46 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           {schema && schemaFormat === 'yaml' && (
             <>
               <div style={{ width: '100%', height: '100%' }}>
-                <div style={{ width: '100%', textAlign: 'right', paddingBottom: '10px' }}>
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<ContentPasteIcon/>}
-                          onClick={() => navigator.clipboard.writeText(yaml.stringify(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Copy to Clipboard
-                    </Typography>
-                  </Button>
-                  &nbsp;
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
-                          onClick={() => downloadPayload('.yaml', 'text/yaml', yaml.stringify(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Export
-                    </Typography>
-                  </Button>
-                </div>
+                <Stack direction={'row'}>
+                  <div style={{ width: '50%', textAlign: 'left', paddingBottom: '10px' }}>
+                    <MenuButton buttonText={`Generate`}
+                                buttonVariant={'contained'}
+                                menuOptions={menuOptions}
+                                startIcon={<OutputIcon style={{ color: 'black' }}/>}
+                                endIcon={<ExpandMoreIcon style={{ color: 'black' }}/>}
+                                className={'font-light text-black text-xs'}
+                                menuClassName={'font-light text-black text-xs'}
+                                style={{
+                                  height: '24px', borderRadius: 2, backgroundColor: '#dfdfdf',
+                                  paddingLeft: '6px', paddingRight: '6px', border: '1px solid #aaa',
+                                  fontWeight: 150, fontSize: 12,
+                                }}/>
+                  </div>
+
+                  <div style={{ width: '50%', textAlign: 'right', paddingBottom: '10px' }}>
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<ContentPasteIcon/>}
+                            onClick={() => navigator.clipboard.writeText(yaml.stringify(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Copy to Clipboard
+                      </Typography>
+                    </Button>
+                    &nbsp;
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
+                            onClick={() => downloadPayload('.yaml', 'text/yaml', yaml.stringify(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Export
+                      </Typography>
+                    </Button>
+                  </div>
+                </Stack>
 
                 <TextField label={''}
                            fullWidth
@@ -231,29 +338,46 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           {schema && schemaFormat === 'sql' && (
             <>
               <div style={{ width: '100%', height: '100%' }}>
-                <div style={{ width: '100%', textAlign: 'right', paddingBottom: '10px' }}>
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<ContentPasteIcon/>}
-                          onClick={() => navigator.clipboard.writeText(jsonSchemaToSQL(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Copy to Clipboard
-                    </Typography>
-                  </Button>
-                  &nbsp;
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
-                          onClick={() => downloadPayload('.sql', 'text/plain', jsonSchemaToSQL(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Export
-                    </Typography>
-                  </Button>
-                </div>
+                <Stack direction={'row'}>
+                  <div style={{ width: '50%', textAlign: 'left', paddingBottom: '10px' }}>
+                    <MenuButton buttonText={`Generate`}
+                                buttonVariant={'contained'}
+                                menuOptions={menuOptions}
+                                startIcon={<OutputIcon style={{ color: 'black' }}/>}
+                                endIcon={<ExpandMoreIcon style={{ color: 'black' }}/>}
+                                className={'font-light text-black text-xs'}
+                                menuClassName={'font-light text-black text-xs'}
+                                style={{
+                                  height: '24px', borderRadius: 2, backgroundColor: '#dfdfdf',
+                                  paddingLeft: '6px', paddingRight: '6px', border: '1px solid #aaa',
+                                  fontWeight: 150, fontSize: 12,
+                                }}/>
+                  </div>
+
+                  <div style={{ width: '50%', textAlign: 'right', paddingBottom: '10px' }}>
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<ContentPasteIcon/>}
+                            onClick={() => navigator.clipboard.writeText(jsonSchemaToSQL(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Copy to Clipboard
+                      </Typography>
+                    </Button>
+                    &nbsp;
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
+                            onClick={() => downloadPayload('.sql', 'text/plain', jsonSchemaToSQL(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Export
+                      </Typography>
+                    </Button>
+                  </div>
+                </Stack>
 
                 <TextField label={''}
                            fullWidth
@@ -271,29 +395,46 @@ export const SchemaDialog = (props: ISchemaDialog) => {
           {schema && schemaFormat === 'proto' && (
             <>
               <div style={{ width: '100%', height: '100%' }}>
-                <div style={{ width: '100%', textAlign: 'right', paddingBottom: '10px' }}>
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<ContentPasteIcon/>}
-                          onClick={() => navigator.clipboard.writeText(jsonSchemaToProtobuf(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Copy to Clipboard
-                    </Typography>
-                  </Button>
-                  &nbsp;
-                  <Button style={{
-                    height: '24px', borderRadius: 2,
-                    color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
-                          className={'bg-slate-200'}
-                          variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
-                          onClick={() => downloadPayload('.proto', 'text/plain', jsonSchemaToProtobuf(JSON.parse(schema)))}>
-                    <Typography className={'font-thin text-xs'} textTransform={'none'}>
-                      Export
-                    </Typography>
-                  </Button>
-                </div>
+                <Stack direction={'row'}>
+                  <div style={{ width: '50%', textAlign: 'left', paddingBottom: '10px' }}>
+                    <MenuButton buttonText={`Generate`}
+                                buttonVariant={'contained'}
+                                menuOptions={menuOptions}
+                                startIcon={<OutputIcon style={{ color: 'black' }}/>}
+                                endIcon={<ExpandMoreIcon style={{ color: 'black' }}/>}
+                                className={'font-light text-black text-xs'}
+                                menuClassName={'font-light text-black text-xs'}
+                                style={{
+                                  height: '24px', borderRadius: 2, backgroundColor: '#dfdfdf',
+                                  paddingLeft: '6px', paddingRight: '6px', border: '1px solid #aaa',
+                                  fontWeight: 150, fontSize: 12,
+                                }}/>
+                  </div>
+
+                  <div style={{ width: '50%', textAlign: 'right', paddingBottom: '10px' }}>
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<ContentPasteIcon/>}
+                            onClick={() => navigator.clipboard.writeText(jsonSchemaToProtobuf(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Copy to Clipboard
+                      </Typography>
+                    </Button>
+                    &nbsp;
+                    <Button style={{
+                      height: '24px', borderRadius: 2,
+                      color: 'black', border: '1px solid #ccc', paddingLeft: '6px', paddingRight: '6px' }}
+                            className={'bg-slate-200'}
+                            variant={'contained'} startIcon={<DriveFileMoveRtlOutlinedIcon/>}
+                            onClick={() => downloadPayload('.proto', 'text/plain', jsonSchemaToProtobuf(JSON.parse(schema)))}>
+                      <Typography className={'font-thin text-xs'} textTransform={'none'}>
+                        Export
+                      </Typography>
+                    </Button>
+                  </div>
+                </Stack>
 
                 <TextField label={''}
                            fullWidth
