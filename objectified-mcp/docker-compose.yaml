@@ -1,0 +1,15 @@
+services:
+  objectified-ui:
+    container_name: objectified-mcp
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    working_dir: /objectified-mcp
+    command: []
+    environment:
+      - PORT=8000
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: ${DOCKER_REMOTE}/objectified-mcp:${TAG_MCP:-latest}
