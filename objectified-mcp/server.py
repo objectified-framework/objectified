@@ -43,8 +43,7 @@ async def get_class_ids_by_name(name: str) -> list[str]:
     conn = connect_to_postgres(DATABASE_URL)
     results = run_query(conn, "SELECT id FROM obj.class WHERE name LIKE %s", (f"%{name}%",))
     print(f"[get_class_ids_by_name]: search={name} results={len(results)}")
-    result_list = [row["id"] for row in results] if len(results) > 0 else []
-    return result_list
+    return results if len(results) > 0 else []
 
 @mcp.resource("classes://{id}/by_id")
 async def get_class_by_id(id: str) -> list[str]:
@@ -52,6 +51,14 @@ async def get_class_by_id(id: str) -> list[str]:
     conn = connect_to_postgres(DATABASE_URL)
     result = run_query(conn, "SELECT * FROM obj.class WHERE id=%s", (id,))
     print(f"[get_class_by_id] id={id}")
+    return result if len(result) > 0 else "{}"
+
+@mcp.resource("classes://{id}/schema")
+async def get_schema_by_id(id: str) -> list[str]:
+    """Retrieves class JSON Schema by ID"""
+    conn = connect_to_postgres(DATABASE_URL)
+    result = run_query(conn, "SELECT schema FROM obj.class_schema WHERE class_id=%s", (id,))
+    print(f"[get_schema_by_id] id={id}")
     return result if len(result) > 0 else "{}"
 
 if __name__ == "__main__":
