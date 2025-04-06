@@ -51,7 +51,7 @@ async def get_class_by_id(id: str) -> list[str]:
     """Retrieves class information by ID"""
     conn = connect_to_postgres(DATABASE_URL)
     result = run_query(conn, "SELECT * FROM obj.class WHERE id=%s", (id,))
-    print(f"[get_class_by_id]: id={id} result={result}")
+    print(f"[get_class_by_id] id={id}")
     return result if len(result) > 0 else "{}"
 
 if __name__ == "__main__":
