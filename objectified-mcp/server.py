@@ -69,6 +69,22 @@ async def get_schema_by_id(id: str) -> list[str]:
     print(f"[get_schema_by_id] id={id}")
     return result if len(result) > 0 else "{}"
 
+@mcp.resource("fields://{name}/by_name")
+async def get_fields_by_name(name: str) -> list[str]:
+    """Retrieves a list of fields by ID and name based on the name specified"""
+    conn = connect_to_postgres(DATABASE_URL)
+    results = run_query(conn, "SELECT id, name FROM obj.field WHERE name LIKE %s", (f"%{name}%",))
+    print(f"[get_fields_by_name]: search={name} results={len(results)}")
+    return results if len(results) > 0 else []
+
+@mcp.resource("fields://{id}/by_id")
+async def get_field_by_id(id: str) -> list[str]:
+    """Retrieves field information by ID"""
+    conn = connect_to_postgres(DATABASE_URL)
+    result = run_query(conn, "SELECT * FROM obj.field WHERE id=%s", (id,))
+    print(f"[get_field_by_id] id={id}")
+    return result if len(result) > 0 else "{}"
+
 if __name__ == "__main__":
     print("""
  ██████  ██████       ██ ███████  ██████ ████████ ██ ███████ ██ ███████ ██████
