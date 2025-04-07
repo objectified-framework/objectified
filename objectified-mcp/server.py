@@ -32,12 +32,6 @@ def run_query(conn: psycopg2.extensions.connection, query: str,
         conn.close()
 
 @mcp.tool()
-async def hello() -> str:
-    """Greets the user."""
-    print("Hello World")
-    return f"Hello world!"
-
-@mcp.tool()
 async def get_data_types() -> list[str]:
     """Retrieves a list of all available data types"""
     conn = connect_to_postgres(DATABASE_URL)
