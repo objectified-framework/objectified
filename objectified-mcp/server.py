@@ -37,6 +37,14 @@ async def hello() -> str:
     print("Hello World")
     return f"Hello world!"
 
+@mcp.tool()
+async def get_data_types() -> list[str]:
+    """Retrieves a list of all available data types"""
+    conn = connect_to_postgres(DATABASE_URL)
+    results = run_query(conn, "SELECT * FROM obj.data_type WHERE enabled")
+    print(f"[get_data_types]: results={len(results)}")
+    return results if len(results) > 0 else []
+
 @mcp.resource("classes://{name}/by_name")
 async def get_class_ids_by_name(name: str) -> list[str]:
     """Retrieves a list of classes by ID based on the name specified"""
