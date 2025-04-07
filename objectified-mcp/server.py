@@ -85,6 +85,22 @@ async def get_field_by_id(id: str) -> list[str]:
     print(f"[get_field_by_id] id={id}")
     return result if len(result) > 0 else "{}"
 
+@mcp.resource("properties://{name}/by_name")
+async def get_properties_by_name(name: str) -> list[str]:
+    """Retrieves a list of properties by ID and name based on the name specified"""
+    conn = connect_to_postgres(DATABASE_URL)
+    results = run_query(conn, "SELECT id, name FROM obj.property WHERE name LIKE %s", (f"%{name}%",))
+    print(f"[get_properties_by_name]: search={name} results={len(results)}")
+    return results if len(results) > 0 else []
+
+@mcp.resource("properties://{id}/by_id")
+async def get_property_by_id(id: str) -> list[str]:
+    """Retrieves property information by ID"""
+    conn = connect_to_postgres(DATABASE_URL)
+    result = run_query(conn, "SELECT * FROM obj.property WHERE id=%s", (id,))
+    print(f"[get_property_by_id] id={id}")
+    return result if len(result) > 0 else "{}"
+
 if __name__ == "__main__":
     print("""
  ██████  ██████       ██ ███████  ██████ ████████ ██ ███████ ██ ███████ ██████
