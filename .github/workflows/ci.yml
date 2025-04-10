@@ -22,7 +22,7 @@ jobs:
       TAG_SERVICES: 0.0.9
       TAG_EXTERNAL: 0.0.1
       TAG_UI: 0.0.31
-      TAG_MCP: 0.0.10
+      TAG_MCP: 0.0.11
 
     steps:
       - name: Checkout code
