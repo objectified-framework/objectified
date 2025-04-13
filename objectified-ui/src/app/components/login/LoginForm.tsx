@@ -345,7 +345,7 @@ const LoginForm = () => {
                         }}
                         fullWidth onClick={() => {
                   setLoginShowing(true);
-                  signIn("gitlab");
+                  signIn("google");
                 }}>
                   <Box
                     sx={{
