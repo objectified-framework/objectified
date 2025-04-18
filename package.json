@@ -6,7 +6,8 @@
     "objectified-docs",
     "objectified-services",
     "objectified-external",
-    "objectified-ui"
+    "objectified-ui",
+    "objectified-nextgen"
   ],
   "scripts": {
     "api": "yarn workspace @objectified-framework/objectified-api",
