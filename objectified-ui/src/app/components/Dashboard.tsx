@@ -33,7 +33,7 @@ import MenuButton from "@/app/components/common/MenuButton";
 import {putUser} from "@/app/services/user";
 import {errorDialog} from "@/app/components/common/ConfirmDialog";
 
-const VERSION = '0.1.12';
+const VERSION = '0.1.13';
 
 const NavItems = [
   {
@@ -254,10 +254,11 @@ const Dashboard = ({ children }: { children?: React.ReactNode }) => {
           <div style={{ position: 'fixed', width: '130px', height: 'calc(100% - 68px)', borderRight: '1px solid #ccc' }}
                className={'bg-slate-100'}>
             <MenuList style={{ padding: '0px' }} dense>
-              {NavItems.map((x) => (
+              {NavItems.map((x, count: number) => (
                 <ListItemButton style={{ padding: '0px', paddingLeft: '10px', }}
                   onClick={() => router.push(x.url)}
-                  className={`${selectedColor(x.url)}`}>
+                  className={`${selectedColor(x.url)}`}
+                  key={`list-item-${count}`}>
                   <ListItemText>
                     <Typography className={'font-thin text-sm'}>
                       {x.label}
